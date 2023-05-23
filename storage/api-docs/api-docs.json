@@ -1,0 +1,926 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Neomed Api",
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/doctors/register": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "applying for register a new doctor using the form",
+                "description": "register a new doctor",
+                "operationId": "register_doctor",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "doctor full Name"
+                                    },
+                                    "id_number": {
+                                        "type": "integer",
+                                        "example": "46126"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "doctor birth_date"
+                                    },
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "email@email.com"
+                                    },
+                                    "job_title": {
+                                        "type": "string",
+                                        "example": "chronic disease"
+                                    },
+                                    "sub_specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "classification_number": {
+                                        "type": "string",
+                                        "example": "784899554"
+                                    },
+                                    "insurance_number": {
+                                        "type": "string",
+                                        "example": "78489966554"
+                                    },
+                                    "medical_licence_file": {
+                                        "type": "file"
+                                    },
+                                    "cv_file": {
+                                        "type": "file"
+                                    },
+                                    "certification_file": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Record Completed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no result found with the given token or phone number, please login again",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/{id}/check-status": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "check doctor apply request status if accepted ",
+                "description": "check doctor apply request status if accepted  ",
+                "operationId": "check_doctor_apply_request_status",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Doctor id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "request status ['pending','accepted','blocked']",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/home-profile-data": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get profile home data of a doctor ",
+                "description": "check doctor apply request status if accepted  ",
+                "operationId": "getHomeProfileData",
+                "responses": {
+                    "200": {
+                        "description": "home profile data fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/otp/send": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "send patient otp to phone number",
+                "description": "send patient otp via to phone number via sms example +213684759496",
+                "operationId": "sendOtp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The otp sended successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/patients/otp/verify": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "verify patient otp code if match to login",
+                "description": "verify patient otp code if match to login using the phone_number and the otp",
+                "operationId": "loginWithOtp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": "55555"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The verification passed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Your OTP Or Phone Number is not correct",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "Your OTP has been expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/patients/complete-medical-record": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "update or complete patient medical record",
+                "description": "update or complete patient medical record ",
+                "operationId": "storePatientData",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "ahmed amine"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "25-05-1995"
+                                    },
+                                    "age": {
+                                        "type": "integer",
+                                        "example": 28
+                                    },
+                                    "gender": {
+                                        "type": "integer",
+                                        "example": "male"
+                                    },
+                                    "address": {
+                                        "type": "integer",
+                                        "example": "adrar alg"
+                                    },
+                                    "height": {
+                                        "type": "integer",
+                                        "example": 180
+                                    },
+                                    "weight": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": "55.5"
+                                    },
+                                    "allergy_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "chronic_diseases_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "family_history_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "has_cancer_screening": {
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
+                                    },
+                                    "has_depression_screening": {
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
+                                    },
+                                    "other_problems": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Patient Record Completed Successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Patient not found with the given token or phone number, please login again",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}/update-phone-number": {
+            "put": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "update patient phone number",
+                "description": "update patient phone_number ",
+                "operationId": "updatePhone",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id",
+                        "required": false
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213648952765"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phone Updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Patient Found with the given phone number",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}/update-thumbnail": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "update patient thumbnail or profile photo",
+                "description": "update patient thumbnail(profile photo)",
+                "operationId": "updateThumbnail",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id",
+                        "required": false
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "thumbnail": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Thumbnail Updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Patient Found with the given phone number",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}": {
+            "delete": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "delete patient account",
+                "description": "delete patient account",
+                "operationId": "deletePatientAccount",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id to delete",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "You account was deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Patient Found with the given phone number",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}/logout": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "Logout a patient",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id to logout",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "You logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Patient Found with the given phone number",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}/notifications-status/{status}": {
+            "put": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "change the notification status  on/off",
+                "operationId": "switchNotificationsStataus",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id to change notification state",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "notification status on/off",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "examples": {
+                            "status": {
+                                "summary": "switch notification on/off",
+                                "value": "0"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notifications state switched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Please Provide a correct status format",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/{id}/scales": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get patient filled scales ",
+                "operationId": "getPatientScales",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Patient id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "scales fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/recommendations": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get patient recommendation based on his/her age and his/her gender",
+                "operationId": "recommendations",
+                "responses": {
+                    "200": {
+                        "description": "recommendations fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/recommendations/{id}": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get recommendation details by id",
+                "operationId": "recommendationDetails",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "recommendation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "recommendation fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "404 not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/specialities": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get list of doctors specialities ",
+                "description": "get list of doctors specialities  ",
+                "operationId": "specialitis_index",
+                "responses": {
+                    "200": {
+                        "description": "specialities fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/specialities/{id}": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get details of a speciality by id  ",
+                "description": "get details of a speciality by id  ",
+                "operationId": "specialy_show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "speciality id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "speciality details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

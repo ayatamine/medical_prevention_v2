@@ -13,7 +13,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^2.12"
+        "livewire/livewire": "^2.12",
+        "torann/laravel-repository": "^0.7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -29,6 +30,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
+            "App\\Repositories\\": "Repositories/",
             "App\\Traits\\": "Traits/",
             "App\\Helpers\\": "Helpers/"
         },

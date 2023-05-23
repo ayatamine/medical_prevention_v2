@@ -71,6 +71,11 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/doctors') => storage_path('app/public/doctors'),
+        public_path('storage/doctors/thumbnails') => storage_path('app/public/doctors/thumbnails'),
+        public_path('storage/doctors/cv_files') => storage_path('app/public/doctors/cv_files'),
+        public_path('storage/doctors/certifications') => storage_path('app/public/doctors/certifications'),
+        public_path('storage/doctors/medical_licences') => storage_path('app/public/doctors/medical_licences'),
     ],
 
 ];
