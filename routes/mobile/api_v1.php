@@ -12,6 +12,8 @@ Route::group(['as' => 'api_v1.'], function () {
     // Route::get('/medical-instructions', [\App\Http\Controllers\API\V1\MedicalInstructionController::class,'index']);
     Route::get('/specialities', [\App\Http\Controllers\API\V1\SpecialityController::class,'index']);
     Route::get('/specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class,'show']);
+   
+    Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class,'getPage']);
 
     Route::controller(\App\Http\Controllers\API\V1\Auth\PatientController::class)->prefix('patients')->group(function(){
         Route::post('otp/send', 'sendOtp');
@@ -37,9 +39,12 @@ Route::group(['as' => 'api_v1.'], function () {
 
     // doctor controller
     Route::controller(\App\Http\Controllers\API\V1\Auth\DoctorController::class)->prefix('doctors')->group(function(){
+        //------------------------Auth-----------------------
         Route::post('register','store');
         Route::get('{id}/check-status','checkStatus');
-        Route::get('{id}/check-status','checkStatus');
+        Route::post('otp/send', 'sendOtp');
+        Route::post('otp/verify', 'loginWithOtp');
+        //------------------------Auth-----------------------
         Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::get('home-profile-data', 'getHomeProfileData');
             Route::put('/{id}/update-phone-number', 'updatePhone');

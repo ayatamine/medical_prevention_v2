@@ -18,6 +18,7 @@ class DoctorController extends Controller
 
     /**
      * @var DoctorRepository
+     * @var ApiResponse
      */
     public function __construct(DoctorRepository $repository,ApiResponse $apiResponse)
     {
@@ -97,10 +98,10 @@ class DoctorController extends Controller
                  $payload['request_status'] = $doctor['account_status'];
                  
                  //generate token to save
-                 if($doctor['account_status'] == 'accepted')
-                 {
-                     $payload['token'] =  $doctor->createToken('mobile', ['role:doctor','doctor:update'])->plainTextToken;
-                 }
+                //  if($doctor['account_status'] == 'accepted')
+                //  {
+                //      $payload['token'] =  $doctor->createToken('mobile', ['role:doctor','doctor:update'])->plainTextToken;
+                //  }
                  return $this->api->success()
                         ->message('Request Status Checked')
                         ->payload($payload)
@@ -119,7 +120,123 @@ class DoctorController extends Controller
             }
                         
         }
-        /**
+      
+          /**
+        * @OA\Post(
+        * path="/api/v1/doctors/otp/send",
+        * operationId="sendDoctorOtp",
+        * tags={"doctors"},
+        * summary="send doctor otp to phone number",
+        * description="send doctor otp via to phone number via sms example +213684759496",
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="application/x-www-form-urlencoded",
+        *             @OA\Schema(
+        *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+        *             )),
+        *    ),
+        *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
+        *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+        *     )
+        */
+        public function sendOtp(Request $request)
+        {
+            try{
+                $request->validate([
+                    'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
+                ]);
+                $otp = generate_otp($request->phone_number,'Doctor');
+                return sendSMS($request->phone_number,'Your OTP code is ',$otp);
+            }
+            catch(Exception $ex){
+                if ($ex instanceof ModelNotFoundException) {
+                    return $this->api->failed()->code(404)
+                                ->message("no doctor found with the given phone number")
+                                ->send();
+        
+                }
+                return $this->api->failed()->code(500)
+                                    ->message($ex->getMessage())
+                                    ->send();
+            }
+        
+        }
+               /**
+        * @OA\Post(
+        * path="/api/v1/doctors/otp/verify",
+        * operationId="loginDoctorWithOtp",
+        * tags={"doctors"},
+        * summary="verify doctor otp code if match to login",
+        * description="verify doctor otp code if match to login using the phone_number and the otp",
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="application/x-www-form-urlencoded",
+        *             @OA\Schema(
+        *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+        *                 @OA\Property(property="otp",type="string",example="55555")
+        *             ) ),
+        *    ),
+        *      @OA\Response( response=200,description="The verification passed successfully",@OA\JsonContent()),
+        *      @OA\Response( response=422,description="Your OTP Or Phone Number is not correct",@OA\JsonContent()),
+        *      @OA\Response( response=419,description="Your OTP has been expired",@OA\JsonContent()),
+        *      @OA\Response(response=500,description="internal server error",@OA\JsonContent())
+        *     )
+        */
+        public function loginWithOtp(Request $request)
+        {
+            /* Validation */
+            $request->validate([
+                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+                'otp' => 'required'
+            ]);  
+
+            try{
+            $doctor  = $this->repository
+                                      ->findByOtpAndPhone($request->phone_number,$request->otp);
+
+                $now = now();
+                if (!$doctor) {
+                    return $this->api->failed()->code(422)
+                            ->message('Your OTP Or Phone Number is not correct')
+                            ->send();
+                }else if($doctor && $now->isAfter($doctor->otp_expire_at)){
+                    return $this->api->failed()->code(419)
+                                ->message('Your OTP has been expired')
+                                ->send();
+                }
+            }
+            catch(Exception $e){
+                if ($e instanceof ModelNotFoundException) {
+                    return $this->api->failed()->code(404)
+                                ->message("No doctor Found with the given phone number")
+                                ->send();
+        
+                }
+                return $this->api->failed()->code(500)
+                                ->message($e->getMessage())
+                                ->send();
+            }
+           
+            
+            
+            //validate the otp
+            $doctor->otp_verification_code =  null;
+            $doctor->otp_expire_at =  now();
+            $doctor->is_phone_verified =  true;
+            $doctor->save();
+
+            return $this->api->success()
+                        ->message('The verification passed successfully')
+                        ->payload([
+                            'token' => $doctor->createToken('mobile', ['role:doctor','doctor:update'])->plainTextToken,
+                            'id'=> $doctor->id
+                        ])
+                        ->send();
+
+        }
+          /**
        * @OA\Get(
         * path="/api/v1/doctors/home-profile-data",
         * operationId="getHomeProfileData",
@@ -131,12 +248,13 @@ class DoctorController extends Controller
         *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
         *    )
         */
+
         public function getHomeProfileData(){
              
              try {
 
                  return $this->api->success()
-                        ->message('Request Status Checked')
+                        ->message('Home Profile Data  fetched successfully')
                         ->payload(new DoctorHomeProfileDataResource(request()->user()))
                         ->send();
                 }

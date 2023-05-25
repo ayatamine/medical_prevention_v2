@@ -145,6 +145,118 @@
                 }
             }
         },
+        "/api/v1/doctors/otp/send": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "send doctor otp to phone number",
+                "description": "send doctor otp via to phone number via sms example +213684759496",
+                "operationId": "sendDoctorOtp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The otp sended successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/otp/verify": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "verify doctor otp code if match to login",
+                "description": "verify doctor otp code if match to login using the phone_number and the otp",
+                "operationId": "loginDoctorWithOtp",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": "55555"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The verification passed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Your OTP Or Phone Number is not correct",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "Your OTP has been expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/doctors/home-profile-data": {
             "get": {
                 "tags": [
@@ -838,6 +950,42 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/pages/{title}": {
+            "get": {
+                "tags": [
+                    "pages"
+                ],
+                "summary": "get page details by title ",
+                "description": "get page details by title  ",
+                "operationId": "getPageByTitle",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "the page title",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "page fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no page found with the given title",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/specialities": {

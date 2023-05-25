@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Page;
+use App\Models\Language;
+use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use Illuminate\Database\Seeder;
 use App\Models\MedicalInstruction;
-use App\Models\SubSpeciality;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,6 +31,12 @@ class DatabaseSeeder extends Seeder
         }
         if(!SubSpeciality::count()){
             $this->call(SubSpecialitySeeder::class);
+        }
+        if(!Language::count()){
+            $this->call(LanguageSeeder::class);
+        }
+        if(!Page::count()){
+            $this->call(PageSeeder::class);
         }
     }
 }

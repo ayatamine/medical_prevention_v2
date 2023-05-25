@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('doctor_sub_speciality', function (Blueprint $table) {
-            $table->foreignId('doctor_id');
-            $table->foreignId('sub_speciality_id');
+        Schema::table('doctors', function (Blueprint $table) {
+            $table->boolean('is_phone_verified')->after('otp_expire_at')->default(false);
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('doctor_sub_speciality');
+        Schema::table('doctors', function (Blueprint $table) {
+           $table->dropColumn('is_phone_verified');
+        });
     }
 };

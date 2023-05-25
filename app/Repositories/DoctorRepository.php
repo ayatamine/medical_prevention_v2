@@ -78,5 +78,12 @@ class DoctorRepository extends AbstractRepository
     public function findById($id){
         return Doctor::findOrFail($id);
     }
-    
+     /**
+     * find by otp an and phone
+     * 
+     * @return collection
+     */
+    public function findByOtpAndPhone($phone_number,$otp){
+        return Doctor::where('phone_number', $phone_number)->where('otp_verification_code', $otp)->firstOrFail();
+    }
 }

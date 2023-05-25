@@ -27,6 +27,7 @@ class Doctor extends Model
         'phone_number',
         'otp_verification_code',    
         'otp_expire_at',
+        'is_phone_verified',
         'gender',
         'notification_status',
         'online_status',

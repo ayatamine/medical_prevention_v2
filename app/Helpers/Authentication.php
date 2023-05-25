@@ -1,29 +1,14 @@
 <?php
 
-use App\Models\Client;
+use App\Models\Doctor;
 use App\Models\Patient;
-use App\Models\ServiceProvider;
 
 if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model)
     {
        
         if($model == 'Doctor'){
-            // $model_record = ServiceProvider::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array_merge(ServiceProvider::$defaultRecords,...array(['phone_number'=>$phone_number])));
-            // if($service_provider_type){
-            //     if($service_provider_type == 'center' || is_null($service_provider_type || (!$model_record->center))){
-            //         $model_record->center()->create([]);
-            //     }
-            //     else
-            //     {
-                    
-            //         $model_record->winch()->create([
-            //             'vehicle_number' => random_int(100000,999999),
-            //             'capacity' => random_int(0, 150),
-            //             'kilometer_price' => random_int(0, 150) / 100,
-            //         ]);
-            //     }
-            // }
+            $model_record = Doctor::where('phone_number', $phone_number)->firstOrfail();
         }else{
             $model_record = Patient::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
         }
