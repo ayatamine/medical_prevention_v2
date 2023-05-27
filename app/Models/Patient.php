@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Patient extends Model
@@ -76,5 +78,9 @@ class Patient extends Model
     } 
     public function getThumbnailAttribute($value){
         return Storage::disk('public')->url($value);
+    }
+    public function balanceHistories(): MorphMany
+    {
+        return $this->morphMany(BallanceHistory::class, 'user');
     }
 }

@@ -20,7 +20,7 @@ class DoctorHomeProfileDataResource extends JsonResource
             'online_status'=>$this->online_status,
             'thumbnail'=>$this->thumbnail,
             'notification_status'=>$this->notification_status,
-            'ballance'=>0.00,
+            'ballance'=>$this->ballance,
             'notifications_count'=>3,
             'pending_requests'=>[
                 (object)[

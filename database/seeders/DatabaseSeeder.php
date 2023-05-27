@@ -7,6 +7,7 @@ use App\Models\Page;
 use App\Models\Language;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
+use App\Models\BallanceHistory;
 use Illuminate\Database\Seeder;
 use App\Models\MedicalInstruction;
 
@@ -23,20 +24,23 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        if(!Recommendation::count()){
-            $this->call(RecommendationSeeder::class);
-        }
-        if(!MedicalInstruction::count()){
-            $this->call(MedicalInstructionSeeder::class);
-        }
-        if(!SubSpeciality::count()){
-            $this->call(SubSpecialitySeeder::class);
-        }
-        if(!Language::count()){
-            $this->call(LanguageSeeder::class);
-        }
-        if(!Page::count()){
-            $this->call(PageSeeder::class);
+        // if(!Recommendation::count()){
+        //     $this->call(RecommendationSeeder::class);
+        // }
+        // if(!MedicalInstruction::count()){
+        //     $this->call(MedicalInstructionSeeder::class);
+        // }
+        // if(!SubSpeciality::count()){
+        //     $this->call(SubSpecialitySeeder::class);
+        // }
+        // if(!Language::count()){
+        //     $this->call(LanguageSeeder::class);
+        // }
+        // if(!Page::count()){
+        //     $this->call(PageSeeder::class);
+        // }
+        if(!BallanceHistory::count()){
+            $this->call(BallanceHistorySeeder::class);
         }
     }
 }

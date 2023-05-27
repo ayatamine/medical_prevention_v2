@@ -47,19 +47,25 @@ Route::group(['as' => 'api_v1.'], function () {
         //------------------------Auth-----------------------
         Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::get('home-profile-data', 'getHomeProfileData');
-            Route::put('/{id}/update-phone-number', 'updatePhone');
-            Route::post('/{id}/update-thumbnail', 'updateThumbnail');
-            Route::delete('/{id}', 'deletePatientAccount');
-            Route::post('/{id}/logout', 'logout');
-            Route::put('/{id}/notifications-status/{status}', 'switchNotificationsStataus');
+           
 
-            //patient scales
-            Route::get('/{id}/scales', 'getPatientScales');
-            // recommendation with age and sex filtered base on the patient
-            Route::get('/recommendations','recommendations');
-            Route::get('/recommendations/{id}','recommendationDetails');
+            // Route::put('/{id}/update-phone-number', 'updatePhone');
+            // Route::post('/{id}/update-thumbnail', 'updateThumbnail');
+            // Route::delete('/{id}', 'deletePatientAccount');
+            // Route::post('/{id}/logout', 'logout');
+            // Route::put('/{id}/notifications-status/{status}', 'switchNotificationsStataus');
+
+            // //patient scales
+            // Route::get('/{id}/scales', 'getPatientScales');
+            // // recommendation with age and sex filtered base on the patient
+            // Route::get('/recommendations','recommendations');
+            // Route::get('/recommendations/{id}','recommendationDetails');
         });
     });
     
 });
 //'auth:sanctum', 'type.customer'
+Route::group(['middleware'=>'auth:sanctum','prefix'=>'doctors'],function(){
+    Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class,'ballance_history']);
+
+});

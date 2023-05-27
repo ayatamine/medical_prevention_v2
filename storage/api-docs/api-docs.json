@@ -952,6 +952,57 @@
                 ]
             }
         },
+        "/api/v1/doctors/my-wallet": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "return the ballance history for the doctor ",
+                "description": "return the ballance history for the doctor  ",
+                "operationId": "my_ballance_history",
+                "parameters": [
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "filter by period",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "all",
+                            "enum": [
+                                "all",
+                                "last_month",
+                                "last_three_months",
+                                "last_year"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The ballance history fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/pages/{title}": {
             "get": {
                 "tags": [
