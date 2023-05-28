@@ -14,7 +14,7 @@ class ConsultationSeeder extends Seeder
     {
         //log message
         $this->command->info('Consultation Seeder Started');
-        \App\Models\Consultation::factory(5)->create();
+        \App\Models\Consultation::factory(10)->create();
 
         //log message
         $this->command->info('Consultation Seeder Ended');
