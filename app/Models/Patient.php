@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -76,11 +77,26 @@ class Patient extends Model
             set: fn ($value) => json_encode(json_decode($value,true)),
         );
     } 
-    public function getThumbnailAttribute($value){
-        return Storage::disk('public')->url($value);
+    public function thumbnail():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) =>$value ? url('storage/patients/thumbnails/'.$value) : url('storage/patients/thumbnails/patient.png'),
+        );
     }
     public function balanceHistories(): MorphMany
     {
         return $this->morphMany(BallanceHistory::class, 'user');
+    }
+    public function consultations(): HasMany
+    {
+        return $this->hasMany(Consultation::class);
+    }
+    public function sentMessages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+    public function receivedMessages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
     }
 }

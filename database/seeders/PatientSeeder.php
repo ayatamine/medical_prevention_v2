@@ -12,6 +12,12 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $this->command->info('start seeding patient');
+       \App\Models\Patient::create([
+            'full_name'=>'Ali Mahmoud',
+            'phone_number'=>'+213645871259',
+            'age'=>50,
+       ]);
+       $this->command->info('finish seeding patient');
     }
 }

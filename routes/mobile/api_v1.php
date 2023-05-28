@@ -65,7 +65,11 @@ Route::group(['as' => 'api_v1.'], function () {
     
 });
 //'auth:sanctum', 'type.customer'
-Route::group(['middleware'=>'auth:sanctum','prefix'=>'doctors'],function(){
-    Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class,'ballance_history']);
+Route::group(['middleware'=>'auth:sanctum'],function(){
+    Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class,'ballance_history'])->prefix('doctors');
+    Route::controller(\App\Http\Controllers\API\V1\ConsultationController::class)->prefix('consultations')->group(function(){
+            Route::post('/{id}/approve', 'approveConsult');
+            Route::post('/{id}/reject', 'rejectConsult');
+    });
 
 });

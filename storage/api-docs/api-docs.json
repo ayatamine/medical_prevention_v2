@@ -1003,6 +1003,104 @@
                 ]
             }
         },
+        "/api/v1/consultations/{id}/approve": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "approve a patient consultation request",
+                "description": "the doctor approve a patient consultation request",
+                "operationId": "approve_consultation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The consult request approved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/reject": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "reject a patient consultation request",
+                "description": "the doctor reject a patient consultation request",
+                "operationId": "reject_consultation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The consult request rejected successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/pages/{title}": {
             "get": {
                 "tags": [

@@ -22,45 +22,46 @@ class DoctorHomeProfileDataResource extends JsonResource
             'notification_status'=>$this->notification_status,
             'ballance'=>$this->ballance,
             'notifications_count'=>3,
-            'pending_requests'=>[
-                (object)[
-                    'id'=>254,
-                    'patient'=>(object)[
-                        'id'=>1,
-                        'full_name'=>'Mohamed Aminh',
-                        'thumbnail'=>public_path('storage/doctors/doctor.png'),
-                        'address'=>'Saudi Arabia',
-                        'gender'=>'male',
-                        'age'=>33
+            'pending_requests'=>$this->pendingConsultations()->get()->map(function($r){
+                return [    
+                    'id'=>$r->id,
+                    'patient'=>[
+                        'id'=>$r->patient->id,
+                        'full_name'=>$r->patient->full_name,
+                        'thumbnail'=>$r->patient->thumbnail,
+                        'address'=>$r->patient->address,
+                        'gender'=>$r->patient->gender,
+                        'age'=>$r->patient->gender
                     ]
-                ]
-            ],
-            'incomplete_requests'=>[
-                (object)[
-                    'id'=>63,
-                    'patient'=>(object)[
-                        'id'=>1,
-                        'full_name'=>'Saad Farah',
-                        'thumbnail'=>public_path('storage/doctors/doctor.png'),
-                        'address'=>'Saudi Arabia',
-                        'gender'=>'male',
-                        'age'=>74
+                ];
+            }),
+            'incompleted_requests'=>$this->incompletedConsultations()->get()->map(function($r){
+                return [    
+                    'id'=>$r->id,
+                    'patient'=>[
+                        'id'=>$r->patient->id,
+                        'full_name'=>$r->patient->full_name,
+                        'thumbnail'=>$r->patient->thumbnail,
+                        'address'=>$r->patient->address,
+                        'gender'=>$r->patient->gender,
+                        'age'=>$r->patient->gender
                     ]
-                ]
-            ],
-            'completed_requests'=>[
-                (object)[
-                    'id'=>23,
-                    'patient'=>(object)[
-                        'id'=>1,
-                        'full_name'=>'akram sol',
-                        'thumbnail'=>public_path('storage/doctors/doctor.png'),
-                        'address'=>'Saudi Arabia',
-                        'gender'=>'male',
-                        'age'=>55
-                    ]
-                ]
-            ]
+                ]; 
+            }),
+            'completed_requests'=>$this->completedConsultations()->get()->map(function($r){
+                return [    
+                    'id'=>$r->id,
+                    'patient'=>[
+                        'id'=>$r->patient->id,
+                        'full_name'=>$r->patient->full_name,
+                        'thumbnail'=>$r->patient->thumbnail,
+                        'address'=>$r->patient->address,
+                        'gender'=>$r->patient->gender,
+                        'age'=>$r->patient->gender
+                    ],
+                    'completed_at'=>$r->finished_at
+                ];
+            })
         ];
     }
 }

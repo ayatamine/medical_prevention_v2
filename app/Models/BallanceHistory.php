@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Consultation;
 use App\Traits\FormatsDates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -74,4 +75,8 @@ class BallanceHistory extends Model
     {
         return $this->morphTo();
     }
+    public function consultation(){
+        return $this->belongsTo(Consultation::class,'consult_id','id');
+    }
+
 }

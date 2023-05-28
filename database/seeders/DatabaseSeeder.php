@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Page;
+use App\Models\Patient;
 use App\Models\Language;
+use App\Models\Consultation;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use App\Models\BallanceHistory;
@@ -42,5 +44,13 @@ class DatabaseSeeder extends Seeder
         if(!BallanceHistory::count()){
             $this->call(BallanceHistorySeeder::class);
         }
+        if(!Patient::count()){
+            $this->call(PatientSeeder::class);
+        }
+        if(!Consultation::count()){
+            $this->call(ConsultationSeeder::class);
+        }
+
+
     }
 }

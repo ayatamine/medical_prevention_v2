@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('full_name')->nullable();
             $table->string('birth_date')->nullable();
-            $table->string('thumbnail')->default('user.png');
+            $table->string('thumbnail')->default('patient.png');
             $table->string('phone_number');
             $table->string('otp_verification_code')->nullable();
             $table->timestamp('otp_expire_at')->nullable();
