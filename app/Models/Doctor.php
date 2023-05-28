@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -36,7 +40,8 @@ class Doctor extends Model
         'job_title',
         'classification_number',
         'insurance_number',
-        'medical_licence_file','cv_file','certification_file'
+        'medical_licence_file','cv_file','certification_file',
+        'ballance'
     ];
     // mutators
     public function thumbnail():Attribute
@@ -58,5 +63,47 @@ class Doctor extends Model
             'doctor_id',
             'sub_speciality_id'
         );
+    }
+    /**
+     * @return ballancehistory collection
+     */
+    public function balanceHistories(): MorphMany
+    {
+        return $this->morphMany(BallanceHistory::class, 'user');
+    }
+    public function consultations(): HasMany
+    {
+        return $this->hasMany(Consultation::class);
+    }
+    public function sentMessages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+    public function receivedMessages(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+    public function pendingConsultations(): HasMany
+    {
+        return $this->consultations()->where('status', 'pending')->with('patient');
+    }
+    
+    public function inProgressConsultations(): HasMany
+    {
+        return $this->consultations()->where('status', 'in_progress')->with('patient');
+    }
+    
+    public function completedConsultations(): HasMany
+    {
+        return $this->consultations()->where('status', 'completed')->with('patient');
+    }
+    public function incompletedConsultations(): HasMany
+    {
+        return $this->consultations()->where('status', 'incompleted')->with('patient');
+    }
+    
+    public function canceledConsultations(): HasMany
+    {
+        return $this->consultations()->where('status', 'canceled')->with('patient');
     }
 }

@@ -35,7 +35,9 @@
             "App\\Helpers\\": "Helpers/"
         },
         "files": [
-            "app/Helpers/Authentication.php"
+            "app/Helpers/Authentication.php",
+            "app/Helpers/Authentication.php",
+            "app/Helpers/ErrorHandler.php"
         ]
     },
     "autoload-dev": {

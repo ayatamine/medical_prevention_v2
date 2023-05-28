@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Helpers;
+
 use App\Models\Doctor;
 use App\Models\Patient;
 

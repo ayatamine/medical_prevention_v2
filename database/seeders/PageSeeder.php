@@ -47,6 +47,23 @@ class PageSeeder extends Seeder
             'is_publishable'=>true,
             'language_id'=>1,
         ]);
+        //terms page
+        Page::create([
+            'title'=>'terms and conditions',
+            'sub_title'=>'terms and conditions',
+            'slug'=>'terms',
+            'content'=>'<p class="text-white sm:text-xl sm:leading-relaxed">
+                NEOMED It is a digital health service, for beneficiaries who use its medical services
+                It also aims to facilitate communication between workers and medical service providers with the goal of a secure Internet environment.
+            </p>
+            <p class="text-white sm:text-xl sm:leading-relaxed">
+            NEOMED It is a digital health service, for beneficiaries who use its medical services
+            It also aims to facilitate communication between workers and medical service providers with the goal of a secure Internet environment.
+            </p>
+          ',
+            'is_publishable'=>true,
+            'language_id'=>1,
+        ]);
 
     }
 }
