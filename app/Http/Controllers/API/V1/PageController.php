@@ -7,6 +7,7 @@ use App\Models\Page;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PageResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PageController extends Controller
@@ -38,7 +39,7 @@ class PageController extends Controller
                 
                  return $this->api->success()
                         ->message('Page fetched successfully')
-                        ->payload($page)
+                        ->payload((new PageResource($page))->resolve())
                         ->send();
                 }
               catch(Exception $ex){

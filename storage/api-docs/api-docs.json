@@ -263,7 +263,7 @@
                     "doctors"
                 ],
                 "summary": "get profile home data of a doctor ",
-                "description": "check doctor apply request status if accepted  ",
+                "description": "return profile home data of a doctor ",
                 "operationId": "getHomeProfileData",
                 "responses": {
                     "200": {
@@ -276,6 +276,87 @@
                     },
                     "401": {
                         "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/my-profile": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get profile data of a doctor ",
+                "description": "get profile data of a doctor",
+                "operationId": "profile",
+                "responses": {
+                    "200": {
+                        "description": "profile fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/logout": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "description": "Logout a Doctor",
+                "operationId": "logoutDoctor",
+                "responses": {
+                    "200": {
+                        "description": "You logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1087,6 +1168,102 @@
                     },
                     "500": {
                         "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/notification-status/{status}": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "switch notification status on / off for the doctor ",
+                "description": "switch notification status on / off for the doctor  ",
+                "operationId": "switch notification status",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "notification status : 0,1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The notification status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/online-status/{status}": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "switch online status on / off for the doctor ",
+                "description": "switch online status on / off for the doctor  ",
+                "operationId": "switch online status",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "online status : 0,1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The online status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
                         "content": {
                             "application/json": {
                                 "schema": {}

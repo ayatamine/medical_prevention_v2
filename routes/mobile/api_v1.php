@@ -47,6 +47,8 @@ Route::group(['as' => 'api_v1.'], function () {
         //------------------------Auth-----------------------
         Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::get('home-profile-data', 'getHomeProfileData');
+            Route::get('my-profile', 'profileDetails');
+            Route::post('logout', 'logout');
            
 
             // Route::put('/{id}/update-phone-number', 'updatePhone');
@@ -71,5 +73,9 @@ Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::post('/{id}/approve', 'approveConsult');
             Route::post('/{id}/reject', 'rejectConsult');
     });
-
+    //profile controller
+    Route::controller(\App\Http\Controllers\API\V1\DoctorProfileController::class)->prefix('doctors')->group(function(){
+        Route::put('online-status/{status}', 'switchOnlineStatus');
+        Route::put('notification-status/{status}', 'switchNotificationStatus');
+    });
 });

@@ -86,4 +86,20 @@ class DoctorRepository extends AbstractRepository
     public function findByOtpAndPhone($phone_number,$otp){
         return Doctor::where('phone_number', $phone_number)->where('otp_verification_code', $otp)->firstOrFail();
     }
+     /**
+     * switch on/off notifications
+     * 
+     * @return boolean
+     */
+    public function switchNotification($status){
+        return request()->user()->update(['notification_status'=>$status]);
+    }
+     /**
+     * switch on/off online staus
+     * 
+     * @return boolean
+     */
+    public function switchOnlineStatus($status){
+        return request()->user()->update(['online_status'=>$status]);
+    }
 }

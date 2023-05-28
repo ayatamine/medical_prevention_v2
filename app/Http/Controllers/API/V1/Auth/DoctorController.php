@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\DoctorRepository;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Resources\DoctorProfileDataResource;
 use App\Http\Resources\DoctorHomeProfileDataResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -207,16 +208,8 @@ class DoctorController extends Controller
                                 ->send();
                 }
             }
-            catch(Exception $e){
-                if ($e instanceof ModelNotFoundException) {
-                    return $this->api->failed()->code(404)
-                                ->message("No doctor Found with the given phone number")
-                                ->send();
-        
-                }
-                return $this->api->failed()->code(500)
-                                ->message($e->getMessage())
-                                ->send();
+            catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"No doctor Found with the given phone number");
             }
            
             
@@ -243,7 +236,7 @@ class DoctorController extends Controller
         * tags={"doctors"},
         * security={ {"sanctum": {} }},
         * summary="get profile home data of a doctor ",
-        * description="check doctor apply request status if accepted  ",
+        * description="return profile home data of a doctor ",
         *      @OA\Response( response=200, description="home profile data fetched successfully", @OA\JsonContent() ),
         *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
         *    )
@@ -259,16 +252,63 @@ class DoctorController extends Controller
                         ->send();
                 }
               catch(Exception $ex){
-                if ($ex instanceof ModelNotFoundException) {
-                    return $this->api->failed()->code(404)
-                                ->message("no doctor found with the given id")
-                                ->send();
-        
-                }
-                return $this->api->failed()->code(500)
-                                    ->message($ex->getMessage())
-                                    ->send();
+                return handleTwoCommunErrors($ex,"no doctor found with the given id");
             }
                         
+        }
+          /**
+       * @OA\Get(
+        * path="/api/v1/doctors/my-profile",
+        * operationId="profile",
+        * tags={"doctors"},
+        * security={ {"sanctum": {} }},
+        * summary="get profile data of a doctor ",
+        * description="get profile data of a doctor",
+        *      @OA\Response( response=200, description="profile fetched successfully", @OA\JsonContent() ),
+        *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
+        *    )
+        */
+
+        public function profileDetails(){
+             
+             try {
+
+                 return $this->api->success()
+                        ->message('Profile fetched successfully')
+                        ->payload(new DoctorProfileDataResource(request()->user()))
+                        ->send();
+                }
+              catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"no doctor found with the given id");
+            }
+                        
+        }
+          /**
+        * @OA\post(
+        * path="/api/v1/doctors/logout",
+        * operationId="logoutDoctor",
+        * security={ {"sanctum": {} }},
+        * tags={"doctors"},
+        * description="Logout a Doctor",
+        *    @OA\Response( response=200, description="You logged out successfully", @OA\JsonContent() ),
+        *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
+        *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
+          *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+        *    )
+        */
+        public function logout(){
+        
+            try{
+               request()->user()->tokens()->delete();
+            
+               return $this->api->success()
+                        ->message('You logged out successfully')
+                        ->send();
+            }
+            catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"No Doctor Found please verify your login");
+            }
+
+
         }
 }

@@ -58,3 +58,10 @@ if(!function_exists('send_sms')){
         }
     }
 }
+if(!function_exists('sanctum_logout'))
+{
+    function sanctum_logout():void
+    {
+        request()->user()->tokens()->delete();
+    }
+}

@@ -14,6 +14,7 @@ class DoctorHomeProfileDataResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        //TODO: notifications count
         return [
             'id' =>$this->id,
             'full_name'=>$this->full_name,
