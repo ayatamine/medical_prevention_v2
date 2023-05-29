@@ -148,7 +148,7 @@ class DoctorController extends Controller
                     'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
                 ]);
                 $otp = generate_otp($request->phone_number,'Doctor');
-                return sendSMS($request->phone_number,'Your OTP code is ',$otp);
+                return sendSMS($request->phone_number,'Your OTP Verification code is ',$otp);
             }
             catch(Exception $ex){
                 if ($ex instanceof ModelNotFoundException) {
