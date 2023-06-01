@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\DoctorRepository;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorProfileDataResource;
 use App\Http\Resources\DoctorHomeProfileDataResource;
+use App\Http\Resources\DoctorResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DoctorController extends Controller
@@ -310,5 +312,123 @@ class DoctorController extends Controller
             }
 
 
+        }
+        /**
+        * @OA\Put(
+         * path="/api/v1/doctors/profile/update",
+        * operationId="update doctor profile",
+        * security={ {"sanctum": {} }},
+        * tags={"doctors"},
+        * summary="update docotr profile ",
+        * description="update docotr profile  ",
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *             @OA\Schema(
+        *                 @OA\Property( property="full_name",type="string",example="doctor full Name"),
+        *                 @OA\Property( property="id_number",type="integer",example="46126"),
+        *                 @OA\Property( property="birth_date",type="string",example="doctor birth_date"),
+        *                 @OA\Property( property="email",type="string",example=""),
+        *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
+        *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
+        *                 @OA\Property( property="classification_number",type="string",example="784899554"),
+        *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
+        *                 @OA\Property( property="medical_licence_file",type="file"),
+        *                 @OA\Property( property="cv_file",type="file"),
+        *                 @OA\Property( property="certification_file",type="file"),
+        *             ),
+        *       )
+        *    ),
+        *    @OA\Response( response=200, description="profile updated Successfully", @OA\JsonContent() ),
+        *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
+        *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
+        *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+        *    )
+        */
+        public function updateProfile(UpdateDoctorRequest $request)
+        {
+            try{
+                $doctor = $this->repository->updateProfile($request->validated());
+
+                return $this->api->success()
+                            ->message('Profile updated successfully')
+                        ->payload(new DoctorResource($doctor))
+                        ->send();
+
+            }  catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"No Doctor Found please verify your login");
+            }
+        }
+        /**
+        * @OA\Put(
+        * path="/api/v1/doctors/profile/update-phone-number",
+        * operationId="updateDoctorPhone",
+        * security={ {"sanctum": {} }},
+        * tags={"doctors"},
+        * summary="update doctor phone number",
+        * description="update doctor phone_number ",
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="application/x-www-form-urlencoded",
+        *             @OA\Schema(
+        *                 @OA\Property( property="phone_number",type="string",example="+213648952765"),
+        *        )
+        *       )
+        *    ),
+        *    @OA\Response( response=200, description="Phone Updated Successfully", @OA\JsonContent() ),
+        *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
+        *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
+        *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+        *    )
+        */
+        public function updatePhone(Request $request)
+        {
+            $request->validate([
+                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/|unique:doctors,phone_number,'.request()->user()->id
+            ]);
+            
+            try{
+                $doctor = $this->repository
+                                        ->updatePhone($request);
+
+                return $this->api->success()
+                            ->message('Phone number updated successfully')
+                        ->payload([
+                            'id'=>$doctor->id,
+                            'phone_number'=>$doctor->phone_number
+                        ])
+                        ->send();
+            }  catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"No Doctor Found please verify your login");
+            }
+        }
+        /**
+        * @OA\Delete(
+        * path="/api/v1/doctors/delete-account",
+        * operationId="deleteDoctorAccount",
+        * security={ {"sanctum": {} }},
+        * tags={"doctors"},
+        * summary="delete doctor account",
+        * description="delete doctor account ",
+        *    @OA\Response( response=200, description="Account deleted Successfully", @OA\JsonContent() ),
+        *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
+        *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
+        *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+        *    )
+        */
+        public function deleteAccount()
+        {
+            try{
+                $this->logout();
+                $this->repository->delete(request()->user());
+
+                return $this->api->success()
+                            ->message('Account deleted successfully')
+                            ->send();
+            }  catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"No Doctor Found please verify your login");
+            }
         }
 }

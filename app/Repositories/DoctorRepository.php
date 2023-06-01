@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Doctor;
 use Exception;
+use App\Models\Doctor;
+use Illuminate\Support\Facades\DB;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -76,7 +77,7 @@ class DoctorRepository extends AbstractRepository
      * check doctor apply request status
      */
     public function findById($id){
-        return Doctor::findOrFail($id);
+        return Doctor::whereDeletedAt(null)->findOrFail($id);
     }
      /**
      * find by otp an and phone
@@ -84,7 +85,7 @@ class DoctorRepository extends AbstractRepository
      * @return collection
      */
     public function findByOtpAndPhone($phone_number,$otp){
-        return Doctor::where('phone_number', $phone_number)->where('otp_verification_code', $otp)->firstOrFail();
+        return Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->where('otp_verification_code', $otp)->firstOrFail();
     }
      /**
      * switch on/off notifications
@@ -101,5 +102,93 @@ class DoctorRepository extends AbstractRepository
      */
     public function switchOnlineStatus($status){
         return request()->user()->update(['online_status'=>$status]);
+    }
+     /**
+     * update doctor phone number
+     * 
+     * @return doctor instance
+     */
+    public function updatePhone($request){
+        $doctor =  request()->user();
+        $doctor->update(['phone_number'=>$request->phone_number]);
+
+        return $doctor;
+    }
+       /**
+     * @return Doctor instance
+     *  update doctor record
+     */
+    public function updateProfile($request){
+        $doctor = request()->user();
+            
+        try{
+            //start transaction
+            DB::beginTransaction();
+
+            if(isset($request['medical_licence_file'])){
+                if(file_exists(public_path('storage/'.$doctor['medical_licence_file']))){
+                    unlink(public_path('storage/'.$doctor['medical_licence_file']));
+                };
+                $request['medical_licence_file'] = $request['medical_licence_file']->storePublicly(
+                    "doctors/medical_licences", ['disk' => 'public']
+                );
+            }
+            if(isset($request['cv_file'])){
+                if(file_exists(public_path('storage/'.$doctor['cv_file']))){
+                    unlink(public_path('storage/'.$doctor['cv_file']));
+                };
+                $request['cv_file'] = $request['cv_file']->storePublicly(
+                    "doctors/cv_files", ['disk' => 'public']
+                );
+            }
+            if(isset($request['certification_file'])){
+                if(file_exists(public_path('storage/'.$doctor['certification_file']))){
+                    unlink(public_path('storage/'.$doctor['certification_file']));
+                };
+                $request['certification_file'] = $request['certification_file']->storePublicly(
+                    "doctors/certifications", ['disk' => 'public']
+                );
+            }
+            
+            // update speciality
+            if(isset($request['sub_specialities'])){
+                $doctor->sub_specialities()->sync(explode(',',$request['sub_specialities']));
+            }
+            //commit 
+            DB::commit();
+            return $doctor;
+        }
+        catch(Exception $ex){
+        
+            // delete the medical_licence file
+            if(isset($request['medical_licence_file'])){
+                $medical_licence = public_path('storage/'.$request['medical_licence_file']);
+                
+                if(file_exists($medical_licence)){
+                    unlink($medical_licence);
+                };
+            }
+            // delete the cv file
+            if(isset($request['certification_file'])){
+                $certification = public_path('storage/'.$request['certification_file']);
+                
+                if(file_exists($certification)){
+                    unlink($certification);
+                };
+            }
+            // delete the medical_licence file
+            if(isset($request['cv_file'])){
+                $cv_file = public_path('storage/'.$request['cv_file']);
+                
+                if(file_exists($cv_file)){
+                    unlink($cv_file);
+                };
+            }
+            //rollback 
+            DB::rollBack();
+
+            throw $ex;
+        }
+
     }
 }

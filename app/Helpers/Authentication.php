@@ -1,5 +1,5 @@
 <?php
-use Exception;
+
 use App\Models\Doctor;
 use App\Models\Patient;
 use Twilio\Rest\Client;
@@ -9,9 +9,10 @@ if (!function_exists('generate_otp')) {
     {
        
         if($model == 'Doctor'){
-            $model_record = Doctor::where('phone_number', $phone_number)->firstOrfail();
+            $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->firstOrfail();
             //TODO: throw error if account is not yet accepted
         }else{
+            //TODO: check if account is deleted
             $model_record = Patient::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
         }
   
@@ -51,7 +52,7 @@ if(!function_exists('send_sms')){
                 'message'=>'The OTP send Successfully',
             ],200);
     
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 "success"=>false,
                 'message'=>$e->getMessage(),

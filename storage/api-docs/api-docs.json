@@ -371,6 +371,232 @@
                 ]
             }
         },
+        "/api/v1/doctors/profile/update": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update docotr profile ",
+                "description": "update docotr profile  ",
+                "operationId": "update doctor profile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "doctor full Name"
+                                    },
+                                    "id_number": {
+                                        "type": "integer",
+                                        "example": "46126"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "doctor birth_date"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "job_title": {
+                                        "type": "string",
+                                        "example": "chronic disease"
+                                    },
+                                    "sub_specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "classification_number": {
+                                        "type": "string",
+                                        "example": "784899554"
+                                    },
+                                    "insurance_number": {
+                                        "type": "string",
+                                        "example": "78489966554"
+                                    },
+                                    "medical_licence_file": {
+                                        "type": "file"
+                                    },
+                                    "cv_file": {
+                                        "type": "file"
+                                    },
+                                    "certification_file": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "profile updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/update-phone-number": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update doctor phone number",
+                "description": "update doctor phone_number ",
+                "operationId": "updateDoctorPhone",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213648952765"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phone Updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/delete-account": {
+            "delete": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "delete doctor account",
+                "description": "delete doctor account ",
+                "operationId": "deleteDoctorAccount",
+                "responses": {
+                    "200": {
+                        "description": "Account deleted Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [

@@ -49,7 +49,9 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::get('home-profile-data', 'getHomeProfileData');
             Route::get('my-profile', 'profileDetails');
             Route::post('logout', 'logout');
-           
+            Route::put('profile/update', 'updateProfile');
+            Route::put('profile/update-phone-number', 'updatePhone');
+            Route::delete('delete-account', 'deleteAccount');
 
             // Route::put('/{id}/update-phone-number', 'updatePhone');
             // Route::post('/{id}/update-thumbnail', 'updateThumbnail');
