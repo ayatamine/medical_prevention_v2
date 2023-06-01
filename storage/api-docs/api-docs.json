@@ -263,7 +263,7 @@
                     "doctors"
                 ],
                 "summary": "get profile home data of a doctor ",
-                "description": "check doctor apply request status if accepted  ",
+                "description": "return profile home data of a doctor ",
                 "operationId": "getHomeProfileData",
                 "responses": {
                     "200": {
@@ -276,6 +276,313 @@
                     },
                     "401": {
                         "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/my-profile": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get profile data of a doctor ",
+                "description": "get profile data of a doctor",
+                "operationId": "profile",
+                "responses": {
+                    "200": {
+                        "description": "profile fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/logout": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "description": "Logout a Doctor",
+                "operationId": "logoutDoctor",
+                "responses": {
+                    "200": {
+                        "description": "You logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/update": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update docotr profile ",
+                "description": "update docotr profile  ",
+                "operationId": "update doctor profile",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "full_name": {
+                                        "type": "string",
+                                        "example": "doctor full Name"
+                                    },
+                                    "id_number": {
+                                        "type": "integer",
+                                        "example": "46126"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "example": "doctor birth_date"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "job_title": {
+                                        "type": "string",
+                                        "example": "chronic disease"
+                                    },
+                                    "sub_specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "classification_number": {
+                                        "type": "string",
+                                        "example": "784899554"
+                                    },
+                                    "insurance_number": {
+                                        "type": "string",
+                                        "example": "78489966554"
+                                    },
+                                    "medical_licence_file": {
+                                        "type": "file"
+                                    },
+                                    "cv_file": {
+                                        "type": "file"
+                                    },
+                                    "certification_file": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "profile updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/update-phone-number": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update doctor phone number",
+                "description": "update doctor phone_number ",
+                "operationId": "updateDoctorPhone",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213648952765"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phone Updated Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/delete-account": {
+            "delete": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "delete doctor account",
+                "description": "delete doctor account ",
+                "operationId": "deleteDoctorAccount",
+                "responses": {
+                    "200": {
+                        "description": "Account deleted Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1087,6 +1394,102 @@
                     },
                     "500": {
                         "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/notification-status/{status}": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "switch notification status on / off for the doctor ",
+                "description": "switch notification status on / off for the doctor  ",
+                "operationId": "switch notification status",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "notification status : 0,1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The notification status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/online-status/{status}": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "switch online status on / off for the doctor ",
+                "description": "switch online status on / off for the doctor  ",
+                "operationId": "switch online status",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "online status : 0,1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The online status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
                         "content": {
                             "application/json": {
                                 "schema": {}

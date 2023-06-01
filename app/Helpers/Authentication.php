@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Helpers;
-
 use App\Models\Doctor;
 use App\Models\Patient;
+use Twilio\Rest\Client;
 
 if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model)
     {
        
         if($model == 'Doctor'){
-            $model_record = Doctor::where('phone_number', $phone_number)->firstOrfail();
+            $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->firstOrfail();
+            //TODO: throw error if account is not yet accepted
         }else{
+            //TODO: check if account is deleted
             $model_record = Patient::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
         }
   
@@ -38,23 +39,31 @@ if(!function_exists('send_sms')){
   
             $account_sid = getenv("TWILIO_SID");
             $auth_token = getenv("TWILIO_TOKEN");
-            $twilio_number = getenv("TWILIO_FROM");
+            $twilio_number = getenv("TWILIO_PHONE_NUMBER");
   
-            // $client = new Client($account_sid, $auth_token);
-            // $client->messages->create($receiverNumber, [
-            //     'from' => $twilio_number, 
-            //     'body' => $message]);
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number, 
+                'body' => $message
+            ]);
    
             return response()->json([
                 "success"=>true,
                 'message'=>'The OTP send Successfully',
             ],200);
     
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 "success"=>false,
                 'message'=>$e->getMessage(),
             ],500);
         }
+    }
+}
+if(!function_exists('sanctum_logout'))
+{
+    function sanctum_logout():void
+    {
+        request()->user()->tokens()->delete();
     }
 }

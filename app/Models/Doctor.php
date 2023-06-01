@@ -43,11 +43,29 @@ class Doctor extends Model
         'medical_licence_file','cv_file','certification_file',
         'ballance'
     ];
-    // mutators
+    // accesors
     public function thumbnail():Attribute
     {
         return Attribute::make(
             get: fn (string $value) =>$value ? url('storage/doctors/thumbnails/'.$value) : url('storage/doctors/thumbnails/doctor.png'),
+        );
+    }
+    public function cvFile():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
+        );
+    }
+    public function medicalLicenceFile():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
+        );
+    }
+    public function certificationFile():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
         );
     }
     //////////////////////////////////- relationships-///////////////////////
