@@ -41,5 +41,16 @@ class ConsultationRepository extends AbstractRepository
          //TODO: send notification to patient
         $consultation->update(['status' => 'rejected']);
     }
+    /**
+     * add a summary to a consultation
+     *  
+     */
+    public function addSummary($request,$consultation_id){
+        //TODO: implement it
+        // $consultation =  request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
+        //  //TODO: send notification to patient
+        // $consultation->update(['status' => 'rejected']);
+    }
+
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Prescription;
 use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
@@ -123,5 +124,10 @@ class Doctor extends Model
     public function canceledConsultations(): HasMany
     {
         return $this->consultations()->where('status', 'canceled')->with('patient');
+    }
+    //prescription
+    public function prescriptions():HasMany
+    {
+        return $this->hasMany(Prescription::class);
     }
 }

@@ -10,8 +10,10 @@ use App\Models\Consultation;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use App\Models\BallanceHistory;
+use App\Models\LabTest;
 use Illuminate\Database\Seeder;
 use App\Models\MedicalInstruction;
+use App\Models\Prescription;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,6 +51,12 @@ class DatabaseSeeder extends Seeder
         }
         if(!Consultation::count()){
             $this->call(ConsultationSeeder::class);
+        }
+        if(!Prescription::count()){
+            $this->call(PrescriptionSeeder::class);
+        }
+        if(!LabTest::count()){
+            $this->call(LabTestSeeder::class);
         }
 
 
