@@ -1310,6 +1310,25 @@
                 ]
             }
         },
+        "/api/v1/chronic-diseases": {
+            "get": {
+                "tags": [
+                    "chronicDiseases"
+                ],
+                "description": "Get list of chronic diseases",
+                "operationId": "chronicDiseasesindex",
+                "responses": {
+                    "200": {
+                        "description": "data fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/consultations/{id}/approve": {
             "post": {
                 "tags": [
