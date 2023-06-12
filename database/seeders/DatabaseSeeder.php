@@ -10,6 +10,7 @@ use App\Models\Consultation;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use App\Models\BallanceHistory;
+use App\Models\ChronicDiseases;
 use App\Models\LabTest;
 use Illuminate\Database\Seeder;
 use App\Models\MedicalInstruction;
@@ -43,6 +44,9 @@ class DatabaseSeeder extends Seeder
         // if(!Page::count()){
         //     $this->call(PageSeeder::class);
         // }
+        if(!ChronicDiseases::count()){
+            $this->call(ChronicDiseasesSeeder::class);
+        }
         if(!BallanceHistory::count()){
             $this->call(BallanceHistorySeeder::class);
         }
