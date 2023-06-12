@@ -18,6 +18,7 @@ class ChronicDiseasesFactory extends Factory
     {
         return [
             'name'=>$this->faker->name,
+            'name_ar'=>$this->faker->name,
         ];
     }
 }

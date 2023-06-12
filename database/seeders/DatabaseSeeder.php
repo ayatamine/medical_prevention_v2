@@ -4,17 +4,19 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Page;
+use App\Models\LabTest;
 use App\Models\Patient;
 use App\Models\Language;
 use App\Models\Consultation;
+use App\Models\Prescription;
+use App\Models\Advertisement;
+use App\Models\FamilyHistory;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use App\Models\BallanceHistory;
 use App\Models\ChronicDiseases;
-use App\Models\LabTest;
 use Illuminate\Database\Seeder;
 use App\Models\MedicalInstruction;
-use App\Models\Prescription;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,12 +31,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        // if(!Recommendation::count()){
-        //     $this->call(RecommendationSeeder::class);
-        // }
-        // if(!MedicalInstruction::count()){
-        //     $this->call(MedicalInstructionSeeder::class);
-        // }
+        if(!Recommendation::count()){
+            $this->call(RecommendationSeeder::class);
+        }
+        if(!MedicalInstruction::count()){
+            $this->call(MedicalInstructionSeeder::class);
+        }
         // if(!SubSpeciality::count()){
         //     $this->call(SubSpecialitySeeder::class);
         // }
@@ -44,8 +46,14 @@ class DatabaseSeeder extends Seeder
         // if(!Page::count()){
         //     $this->call(PageSeeder::class);
         // }
+        if(!Advertisement::count()){
+            $this->call(AdvertisementSeeder::class);
+        }
+        if(!FamilyHistory::count()){
+            $this->call(FamilyHistorySeeder::class);
+        }
         if(!ChronicDiseases::count()){
-            $this->call(ChronicDiseasesSeeder::class);
+            $this->call(FamilyHistory::class);
         }
         if(!BallanceHistory::count()){
             $this->call(BallanceHistorySeeder::class);

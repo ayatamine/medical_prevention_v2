@@ -17,7 +17,8 @@ class FamilyHistoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name'=>$this->faker->name,
+            'name_ar'=>$this->faker->name,
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
+use App\Models\Advertisement;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -13,14 +14,15 @@ class AdvertisementSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Advertisement::create([
-            'title'=>'ads title 1',
-            'title_ar'=>'عنوان اعلان',
-            'image'=> 'ad-image.png',
-            'text' =>'some text for the ads',
-            'text_ar'=>'بعض النص لوصف الاعلان',
-            'duration'=>5,
-            'publish_date'=>Carbon::today()
-        ]);
+        // \App\Models\Advertisement::create([
+        //     'title'=>'ads title 1',
+        //     'title_ar'=>'عنوان اعلان',
+        //     'image'=> 'ad-image.png',
+        //     'text' =>'some text for the ads',
+        //     'text_ar'=>'بعض النص لوصف الاعلان',
+        //     'duration'=>5,
+        //     'publish_date'=>Carbon::today()
+        // ]);
+        Advertisement::factory(3)->create();
     }
 }

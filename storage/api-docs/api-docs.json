@@ -8,6 +8,25 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/advertisements": {
+            "get": {
+                "tags": [
+                    "advertisemens"
+                ],
+                "description": "Get list of existing publishable advertisments",
+                "operationId": "Advertisement_index",
+                "responses": {
+                    "200": {
+                        "description": "Advertisements fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/doctors/register": {
             "post": {
                 "tags": [
@@ -1319,7 +1338,7 @@
                 "operationId": "chronicDiseasesindex",
                 "responses": {
                     "200": {
-                        "description": "data fetched successfuly",
+                        "description": "chronic diseases fetched successfuly",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1618,6 +1637,41 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/family-histories": {
+            "get": {
+                "tags": [
+                    "family_history"
+                ],
+                "description": "Get list of existing family histories",
+                "operationId": "family_history_index",
+                "responses": {
+                    "200": {
+                        "description": "data fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medical-instructions": {
+            "get": {
+                "description": "Get list of existing medical instructions",
+                "operationId": "medical_instructions",
+                "responses": {
+                    "200": {
+                        "description": "Medical instructions fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/pages/{title}": {

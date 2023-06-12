@@ -9,7 +9,7 @@ class ChronicDiseases extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
+        'name','name_ar'
     
     ];
     protected $dates = [

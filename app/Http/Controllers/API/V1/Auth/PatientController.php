@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Auth;
 
+use Exception;
 use App\Models\Patient;
 use App\Helpers\ApiResponse;
 use App\Models\PatientScale;
@@ -388,12 +389,21 @@ class PatientController extends Controller
         *    )
         */
         public function recommendations(Request $request){
-            $patient = auth('sanctum') ? auth('sanctum')->user() : $request->user();
-            $recommendations = Recommendation::publishable()->byAgeAndSex($patient->gender, $patient->age ?? 18);
-            return $this->api->success()
-            ->message('recommendations fetched successfully')
-            ->payload(RecommendationResource::collection($recommendations->get()))
-            ->send();
+            try {
+                $patient = auth('sanctum') ? auth('sanctum')->user() : $request->user();
+                $recommendations = Recommendation::publishable()->byAgeAndSex($patient->gender, $patient->age ?? 18);
+                
+                return $this->api->success()
+                ->message('recommendations fetched successfully')
+                ->payload(RecommendationResource::collection($recommendations->get()))
+                ->send();
+            }
+            catch (Exception $ex) {
+                return $this->api->failed()
+                    ->code($ex->getCode())
+                    ->message($ex->getMessage())
+                    ->send();
+            }
         }
            /**
         * @OA\Get(

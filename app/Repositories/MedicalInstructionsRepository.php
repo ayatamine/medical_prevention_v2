@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\ChronicDiseases;
+use App\Models\MedicalInstruction;
 use Exception;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
-class ChronicDiseasesRepository extends AbstractRepository
+class MedicalInstructionsRepository extends AbstractRepository
 {
     /**
      * Specify Model class name
      *
      * @return string
      */
-    protected $model = ChronicDiseases::class;
+    protected $model = MedicalInstruction::class;
     /**
      * Valid orderable columns.
      *
@@ -23,20 +23,20 @@ class ChronicDiseasesRepository extends AbstractRepository
     protected $orderable = [
         'created_at',
     ];
-    /**
-     * @return ChronicDiseases instances 
+      /**
+     * @return MedicalInstruction instances
      *  
      */
     public function fetchAll()
     {
-       return ChronicDiseases::select('id','name','name_ar')->get();
+       return MedicalInstruction::publishable()->get();
     }
     /**
-     * @return ChronicDiseases instance 
+     * @return MedicalInstruction instance
      *  
      */
     // public function getDetails($id)
     // {
-    //    return ChronicDiseases::select('id','name')->findOrFail($id);
+    //    return MedicalInstruction::select('id','name')->findOrFail($id);
     // }
 }

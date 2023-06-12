@@ -6,30 +6,31 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\ChronicDiseasesRepository;
+use App\Http\Resources\MedicalInstructionResource;
+use App\Repositories\MedicalInstructionsRepository;
 
-class ChronicDiseasesController extends Controller
+class MedicalInstructionController extends Controller
 {
     protected $repository;
 
     /**
-     * @var ChronicDiseasesRepository
+     * @var MedicalInstructionsRepository
      * @var ApiResponse
      */
-    public function __construct(ChronicDiseasesRepository $repository, ApiResponse $apiResponse)
+    public function __construct(MedicalInstructionsRepository $repository, ApiResponse $apiResponse)
     {
         parent::__construct($apiResponse);
         $this->repository = $repository;
     }
     /**
      * @OA\Get(
-     *      path="/api/v1/chronic-diseases",
-     *      operationId="chronicDiseasesindex",
-     *      tags={"chronicDiseases"},
-     *      description="Get list of chronic diseases",
+     *      path="/api/v1/medical-instructions",
+     *      operationId="medical_instructions",
+     *      tags={"medical_instructions"},
+     *      description="Get list of existing medical instructions",
      *      @OA\Response(
      *          response=200,
-     *          description="chronic diseases fetched successfuly",
+     *          description="Medical instructions fetched successfuly",
      *          @OA\JsonContent()
      *       )
      *     )
@@ -37,11 +38,11 @@ class ChronicDiseasesController extends Controller
     public function index()
     {
         try {
-            $chronic_diseases = $this->repository->fetchAll();
+            $instructions = $this->repository->fetchAll();
 
             return $this->api->success()
-                ->message("chronic diseases fetched successfuly")
-                ->payload($chronic_diseases)
+                ->message("Advertisements fetched successfuly")
+                ->payload(MedicalInstructionResource::collection($instructions))
                 ->send();
         } catch (Exception $ex) {
             return $this->api->failed()

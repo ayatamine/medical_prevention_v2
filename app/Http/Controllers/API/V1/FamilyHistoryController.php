@@ -6,30 +6,30 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\ChronicDiseasesRepository;
+use App\Repositories\FamilyHistoryRepository;
 
-class ChronicDiseasesController extends Controller
+class FamilyHistoryController extends Controller
 {
     protected $repository;
 
     /**
-     * @var ChronicDiseasesRepository
+     * @var FamilyHistoryRepository
      * @var ApiResponse
      */
-    public function __construct(ChronicDiseasesRepository $repository, ApiResponse $apiResponse)
+    public function __construct(FamilyHistoryRepository $repository, ApiResponse $apiResponse)
     {
         parent::__construct($apiResponse);
         $this->repository = $repository;
     }
     /**
      * @OA\Get(
-     *      path="/api/v1/chronic-diseases",
-     *      operationId="chronicDiseasesindex",
-     *      tags={"chronicDiseases"},
-     *      description="Get list of chronic diseases",
+     *      path="/api/v1/family-histories",
+     *      operationId="family_history_index",
+     *      tags={"family_history"},
+     *      description="Get list of existing family histories",
      *      @OA\Response(
      *          response=200,
-     *          description="chronic diseases fetched successfuly",
+     *          description="data fetched successfuly",
      *          @OA\JsonContent()
      *       )
      *     )
@@ -37,11 +37,11 @@ class ChronicDiseasesController extends Controller
     public function index()
     {
         try {
-            $chronic_diseases = $this->repository->fetchAll();
+            $family_history = $this->repository->fetchAll();
 
             return $this->api->success()
-                ->message("chronic diseases fetched successfuly")
-                ->payload($chronic_diseases)
+                ->message("family history fetched successfuly")
+                ->payload($family_history)
                 ->send();
         } catch (Exception $ex) {
             return $this->api->failed()

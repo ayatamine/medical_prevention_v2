@@ -25,7 +25,7 @@ class Recommendation extends Model
     {
         return $query->where(function ($query) {
             $query->whereDate('publish_date', '<=', Carbon::today())
-                  ->whereDate('publish_date', '<', Carbon::today()->subDays($this->duration));
+                  ->whereDate('publish_date', '>=', Carbon::today()->subDays($this->duration));
         });
     }
 }

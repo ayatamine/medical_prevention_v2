@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class AdvertisementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' =>$this->faker->title,
+            'title_ar' =>$this->faker->title,
+            'image' =>'https://ui-avatars.com/api/?background=0D8ABC&color=fff',
+            'text' =>$this->faker->title,
+            'text_ar' =>$this->faker->title,
+            'publish_date' =>Carbon::now(),
+            'duration' => random_int(1,5)
         ];
     }
 }
