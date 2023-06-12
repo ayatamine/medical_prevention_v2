@@ -2,7 +2,8 @@
 
 use App\Models\Doctor;
 use App\Models\Patient;
-use Twilio\Rest\Client;
+// use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Http;
 
 if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model)
@@ -37,16 +38,27 @@ if(!function_exists('send_sms')){
     
         try {
   
-            $account_sid = getenv("TWILIO_SID");
-            $auth_token = getenv("TWILIO_TOKEN");
-            $twilio_number = getenv("TWILIO_PHONE_NUMBER");
+            // $account_sid = getenv("TWILIO_SID");
+            // $auth_token = getenv("TWILIO_TOKEN");
+            // $twilio_number = getenv("TWILIO_PHONE_NUMBER");
   
-            $client = new Client($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
-                'from' => $twilio_number, 
-                'body' => $message
+            // $client = new Client($account_sid, $auth_token);
+            // $client->messages->create($receiverNumber, [
+            //     'from' => $twilio_number, 
+            //     'body' => $message
+            // ]);
+            $response = Http::withHeaders([
+                'Content-Type'=> 'application/json',
+                'charset'=>'UTF-8'
+            ])->post('https://www.msegat.com/gw/sendsms.php', [
+
+                "userName"=> env('MSGAT_USERNAME'),
+                "numbers"=>"213664419425",
+                "apiKey"=>env('MSGAT_API_KEY'),
+                "userSender"=>"NEOMED APP",
+                "msg"=>$message
+            
             ]);
-   
             return response()->json([
                 "success"=>true,
                 'message'=>'The OTP send Successfully',

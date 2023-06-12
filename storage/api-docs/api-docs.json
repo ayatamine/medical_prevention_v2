@@ -1310,6 +1310,25 @@
                 ]
             }
         },
+        "/api/v1/chronic-diseases": {
+            "get": {
+                "tags": [
+                    "chronicDiseases"
+                ],
+                "description": "Get list of chronic diseases",
+                "operationId": "chronicDiseasesindex",
+                "responses": {
+                    "200": {
+                        "description": "data fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/consultations/{id}/approve": {
             "post": {
                 "tags": [
@@ -1378,6 +1397,103 @@
                 "responses": {
                     "200": {
                         "description": "The consult request rejected successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/add-summary": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "add a summary to a finished consultation",
+                "description": "the doctor add a summary to a finished consultation",
+                "operationId": "add_consultation_summary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "description": {
+                                        "type": "text",
+                                        "example": "description here"
+                                    },
+                                    "prescriptions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "lab_tests": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "other_lab_tests": {
+                                        "type": "string",
+                                        "example": "new test"
+                                    },
+                                    "sick_leave": {
+                                        "type": "boolean"
+                                    },
+                                    "notes": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The summary added successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1538,6 +1654,140 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/my-prescriptions": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get doctor prescriptions list ",
+                "description": "get doctor prescriptions list  ",
+                "operationId": "prescriptionsList",
+                "responses": {
+                    "200": {
+                        "description": "prescriptions fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no prescriptions found ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/my-prescriptions/store": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "create a new prescription ",
+                "description": "create a new prescription by a doctor ",
+                "operationId": "storeNewPrescription",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "drug_name": {
+                                        "type": "string",
+                                        "example": "Medicine name"
+                                    },
+                                    "route": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "dose": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unit": {
+                                        "type": "string",
+                                        "example": "1 unit"
+                                    },
+                                    "frequancy": {
+                                        "type": "string",
+                                        "example": "1 times per day"
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "duration_unit": {
+                                        "description": "duration unit in : {hour,day,week,month,year}",
+                                        "type": "string",
+                                        "example": "day"
+                                    },
+                                    "shape": {
+                                        "type": "string"
+                                    },
+                                    "prn": {
+                                        "type": "boolean"
+                                    },
+                                    "instructions": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "the prescription created succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "301": {
+                        "description": "unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/specialities": {

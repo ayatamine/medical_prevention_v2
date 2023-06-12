@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['as' => 'api_v1.'], function () {
-    // Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class,'index']);
+    Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class,'index']);
     // Route::get('/family-histories', [\App\Http\Controllers\API\V1\FamilyHistoryController::class,'index']);
     // Route::post('/patients/store', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class,'store']);
     // Route::get('/ads', [\App\Http\Controllers\API\V1\AdsController::class,'index']);
@@ -45,13 +45,14 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
         //------------------------Auth-----------------------
-        Route::group(['middleware'=>'auth:sanctum'],function(){
+        Route::group(['middleware'=>['auth:sanctum','auth.doctor']],function(){
             Route::get('home-profile-data', 'getHomeProfileData');
             Route::get('my-profile', 'profileDetails');
             Route::post('logout', 'logout');
             Route::put('profile/update', 'updateProfile');
             Route::put('profile/update-phone-number', 'updatePhone');
             Route::delete('delete-account', 'deleteAccount');
+
 
             // Route::put('/{id}/update-phone-number', 'updatePhone');
             // Route::post('/{id}/update-thumbnail', 'updateThumbnail');
@@ -69,15 +70,22 @@ Route::group(['as' => 'api_v1.'], function () {
     
 });
 //'auth:sanctum', 'type.customer'
-Route::group(['middleware'=>'auth:sanctum'],function(){
+Route::group(['middleware'=>['auth:sanctum','auth.doctor']],function(){
     Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class,'ballance_history'])->prefix('doctors');
     Route::controller(\App\Http\Controllers\API\V1\ConsultationController::class)->prefix('consultations')->group(function(){
             Route::post('/{id}/approve', 'approveConsult');
             Route::post('/{id}/reject', 'rejectConsult');
+            Route::post('/{id}/add-summary', 'addSummary');
     });
     //profile controller
     Route::controller(\App\Http\Controllers\API\V1\DoctorProfileController::class)->prefix('doctors')->group(function(){
         Route::put('online-status/{status}', 'switchOnlineStatus');
         Route::put('notification-status/{status}', 'switchNotificationStatus');
+    });
+    //Prescripiton controller
+    Route::controller(\App\Http\Controllers\API\V1\PrescriptionController::class)->group(function(){
+            //prescripitons
+            Route::get('/my-prescriptions','index');
+            Route::post('/my-prescriptions/store','store');
     });
 });
