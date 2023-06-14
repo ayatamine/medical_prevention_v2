@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\FormatsDates;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Advertisement extends Model
 {
-    use HasFactory;
+    use HasFactory,FormatsDates;
     protected $fillable=[
         'title','title_ar','image','text','text_ar','publish_date','duration'
     ];
@@ -23,4 +25,18 @@ class Advertisement extends Model
                             ->orWhereDate('publish_date', '>=', Carbon::now()->subDays($this->duration));
                     });
      }   
+    public function getPublishDateAttribute($date)
+    {
+         return $this->formatDate($date,'d-m-Y H:i');
+    }
+    public function status(): Attribute
+    {
+       return Attribute::make(
+           get:function(){
+               if($this->publishable()) return trans('dashboard.running');
+               if( Carbon::now()->subDays($this->duration) < carbon::now()) return trans('dashboard.not_published_yet');
+               return trans('dashboard.finished');
+           }
+       );
+    }
 }

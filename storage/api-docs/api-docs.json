@@ -1660,6 +1660,9 @@
         },
         "/api/v1/medical-instructions": {
             "get": {
+                "tags": [
+                    "medical_instructions"
+                ],
                 "description": "Get list of existing medical instructions",
                 "operationId": "medical_instructions",
                 "responses": {
