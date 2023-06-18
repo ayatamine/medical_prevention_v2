@@ -29,7 +29,7 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getWithSubs()
     {
-       return Speciality::select('id','name')->with('sub_specialities:id,speciality_id,name')->get();
+       return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->get();
     }
     /**
      * @return speciality instance with subs
@@ -37,6 +37,6 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getDetails($id)
     {
-       return Speciality::select('id','name')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
+       return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
     }
 }
