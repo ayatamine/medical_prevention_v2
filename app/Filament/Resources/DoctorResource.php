@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DoctorResource\Pages;
-use App\Filament\Resources\DoctorResource\RelationManagers;
-use App\Models\Doctor;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Doctor;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\DoctorResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\DoctorResource\RelationManagers;
+use App\Filament\Resources\DoctorResource\Widgets\DoctorOverview;
 
 class DoctorResource extends Resource
 {
@@ -135,4 +136,10 @@ class DoctorResource extends Resource
                 SoftDeletingScope::class,
             ]);
     } 
+    public static function getWidgets(): array 
+    {
+        return [
+            DoctorOverview::class,
+        ];
+    }
 }

@@ -1,1 +1,16 @@
 @import '../../vendor/filament/filament/resources/css/app.css';
+
+[new-card-design] .card-header svg{
+    @apply shadow-md h-12 w-12 rounded-full p-2 bg-white
+}
+[new-card-design] .card-header div span{@apply text-white}
+[new-card-design] .card-header .card-title{@apply !block text-white}
+[new-card-design]  span.old-design{@apply !hidden}
+[new-card-design]  .card-value{@apply !hidden}
+[new-card-design] .card-description{@apply !mt-6}
+[new-card-design] .card-description svg{@apply mx-2}
+
+[blue-card]{@apply bg-primary-400}
+[blue-fonc-card]{@apply bg-[#32bfbf]}
+[open-red-card]{@apply bg-[#ff6161]}
+[blue-card] .card-header svg{@apply text-primary-400}

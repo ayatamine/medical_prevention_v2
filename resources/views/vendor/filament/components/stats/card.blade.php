@@ -16,7 +16,7 @@
 
 <{!! $tag !!}
     {{ $attributes->merge($extraAttributes)->class([
-        'filament-stats-card relative p-6 rounded-2xl bg-white shadow',
+        'filament-stats-card relative p-6 rounded-lg bg-white shadow',
         'dark:bg-gray-800' => config('filament.dark_mode'),
     ]) }}
 >
@@ -24,28 +24,34 @@
         'space-y-2',
     ])>
         <div @class([
-            'flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500',
+            'flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500  card-header',
             'dark:text-gray-200' => config('filament.dark_mode'),
         ])>
             @if ($icon)
                 <x-dynamic-component :component="$icon" class="w-4 h-4" />
             @endif
+            <div class="text-lg card-title hidden">
+                <h2 class="text-base opacity-95">{{ $label }}</h2>
+                <h3 class="text-2xl font-semibold">{{ $value }}</h3>
 
-            <span>{{ $label }}</span>
+            </div>
+            {{-- if not new design --}}
+            <span class="old-design">{{ $label }}</span>
         </div>
 
-        <div class="text-3xl">
+        <div class="text-3xl card-value">
             {{ $value }}
         </div>
 
         @if ($description)
             <div @class([
-                'flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium',
+                'flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium card-description',
                 match ($descriptionColor) {
                     'danger' => 'text-danger-600',
                     'primary' => 'text-primary-600',
                     'success' => 'text-success-600',
                     'warning' => 'text-warning-600',
+                    'white' => 'text-white',
                     default => 'text-gray-600',
                 },
             ])>
