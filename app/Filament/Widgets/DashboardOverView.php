@@ -34,7 +34,7 @@ class DashboardOverView extends BaseWidget
             ->extraAttributes(['new-card-design'=>true,'blue-fonc-card'=>true])
             ->descriptionIcon('icons.arrow-right'),
             Card::make('Total Consultations',Consultation::count() )
-            ->icon('icons.doctor')
+            ->icon('icons.consult')
             ->description('View Details')
             ->descriptionColor('white')
             ->url(route('filament.resources.doctors.index'))

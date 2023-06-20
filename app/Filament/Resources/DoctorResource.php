@@ -8,6 +8,7 @@ use App\Models\Doctor;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\DoctorResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -101,6 +102,15 @@ class DoctorResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('account_status')->label('Account Status')->options([
+                    'pending' => 'Pending',
+                    'accepted' => 'Accepted',
+                    'blocked' => 'Blocked',
+                ]),
+                SelectFilter::make('gender')->label('Select Gender')->options([
+                    'male' => 'Male',
+                    'female' => 'Female',
+                ]),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

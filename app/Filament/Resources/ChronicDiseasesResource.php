@@ -29,7 +29,6 @@ class ChronicDiseasesResource extends Resource
                     ->unique(table: ChronicDiseases::class,ignoreRecord:true)
                     ->maxLength(150),
                 Forms\Components\TextInput::make('name_ar')
-                    ->required()
                     ->unique(table: ChronicDiseases::class,ignoreRecord:true)
                     ->maxLength(150),
             ]);

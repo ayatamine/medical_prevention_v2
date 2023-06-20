@@ -35,7 +35,6 @@ class SubSpecialityResource extends Resource
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set)=> $set('slug',Str::slug($state))),
                 Forms\Components\TextInput::make('name_ar')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
                     ->required()

@@ -31,7 +31,6 @@ class SpecialityResource extends Resource
                 ->unique(table: Speciality::class,ignoreRecord:true)
                 ->maxLength(150),
             Forms\Components\TextInput::make('name_ar')
-                ->required()
                 ->unique(table: Speciality::class,ignoreRecord:true)
                 ->maxLength(150),
             ]);

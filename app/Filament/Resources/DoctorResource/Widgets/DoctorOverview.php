@@ -13,8 +13,8 @@ class DoctorOverview extends BaseWidget
     
         return [
             Card::make('Total Doctors', Doctor::count()),
-            Card::make('Pending Account Requests', Doctor::whereAccountStatus('pending')->count()),
-            Card::make('Blocked Account',Doctor::whereAccountStatus('blocked')->count())->color('danger'),
+            Card::make('Pending Accounts Requests', Doctor::whereAccountStatus('pending')->count()),
+            Card::make('Blocked Accounts',Doctor::whereAccountStatus('blocked')->count())->color('danger'),
         ];
     }
 }

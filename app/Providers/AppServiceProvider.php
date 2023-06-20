@@ -23,5 +23,13 @@ class AppServiceProvider extends ServiceProvider
         Filament::serving(function () {
             Filament::registerViteTheme('resources/css/filament.css');
         });
+
+        //settings
+        $json = file_get_contents(config('filament-settings.path'));
+        $form_inputs=[];
+        foreach (json_decode($json,true) as $key=>$value) {
+            array_push($form_inputs, \Filament\Forms\Components\TextInput::make($key));
+        }
+        \Reworck\FilamentSettings\FilamentSettings::setFormFields($form_inputs);
     }
 }

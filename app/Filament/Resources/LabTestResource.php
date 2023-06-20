@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FamilyHistoryResource\Pages;
-use App\Filament\Resources\FamilyHistoryResource\RelationManagers;
-use App\Models\FamilyHistory;
+use App\Filament\Resources\LabTestResource\Pages;
+use App\Filament\Resources\LabTestResource\RelationManagers;
+use App\Models\LabTest;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,24 +13,23 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class FamilyHistoryResource extends Resource
+class LabTestResource extends Resource
 {
-    protected static ?string $model = FamilyHistory::class;
+    protected static ?string $model = LabTest::class;
 
-    protected static ?string $recordTitleAttribute = 'name';
-    protected static ?string $navigationIcon = 'icons.family_history';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->required()
-                ->label(trans('name'))
-                ->unique(table: FamilyHistory::class,ignoreRecord:true)
-                ->maxLength(150),
-            Forms\Components\TextInput::make('name_ar')
-                ->unique(table: FamilyHistory::class,ignoreRecord:true)
-                ->maxLength(150),
+                    ->required()
+                    ->unique(table: LabTest::class,ignoreRecord:true)
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('name_ar')
+                    ->unique(table: LabTest::class,ignoreRecord:true)
+                    ->maxLength(255),
             ]);
     }
 
@@ -38,9 +37,11 @@ class FamilyHistoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('updated_at')->sortable()
+                    ->dateTime(),
             ])
             ->filters([
                 //
@@ -57,7 +58,7 @@ class FamilyHistoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageFamilyHistories::route('/'),
+            'index' => Pages\ManageLabTests::route('/'),
         ];
     }    
 }

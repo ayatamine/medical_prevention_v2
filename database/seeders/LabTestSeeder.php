@@ -15,7 +15,7 @@ class LabTestSeeder extends Seeder
     {
         for($i=1;$i<6;$i++)
         {
-            LabTest::create(['name'=>'Test '.$i]);     
+            LabTest::create(['name'=>'Test '.$i,'name_ar'=>'تحليل '.$i]);     
         }
     }
 }

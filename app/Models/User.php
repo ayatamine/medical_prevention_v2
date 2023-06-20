@@ -42,4 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function canManageSettings(): bool
+    {
+        // return $this->can('manage.settings');
+        return true;
+    }
 }
