@@ -48,7 +48,7 @@ class Doctor extends Model
     public function thumbnail():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/thumbnails/'.$value) : url('storage/doctors/thumbnails/doctor.png'),
+            get: fn (string $value) =>$value ? url('storage/'.$value) : url('storage/doctors/thumbnails/doctor.png'),
         );
     }
     public function cvFile():Attribute

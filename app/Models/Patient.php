@@ -80,7 +80,7 @@ class Patient extends Model
     public function thumbnail():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/patients/thumbnails/'.$value) : url('storage/patients/thumbnails/patient.png'),
+            get: fn (string $value) =>$value ? url('storage/'.$value) : url('storage/patients/thumbnails/patient.png'),
         );
     }
     public function balanceHistories(): MorphMany

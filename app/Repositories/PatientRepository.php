@@ -3,20 +3,23 @@
 namespace App\Repositories;
 
 use Exception;
-use App\Models\Doctor;
+use App\Models\Patient;
+use App\Models\PatientScale;
+use App\Models\Recommendation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\PatientScaleResource;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
-class DoctorRepository extends AbstractRepository
+class PatientRepository extends AbstractRepository
 {
     /**
      * Specify Model class name
      *
      * @return string
      */
-    protected $model = Doctor::class;
+    protected $model = Patient::class;
     /**
      * Valid orderable columns.
      *
@@ -26,59 +29,32 @@ class DoctorRepository extends AbstractRepository
         'created_at',
     ];
     /**
-     * @return Doctor instance
-     *  store new doctor record
+     * @return Patient instance
+     *  store new Patient record
      */
     public function store($request){
         try{
-            $request['medical_licence_file'] = $request['medical_licence_file']->storePublicly(
-                "doctors/medical_licences", ['disk' => 'public']
-            );
-            $request['cv_file'] = $request['cv_file']->storePublicly(
-                "doctors/cv_files", ['disk' => 'public']
-            );
-            $request['certification_file'] = $request['certification_file']->storePublicly(
-                "doctors/certifications", ['disk' => 'public']
-            );
-            $doctor = Doctor::create($request);
-            
-            // update speciality
-            if(isset($request['sub_specialities'])){
-                $doctor->sub_specialities()->sync(explode(',',$request['sub_specialities']));
+            $to_unset= ['thumbnail', 'phone_number'];
+            foreach($to_unset as $attr){
+                if(isset($request[$attr])){
+                    unset($request[$attr]);
+                }
             }
-
-            return $doctor;
+            
+            $patient = request()->user()->update($request);
+            return $patient;
         }
         catch(Exception $ex){
-        
-            // delete the medical_licence file
-            $medical_licence = public_path('storage/'.$request['medical_licence_file']);
-            
-            if(file_exists($medical_licence)){
-                unlink($medical_licence);
-            };
-            // delete the cv file
-            $certification = public_path('storage/'.$request['certification_file']);
-            
-            if(file_exists($certification)){
-                unlink($certification);
-            };
-            // delete the medical_licence file
-            $cv_file = public_path('storage/'.$request['cv_file']);
-            
-            if(file_exists($cv_file)){
-                unlink($cv_file);
-            };
             throw $ex;
         }
 
     }
      /**
       * @return boolean
-     * check doctor apply request status
+     * check Patient apply request status
      */
     public function findById($id){
-        return Doctor::whereDeletedAt(null)->findOrFail($id);
+        return $this->model::whereDeletedAt(null)->findOrFail($id);
     }
      /**
      * find by otp an and phone
@@ -86,7 +62,7 @@ class DoctorRepository extends AbstractRepository
      * @return collection
      */
     public function findByOtpAndPhone($phone_number,$otp){
-        return Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)
+        return $this->model::whereDeletedAt(null)->where('phone_number', $phone_number)
                                             ->firstOrFail();
                                             //TODO: verify the otp
                                             // ->where('otp_verification_code', $otp)
@@ -108,27 +84,16 @@ class DoctorRepository extends AbstractRepository
         return request()->user()->update(['online_status'=>$status]);
     }
      /**
-     * update doctor phone number
+     * update Patient thumbnail
      * 
-     * @return doctor instance
-     */
-    public function updatePhone($request){
-        $doctor =  request()->user();
-        $doctor->update(['phone_number'=>$request->phone_number]);
-
-        return $doctor;
-    }
-    /**
-     * update Doctor phone number
-     * 
-     * @return Doctor instance
+     * @return Patient instance
      */
     public function updateThumbnail($request){
-        $doctor = request()->user();
-        tap($doctor->thumbnail, function ($previous) use ($request, $doctor) {
-            $doctor->update([
+        $patient = request()->user();
+        tap($patient->thumbnail, function ($previous) use ($request, $patient) {
+            $patient->update([
                 'thumbnail' => $request['thumbnail']->storePublicly(
-                    'doctors/thumbnails',
+                    'patients/thumbnails',
                     ['disk' => 'public']
                 ),
             ]);
@@ -138,51 +103,62 @@ class DoctorRepository extends AbstractRepository
             }
         });
 
-        return $doctor;
+        return $patient;
+    }
+     /**
+     * update Patient phone number
+     * 
+     * @return Patient instance
+     */
+    public function updatePhone($request){
+        $patient =  request()->user();
+        $patient->update(['phone_number'=>$request['phone_number']]);
+
+        return $patient;
     }
        /**
-     * @return Doctor instance
-     *  update doctor record
+     * @return Patient instance
+     *  update Patient record
      */
     public function updateProfile($request){
-        $doctor = request()->user();
+        $Patient = request()->user();
             
         try{
             //start transaction
             DB::beginTransaction();
 
             if(isset($request['medical_licence_file'])){
-                if(file_exists(public_path('storage/'.$doctor['medical_licence_file']))){
-                    unlink(public_path('storage/'.$doctor['medical_licence_file']));
+                if(file_exists(public_path('storage/'.$Patient['medical_licence_file']))){
+                    unlink(public_path('storage/'.$Patient['medical_licence_file']));
                 };
                 $request['medical_licence_file'] = $request['medical_licence_file']->storePublicly(
-                    "doctors/medical_licences", ['disk' => 'public']
+                    "Patients/medical_licences", ['disk' => 'public']
                 );
             }
             if(isset($request['cv_file'])){
-                if(file_exists(public_path('storage/'.$doctor['cv_file']))){
-                    unlink(public_path('storage/'.$doctor['cv_file']));
+                if(file_exists(public_path('storage/'.$Patient['cv_file']))){
+                    unlink(public_path('storage/'.$Patient['cv_file']));
                 };
                 $request['cv_file'] = $request['cv_file']->storePublicly(
-                    "doctors/cv_files", ['disk' => 'public']
+                    "Patients/cv_files", ['disk' => 'public']
                 );
             }
             if(isset($request['certification_file'])){
-                if(file_exists(public_path('storage/'.$doctor['certification_file']))){
-                    unlink(public_path('storage/'.$doctor['certification_file']));
+                if(file_exists(public_path('storage/'.$Patient['certification_file']))){
+                    unlink(public_path('storage/'.$Patient['certification_file']));
                 };
                 $request['certification_file'] = $request['certification_file']->storePublicly(
-                    "doctors/certifications", ['disk' => 'public']
+                    "Patients/certifications", ['disk' => 'public']
                 );
             }
             
             // update speciality
             if(isset($request['sub_specialities'])){
-                $doctor->sub_specialities()->sync(explode(',',$request['sub_specialities']));
+                $Patient->sub_specialities()->sync(explode(',',$request['sub_specialities']));
             }
             //commit 
             DB::commit();
-            return $doctor;
+            return $Patient;
         }
         catch(Exception $ex){
         
@@ -216,5 +192,28 @@ class DoctorRepository extends AbstractRepository
             throw $ex;
         }
 
+    }
+    /** get patient scales */
+    public function scalesList(){
+        $scales = PatientScale::wherePatientId(request()->user()->id)
+                ->with(['scale' => function ($q) {
+                    $q->select(['id', 'title', 'title_ar', 'short_description', 'short_description_ar']);
+                }])
+                ->get()
+                ->map(function ($q) {
+                    return new PatientScaleResource($q);
+                });
+        return $scales;
+    }
+    /** get patient recommendations */
+    public function recommendationsList(){
+        $recommendations = Recommendation::publishable()->byAgeAndSex(request()->user()->gender, request()->user()->age ?? 18);
+
+        return $recommendations;
+    }
+    /** get patient recommendation details */
+    public function recommendationDetails($id){
+        $recommendation = Recommendation::findOrFail($id);
+        return $recommendation;
     }
 }
