@@ -3,13 +3,24 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser,HasAvatar
 {
+    public function canAccessFilament(): bool
+    {
+        return str_ends_with($this->email, '@neomed.com');
+        //&& $this->hasVerifiedEmail();
+    }
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->avatar_url;
+    }
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
