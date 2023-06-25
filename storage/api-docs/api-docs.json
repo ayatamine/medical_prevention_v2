@@ -342,16 +342,34 @@
                 ]
             }
         },
-        "/api/v1/doctors/logout": {
+        "/api/v1/doctors/update-thumbnail": {
             "post": {
                 "tags": [
                     "doctors"
                 ],
-                "description": "Logout a Doctor",
-                "operationId": "logoutDoctor",
+                "summary": "update doctor thumbnail or profile photo",
+                "description": "update doctor thumbnail(profile photo)",
+                "operationId": "updateDoctorThumbnail",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "thumbnail": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "You logged out successfully",
+                        "description": "Thumbnail Updated Successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -359,7 +377,7 @@
                         }
                     },
                     "404": {
-                        "description": "No Doctor Found please verify your login",
+                        "description": "No Doctor Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -849,7 +867,7 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}/update-phone-number": {
+        "/api/v1/patients/update-phone-number": {
             "put": {
                 "tags": [
                     "patients"
@@ -857,14 +875,6 @@
                 "summary": "update patient phone number",
                 "description": "update patient phone_number ",
                 "operationId": "updatePhone",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id",
-                        "required": false
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
@@ -893,7 +903,7 @@
                         }
                     },
                     "404": {
-                        "description": "No Patient Found with the given phone number",
+                        "description": "No Patient Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -924,7 +934,7 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}/update-thumbnail": {
+        "/api/v1/patients/update-thumbnail": {
             "post": {
                 "tags": [
                     "patients"
@@ -932,14 +942,6 @@
                 "summary": "update patient thumbnail or profile photo",
                 "description": "update patient thumbnail(profile photo)",
                 "operationId": "updateThumbnail",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id",
-                        "required": false
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
@@ -967,7 +969,7 @@
                         }
                     },
                     "404": {
-                        "description": "No Patient Found with the given phone number",
+                        "description": "No Patient Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -998,7 +1000,7 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}": {
+        "/api/v1/patients": {
             "delete": {
                 "tags": [
                     "patients"
@@ -1006,14 +1008,6 @@
                 "summary": "delete patient account",
                 "description": "delete patient account",
                 "operationId": "deletePatientAccount",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id to delete",
-                        "required": false
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "You account was deleted successfully",
@@ -1024,7 +1018,7 @@
                         }
                     },
                     "404": {
-                        "description": "No Patient Found with the given phone number",
+                        "description": "No Patient Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1055,21 +1049,13 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}/logout": {
+        "/api/v1/patients/logout": {
             "post": {
                 "tags": [
                     "patients"
                 ],
                 "description": "Logout a patient",
                 "operationId": "logout",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id to logout",
-                        "required": false
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "You logged out successfully",
@@ -1080,7 +1066,7 @@
                         }
                     },
                     "404": {
-                        "description": "No Patient Found with the given phone number",
+                        "description": "No Patient Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1111,7 +1097,7 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}/notifications-status/{status}": {
+        "/api/v1/patients/notifications-status/{status}": {
             "put": {
                 "tags": [
                     "patients"
@@ -1120,30 +1106,32 @@
                 "operationId": "switchNotificationsStataus",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id to change notification state",
-                        "required": false
-                    },
-                    {
                         "name": "status",
                         "in": "path",
-                        "description": "notification status on/off",
+                        "description": "Notification Status.",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "default": "1",
+                            "enum": [
+                                0,
+                                1
+                            ]
                         },
-                        "examples": {
-                            "status": {
-                                "summary": "switch notification on/off",
-                                "value": "0"
-                            }
-                        }
+                        "example": "0"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "notifications state switched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Patient Found with this request",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1166,21 +1154,13 @@
                 ]
             }
         },
-        "/api/v1/patients/{id}/scales": {
+        "/api/v1/patients/scales": {
             "get": {
                 "tags": [
                     "patients"
                 ],
                 "description": "get patient filled scales ",
                 "operationId": "getPatientScales",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Patient id ",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "scales fetched successfully",

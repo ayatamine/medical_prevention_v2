@@ -59,7 +59,7 @@ class AdvertisementResource extends Resource
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('title')->label('Title')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('title_ar')->label('Title in Arabic')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('publish_date')->dateTime()->label('Publish Date')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('publish_date')->date()->label('Publish Date')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('duration')->label('Duration(days)')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('status')->label('status')->sortable()->searchable()
                 ->color('success'),

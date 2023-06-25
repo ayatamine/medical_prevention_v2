@@ -16,7 +16,9 @@ class SubSpeciality extends Model
      * @var array
      */
     protected $fillable = [
+        'speciality_id',
         'name',
+        'name_ar',
         'slug',
     ];
 

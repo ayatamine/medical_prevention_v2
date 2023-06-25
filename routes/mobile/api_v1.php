@@ -19,14 +19,14 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/verify', 'loginWithOtp');
         Route::group(['middleware'=>'auth:sanctum'],function(){
             Route::post('complete-medical-record', 'storePatientData');
-            Route::put('/{id}/update-phone-number', 'updatePhone');
-            Route::post('/{id}/update-thumbnail', 'updateThumbnail');
-            Route::delete('/{id}', 'deletePatientAccount');
-            Route::post('/{id}/logout', 'logout');
-            Route::put('/{id}/notifications-status/{status}', 'switchNotificationsStataus');
+            Route::put('/update-phone-number', 'updatePhone');
+            Route::post('/update-thumbnail', 'updateThumbnail');
+            Route::delete('/', 'deletePatientAccount');
+            Route::post('/logout', 'logout');
+            Route::put('/notifications-status/{status}', 'switchNotificationsStataus');
 
             //patient scales
-            Route::get('/{id}/scales', 'getPatientScales');
+            Route::get('scales', 'getPatientScales');
             // recommendation with age and sex filtered base on the patient
             Route::get('/recommendations','recommendations');
             Route::get('/recommendations/{id}','recommendationDetails');
@@ -51,19 +51,7 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::put('profile/update', 'updateProfile');
             Route::put('profile/update-phone-number', 'updatePhone');
             Route::delete('delete-account', 'deleteAccount');
-
-
-            // Route::put('/{id}/update-phone-number', 'updatePhone');
-            // Route::post('/{id}/update-thumbnail', 'updateThumbnail');
-            // Route::delete('/{id}', 'deletePatientAccount');
-            // Route::post('/{id}/logout', 'logout');
-            // Route::put('/{id}/notifications-status/{status}', 'switchNotificationsStataus');
-
-            // //patient scales
-            // Route::get('/{id}/scales', 'getPatientScales');
-            // // recommendation with age and sex filtered base on the patient
-            // Route::get('/recommendations','recommendations');
-            // Route::get('/recommendations/{id}','recommendationDetails');
+            Route::post('/update-thumbnail', 'updateThumbnail');
         });
     });
     

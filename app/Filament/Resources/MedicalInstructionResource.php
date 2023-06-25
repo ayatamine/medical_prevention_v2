@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\MedicalInstructionResource\Pages;
-use App\Filament\Resources\MedicalInstructionResource\RelationManagers;
-use App\Models\MedicalInstruction;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use App\Models\MedicalInstruction;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\MedicalInstructionResource\Pages;
+use App\Filament\Resources\MedicalInstructionResource\RelationManagers;
 
 class MedicalInstructionResource extends Resource
 {
@@ -25,13 +26,13 @@ class MedicalInstructionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                ->required()
-                ->label(trans('title'))
-                ->unique(table: MedicalInstruction::class,ignoreRecord: true)
-                ->maxLength(150),
+                    ->required()
+                    ->label(trans('title'))
+                    ->unique(table: MedicalInstruction::class, ignoreRecord: true)
+                    ->maxLength(150),
                 Forms\Components\TextInput::make('title_ar')
                     ->required()
-                    ->unique(table: MedicalInstruction::class,ignoreRecord: true)
+                    ->unique(table: MedicalInstruction::class, ignoreRecord: true)
                     ->maxLength(150),
                 Forms\Components\FileUpload::make('image')
                     ->required(),
@@ -62,12 +63,16 @@ class MedicalInstructionResource extends Resource
                 Tables\Columns\TextColumn::make('title_ar')->label('Title in Arabic')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('publish_date')->dateTime()->label('Publish Date')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('duration')->label('Duration(days)')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('status')->label('status')->sortable()->searchable()
-                ->color('success'),
+                Tables\Columns\TextColumn::make('status')->label('status')->sortable()->searchable(),
 
             ])
             ->filters([
-                //
+                Filter::make('publishable')
+                    ->query(fn (Builder $query): Builder => $query->publishable()),
+                Filter::make('Finished')
+                    ->query(fn (Builder $query): Builder => $query->finished()),
+                Filter::make('not published yet')
+                    ->query(fn (Builder $query): Builder => $query->unpublished())
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -76,14 +81,14 @@ class MedicalInstructionResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -91,5 +96,5 @@ class MedicalInstructionResource extends Resource
             'create' => Pages\CreateMedicalInstruction::route('/create'),
             'edit' => Pages\EditMedicalInstruction::route('/{record}/edit'),
         ];
-    }    
+    }
 }

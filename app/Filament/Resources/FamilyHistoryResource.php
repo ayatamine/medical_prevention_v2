@@ -29,7 +29,6 @@ class FamilyHistoryResource extends Resource
                 ->unique(table: FamilyHistory::class,ignoreRecord:true)
                 ->maxLength(150),
             Forms\Components\TextInput::make('name_ar')
-                ->required()
                 ->unique(table: FamilyHistory::class,ignoreRecord:true)
                 ->maxLength(150),
             ]);

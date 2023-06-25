@@ -18,6 +18,7 @@ class SpecialityFactory extends Factory
     {
         return [
             'name'=>$this->faker->name,
+            'name_ar'=>$this->faker->name,
             'slug'=>$this->faker->slug,
         ];
     }

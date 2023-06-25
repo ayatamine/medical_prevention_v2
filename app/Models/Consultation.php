@@ -43,5 +43,12 @@ class Consultation extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+    public function scopeInCompleted(){
+        return $this->whereNull('finished_at');
+    }
+    public function scopeCompleted(){
+        return $this->whereNotNull('finished_at');
+    }
+
 
 }

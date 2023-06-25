@@ -17,24 +17,34 @@ class MedicalInstruction extends Model
         'publish_date'=>'date'
     ];
     protected $appends=['status'];
-
+    public function getPublishDateAttribute($date)
+    {
+         return $this->formatDate($date,'d-m-Y H:i');
+    }
     //get only publishable using duration and publish date
-    public function scopePublishable($query){
+    public function scopePublishable($query)
+    {
+        return $query->whereDate('publish_date', '<=', Carbon::today())
+        ->whereRaw('DATE_ADD(publish_date, INTERVAL duration DAY) > NOW()');
+    }
+    public function scopeFinished($query)
+    {
         return $query->whereDate('publish_date', '<=', now())
-                    ->where(function ($query) {
-                        $query->whereNull('duration')
-                            ->orWhereDate('publish_date', '>=', Carbon::now()->subDays($this->duration));
-                    });
-     }  
-     public function status(): Attribute
-     {
-        return Attribute::make(
-            get:function(){
-                if($this->publishable()) return trans('dashboard.running');
-                if( Carbon::now()->subDays($this->duration) < carbon::now()) return trans('dashboard.not_published_yet');
-                return trans('dashboard.finished');
-            }
-        );
-     } 
+            ->whereRaw('DATE_ADD(publish_date, INTERVAL duration DAY) <= NOW()');
+    }
+    public function scopeUnpublished($query)
+    {
+        return $query->whereDate('publish_date', '>', now());
+    }
+    public function status(): Attribute
+    {
+       return Attribute::make(
+           get:function(){
+               if($this->publishable()->count()) return trans('dashboard.running');
+               if($this->unpublished()->count()) return trans('dashboard.not_published_yet');
+               if($this->finished()->count()) return trans('dashboard.finished');
+           }
+       );
+    }
 
 }

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Exception;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -114,6 +115,28 @@ class DoctorRepository extends AbstractRepository
     public function updatePhone($request){
         $doctor =  request()->user();
         $doctor->update(['phone_number'=>$request->phone_number]);
+
+        return $doctor;
+    }
+    /**
+     * update Doctor phone number
+     * 
+     * @return Doctor instance
+     */
+    public function updateThumbnail($request){
+        $doctor = request()->user();
+        tap($doctor->thumbnail, function ($previous) use ($request, $doctor) {
+            $doctor->update([
+                'thumbnail' => $request['thumbnail']->storePublicly(
+                    'doctors/thumbnails',
+                    ['disk' => 'public']
+                ),
+            ]);
+
+            if ($previous) {
+                Storage::disk('public')->delete($previous);
+            }
+        });
 
         return $doctor;
     }

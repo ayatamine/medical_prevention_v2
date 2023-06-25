@@ -1,4 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
 
 module.exports = {
     theme: {
@@ -6,11 +8,19 @@ module.exports = {
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
+            colors: { 
+                danger: colors.rose,
+                primary: colors.blue,
+                success: colors.green,
+                warning: colors.yellow,
+            }, 
         },
     },
+    darkMode: 'class',
     variants: {
         extend: {
             backgroundColor: ['active'],
+
         }
     },
     content: [
@@ -23,9 +33,11 @@ module.exports = {
         './resources/**/*.php',
         './resources/**/*.vue',
         './resources/**/*.twig',
+        './resources/**/*.blade.php',
+        './vendor/filament/**/*.blade.php', 
     ],
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
-    ],
+    ], 
 }
