@@ -425,7 +425,6 @@ class PatientController extends Controller
      *      @OA\Parameter(  name="id", in="path", description="recommendation id ", required=true),
      *      @OA\Response( response=200, description="recommendation fetched successfully", @OA\JsonContent() ),
      *      @OA\Response( response=404, description="No Record Found", @OA\JsonContent() ),
-     *      @OA\Response( response=404, description="404 not found", @OA\JsonContent() ),
      *    )
      */
     public function recommendationDetails($id)
