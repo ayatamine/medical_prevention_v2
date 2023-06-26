@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')
             ->nullable()->references('id')->on('patients')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('scale_id')
-            ->nullable()->references('id')->on('scales')->onUpdate('cascade')->onDelete('cascade');
-            $table->text('scale_questions_answers')->nullable();
+            $table->foreignId('scale_question_id')
+            ->nullable()->references('id')->on('scale_questions')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('answer')->default(1);
             $table->timestamps();
         });
     }

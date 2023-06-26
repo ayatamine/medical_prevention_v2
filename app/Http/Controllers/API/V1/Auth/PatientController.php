@@ -380,10 +380,58 @@ class PatientController extends Controller
 
             $scales = $this->repository->scalesList();
 
-            
+
 
             return $this->api->success()
                 ->message('patient scales fetched successfully')
+                ->payload($scales)
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "No Record Found");
+        }
+    }
+    /**
+     * @OA\Get(
+     * path="/api/v1/patients/scales/{title}",
+     * operationId="getPatientScaleDetails",
+     * security={ {"sanctum": {} }},
+     * tags={"patients"},
+     * description="get patient filled scale details ",
+     *      @OA\Parameter( 
+     *     @OA\Schema(
+     *       default="anxiety",
+     *       type="string",
+     *       enum={
+     *         "anxiety",
+     *         "depression",
+     *       },
+     *     ),
+     *     description="Scale title",
+     *     example="anxiety",
+     *     in="path",
+     *     name="title",
+     *     required=true,
+     * ),
+     *     @OA\Response( response=200, description="scale details fetched successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+     *    )
+     */
+    public function patientScaleDetails($title)
+    {
+
+        try {
+            if ($title == 'anxiety') {
+                //anxiety scale
+                $scales = $this->repository->scaleDetails(1);
+            } else {
+                //depression scale
+                $scales = $this->repository->scaleDetails(2);
+            }
+
+
+
+            return $this->api->success()
+                ->message('patient scale details fetched successfully')
                 ->payload($scales)
                 ->send();
         } catch (Exception $ex) {

@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Speciality;
 use Exception;
+use App\Models\Doctor;
+use App\Models\Speciality;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -38,5 +39,17 @@ class SpecialityRepository extends AbstractRepository
     public function getDetails($id)
     {
        return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
+    }
+    /**
+     * @return speciality doctors
+     *  
+     */
+    public function getDoctors($speciality_id)
+    {
+    //    return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
+       $doctors = Doctor::whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
+        $query->where('id', $speciality_id);
+                })->get();
+        return $doctors;
     }
 }

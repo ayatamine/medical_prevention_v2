@@ -4,13 +4,16 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Page;
+use App\Models\Scale;
 use App\Models\LabTest;
 use App\Models\Patient;
 use App\Models\Language;
+use App\Models\Symptome;
 use App\Models\Consultation;
 use App\Models\Prescription;
 use App\Models\Advertisement;
 use App\Models\FamilyHistory;
+use App\Models\ScaleQuestion;
 use App\Models\SubSpeciality;
 use App\Models\Recommendation;
 use App\Models\BallanceHistory;
@@ -69,6 +72,15 @@ class DatabaseSeeder extends Seeder
         }
         if(!LabTest::count()){
             $this->call(LabTestSeeder::class);
+        }
+        if(!Symptome::count()){
+            $this->call(SymptomeSeeder::class);
+        }
+        if(!Scale::count()){
+            $this->call(ScaleSeeder::class);
+        }
+        if(!ScaleQuestion::count()){
+            $this->call(ScaleQuestionSeeder::class);
         }
 
 

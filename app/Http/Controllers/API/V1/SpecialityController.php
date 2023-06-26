@@ -6,6 +6,7 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorResource;
 use App\Http\Resources\SpecialityResource;
 use App\Repositories\SpecialityRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -71,6 +72,42 @@ class SpecialityController extends Controller
                  return $this->api->success()
                         ->message('speciality details fetched successfully')
                         ->payload((new SpecialityResource($speciality))->resolve())
+                        ->send();
+            }
+             catch(Exception $ex){
+                if ($ex instanceof ModelNotFoundException) {
+                    return $this->api->failed()->code(404)
+                                ->message("no speciality found with the given id")
+                                ->send();
+        
+                }
+                return $this->api->failed()->code(500)
+                                    ->message($ex->getMessage())
+                                    ->send();
+            }
+            
+        }
+               /**
+       * @OA\Get(
+        * path="/api/v1/specialities/{id}/doctors",
+        * operationId="speciality_doctors",
+        * tags={"specialities"},
+        * summary="get doctors of a speciality by id  ",
+        * description="get doctors of a speciality by id  ",
+        *      @OA\Parameter(  name="id", in="path", description="speciality id ", required=true),
+        *      @OA\Response( response=200, description="speciality doctors fetched successfully", @OA\JsonContent() ),
+        *      @OA\Response( response=404, description="no speciality found with the given id", @OA\JsonContent() ),
+        *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+        *    )
+        */
+        public function doctors($speciality_id)
+        {
+            try {
+                 $doctors = $this->repository->getDoctors($speciality_id);
+                 return response()->json($doctors);
+                 return $this->api->success()
+                        ->message('speciality doctors details fetched successfully')
+                        ->payload($doctors)
                         ->send();
             }
              catch(Exception $ex){

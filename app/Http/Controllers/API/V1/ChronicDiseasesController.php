@@ -27,6 +27,7 @@ class ChronicDiseasesController extends Controller
      *      operationId="chronicDiseasesindex",
      *      tags={"chronicDiseases"},
      *      description="Get list of chronic diseases",
+     *      @OA\Parameter(  name="limit", in="query", description="limit records"),
      *      @OA\Response(
      *          response=200,
      *          description="chronic diseases fetched successfuly",

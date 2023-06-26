@@ -1186,6 +1186,55 @@
                 ]
             }
         },
+        "/api/v1/patients/scales/{title}": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get patient filled scale details ",
+                "operationId": "getPatientScaleDetails",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "Scale title",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "anxiety",
+                            "enum": [
+                                "anxiety",
+                                "depression"
+                            ]
+                        },
+                        "example": "anxiety"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "scale details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/recommendations": {
             "get": {
                 "tags": [
@@ -1316,6 +1365,13 @@
                 ],
                 "description": "Get list of chronic diseases",
                 "operationId": "chronicDiseasesindex",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "chronic diseases fetched successfuly",
@@ -1890,6 +1946,77 @@
                     },
                     "500": {
                         "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/specialities/{id}/doctors": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get doctors of a speciality by id  ",
+                "description": "get doctors of a speciality by id  ",
+                "operationId": "speciality_doctors",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "speciality id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "speciality doctors fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/symptomes": {
+            "get": {
+                "tags": [
+                    "symptomes"
+                ],
+                "description": "Get list of common symptomes",
+                "operationId": "symptomesindex",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "common symptomes fetched successfuly",
                         "content": {
                             "application/json": {
                                 "schema": {}

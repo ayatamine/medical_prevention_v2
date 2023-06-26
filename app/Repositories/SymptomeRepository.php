@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\ChronicDiseases;
+use App\Models\Symptome;
 use Exception;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
-class ChronicDiseasesRepository extends AbstractRepository
+class SymptomeRepository extends AbstractRepository
 {
     /**
      * Specify Model class name
      *
      * @return string
      */
-    protected $model = ChronicDiseases::class;
+    protected $model = Symptome::class;
     /**
      * Valid orderable columns.
      *
@@ -24,16 +24,16 @@ class ChronicDiseasesRepository extends AbstractRepository
         'created_at',
     ];
     /**
-     * @return ChronicDiseases instances 
+     * @return $this->model instances 
      *  
      */
     public function fetchAll()
     {
-        if(array_key_exists('limit',request()->query()))return ChronicDiseases::select('id','name','name_ar')->limit(request()->query()['limit'])->get();
-        return ChronicDiseases::select('id','name','name_ar')->get();
+        if(array_key_exists('limit',request()->query()))  return $this->model::select('id','name','name_ar')->limit(request()->query()['limit'])->get();
+        return $this->model::select('id','name','name_ar')->get();
     }
     /**
-     * @return ChronicDiseases instance 
+     * @return $this->model instance 
      *  
      */
     // public function getDetails($id)

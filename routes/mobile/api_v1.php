@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api_v1.'], function () {
     Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class,'index']);
+    Route::get('/symptomes', [\App\Http\Controllers\API\V1\SymptomeController::class,'index']);
     Route::get('/family-histories', [\App\Http\Controllers\API\V1\FamilyHistoryController::class,'index']);
     Route::get('/advertisements', [\App\Http\Controllers\API\V1\AdvertisementsController::class,'index']);
     Route::get('/medical-instructions', [\App\Http\Controllers\API\V1\MedicalInstructionController::class,'index']);
     Route::get('/specialities', [\App\Http\Controllers\API\V1\SpecialityController::class,'index']);
     Route::get('/specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class,'show']);
+    Route::get('/specialities/{speciality_id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class,'doctors']);
    
     Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class,'getPage']);
 
@@ -27,6 +29,7 @@ Route::group(['as' => 'api_v1.'], function () {
 
             //patient scales
             Route::get('scales', 'getPatientScales');
+            Route::get('scales/{title}', 'patientScaleDetails');
             // recommendation with age and sex filtered base on the patient
             Route::get('/recommendations','recommendations');
             Route::get('/recommendations/{id}','recommendationDetails');
