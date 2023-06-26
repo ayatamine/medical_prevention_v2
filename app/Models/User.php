@@ -14,7 +14,10 @@ class User extends Authenticatable implements FilamentUser,HasAvatar
 {
     public function canAccessFilament(): bool
     {
-        return str_ends_with($this->email, '@neomed.com');
+        if (!app()->environment('local')) {
+            return str_ends_with($this->email, '@neomed.com');
+        }
+        return true;
         //&& $this->hasVerifiedEmail();
     }
     public function getFilamentAvatarUrl(): ?string
