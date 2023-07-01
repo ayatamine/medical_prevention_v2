@@ -25,7 +25,7 @@ class SymptomeController extends Controller
      * @OA\Get(
      *      path="/api/v1/symptomes",
      *      operationId="symptomesindex",
-     *      tags={"symptomes"},
+     *      tags={"patientApp"},
      *      description="Get list of common symptomes",
      *      @OA\Parameter(  name="limit", in="query", description="limit records",required=false),
      *      @OA\Response(

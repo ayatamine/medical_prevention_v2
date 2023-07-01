@@ -11,7 +11,7 @@
         "/api/v1/advertisements": {
             "get": {
                 "tags": [
-                    "advertisemens"
+                    "patientApp"
                 ],
                 "description": "Get list of existing publishable advertisments",
                 "operationId": "Advertisement_index",
@@ -467,6 +467,10 @@
                                     },
                                     "certification_file": {
                                         "type": "file"
+                                    },
+                                    "location": {
+                                        "description": "json location when picked from map",
+                                        "type": "json"
                                     }
                                 },
                                 "type": "object"
@@ -1361,7 +1365,7 @@
         "/api/v1/chronic-diseases": {
             "get": {
                 "tags": [
-                    "chronicDiseases"
+                    "patientApp"
                 ],
                 "description": "Get list of chronic diseases",
                 "operationId": "chronicDiseasesindex",
@@ -1579,6 +1583,96 @@
                 ]
             }
         },
+        "/api/v1/doctors": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of existing doctors",
+                "operationId": "doctor_list",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctors fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/{id}/add-to-favorites": {
+            "post": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "add a doctor to a patient favorites",
+                "operationId": "addd_doctor_to_favorites",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "doctor id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor added to favorites successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/{id}/remove-from-favorites": {
+            "delete": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "remove a doctor from a patient favorites",
+                "operationId": "remove_doctor_from_favorites",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "doctor id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor removed from favorites successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/notification-status/{status}": {
             "put": {
                 "tags": [
@@ -1678,7 +1772,7 @@
         "/api/v1/family-histories": {
             "get": {
                 "tags": [
-                    "family_history"
+                    "patientApp"
                 ],
                 "description": "Get list of existing family histories",
                 "operationId": "family_history_index",
@@ -1697,7 +1791,7 @@
         "/api/v1/medical-instructions": {
             "get": {
                 "tags": [
-                    "medical_instructions"
+                    "patientApp"
                 ],
                 "description": "Get list of existing medical instructions",
                 "operationId": "medical_instructions",
@@ -2002,7 +2096,7 @@
         "/api/v1/symptomes": {
             "get": {
                 "tags": [
-                    "symptomes"
+                    "patientApp"
                 ],
                 "description": "Get list of common symptomes",
                 "operationId": "symptomesindex",

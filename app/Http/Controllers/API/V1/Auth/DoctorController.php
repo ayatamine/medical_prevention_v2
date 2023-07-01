@@ -365,6 +365,7 @@ class DoctorController extends Controller
      *                 @OA\Property( property="medical_licence_file",type="file"),
      *                 @OA\Property( property="cv_file",type="file"),
      *                 @OA\Property( property="certification_file",type="file"),
+     *                 @OA\Property( property="location",description="json location when picked from map",type="json"),
      *             ),
      *       )
      *    ),

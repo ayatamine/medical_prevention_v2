@@ -26,7 +26,7 @@ class AdvertisementsController extends Controller
      * @OA\Get(
      *      path="/api/v1/advertisements",
      *      operationId="Advertisement_index",
-     *      tags={"advertisemens"},
+     *      tags={"patientApp"},
      *      description="Get list of existing publishable advertisments",
      *      @OA\Response(
      *          response=200,

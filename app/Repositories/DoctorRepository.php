@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Exception;
 use App\Models\Doctor;
+use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
@@ -215,6 +216,30 @@ class DoctorRepository extends AbstractRepository
 
             throw $ex;
         }
-
+      
+    }
+    public function index(){
+        $doctors = Doctor::when(Rating::count() > 10 ,function ($query){
+                $query->whereHas('reviews', function ($query) {
+                    $query->where('rating', '>', 3);
+                });
+         })
+        ->active()
+        ->online()
+        ->withCount('reviews')
+        ->withSum('reviews', 'rating')
+        ->when(array_key_exists('limit',request()->query()),function ($query){
+            $query->limit(request()->query()['limit']);
+        })
+        ->get();
+        return $doctors;
+    }
+    /** add doctor to favorites */
+    public function addToFavorites($id){
+        if(Doctor::findOrFail($id) && !request()->user()->favorites()->where('doctor_id', $id)->exists()) request()->user()->favorites()->attach($id);
+    }
+    /** add doctor to favorites */
+    public function removeFromFavorites($id){
+        if(Doctor::findOrFail($id) && request()->user()->favorites()->where('doctor_id', $id)->exists())  request()->user()->favorites()->detach($id);
     }
 }
