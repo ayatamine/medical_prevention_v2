@@ -1592,6 +1592,27 @@
                 "operationId": "doctor_list",
                 "parameters": [
                     {
+                        "name": "search",
+                        "in": "query",
+                        "description": "search doctors"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "sort doctors",
+                        "schema": {
+                            "type": "string",
+                            "default": false,
+                            "enum": [
+                                "best_rated",
+                                "latest",
+                                "oldest",
+                                "is_online"
+                            ]
+                        },
+                        "example": "0"
+                    },
+                    {
                         "name": "limit",
                         "in": "query",
                         "description": "limit records"
@@ -2063,6 +2084,11 @@
                         "in": "path",
                         "description": "speciality id ",
                         "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
                     }
                 ],
                 "responses": {

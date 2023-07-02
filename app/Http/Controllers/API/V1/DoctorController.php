@@ -32,6 +32,12 @@ class DoctorController extends Controller
      *      operationId="doctor_list",
      *      tags={"patientApp"},
      *      description="Get list of existing doctors",
+     *      @OA\Parameter(  name="search", in="query", description="search doctors"),
+     *     @OA\Parameter(     @OA\Schema( default=false, type="string",
+     *      enum={"best_rated","latest","oldest","is_online"} ),
+     *       description="sort doctors",
+     *       example="0", in="query", name="sort",
+     *      ),
      *      @OA\Parameter(  name="limit", in="query", description="limit records"),
      *      @OA\Response(
      *          response=200,
@@ -44,11 +50,12 @@ class DoctorController extends Controller
     {
         try {
             $doctors = $this->repository->index();
-
-            return $this->api->success()
-                ->message("doctors fetched successfuly")
-                ->payload(SimpleDoctorResource::collection($doctors))
-                ->send();
+            if(array_key_exists('limit', request()->query())) return SimpleDoctorResource::collection($doctors->paginate(request()->query()['limit']));
+            return SimpleDoctorResource::collection($doctors->get());
+            // return $this->api->success()
+            //     ->message("doctors fetched successfuly")
+            //     ->payload(SimpleDoctorResource::collection($doctors))
+            //     ->send();
         } catch (Exception $ex) {
             return $this->api->failed()
                 ->code($ex->getCode())

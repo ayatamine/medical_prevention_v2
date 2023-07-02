@@ -12,7 +12,7 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/medical-instructions', [\App\Http\Controllers\API\V1\MedicalInstructionController::class, 'index']);
     Route::get('/specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'index']);
     Route::get('/specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'show']);
-    Route::get('/specialities/{speciality_id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'doctors']);
+    Route::get('/specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'doctors'])->name('speciality_doctors');
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);

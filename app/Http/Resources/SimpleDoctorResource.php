@@ -25,4 +25,5 @@ class SimpleDoctorResource extends JsonResource
             "thumbnail" => $this->thumbnail ,
         ];
     }
+    
 }

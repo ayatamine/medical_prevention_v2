@@ -30,7 +30,7 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getWithSubs()
     {
-       return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->get();
+        return Speciality::select('id', 'name', 'name_ar')->with('sub_specialities:id,speciality_id,name')->get();
     }
     /**
      * @return speciality instance with subs
@@ -38,7 +38,7 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getDetails($id)
     {
-       return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
+        return Speciality::select('id', 'name', 'name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
     }
     /**
      * @return speciality doctors
@@ -46,10 +46,18 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getDoctors($speciality_id)
     {
-    //    return Speciality::select('id','name','name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
-       $doctors = Doctor::whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
-        $query->where('id', $speciality_id);
-                })->get();
+        $search = request()->query('search'); // Get the search keyword
+        $bestRated = request()->query('best_rated'); // Get the best-rated filter
+        $latest = request()->query('latest'); // Get the lower price filter
+        $oldest = request()->query('oldest'); // Get the lower price filter
+        $is_online = request()->query('is_online'); // Get the lower price filter
+
+        $doctors = Doctor::active()->withCount('reviews')
+            ->withSum('reviews', 'rating')
+            ->whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
+                $query->where('id', $speciality_id);
+            });
         return $doctors;
     }
+  
 }
