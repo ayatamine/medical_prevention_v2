@@ -56,19 +56,19 @@ class Doctor extends Model
     public function cvFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
+            get: fn ($value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
         );
     }
     public function medicalLicenceFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
+            get: fn ($value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
         );
     }
     public function certificationFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
+            get: fn ( $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
         );
     }
     //////////////////////////////////- relationships-///////////////////////

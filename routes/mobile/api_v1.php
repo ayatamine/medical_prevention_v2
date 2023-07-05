@@ -52,10 +52,10 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/verify', 'loginWithOtp');
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
-            Route::get('home-profile-data', 'getHomeProfileData');
-            Route::get('my-profile', 'profileDetails');
+            Route::get('/profile/home', 'getHomeProfileData');
+            Route::get('/profile/main', 'profileDetails');
             Route::post('logout', 'logout');
-            Route::put('profile/update', 'updateProfile');
+            Route::post('profile/update', 'updateProfile');
             Route::put('profile/update-phone-number', 'updatePhone');
             Route::delete('delete-account', 'deleteAccount');
             Route::post('/update-thumbnail', 'updateThumbnail');

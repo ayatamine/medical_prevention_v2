@@ -181,7 +181,14 @@ class DoctorRepository extends AbstractRepository
             if(isset($request['sub_specialities'])){
                 $doctor->sub_specialities()->sync(explode(',',$request['sub_specialities']));
             }
+            if(isset($equest['medical_licence_file'])) {unset($equest['medical_licence_file']) ;}  
+            if(isset($equest['cv_file'])) {unset($equest['cv_file']) ;} 
+            if(isset($equest['certification_file'])) {unset($equest['certification_file']) ;} 
+            if(isset($equest['sub_specialities'])) {unset($equest['sub_specialities']) ;} 
+           
+            $doctor->update($request);
             //commit 
+            return $doctor;
             DB::commit();
             return $doctor;
         }
@@ -296,5 +303,14 @@ class DoctorRepository extends AbstractRepository
             })
             ->get();
         return $doctors;
+    }
+    public function show($id)
+    {
+        $doctor =  Doctor::active()
+            ->with('reviews')
+            ->withSum('reviews', 'rating')
+            ->with('sub_specialities:id,name,name_ar,slug')
+            ->findOrfail($id);
+        return $doctor;
     }
 }

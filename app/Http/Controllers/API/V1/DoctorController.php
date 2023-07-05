@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorProfileResource;
 use App\Repositories\DoctorRepository;
 use App\Http\Resources\SimpleDoctorResource;
 
@@ -144,11 +145,43 @@ class DoctorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/api/v1/doctors/{id}",
+     *      operationId="doctor_details",
+     *      tags={"patientApp"},
+     *      description="Get doctor details",
+     *      @OA\Parameter(  name="id", in="path", description="doctor id"),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctor details fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No doctor found with the given id",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            $doctor = $this->repository->show($id);
+         
+            return $this->api->success()
+                ->message("Doctor details fetched successfuly")
+                ->payload(new DoctorProfileResource($doctor))
+                ->send();
+        } catch (Exception $ex) {
+            return $this->api->failed()
+                ->message($ex->getMessage())
+                ->send();
+        }
     }
 
     /**

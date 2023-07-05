@@ -276,7 +276,7 @@
                 }
             }
         },
-        "/api/v1/doctors/home-profile-data": {
+        "/api/v1/doctors/profile/home": {
             "get": {
                 "tags": [
                     "doctors"
@@ -309,14 +309,14 @@
                 ]
             }
         },
-        "/api/v1/doctors/my-profile": {
+        "/api/v1/doctors/profile/main": {
             "get": {
                 "tags": [
                     "doctors"
                 ],
-                "summary": "get profile data of a doctor ",
-                "description": "get profile data of a doctor",
-                "operationId": "profile",
+                "summary": "get main profile data of a doctor ",
+                "description": "get main profile data of a doctor",
+                "operationId": "profileDetails",
                 "responses": {
                     "200": {
                         "description": "profile fetched successfully",
@@ -409,7 +409,7 @@
             }
         },
         "/api/v1/doctors/profile/update": {
-            "put": {
+            "post": {
                 "tags": [
                     "doctors"
                 ],
@@ -471,6 +471,10 @@
                                     "location": {
                                         "description": "json location when picked from map",
                                         "type": "json"
+                                    },
+                                    "bio": {
+                                        "description": "doctor bio",
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
@@ -1692,6 +1696,48 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/doctors/{id}": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get doctor details",
+                "operationId": "doctor_details",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "doctor id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor details fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No doctor found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/doctors/notification-status/{status}": {
