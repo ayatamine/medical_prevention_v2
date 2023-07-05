@@ -225,7 +225,7 @@ class DoctorController extends Controller
     }
     /**
      * @OA\Get(
-     * path="/api/v1/doctors/home-profile-data",
+     * path="/api/v1/doctors/profile/home",
      * operationId="getHomeProfileData",
      * tags={"doctors"},
      * security={ {"sanctum": {} }},
@@ -251,12 +251,12 @@ class DoctorController extends Controller
     }
     /**
      * @OA\Get(
-     * path="/api/v1/doctors/my-profile",
-     * operationId="profile",
+     * path="/api/v1/doctors/profile/main",
+     * operationId="profileDetails",
      * tags={"doctors"},
      * security={ {"sanctum": {} }},
-     * summary="get profile data of a doctor ",
-     * description="get profile data of a doctor",
+     * summary="get main profile data of a doctor ",
+     * description="get main profile data of a doctor",
      *      @OA\Response( response=200, description="profile fetched successfully", @OA\JsonContent() ),
      *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
      *    )
@@ -342,7 +342,7 @@ class DoctorController extends Controller
         }
     }
     /**
-     * @OA\Put(
+     * @OA\Post(
      * path="/api/v1/doctors/profile/update",
      * operationId="update doctor profile",
      * security={ {"sanctum": {} }},
@@ -365,6 +365,8 @@ class DoctorController extends Controller
      *                 @OA\Property( property="medical_licence_file",type="file"),
      *                 @OA\Property( property="cv_file",type="file"),
      *                 @OA\Property( property="certification_file",type="file"),
+     *                 @OA\Property( property="location",description="json location when picked from map",type="json"),
+     *                 @OA\Property( property="bio",description="doctor bio",type="text"),
      *             ),
      *       )
      *    ),
@@ -381,7 +383,7 @@ class DoctorController extends Controller
 
             return $this->api->success()
                 ->message('Profile updated successfully')
-                ->payload(new DoctorResource($doctor))
+                ->payload($doctor)
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No Doctor Found please verify your login");

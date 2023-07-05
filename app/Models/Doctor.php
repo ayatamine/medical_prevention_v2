@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Rating;
 use App\Models\Prescription;
 use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,7 +43,8 @@ class Doctor extends Model
         'classification_number',
         'insurance_number',
         'medical_licence_file','cv_file','certification_file',
-        'ballance'
+        'ballance',
+        'location',
     ];
     // accesors
     public function thumbnail():Attribute
@@ -54,19 +56,19 @@ class Doctor extends Model
     public function cvFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
+            get: fn ($value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
         );
     }
     public function medicalLicenceFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
+            get: fn ($value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
         );
     }
     public function certificationFile():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
+            get: fn ( $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
         );
     }
     //////////////////////////////////- relationships-///////////////////////
@@ -129,5 +131,19 @@ class Doctor extends Model
     public function prescriptions():HasMany
     {
         return $this->hasMany(Prescription::class);
+    }
+    public function reviews():HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function scopeOnline(){
+        return $this->where('online_status',true);
+    }
+    public function scopeActive(){
+        return $this->where('account_status',"accepted");
+    }
+    public function patientsFavoritedMe()
+    {
+        return $this->belongsToMany(Patient::class, 'patient_favorites', 'patient_id', 'doctor_id');
     }
 }

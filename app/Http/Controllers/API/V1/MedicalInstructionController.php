@@ -26,7 +26,7 @@ class MedicalInstructionController extends Controller
      * @OA\Get(
      *      path="/api/v1/medical-instructions",
      *      operationId="medical_instructions",
-     *      tags={"medical_instructions"},
+     *      tags={"patientApp"},
      *      description="Get list of existing medical instructions",
      *      @OA\Response(
      *          response=200,

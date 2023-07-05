@@ -25,7 +25,7 @@ class FamilyHistoryController extends Controller
      * @OA\Get(
      *      path="/api/v1/family-histories",
      *      operationId="family_history_index",
-     *      tags={"family_history"},
+     *      tags={"patientApp"},
      *      description="Get list of existing family histories",
      *      @OA\Response(
      *          response=200,

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Exception;
 use App\Models\Doctor;
+use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
@@ -180,7 +181,14 @@ class DoctorRepository extends AbstractRepository
             if(isset($request['sub_specialities'])){
                 $doctor->sub_specialities()->sync(explode(',',$request['sub_specialities']));
             }
+            if(isset($equest['medical_licence_file'])) {unset($equest['medical_licence_file']) ;}  
+            if(isset($equest['cv_file'])) {unset($equest['cv_file']) ;} 
+            if(isset($equest['certification_file'])) {unset($equest['certification_file']) ;} 
+            if(isset($equest['sub_specialities'])) {unset($equest['sub_specialities']) ;} 
+           
+            $doctor->update($request);
             //commit 
+            return $doctor;
             DB::commit();
             return $doctor;
         }
@@ -215,6 +223,94 @@ class DoctorRepository extends AbstractRepository
 
             throw $ex;
         }
+      
+    }
+    public function index(){
 
+        $search = request()->query('search'); // Get the search keyword
+        // $bestRated = request()->query('best_rated'); // Get the best-rated filter
+        // $latest = request()->query('latest'); // Get the lower price filter
+        // $oldest = request()->query('oldest'); // Get the lower price filter
+        // $is_online = request()->query('is_online'); // Get the lower price filter
+        $sort = request()->query('sort');
+
+        $doctors = Doctor::active()->withCount('reviews')
+            ->withSum('reviews', 'rating')
+            ->when($sort == "best_rated", function ($query) {
+                $query->orderBy('reviews_sum_rating', 'desc');
+            })
+            ->when($sort == "latest", function ($query) {
+                $query->latest();
+            })
+            ->when($sort == "oldest", function ($query) {
+                $query->oldest();
+            })
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('full_name', 'like', '%' . $search . '%')
+                        ->orWhere('job_title', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($sort == "is_online", function ($query, $search) {
+                $query->online();
+            });
+        return $doctors;
+    }
+    /** add doctor to favorites */
+    public function addToFavorites($id){
+        if(Doctor::findOrFail($id) && !request()->user()->favorites()->where('doctor_id', $id)->exists()) request()->user()->favorites()->attach($id);
+    }
+    /** add doctor to favorites */
+    public function removeFromFavorites($id){
+        if(Doctor::findOrFail($id) && request()->user()->favorites()->where('doctor_id', $id)->exists())  request()->user()->favorites()->detach($id);
+    }
+      /**
+     * @return speciality doctors
+     *  
+     */
+    public function searchDoctors($speciality_id)
+    {
+        $search = request()->query('search'); // Get the search keyword
+        $bestRated = request()->query('best_rated'); // Get the best-rated filter
+        $latest = request()->query('latest'); // Get the lower price filter
+        $oldest = request()->query('oldest'); // Get the lower price filter
+        $is_online = request()->query('is_online'); // Get the lower price filter
+
+        $doctors = Doctor::active()->withCount('reviews')
+            ->withSum('reviews', 'rating')
+            ->whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
+                $query->where('id', $speciality_id);
+            })
+            ->when($bestRated, function ($query) {
+                $query->orderBy('reviews_sum_rating', 'desc');
+            })
+            ->when($latest, function ($query) {
+                $query->latest();
+            })
+            ->when($oldest, function ($query) {
+                $query->oldest();
+            })
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('full_name', 'like', '%' . $search . '%')
+                        ->orWhere('job_title', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($is_online, function ($query, $search) {
+                $query->where('online_status', true);
+            })->when(array_key_exists('limit', request()->query()), function ($query) {
+                $query->paginate(request()->query()['limit']);
+            })
+            ->get();
+        return $doctors;
+    }
+    public function show($id)
+    {
+        $doctor =  Doctor::active()
+            ->with('reviews')
+            ->withSum('reviews', 'rating')
+            ->with('sub_specialities:id,name,name_ar,slug')
+            ->findOrfail($id);
+        return $doctor;
     }
 }

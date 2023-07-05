@@ -25,7 +25,7 @@ class ChronicDiseasesController extends Controller
      * @OA\Get(
      *      path="/api/v1/chronic-diseases",
      *      operationId="chronicDiseasesindex",
-     *      tags={"chronicDiseases"},
+     *      tags={"patientApp"},
      *      description="Get list of chronic diseases",
      *      @OA\Parameter(  name="limit", in="query", description="limit records"),
      *      @OA\Response(

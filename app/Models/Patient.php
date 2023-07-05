@@ -99,4 +99,12 @@ class Patient extends Model
     {
         return $this->morphMany(Message::class, 'receiver');
     }
+    public function reviews():HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function favorites()
+    {
+        return $this->belongsToMany(Doctor::class, 'patient_favorites', 'patient_id', 'doctor_id');    
+    }
 }
