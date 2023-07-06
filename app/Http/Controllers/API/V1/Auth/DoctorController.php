@@ -145,6 +145,15 @@ class DoctorController extends Controller
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
+            $doctor = Doctor::whereDeletedAt(null)
+                            ->where('phone_number', $request->phone_number)
+                            ->whereNot('account_status',"pending")
+                            ->firstOrFail();
+            if(!$doctor) {
+                return $this->api->failed()->code(401)
+                ->message("Your account is not ativated yet")
+                ->send();
+            }       
             $otp = generate_otp($request->phone_number, 'Doctor');
             return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp);
         } catch (Exception $ex) {

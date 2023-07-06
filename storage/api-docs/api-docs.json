@@ -1587,6 +1587,30 @@
                 ]
             }
         },
+        "/api/v1/consultations/pay": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "pay for consultation",
+                "operationId": "pay_consult",
+                "responses": {
+                    "200": {
+                        "description": "Doctors fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors": {
             "get": {
                 "tags": [

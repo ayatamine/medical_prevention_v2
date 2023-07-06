@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SpecialityResource\Pages;
-use App\Filament\Resources\SpecialityResource\RelationManagers;
-use App\Models\Speciality;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Speciality;
+use Illuminate\Support\Str;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\SpecialityResource\Pages;
+use App\Filament\Resources\SpecialityResource\RelationManagers;
 
 class SpecialityResource extends Resource
 {
@@ -29,8 +30,13 @@ class SpecialityResource extends Resource
                 ->required()
                 ->label(trans('name'))
                 ->unique(table: Speciality::class,ignoreRecord:true)
+                ->reactive()
+                ->afterStateUpdated(fn($state, callable $set)=> $set('slug',Str::slug($state)))
                 ->maxLength(150),
             Forms\Components\TextInput::make('name_ar')
+                ->unique(table: Speciality::class,ignoreRecord:true)
+                ->maxLength(150),
+            Forms\Components\TextInput::make('slug')
                 ->unique(table: Speciality::class,ignoreRecord:true)
                 ->maxLength(150),
             ]);

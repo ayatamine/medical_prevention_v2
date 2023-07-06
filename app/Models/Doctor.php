@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Rating;
 use App\Models\Prescription;
+use App\Models\SubSpeciality;
 use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
@@ -79,7 +80,7 @@ class Doctor extends Model
     public function sub_specialities():BelongsToMany
     {
         return $this->belongsToMany(
-            Subspeciality::class,
+            SubSpeciality::class,
             'doctor_sub_speciality',
             'doctor_id',
             'sub_speciality_id'

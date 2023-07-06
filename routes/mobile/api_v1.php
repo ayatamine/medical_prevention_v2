@@ -14,9 +14,10 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'show']);
     Route::get('/specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'doctors'])->name('speciality_doctors');
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
-    Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);
         Route::delete('/doctors/{id}/remove-from-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'removeFromFavorites']);
+        Route::get('/consultations/pay', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
     });
     Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class, 'getPage']);
 
