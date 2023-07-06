@@ -1392,6 +1392,46 @@
                 }
             }
         },
+        "/api/v1/consultations": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "description": "fetch doctor consultation (pending,accepted,finished)",
+                "operationId": "get_doctor_consultations",
+                "responses": {
+                    "200": {
+                        "description": "consultations fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/consultations/{id}/approve": {
             "post": {
                 "tags": [
@@ -1596,7 +1636,7 @@
                 "operationId": "pay_consult",
                 "responses": {
                     "200": {
-                        "description": "Doctors fetched successfuly",
+                        "description": "fetched successfuly",
                         "content": {
                             "application/json": {
                                 "schema": {}

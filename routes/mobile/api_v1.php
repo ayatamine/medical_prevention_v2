@@ -67,6 +67,7 @@ Route::group(['as' => 'api_v1.'], function () {
 Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
     Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class, 'ballance_history'])->prefix('doctors');
     Route::controller(\App\Http\Controllers\API\V1\ConsultationController::class)->prefix('consultations')->group(function () {
+        Route::get('/', 'index');
         Route::post('/{id}/approve', 'approveConsult');
         Route::post('/{id}/reject', 'rejectConsult');
         Route::post('/{id}/add-summary', 'addSummary');

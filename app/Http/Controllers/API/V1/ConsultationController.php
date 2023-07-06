@@ -10,6 +10,7 @@ use App\Http\Requests\SummaryRequest;
 
 use App\Repositories\ConsultationRepository;
 use function App\Helpers\handleTwoCommunErrors;
+use App\Http\Resources\DoctorConsultationResource;
 
 class ConsultationController extends Controller
 {
@@ -19,13 +20,47 @@ class ConsultationController extends Controller
      * @var ConsultationRepository
      * @var ApiResponse
      */
-    public $apiResponse;
-    public function __construct(ConsultationRepository $repository, ApiResponse $apiResponse)
+    public function __construct(ConsultationRepository $repository, ApiResponse $api)
     {
-        $this->apiResponse = $apiResponse;
+        $this->api = $api;
         $this->repository = $repository;
     }
+    
+    /**
+     * @OA\Get(
+     *      path="/api/v1/consultations",
+     *      operationId="get_doctor_consultations",
+     *      tags={"doctors"},
+     *      security={ {"sanctum": {} }},
+     *      description="fetch doctor consultation (pending,accepted,finished)",
+     *      @OA\Response(
+     *          response=200,
+     *          description="consultations fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     */
+    public function index(){
+        try {
 
+            return $this->api->success()
+                ->payload(new DoctorConsultationResource(request()->user()))
+                ->message("The consultations fetched successfully")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "There is no doctor with the given details please verify login");
+        }
+    }
     /**
      * @OA\Post(
      * path="/api/v1/consultations/{id}/approve",
@@ -127,7 +162,7 @@ class ConsultationController extends Controller
      *      description="pay for consultation",
      *      @OA\Response(
      *          response=200,
-     *          description="Doctors fetched successfuly",
+     *          description="fetched successfuly",
      *          @OA\JsonContent()
      *       )
      *     )

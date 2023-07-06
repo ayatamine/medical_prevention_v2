@@ -19,7 +19,7 @@ class PatientResource extends Resource
 {
     protected static ?string $model = Patient::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'icons.patient';
     protected static ?string $navigationGroup = 'Patients';
     public static function form(Form $form): Form
     {
