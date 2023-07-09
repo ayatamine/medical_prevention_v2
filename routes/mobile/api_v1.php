@@ -17,7 +17,8 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);
         Route::delete('/doctors/{id}/remove-from-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'removeFromFavorites']);
-        Route::get('/consultations/pay', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
+        Route::post('/consultations/payment/create', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
+        Route::post('/consultations/payment/verify', [\App\Http\Controllers\API\V1\ConsultationController::class, 'paymentVerify']);
     });
     Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class, 'getPage']);
 
@@ -53,8 +54,9 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/verify', 'loginWithOtp');
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
+            Route::get('/profile/my', 'show');
             Route::get('/profile/home', 'getHomeProfileData');
-            Route::get('/profile/main', 'profileDetails');
+            // Route::get('/profile/main', 'profileDetails');
             Route::post('logout', 'logout');
             Route::post('profile/update', 'updateProfile');
             Route::put('profile/update-phone-number', 'updatePhone');

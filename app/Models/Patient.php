@@ -41,6 +41,7 @@ class Patient extends Model
         'allergy_id',
         'chronic_diseases_id',
         'family_history_id',
+        'ballance'
     
     ];
      /* ************************ RELATIONS ************************ */

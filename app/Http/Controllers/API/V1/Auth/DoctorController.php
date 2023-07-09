@@ -258,27 +258,53 @@ class DoctorController extends Controller
             return handleTwoCommunErrors($ex, "no doctor found with the given id");
         }
     }
+    // /**
+    //  * @OA\Get(
+    //  * path="/api/v1/doctors/profile/main",
+    //  * operationId="profileDetails",
+    //  * tags={"doctors"},
+    //  * security={ {"sanctum": {} }},
+    //  * summary="get main profile data of a doctor ",
+    //  * description="get main profile data of a doctor",
+    //  *      @OA\Response( response=200, description="profile fetched successfully", @OA\JsonContent() ),
+    //  *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
+    //  *    )
+    //  */
+
+    // public function profileDetails()
+    // {
+
+    //     try {
+
+    //         return $this->api->success()
+    //             ->message('Profile fetched successfully')
+    //             ->payload(new DoctorProfileDataResource(request()->user()))
+    //             ->send();
+    //     } catch (Exception $ex) {
+    //         return handleTwoCommunErrors($ex, "no doctor found with the given id");
+    //     }
+    // }
     /**
      * @OA\Get(
-     * path="/api/v1/doctors/profile/main",
-     * operationId="profileDetails",
+     * path="/api/v1/doctors/profile/my",
+     * operationId="show_doctor_details",
      * tags={"doctors"},
      * security={ {"sanctum": {} }},
-     * summary="get main profile data of a doctor ",
-     * description="get main profile data of a doctor",
+     * summary="get main doctor details",
+     * description="get main doctor details",
      *      @OA\Response( response=200, description="profile fetched successfully", @OA\JsonContent() ),
      *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
      *    )
      */
 
-    public function profileDetails()
+    public function show()
     {
 
         try {
 
             return $this->api->success()
                 ->message('Profile fetched successfully')
-                ->payload(new DoctorProfileDataResource(request()->user()))
+                ->payload(new DoctorResource(request()->user()))
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "no doctor found with the given id");

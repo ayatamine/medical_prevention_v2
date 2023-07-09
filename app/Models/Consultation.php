@@ -18,7 +18,8 @@ class Consultation extends Model
         'end_time',
         'notes',
         'status',
-        'finished_at'
+        'finished_at',
+        'paymentintent_id'
     ];
 
     protected $casts=[

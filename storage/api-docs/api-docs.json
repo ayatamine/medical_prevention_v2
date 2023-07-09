@@ -309,14 +309,14 @@
                 ]
             }
         },
-        "/api/v1/doctors/profile/main": {
+        "/api/v1/doctors/profile/my": {
             "get": {
                 "tags": [
                     "doctors"
                 ],
-                "summary": "get main profile data of a doctor ",
-                "description": "get main profile data of a doctor",
-                "operationId": "profileDetails",
+                "summary": "get main doctor details",
+                "description": "get main doctor details",
+                "operationId": "show_doctor_details",
                 "responses": {
                     "200": {
                         "description": "profile fetched successfully",
@@ -1627,16 +1627,106 @@
                 ]
             }
         },
-        "/api/v1/consultations/pay": {
-            "get": {
+        "/api/v1/consultations/payment/create": {
+            "post": {
                 "tags": [
                     "patientApp"
                 ],
-                "description": "pay for consultation",
+                "description": "pay for consultation with doctor",
                 "operationId": "pay_consult",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "doctor_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/payment/verify": {
+            "post": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "paymentVerify for consultation",
+                "operationId": "paymentVerify",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "payment_intent_id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
                         "content": {
                             "application/json": {
                                 "schema": {}

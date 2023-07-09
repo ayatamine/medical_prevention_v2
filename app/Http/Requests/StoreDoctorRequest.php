@@ -23,14 +23,14 @@ class StoreDoctorRequest extends FormRequest
     {
         return [
             'full_name' => 'string|max:150',
-            'id_number' => 'string|max:150|unique:doctors',
+            'id_number' => 'integer|unique:doctors',
             'birth_date' => 'string|max:150',
             'phone_number' => 'required|max:255|unique:doctors',
             'email' => 'required|email|max:255|unique:doctors',
             'job_title' => 'string|max:150',
-            'classification_number' => 'string|max:150|unique:doctors',
-            'insurance_number' => 'string|max:150|unique:doctors',
-            'sub_specialities'=>'sometimes|nullable|string',
+            'classification_number' => 'integer|unique:doctors',
+            'insurance_number' => 'integer|unique:doctors',
+            'sub_specialities'=>'sometimes|nullable',
             'medical_licence_file' => ['file', 'max:3000'],   
             'cv_file' =>  ['file', 'max:3000'],   
             'certification_file' =>  ['file', 'max:3000'],   

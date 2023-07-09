@@ -14,6 +14,8 @@ class DoctorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $speciality =null;
+         if($this->sub_specialities && count($this->sub_specialities)) $speciality = $this->sub_specialities[0]->speciality;
         return [
             "id" => $this->id,
             "full_name" => $this->full_name,
@@ -30,7 +32,15 @@ class DoctorResource extends JsonResource
             "cv_file" => $this->cv_file,
             "notification_status" => $this->notification_status,
             "online_status" => $this->online_status,
-            "gender" => $this->gender
+            "gender" => $this->gender,
+            "speciality"=>$speciality,
+            'sub_specialities'=> $this->sub_specialities->map(function($sub){
+                return [
+                    'id'=>$sub->id,
+                    'name'=>$sub->name,
+                    'name_ar'=>$sub->name_ar
+                ];
+            }),   
         ];
     }
 }

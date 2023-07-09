@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\API\V1;
 
 use Exception;
+use App\Models\Doctor;
+use App\Models\Patient;
 use App\Helpers\ApiResponse;
+use App\Models\Consultation;
+
 use Illuminate\Http\Request;
+use App\Models\BallanceHistory;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SummaryRequest;
-
 use App\Repositories\ConsultationRepository;
 use function App\Helpers\handleTwoCommunErrors;
 use App\Http\Resources\DoctorConsultationResource;
@@ -15,7 +20,7 @@ use App\Http\Resources\DoctorConsultationResource;
 class ConsultationController extends Controller
 {
     protected $repository;
-
+    public $consultation;
     /**
      * @var ConsultationRepository
      * @var ApiResponse
@@ -25,7 +30,7 @@ class ConsultationController extends Controller
         $this->api = $api;
         $this->repository = $repository;
     }
-    
+
     /**
      * @OA\Get(
      *      path="/api/v1/consultations",
@@ -50,7 +55,8 @@ class ConsultationController extends Controller
      *       ),
      *     )
      */
-    public function index(){
+    public function index()
+    {
         try {
 
             return $this->api->success()
@@ -154,22 +160,35 @@ class ConsultationController extends Controller
         }
     }
     /**
-     * @OA\Get(
-     *      path="/api/v1/consultations/pay",
+     * @OA\Post(
+     *      path="/api/v1/consultations/payment/create",
      *      operationId="pay_consult",
      *      tags={"patientApp"},
      *      security={ {"sanctum": {} }},
-     *      description="pay for consultation",
+     *      description="pay for consultation with doctor",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property( property="doctor_id",type="integer"),
+     *             )),
+     *    ),
      *      @OA\Response(
      *          response=200,
      *          description="fetched successfuly",
      *          @OA\JsonContent()
-     *       )
+     *       ),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
+     *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent())
      *     )
      */
-    public function pay()
+    public function pay(Request $request)
     {
         try {
+            $this->validate($request, [
+                'doctor_id' => 'integer|required|exists:doctors,id'
+            ]);
             $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
             $customers = \Stripe\Customer::all([
                 "email" => request()->user()->email,
@@ -181,7 +200,6 @@ class ConsultationController extends Controller
                 //create customer in stripe if user dose not exist there by his email
                 $customer = \Stripe\Customer::create([
                     'email' => request()->user()->email,
-
                 ]);
                 $customerId = $customer->data->id;
             }
@@ -189,14 +207,18 @@ class ConsultationController extends Controller
                 ['customer' => $customerId],
                 ['stripe_version' => '2022-08-01'],
             );
-            return response()->json( env('CONSULT_PRICE'));
 
             $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => 30,
+                'amount' => env('CONSULT_PRICE') * 100,
                 'currency' => 'usd',
                 'customer' => $customerId,
+                'metadata' => [
+                    'doctor_id' => $request->doctor_id,
+                    'customer' => $customerId,
+                ],
             ]);
-            $result =[
+
+            $result = [
                 'client_secret_key' => $paymentIntent->client_secret,
                 'paymentIntentId' => $paymentIntent->id,
                 'ephemeralKey' => $ephemeralKey->secret,
@@ -206,8 +228,106 @@ class ConsultationController extends Controller
                 ->message("payment details created successfully with secret details")
                 ->payload($result)
                 ->send();
+        } catch (\Stripe\Exception\CardException $ex) {
+            return $this->api->failed()
+                ->message($ex->getError()->message)
+                ->send();
+        } catch (\Stripe\Exception\InvalidRequestException $ex) {
+            return $this->api->failed()
+                ->message($ex->getError()->message)
+                ->send();
         } catch (Exception $ex) {
-            $this->apiResponse->failed()->code(500)
+            return $this->api->failed()
+                ->message($ex->getMessage())
+                ->send();
+        }
+    }
+    /**
+     * @OA\Post(
+     *      path="/api/v1/consultations/payment/verify",
+     *      operationId="paymentVerify",
+     *      tags={"patientApp"},
+     *      security={ {"sanctum": {} }},
+     *      description="paymentVerify for consultation",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property( property="payment_intent_id",type="string"),
+     *             )),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
+     *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent())
+     *     )
+     */
+    public function paymentVerify(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'payment_intent_id' => 'string|required',
+            ]);
+            $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+            // get from user payment intent id to check payment if done 
+            $response = \Stripe\PaymentIntent::retrieve($request->payment_intent_id);
+
+            if ($response->status == 'succeeded') {
+                DB::transaction(function () use ($response) {
+                    //TODO: check if consult is already created
+                    $this->consultation = Consultation::where('paymentintent_id', $response->id)
+                        ->wherePatientId(request()->user()->id)
+                        ->first();
+                    if (!$this->consultation) {
+                        $this->consultation = Consultation::create([
+                            'doctor_id' => $response->metadata->doctor_id,
+                            'patient_id' => request()->user()->id,
+                            'status' => 'pending',
+                        ]);
+                        //TODO: cron job
+                        BallanceHistory::create([
+                            'user_id' => request()->user()->id,
+                            'user_type' => Patient::class,
+                            'amount'   => ($response->amount) / 100,
+                            'operation_type' => BallanceHistory::$PFC,
+                            'consult_id' => $this->consultation->id
+                        ]);
+                        BallanceHistory::create([
+                            'user_id' => $response->metadata->doctor_id,
+                            'user_type' => Doctor::class,
+                            'amount'   => ($response->amount) / 100,
+                            'operation_type' => BallanceHistory::$RFC,
+                            'consult_id' => $this->consultation->id
+                        ]);
+                        //update doctor ballance
+                        Doctor::findOrFail($response->metadata->doctor_id)->increment('ballance', $response->amount / 100);
+                        //update patient ballance
+                        request()->user()->decrement('ballance', $response->amount / 100);
+                        //TODO: cron job to send emails
+                    }
+                });
+            }
+            return $this->api->success()
+                ->message("payment checked successfully")
+                ->payload([
+                    "payment_status" => "succeded",
+                    "consultation_id" => $this->consultation?->id
+                ])
+                ->send();
+        } catch (\Stripe\Exception\CardException $ex) {
+            return $this->api->failed()
+                ->message($ex->getError()->message)
+                ->send();
+        } catch (\Stripe\Exception\InvalidRequestException $ex) {
+            return $this->api->failed()
+                ->message($ex->getError()->message)
+                ->send();
+        } catch (Exception $ex) {
+            return $this->api->failed()
                 ->message($ex->getMessage())
                 ->send();
         }
