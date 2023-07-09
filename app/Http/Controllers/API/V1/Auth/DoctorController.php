@@ -159,7 +159,7 @@ class DoctorController extends Controller
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
-                    ->message("no doctor found with the given phone number")
+                    ->message("no doctor found with the given phone number or Account is not active")
                     ->send();
             }
             return $this->api->failed()->code(500)
@@ -470,7 +470,7 @@ class DoctorController extends Controller
     }
     /**
      * @OA\Delete(
-     * path="/api/v1/doctors/delete-account",
+     * path="/api/v1/doctors",
      * operationId="deleteDoctorAccount",
      * security={ {"sanctum": {} }},
      * tags={"doctors"},

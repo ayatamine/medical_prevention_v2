@@ -593,7 +593,52 @@
                 ]
             }
         },
-        "/api/v1/doctors/delete-account": {
+        "/api/v1/doctors": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of existing doctors",
+                "operationId": "doctor_list",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "search doctors"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "sort doctors",
+                        "schema": {
+                            "type": "string",
+                            "default": false,
+                            "enum": [
+                                "best_rated",
+                                "latest",
+                                "oldest",
+                                "is_online"
+                            ]
+                        },
+                        "example": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctors fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "doctors"
@@ -1315,7 +1360,7 @@
                 ]
             }
         },
-        "/api/v1/doctors/my-wallet": {
+        "/api/v1/doctors/my-wallet/history": {
             "get": {
                 "tags": [
                     "doctors"
@@ -1630,7 +1675,7 @@
         "/api/v1/consultations/payment/create": {
             "post": {
                 "tags": [
-                    "patientApp"
+                    "patients"
                 ],
                 "description": "pay for consultation with doctor",
                 "operationId": "pay_consult",
@@ -1687,7 +1732,7 @@
         "/api/v1/consultations/payment/verify": {
             "post": {
                 "tags": [
-                    "patientApp"
+                    "patients"
                 ],
                 "description": "paymentVerify for consultation",
                 "operationId": "paymentVerify",
@@ -1741,57 +1786,10 @@
                 ]
             }
         },
-        "/api/v1/doctors": {
-            "get": {
-                "tags": [
-                    "patientApp"
-                ],
-                "description": "Get list of existing doctors",
-                "operationId": "doctor_list",
-                "parameters": [
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "search doctors"
-                    },
-                    {
-                        "name": "sort",
-                        "in": "query",
-                        "description": "sort doctors",
-                        "schema": {
-                            "type": "string",
-                            "default": false,
-                            "enum": [
-                                "best_rated",
-                                "latest",
-                                "oldest",
-                                "is_online"
-                            ]
-                        },
-                        "example": "0"
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "limit records"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Doctors fetched successfuly",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/doctors/{id}/add-to-favorites": {
             "post": {
                 "tags": [
-                    "patientApp"
+                    "patients"
                 ],
                 "description": "add a doctor to a patient favorites",
                 "operationId": "addd_doctor_to_favorites",
@@ -1823,7 +1821,7 @@
         "/api/v1/doctors/{id}/remove-from-favorites": {
             "delete": {
                 "tags": [
-                    "patientApp"
+                    "patients"
                 ],
                 "description": "remove a doctor from a patient favorites",
                 "operationId": "remove_doctor_from_favorites",

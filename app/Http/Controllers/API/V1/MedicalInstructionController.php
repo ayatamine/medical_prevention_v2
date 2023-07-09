@@ -41,7 +41,7 @@ class MedicalInstructionController extends Controller
             $instructions = $this->repository->fetchAll();
 
             return $this->api->success()
-                ->message("Advertisements fetched successfuly")
+                ->message("Medical instructions  fetched successfuly")
                 ->payload(MedicalInstructionResource::collection($instructions))
                 ->send();
         } catch (Exception $ex) {

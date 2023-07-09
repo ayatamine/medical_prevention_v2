@@ -163,7 +163,7 @@ class ConsultationController extends Controller
      * @OA\Post(
      *      path="/api/v1/consultations/payment/create",
      *      operationId="pay_consult",
-     *      tags={"patientApp"},
+     *      tags={"patients"},
      *      security={ {"sanctum": {} }},
      *      description="pay for consultation with doctor",
      *     @OA\RequestBody(
@@ -246,7 +246,7 @@ class ConsultationController extends Controller
      * @OA\Post(
      *      path="/api/v1/consultations/payment/verify",
      *      operationId="paymentVerify",
-     *      tags={"patientApp"},
+     *      tags={"patients"},
      *      security={ {"sanctum": {} }},
      *      description="paymentVerify for consultation",
      *     @OA\RequestBody(

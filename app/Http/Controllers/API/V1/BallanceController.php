@@ -25,7 +25,7 @@ class BallanceController extends Controller
         }
      /**
        * @OA\Get(
-        * path="/api/v1/doctors/my-wallet",
+        * path="/api/v1/doctors/my-wallet/history",
         * operationId="my_ballance_history",
         * tags={"doctors"},
         * security={ {"sanctum": {} }},

@@ -69,7 +69,7 @@ class DoctorController extends Controller
      * @OA\Post(
      *      path="/api/v1/doctors/{id}/add-to-favorites",
      *      operationId="addd_doctor_to_favorites",
-     *      tags={"patientApp"},
+     *      tags={"patients"},
      *      security={ {"sanctum": {} }},
      *      description="add a doctor to a patient favorites",
      *      @OA\Parameter(name="id",in="path",description="doctor id",required=true),
@@ -100,7 +100,7 @@ class DoctorController extends Controller
      * @OA\Delete(
      *      path="/api/v1/doctors/{id}/remove-from-favorites",
      *      operationId="remove_doctor_from_favorites",
-     *      tags={"patientApp"},
+     *      tags={"patients"},
      *      security={ {"sanctum": {} }},
      *      description="remove a doctor from a patient favorites",
      *      @OA\Parameter(name="id",in="path",description="doctor id",required=true),

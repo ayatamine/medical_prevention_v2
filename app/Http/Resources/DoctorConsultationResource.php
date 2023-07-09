@@ -24,7 +24,7 @@ class DoctorConsultationResource extends JsonResource
                         'thumbnail'=>$r->patient->thumbnail,
                         'address'=>$r->patient->address,
                         'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->gender
+                        'age'=>$r->patient->age
                     ]
                 ];
             }),
@@ -37,7 +37,7 @@ class DoctorConsultationResource extends JsonResource
                         'thumbnail'=>$r->patient->thumbnail,
                         'address'=>$r->patient->address,
                         'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->gender
+                        'age'=>$r->patient->age
                     ]
                 ]; 
             }),
@@ -50,7 +50,7 @@ class DoctorConsultationResource extends JsonResource
                         'thumbnail'=>$r->patient->thumbnail,
                         'address'=>$r->patient->address,
                         'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->gender
+                        'age'=>$r->patient->age
                     ],
                     'completed_at'=>$r->finished_at
                 ];

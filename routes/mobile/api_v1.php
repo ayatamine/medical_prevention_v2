@@ -25,7 +25,7 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::controller(\App\Http\Controllers\API\V1\Auth\PatientController::class)->prefix('patients')->group(function () {
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
-        Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
             Route::post('complete-medical-record', 'storePatientData');
             Route::put('/update-phone-number', 'updatePhone');
             Route::post('/update-thumbnail', 'updateThumbnail');
@@ -60,14 +60,14 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::post('logout', 'logout');
             Route::post('profile/update', 'updateProfile');
             Route::put('profile/update-phone-number', 'updatePhone');
-            Route::delete('delete-account', 'deleteAccount');
+            Route::delete('/','deleteAccount');
             Route::post('/update-thumbnail', 'updateThumbnail');
         });
     });
 });
 //'auth:sanctum', 'type.customer'
 Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
-    Route::get('my-wallet', [\App\Http\Controllers\API\V1\BallanceController::class, 'ballance_history'])->prefix('doctors');
+    Route::get('/doctors/my-wallet/history', [\App\Http\Controllers\API\V1\BallanceController::class, 'ballance_history']);
     Route::controller(\App\Http\Controllers\API\V1\ConsultationController::class)->prefix('consultations')->group(function () {
         Route::get('/', 'index');
         Route::post('/{id}/approve', 'approveConsult');
