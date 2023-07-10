@@ -1675,7 +1675,7 @@
         "/api/v1/consultations/payment/create": {
             "post": {
                 "tags": [
-                    "patients"
+                    "consultation"
                 ],
                 "description": "pay for consultation with doctor",
                 "operationId": "pay_consult",
@@ -1732,7 +1732,7 @@
         "/api/v1/consultations/payment/verify": {
             "post": {
                 "tags": [
-                    "patients"
+                    "consultation"
                 ],
                 "description": "paymentVerify for consultation",
                 "operationId": "paymentVerify",
@@ -1772,6 +1772,201 @@
                     },
                     "401": {
                         "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/chat-messages": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get consultation chat message",
+                "operationId": "get a consultation chat messages",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "consultations chat messages fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The Consultation either not found or not yet accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/send-message": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "sendConsultationMessage",
+                "operationId": "sendConsultationMessage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "sender_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "patient",
+                                            "doctor"
+                                        ]
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "attachement": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "message sended successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The Consultation either not found or not yet accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/medical-record": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get patient medical record of a given consultation",
+                "operationId": "consultMedicalRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "patient medical record fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {}

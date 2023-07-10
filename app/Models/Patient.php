@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ChronicDiseases;
 use App\Models\BallanceHistory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +51,7 @@ class Patient extends Model
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
     public function chronicDisease() {
-        return $this->belongsTo(\App\Models\ChronicDisease::class,"chronic_diseases_id","id");
+        return $this->belongsTo(ChronicDiseases::class,"chronic_diseases_id","id");
     }
     /**
     * Many to One Relationship to \App\Models\Allergy::class

@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "^1.0",
         "livewire/livewire": "^2.12",
+        "pusher/pusher-php-server": "^7.2",
         "reworck/filament-settings": "^0.4.0",
         "stripe/stripe-php": "^10.16",
         "torann/laravel-repository": "^0.7.2",

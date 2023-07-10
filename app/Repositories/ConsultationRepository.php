@@ -2,8 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Consultation;
 use Exception;
+use App\Models\Consultation;
+use App\Models\PatientScale;
+use App\Models\ScaleQuestion;
+use App\Http\Resources\PatientScaleResource;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -50,6 +53,32 @@ class ConsultationRepository extends AbstractRepository
         // $consultation =  request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
         //  //TODO: send notification to patient
         // $consultation->update(['status' => 'rejected']);
+    }
+    /**
+     * fetch patient medical record
+     */
+    public function patientMedicalRecord($consultation_id)
+    {
+        $consult = Consultation::with('patient','patient.allergy',"patient.familyHistory","patient.chronicDisease")
+                        ->findOrFail($consultation_id);
+        $anexiety_scale = $this->patientScales($consult->patient->id,1);
+        $depression_scale = $this->patientScales($consult->patient->id,2);
+        return array('consult'=>$consult,'anexiety_scale'=>$anexiety_scale,'depression_scale'=>$depression_scale);
+    }
+    public function patientScales($id,$scale_id){
+        $scales = PatientScale::wherePatientId($id)
+        ->with(['scaleQuestion' => function ($q) {
+            $q->select(['id', 'question', 'question_ar','scale_id']);
+        }])
+        ->whereHas('scaleQuestion',function ($q) use ($scale_id){
+            $q->whereScaleId($scale_id);
+        })
+        ->get()
+        ->map(function ($q) {
+            return new PatientScaleResource($q);
+        });
+
+    return $scales;
     }
 
 

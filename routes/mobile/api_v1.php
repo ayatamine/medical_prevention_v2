@@ -86,3 +86,8 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
         Route::post('/my-prescriptions/store', 'store');
     });
 });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('consultations/{id}/chat-messages/', [\App\Http\Controllers\API\V1\ConsultationController::class,'getConsultationChat']);
+    Route::get('consultations/{id}/medical-record/', [\App\Http\Controllers\API\V1\ConsultationController::class,'patientMedicalRecord']);
+    Route::post('consultations/{id}/send-message', [\App\Http\Controllers\API\V1\ConsultationController::class,'sendMessage']);
+});

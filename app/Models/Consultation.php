@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\ChatMessage;
 use App\Traits\FormatsDates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,6 +51,10 @@ class Consultation extends Model
     }
     public function scopeCompleted(){
         return $this->whereNotNull('finished_at');
+    }
+    public function chatMessages():HasMany
+    {
+        return $this->hasMany(ChatMessage::class);
     }
 
 

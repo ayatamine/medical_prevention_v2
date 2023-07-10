@@ -5,17 +5,23 @@ namespace App\Http\Controllers\API\V1;
 use Exception;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\ChatMessage;
 use App\Helpers\ApiResponse;
-use App\Models\Consultation;
 
+use App\Models\Consultation;
 use Illuminate\Http\Request;
 use App\Models\BallanceHistory;
+use App\Events\ChatMessageEvent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SummaryRequest;
+use App\Http\Resources\ConsultationResouce;
+use App\Http\Resources\ConsultationResource;
+
 use App\Repositories\ConsultationRepository;
-use function App\Helpers\handleTwoCommunErrors;
-use App\Http\Resources\DoctorConsultationResource;
+use App\Http\Resources\MedicalRecordResource;
+use App\Http\Resources\PatientMedicalResource;
+use App\Http\Resources\DoctorConsultationRequestResource;
 
 class ConsultationController extends Controller
 {
@@ -60,7 +66,7 @@ class ConsultationController extends Controller
         try {
 
             return $this->api->success()
-                ->payload(new DoctorConsultationResource(request()->user()))
+                ->payload(new DoctorConsultationRequestResource(request()->user()))
                 ->message("The consultations fetched successfully")
                 ->send();
         } catch (Exception $ex) {
@@ -163,7 +169,7 @@ class ConsultationController extends Controller
      * @OA\Post(
      *      path="/api/v1/consultations/payment/create",
      *      operationId="pay_consult",
-     *      tags={"patients"},
+     *      tags={"consultation"},
      *      security={ {"sanctum": {} }},
      *      description="pay for consultation with doctor",
      *     @OA\RequestBody(
@@ -246,7 +252,7 @@ class ConsultationController extends Controller
      * @OA\Post(
      *      path="/api/v1/consultations/payment/verify",
      *      operationId="paymentVerify",
-     *      tags={"patients"},
+     *      tags={"consultation"},
      *      security={ {"sanctum": {} }},
      *      description="paymentVerify for consultation",
      *     @OA\RequestBody(
@@ -330,6 +336,169 @@ class ConsultationController extends Controller
             return $this->api->failed()
                 ->message($ex->getMessage())
                 ->send();
+        }
+    }
+    /**
+     * @OA\Get(
+     *      path="/api/v1/consultations/{id}/chat-messages",
+     *      operationId="get a consultation chat messages",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="get consultation chat message",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(
+     *          response=200,
+     *          description="consultations chat messages fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="The Consultation either not found or not yet accepted",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     */
+    public function getConsultationChat($id)
+    {
+        try {
+            $consultation = Consultation::with('chatMessages')
+                ->when(request()->user()->tokenCan('role:patient'), function ($query) {
+                    $query->wherePatientId(request()->user()->id);
+                })
+                ->when(request()->user()->tokenCan('role:doctor'), function ($query) {
+                    $query->whereDoctorId(request()->user()->id);
+                })
+                ->with('doctor:id,full_name,thumbnail')
+                ->with('patient:id,full_name,thumbnail')
+                ->where('status', "in_progress")
+                ->findOrFail($id);
+
+            return $this->api->success()
+                ->message("The chat messages fetched successfully")
+                ->payload(new ConsultationResouce($consultation))
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "The Consultation either not found or not yet accepted");
+        }
+    }
+    /**
+     * @OA\Post(
+     *      path="/api/v1/consultations/{id}/send-message",
+     *      operationId="sendConsultationMessage",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="sendConsultationMessage",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property( property="sender_type",type="string",enum={"patient", "doctor"}),
+     *                 @OA\Property( property="content",type="string"),
+     *                 @OA\Property( property="attachement",type="file"),
+     *             )),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="message sended successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
+     *      @OA\Response( response=404,description="The Consultation either not found or not yet accepted", @OA\JsonContent()),
+     *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent())
+     *     )
+     */
+    public function sendMessage(Request $request, $id)
+    {
+
+        try {
+            $this->validate($request, [
+                'sender_type' => 'required|in:"patient","doctor"',
+                'content' => 'sometimes|nullable|string|required_without:attachement',
+                'attachement' => 'sometimes|nullable|file|max:3000|required_without:content',
+            ]);
+            $sender_type = $request['sender_type'];
+            $filename = '';
+            if ($request['attachement']) {
+                $filename = $request['attachement']->storePublicly(
+                    "consultations/files",
+                    ['disk' => 'public']
+                );
+            }
+
+            $consult = Consultation::where('status', "in_progress")->findOrFail($id);
+
+            $chatMessage = new ChatMessage();
+            $chatMessage->consultation_id = $id;
+            $chatMessage->sender_type = ($sender_type == 'patient') ? Patient::class : Doctor::class;
+            $chatMessage->sender_id = request()->user()->id;
+            $chatMessage->receiver_id = ($sender_type == 'patient') ? $consult->doctor_id : $consult->patient_id;
+            $chatMessage->receiver_type = ($sender_type == 'patient') ? Doctor::class : Patient::class;
+            $chatMessage->content = $request['content'];
+            $chatMessage->attachement = $filename ?? null;
+            $chatMessage->save();
+
+            event(new ChatMessageEvent($chatMessage));
+
+            return $this->api->success()
+                ->message("The message sended successfully")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "The Consultation either not found or not yet accepted");
+        }
+    }
+    /**
+     * @OA\Get(
+     *      path="/api/v1/consultations/{id}/medical-record",
+     *      operationId="consultMedicalRecord",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="get patient medical record of a given consultation",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(
+     *          response=200,
+     *          description="patient medical record fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No consultation found with the given id",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     */
+    public function patientMedicalRecord($consultation_id)
+    {
+        try {
+            $result = $this->repository->patientMedicalRecord($consultation_id); 
+
+            return $this->api->success()
+                ->payload(new MedicalRecordResource($result))
+                ->message("patient medical record fetched successfuly")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "No consultation found with the given id");
         }
     }
 }

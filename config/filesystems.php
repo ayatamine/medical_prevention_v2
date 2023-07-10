@@ -76,6 +76,7 @@ return [
         public_path('storage/doctors/cv_files') => storage_path('app/public/doctors/cv_files'),
         public_path('storage/doctors/certifications') => storage_path('app/public/doctors/certifications'),
         public_path('storage/doctors/medical_licences') => storage_path('app/public/doctors/medical_licences'),
+        public_path('storage/consultations/files') => storage_path('app/public/consultations/files'),
     ],
 
 ];
