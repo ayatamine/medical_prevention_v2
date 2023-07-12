@@ -14,10 +14,12 @@ use App\Models\BallanceHistory;
 use App\Events\ChatMessageEvent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\SummaryRequest;
+use App\Http\Resources\SummaryResource;
+
 use App\Http\Resources\ConsultationResouce;
 use App\Http\Resources\ConsultationResource;
-
 use App\Repositories\ConsultationRepository;
 use App\Http\Resources\MedicalRecordResource;
 use App\Http\Resources\PatientMedicalResource;
@@ -119,7 +121,7 @@ class ConsultationController extends Controller
             $this->repository->rejectConsult($id);
 
             return $this->api->success()
-                ->message("The consult request rejectedd successfully")
+                ->message("The consult request rejected successfully")
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
@@ -130,7 +132,7 @@ class ConsultationController extends Controller
      * @OA\Post(
      * path="/api/v1/consultations/{id}/add-summary",
      * operationId="add_consultation_summary",
-     * tags={"doctors"},
+     * tags={"consultation"},
      * security={ {"sanctum": {} }},
      * summary="add a summary to a finished consultation",
      * description="the doctor add a summary to a finished consultation",
@@ -141,10 +143,10 @@ class ConsultationController extends Controller
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 @OA\Property( property="description",type="text",example="description here"),
-     *                 @OA\Property( property="prescriptions",type="array",@OA\Items(type="integer"), example={1,2}),
+     *                 @OA\Property( property="prescriptions",type="text"),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="other_lab_tests",type="string",example="new test"),
-     *                 @OA\Property( property="sick_leave",type="boolean"),
+     *                 @OA\Property( property="sick_leave",type="integer",enum={0, 1}),
      *                 @OA\Property( property="notes",type="text"),
      *             )),
      *    ),
@@ -156,13 +158,55 @@ class ConsultationController extends Controller
     public function addSummary(SummaryRequest $request, $id)
     {
         try {
-            $this->repository->addSummary($request->validated(), $id);
-
+            $result= $this->repository->addSummary($request->validated(), $id);
+            if($result == false){
+                return $this->api->failed()
+                ->message("The consultation is not completed yet")
+                ->send();
+            }
+            if($result == 'exists'){
+                return $this->api->failed()
+                ->message("The summary has been already added to this consultation ")
+                ->send();
+            }
             return $this->api->success()
                 ->message("The summary added successfully")
                 ->send();
         } catch (Exception $ex) {
+            if ($ex->getCode() =='403') {
+                return $this->api->failed()
+                            ->message("The Consultation Status must be completed")
+                            ->send();
+    
+            }
             return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/consultations/{id}/view-summary",
+     * operationId="view_consultation_summary",
+     * tags={"consultation"},
+     * security={ {"sanctum": {} }},
+     * summary="view a summary of a finished consultation",
+     * description="view summary to a finished consultation",
+     * @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(response=200,description="The summary fetched successfully",@OA\JsonContent()),
+     *      @OA\Response(response=400,description="There is no consultation with the given id",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function viewSummary($id)
+    {
+        try {
+            $result= $this->repository->viewSummary($id);
+           
+            return $this->api->success()
+                ->message("The summary fetched successfully")
+                ->payload(new SummaryResource($result))
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "There is no consultation with the given id");
         }
     }
     /**
@@ -499,6 +543,78 @@ class ConsultationController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No consultation found with the given id");
+        }
+    }
+     /**
+     * @OA\Post(
+     *      path="/api/v1/consultations/{id}/reviews",
+     *      operationId="add_consult_review",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="rate the consultation with doctor",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property( property="rating",type="integer"),
+     *                 @OA\Property( property="comment",type="text"),
+     *             )),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="review added successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
+     *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent()),
+     *      @OA\Response( response=404,description="no consultation found with the given id", @OA\JsonContent())
+     *     )
+     */
+    public function addReview(ReviewRequest $request, $consultation_id)
+    {
+        try {
+            $this->repository->addReview($request->validated(), $consultation_id);
+
+            return $this->api->success()
+                ->message("The review added successfully")
+                ->send();
+        } catch (Exception $ex) {
+            if ($ex->getCode() =='403') {
+                return $this->api->failed()
+                            ->message("The Consultation Status must be completed")
+                            ->send();
+    
+            }
+            return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+        }
+    }
+     /**
+     * @OA\Post(
+     * path="/api/v1/consultations/{id}/finish",
+     * operationId="finish_consultation",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="finish a consultation request",
+     * description="the doctor finish a patient consultation request",
+     * @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(response=200,description="The consult request finished successfully",@OA\JsonContent()),
+     *      @OA\Response(response=400,description="There is no consultation related to this doctor with the given id",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function finishConsult($id)
+    {
+        try {
+            $this->repository->finishConsult($id);
+
+            return $this->api->success()
+                ->message("The consult request finished successfully")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+            // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
         }
     }
 }

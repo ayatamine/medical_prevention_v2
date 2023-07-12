@@ -17,7 +17,11 @@ class DoctorMiddleware
     {
         if(!request()->user()->tokenCan('role:doctor'))
         {
-            return abort(401);
+            // return abort(401);
+            return response()->json([
+                'success'=>false,
+                'message'=>'You are not allowed to do this action , only for doctors'
+            ]);
         }
         return $next($request);
     }

@@ -34,8 +34,13 @@ class MedicalRecordResource extends JsonResource
             'anexiety_scale'=>$this['anexiety_scale'],
             'depression_scale'=>$this['depression_scale'],
             //TODO: get previous summary
-            'previous_summaries'=>
-            []
+            'previous_summaries'=>$this['consult']->patient->previousSummaries()->map(function($item){
+                return [
+                    'consultation_id'=>$item->consultation->id,
+                    'doctor_name'=>$item->consultation->doctor->full_name,
+                    'completed_at'=>$item->consultation->finished_at,
+                ];
+            })
         ];
     }
 }

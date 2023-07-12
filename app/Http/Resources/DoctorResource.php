@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Speciality;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +16,11 @@ class DoctorResource extends JsonResource
     public function toArray(Request $request): array
     {
         $speciality =null;
-         if($this->sub_specialities && count($this->sub_specialities)) $speciality = $this->sub_specialities[0]->speciality;
+        if($this->sub_specialities && count($this->sub_specialities)) {
+           $speciality = Speciality::whereHas('sub_specialities',function($query){
+                $query->whereIn('id',array($this->sub_specialities[0]->id));
+           })->first();
+        }      
         return [
             "id" => $this->id,
             "full_name" => $this->full_name,

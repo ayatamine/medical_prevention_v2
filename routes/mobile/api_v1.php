@@ -19,6 +19,7 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::delete('/doctors/{id}/remove-from-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'removeFromFavorites']);
         Route::post('/consultations/payment/create', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
         Route::post('/consultations/payment/verify', [\App\Http\Controllers\API\V1\ConsultationController::class, 'paymentVerify']);
+        Route::post('/consultations/{id}/reviews', [\App\Http\Controllers\API\V1\ConsultationController::class, 'addReview']);
     });
     Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class, 'getPage']);
 
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
         Route::get('/', 'index');
         Route::post('/{id}/approve', 'approveConsult');
         Route::post('/{id}/reject', 'rejectConsult');
+        Route::post('/{id}/finish', 'finishConsult');
         Route::post('/{id}/add-summary', 'addSummary');
     });
     //profile controller
@@ -90,4 +92,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('consultations/{id}/chat-messages/', [\App\Http\Controllers\API\V1\ConsultationController::class,'getConsultationChat']);
     Route::get('consultations/{id}/medical-record/', [\App\Http\Controllers\API\V1\ConsultationController::class,'patientMedicalRecord']);
     Route::post('consultations/{id}/send-message', [\App\Http\Controllers\API\V1\ConsultationController::class,'sendMessage']);
+    Route::post('consultations/{id}/view-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'viewSummary']);
 });

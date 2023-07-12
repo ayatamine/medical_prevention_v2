@@ -1578,7 +1578,7 @@
         "/api/v1/consultations/{id}/add-summary": {
             "post": {
                 "tags": [
-                    "doctors"
+                    "consultation"
                 ],
                 "summary": "add a summary to a finished consultation",
                 "description": "the doctor add a summary to a finished consultation",
@@ -1601,14 +1601,7 @@
                                         "example": "description here"
                                     },
                                     "prescriptions": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        },
-                                        "example": [
-                                            1,
-                                            2
-                                        ]
+                                        "type": "text"
                                     },
                                     "lab_tests": {
                                         "type": "array",
@@ -1625,7 +1618,11 @@
                                         "example": "new test"
                                     },
                                     "sick_leave": {
-                                        "type": "boolean"
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
                                     },
                                     "notes": {
                                         "type": "text"
@@ -1650,6 +1647,55 @@
                     },
                     "400": {
                         "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/view-summary": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "summary": "view a summary of a finished consultation",
+                "description": "view summary to a finished consultation",
+                "operationId": "view_consultation_summary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The summary fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation with the given id",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1959,6 +2005,131 @@
                     },
                     "404": {
                         "description": "No consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/reviews": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "rate the consultation with doctor",
+                "operationId": "add_consult_review",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer"
+                                    },
+                                    "comment": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "review added successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/finish": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "finish a consultation request",
+                "description": "the doctor finish a patient consultation request",
+                "operationId": "finish_consultation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The consult request finished successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
                         "content": {
                             "application/json": {
                                 "schema": {}

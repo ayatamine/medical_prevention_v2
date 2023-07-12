@@ -109,4 +109,8 @@ class Patient extends Model
     {
         return $this->belongsToMany(Doctor::class, 'patient_favorites', 'patient_id', 'doctor_id');    
     }
+    public function previousSummaries(){
+        $consultations = $this->consultations->pluck('id')->toArray();
+       return Summary::with('consultation','consultation.doctor:id,full_name')->whereIn('consultation_id',$consultations)->get();
+    }
 }
