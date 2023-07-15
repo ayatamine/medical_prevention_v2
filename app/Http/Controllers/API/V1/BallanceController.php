@@ -26,18 +26,18 @@ class BallanceController extends Controller
      /**
        * @OA\Get(
         * path="/api/v1/doctors/my-wallet/history",
-        * operationId="my_ballance_history",
+        * operationId="my_balance_history",
         * tags={"doctors"},
         * security={ {"sanctum": {} }},
-        * summary="return the ballance history for the doctor ",
-        * description="return the ballance history for the doctor  ",
+        * summary="return the balance history for the doctor ",
+        * description="return the balance history for the doctor  ",
         *      @OA\Parameter(  name="period", in="query", description="filter by period", required=false, *     @OA\Schema(
         *       default="all",
         *       type="string",
         *       enum={ "all","last_month","last_three_months","last_year" },
         *       ),
         *      ),
-        *      @OA\Response( response=200, description="The ballance history fetched successfully", @OA\JsonContent() ),
+        *      @OA\Response( response=200, description="The balance history fetched successfully", @OA\JsonContent() ),
         *      @OA\Response( response=404, description="no doctor found please verfiy your login status", @OA\JsonContent() ),
         *    )
         */
@@ -46,10 +46,10 @@ class BallanceController extends Controller
                 $ballance_history =  $this->repository->ballance_history();
 
                 return $this->api->success()
-                                 ->message("The ballance history fetched successfully")
+                                 ->message("The balance history fetched successfully")
                                  ->payload([
-                                    'ballance'=>request()->user()?->ballance,
-                                    'ballance_history'=>(BallanceHistoryResource::collection($ballance_history))->resolve()
+                                    'balance'=>request()->user()?->ballance,
+                                    'balance_history'=>(BallanceHistoryResource::collection($ballance_history))->resolve()
                                  ])
                                  ->send();
             }

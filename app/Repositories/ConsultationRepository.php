@@ -4,12 +4,14 @@ namespace App\Repositories;
 
 use Exception;
 use App\Models\Rating;
+use App\Models\Patient;
 use App\Models\Summary;
 use App\Models\Consultation;
 use App\Models\PatientScale;
 use App\Models\ScaleQuestion;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PatientScaleResource;
+use App\Notifications\ConsultationStatusUpdated;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -37,7 +39,15 @@ class ConsultationRepository extends AbstractRepository
     {
         $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
         //TODO: send notification to patient
-        $consultation->update(['status' => 'in_progress']);
+        $patient =Patient::findOrFail($consultation->id);
+        $data=array(
+            'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been approved',
+            'consultation_id'=>$consultation_id,
+            'patient'=>$patient
+        );
+        $patient->notify(new ConsultationStatusUpdated($data));
+        return true;
+        // $consultation->update(['status' => 'in_progress']);
     }
     /**
      * reject a consultation request

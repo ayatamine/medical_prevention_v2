@@ -424,7 +424,7 @@ class ConsultationController extends Controller
                 })
                 ->with('doctor:id,full_name,thumbnail')
                 ->with('patient:id,full_name,thumbnail')
-                ->where('status', "in_progress")
+                ->whereIn('status', ["in_progress","incompleted",'completed'])
                 ->findOrFail($id);
 
             return $this->api->success()

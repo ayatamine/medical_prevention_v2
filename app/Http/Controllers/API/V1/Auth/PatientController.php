@@ -251,7 +251,7 @@ class PatientController extends Controller
     public function updateThumbnail(Request $request)
     {
         $request->validate([
-            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
         ]);
         try {
             $patient = $this->repository->updateThumbnail($request->only('thumbnail'));

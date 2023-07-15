@@ -1365,9 +1365,9 @@
                 "tags": [
                     "doctors"
                 ],
-                "summary": "return the ballance history for the doctor ",
-                "description": "return the ballance history for the doctor  ",
-                "operationId": "my_ballance_history",
+                "summary": "return the balance history for the doctor ",
+                "description": "return the balance history for the doctor  ",
+                "operationId": "my_balance_history",
                 "parameters": [
                     {
                         "name": "period",
@@ -1388,7 +1388,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The ballance history fetched successfully",
+                        "description": "The balance history fetched successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
