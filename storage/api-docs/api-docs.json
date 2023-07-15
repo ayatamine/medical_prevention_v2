@@ -27,6 +27,33 @@
                 }
             }
         },
+        "/api/v1/allergies": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of common allergies",
+                "operationId": "allergiesindex",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "common allergies fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/doctors/register": {
             "post": {
                 "tags": [

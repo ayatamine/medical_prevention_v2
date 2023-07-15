@@ -92,13 +92,13 @@ class ConsultationController extends Controller
     public function approveConsult($id)
     {
         try {
-            $this->repository->approveConuslt($id);
+           return  $this->repository->approveConuslt($id);
 
             return $this->api->success()
                 ->message("The consult request approved successfully")
                 ->send();
         } catch (Exception $ex) {
-            return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+            return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='pending'");
         }
     }
     /**

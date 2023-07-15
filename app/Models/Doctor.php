@@ -95,7 +95,7 @@ class Doctor extends Model
     }
     public function consultations(): HasMany
     {
-        return $this->hasMany(Consultation::class);
+        return $this->hasMany(Consultation::class,'doctor_id','id');
     }
     public function sentMessages(): MorphMany
     {

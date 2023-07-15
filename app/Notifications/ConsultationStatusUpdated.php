@@ -36,10 +36,10 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->from(env('MAIL_FROM_ADDRESS'), config('app.name'))
-                    ->line('Hi '.$this->data->patient->full_name)
-                    ->line($this->data->message)
+                    ->line('Hi '.$this->data['patient']->full_name)
+                    ->line($this->data['message'])
                     // ->action('Notification Action', url('/'))
-                    ->line('with care of your health,Thank you for using'.config('app.name'));
+                    ->line('with care of your health,Thank you for using '.config('app.name'));
     }
 
     /**

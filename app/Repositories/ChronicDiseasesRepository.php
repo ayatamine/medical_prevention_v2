@@ -29,8 +29,8 @@ class ChronicDiseasesRepository extends AbstractRepository
      */
     public function fetchAll()
     {
-        if(array_key_exists('limit',request()->query()))return ChronicDiseases::select('id','name','name_ar')->limit(request()->query()['limit'])->get();
-        return ChronicDiseases::select('id','name','name_ar')->get();
+        if(array_key_exists('limit',request()->query()))return ChronicDiseases::select('id','name','name_ar','icon')->limit(request()->query()['limit'])->get();
+        return ChronicDiseases::select('id','name','name_ar','icon')->get();
     }
     /**
      * @return ChronicDiseases instance 

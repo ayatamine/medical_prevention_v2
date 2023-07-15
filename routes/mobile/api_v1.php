@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'api_v1.'], function () {
     Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class, 'index']);
+    Route::get('/allergies', [\App\Http\Controllers\API\V1\AllergyController::class, 'index']);
     Route::get('/symptomes', [\App\Http\Controllers\API\V1\SymptomeController::class, 'index']);
     Route::get('/family-histories', [\App\Http\Controllers\API\V1\FamilyHistoryController::class, 'index']);
     Route::get('/advertisements', [\App\Http\Controllers\API\V1\AdvertisementsController::class, 'index']);

@@ -39,7 +39,9 @@ class SpecialityResource extends Resource
             Forms\Components\TextInput::make('slug')
                 ->unique(table: Speciality::class,ignoreRecord:true)
                 ->maxLength(150),
+            Forms\Components\FileUpload::make('icon'),
             ]);
+            
     }
 
     public static function table(Table $table): Table
@@ -49,6 +51,7 @@ class SpecialityResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
+                Tables\Columns\ImageColumn::make('icon'),
             ])
             ->filters([
                 //

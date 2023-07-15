@@ -38,7 +38,7 @@ class SpecialityRepository extends AbstractRepository
      */
     public function getDetails($id)
     {
-        return Speciality::select('id', 'name', 'name_ar')->with('sub_specialities:id,speciality_id,name')->findOrFail($id);
+        return Speciality::select('id', 'name', 'name_ar','icon')->with('sub_specialities:id,speciality_id,name,name_ar,icon')->findOrFail($id);
     }
     /**
      * @return speciality doctors

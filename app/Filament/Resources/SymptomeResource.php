@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AllergyResource\Pages;
-use App\Filament\Resources\AllergyResource\RelationManagers;
-use App\Models\Allergy;
+use App\Filament\Resources\SymptomeResource\Pages;
+use App\Filament\Resources\SymptomeResource\RelationManagers;
+use App\Models\Symptome;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AllergyResource extends Resource
+class SymptomeResource extends Resource
 {
-    protected static ?string $model = Allergy::class;
+    protected static ?string $model = Symptome::class;
 
     protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $navigationIcon = 'icons.allergy';
@@ -25,14 +25,14 @@ class AllergyResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label(trans('name'))
-                    ->unique(table: Allergy::class,ignoreRecord:true)
-                    ->maxLength(150),
-                Forms\Components\TextInput::make('name_ar')
-                    ->unique(table: Allergy::class,ignoreRecord:true)
-                    ->maxLength(150),
-                Forms\Components\FileUpload::make('icon'),
+                ->required()
+                ->label(trans('name'))
+                ->unique(table: Symptome::class,ignoreRecord:true)
+                ->maxLength(150),
+            Forms\Components\TextInput::make('name_ar')
+                ->unique(table: Symptome::class,ignoreRecord:true)
+                ->maxLength(150),
+            Forms\Components\FileUpload::make('icon'),
             ]);
     }
 
@@ -60,7 +60,7 @@ class AllergyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageAllergies::route('/'),
+            'index' => Pages\ManageSymptomes::route('/'),
         ];
     }    
 }

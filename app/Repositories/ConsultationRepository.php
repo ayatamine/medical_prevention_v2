@@ -39,14 +39,13 @@ class ConsultationRepository extends AbstractRepository
     {
         $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
         //TODO: send notification to patient
-        $patient =Patient::findOrFail($consultation->id);
+        $patient =Patient::findOrFail($consultation->patient_id);
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been approved',
             'consultation_id'=>$consultation_id,
             'patient'=>$patient
         );
         $patient->notify(new ConsultationStatusUpdated($data));
-        return true;
         // $consultation->update(['status' => 'in_progress']);
     }
     /**
@@ -55,8 +54,15 @@ class ConsultationRepository extends AbstractRepository
      */
     public function rejectConsult($consultation_id)
     {
-        $consultation =  request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
+        $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
         //TODO: send notification to patient
+        $patient =Patient::findOrFail($consultation->patient_id);
+        $data=array(
+            'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has bee rejected',
+            'consultation_id'=>$consultation_id,
+            'patient'=>$patient
+        );
+        $patient->notify(new ConsultationStatusUpdated($data));
         $consultation->update(['status' => 'rejected']);
     }
     /**
@@ -65,8 +71,16 @@ class ConsultationRepository extends AbstractRepository
      */
     public function finishConsult($consultation_id)
     {
-        $consultation =  request()->user()->consultations()->where('status', 'in_progress')->findOrFail($consultation_id);
-        //TODO: send notification to patient
+        $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
+
+        $patient =Patient::findOrFail($consultation->patient_id);
+        $data=array(
+            'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
+            'consultation_id'=>$consultation_id,
+            'patient'=>$patient
+        );
+        $patient->notify(new ConsultationStatusUpdated($data));
+                //TODO: send notification to patient
         //incompleted means need summary
         $consultation->update(['status' => 'incompleted']);
     }
@@ -101,6 +115,14 @@ class ConsultationRepository extends AbstractRepository
                 }
                 //mark as completed
                 $consultation->update(['status' => 'completed','finished_at'=>now()]);
+                //notify patient
+                $patient =Patient::findOrFail($consultation->patient_id);
+                    $data=array(
+                        'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
+                        'consultation_id'=>$consultation_id,
+                        'patient'=>$patient
+                    );
+                $patient->notify(new ConsultationStatusUpdated($data));
                 return $summary;
             });
         }

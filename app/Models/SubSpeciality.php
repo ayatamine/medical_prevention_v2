@@ -20,6 +20,7 @@ class SubSpeciality extends Model
         'name',
         'name_ar',
         'slug',
+        'icon',
     ];
 
     /**

@@ -39,6 +39,7 @@ class SubSpecialityResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('icon'),
                     
             ]);
     }
@@ -51,6 +52,7 @@ class SubSpecialityResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Name'),
                 Tables\Columns\TextColumn::make('name_ar')->label('Name in Arabic'),
                 Tables\Columns\TextColumn::make('slug'),
+                Tables\Columns\ImageColumn::make('icon'),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('updated_at')

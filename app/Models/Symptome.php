@@ -9,7 +9,8 @@ class Symptome extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name','name_ar'
+        'name','name_ar',
+        'icon',
     
     ];
     protected $dates = [

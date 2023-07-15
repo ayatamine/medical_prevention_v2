@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Allergy extends Model
 {
     use HasFactory;
-    protected $fillable=['name','name_ar'];
+    protected $fillable=['name','name_ar',
+    'icon'];
+    protected $table=['allergies'];
 
     public function getPublishDateAttribute($date)
     {
