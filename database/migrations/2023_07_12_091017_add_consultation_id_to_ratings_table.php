@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ratings', function (Blueprint $table) {
-            // $table->foreignIdFor(Consultation::class)->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Consultation::class)->cascadeOnDelete()->cascadeOnUpdate();
             $table->dropForeign('ratings_doctor_id_foreign');
             $table->dropForeign('ratings_patient_id_foreign');
             $table->dropColumn('doctor_id');
