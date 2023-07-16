@@ -44,6 +44,7 @@ class DoctorProfileController extends Controller
 
             return $this->api->success()
                              ->message("The notification status updated successfully")
+                             ->payload(['notification_status'=>(bool)$status])
                              ->send();
         }
         catch(Exception $ex){
@@ -74,6 +75,7 @@ class DoctorProfileController extends Controller
 
             return $this->api->success()
                              ->message("The online status updated successfully")
+                             ->payload(['online_status'=>(bool)$status])
                              ->send();
         }
         catch(Exception $ex){

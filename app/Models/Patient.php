@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\ChronicDiseases;
 use App\Models\BallanceHistory;
+use App\Models\ChronicDiseases;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Patient extends Model
 {
@@ -39,12 +40,42 @@ class Patient extends Model
         'has_depression_screening',
         'account_status',
         'age',
-        'allergy_id',
-        'chronic_diseases_id',
-        'family_history_id',
+        // 'allergy_id',
+        // 'chronic_diseases_id',
+        // 'family_history_id',
         'ballance'
     
     ];
+    public function notificationStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function hasPhysicalActivity():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function hasCancerScreening():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function hasDepressionScreening():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function AccountStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
      /* ************************ RELATIONS ************************ */
     /**
     * Many to One Relationship to \App\Models\ChronicDisease::class
@@ -112,5 +143,44 @@ class Patient extends Model
     public function previousSummaries(){
         $consultations = $this->consultations->pluck('id')->toArray();
        return Summary::with('consultation','consultation.doctor:id,full_name')->whereIn('consultation_id',$consultations)->get();
+    }
+        /**
+     * @return allergies collection
+     * 
+     */
+    public function allergies():BelongsToMany
+    {
+        return $this->belongsToMany(
+            Allergy::class,
+            'patient_allergy',
+            'patient_id',
+            'allergy_id'
+        );
+    }
+        /**
+     * @return family_histories collection
+     * 
+     */
+    public function family_histories():BelongsToMany
+    {
+        return $this->belongsToMany(
+            FamilyHistory::class,
+            'patient_family_history',
+            'patient_id',
+            'family_history_id'
+        );
+    }
+        /**
+     * @return chronic_diseases collection
+     * 
+     */
+    public function chronic_diseases():BelongsToMany
+    {
+        return $this->belongsToMany(
+            ChronicDiseases::class,
+            'patient_chronic_diseases',
+            'patient_id',
+            'chronic_diseases_id'
+        );
     }
 }

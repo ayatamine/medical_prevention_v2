@@ -46,8 +46,8 @@ class DoctorProfileResource extends JsonResource
                 return [
                     'id'=>$review->id,
                     'patient'=>[
-                        'full_name'=>$review->patient->full_name,
-                        'thumbnail'=>$review->patient->thumbnail,
+                        'full_name'=>$review->consultation->patient->full_name,
+                        'thumbnail'=>$review->consultation->patient->thumbnail,
                     ],
                     'rating'=>$review->rating,
                     'comment'=>$review->comment,

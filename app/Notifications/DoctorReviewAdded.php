@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ConsultationStatusUpdated extends Notification implements ShouldQueue
+class DoctorReviewAdded extends Notification implements ShouldQueue
 {
     use Queueable;
     public $data;
@@ -26,7 +26,7 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        if($this->data['patient']->notification_status)   return ['mail','database'];
+        if($this->data['doctor']->notification_status)   return ['mail','database'];
         return ['mail'];
     }
 
@@ -37,7 +37,7 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->from(env('MAIL_FROM_ADDRESS'), config('app.name'))
-                    ->line('Hi '.$this->data['patient']->full_name)
+                    ->line('Hi '.$this->data['doctor']->full_name)
                     ->line($this->data['message'])
                     // ->action('Notification Action', url('/'))
                     ->line('with care of your health,Thank you for using '.config('app.name'));

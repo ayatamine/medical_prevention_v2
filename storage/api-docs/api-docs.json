@@ -435,6 +435,54 @@
                 ]
             }
         },
+        "/api/v1/doctors/logout": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "description": "Logout a Doctor",
+                "operationId": "logoutDoctor",
+                "responses": {
+                    "200": {
+                        "description": "You logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/profile/update": {
             "post": {
                 "tags": [
@@ -714,6 +762,137 @@
                 ]
             }
         },
+        "/api/v1/doctors/profile/notifications": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get list of notifications related to a given doctor ",
+                "description": "get list of notifications related to a given doctor  ",
+                "operationId": "get doctor notifications",
+                "responses": {
+                    "200": {
+                        "description": "notification fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/notifications/mark-as-read": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "mark as read for doctor notifications ",
+                "description": "mark as read for doctor notifications  ",
+                "operationId": "mark_as_read_doctor_noti",
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/notifications/{id}/mark-as-read": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "mark as read for doctor given id notifications ",
+                "description": "mark as read for doctor  given id  notifications  ",
+                "operationId": "mark_as_read_doctor_single_noti",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [
@@ -868,17 +1047,32 @@
                                         "format": "double",
                                         "example": "55.5"
                                     },
-                                    "allergy_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "allergies": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
-                                    "chronic_diseases_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "chronic_diseases": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
-                                    "family_history_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "family_histories": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
                                     "has_cancer_screening": {
                                         "type": "boolean",
@@ -895,7 +1089,7 @@
                                         ]
                                     },
                                     "other_problems": {
-                                        "type": "object"
+                                        "type": "json"
                                     }
                                 },
                                 "type": "object"
@@ -1373,6 +1567,137 @@
                     },
                     "404": {
                         "description": "No Record Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patientss/notifications": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "get list of notifications related to a given patient ",
+                "description": "get list of notifications related to a given patient  ",
+                "operationId": "get patient notifications",
+                "responses": {
+                    "200": {
+                        "description": "notification fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patientss/notifications/mark-as-read": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "mark as read for patient notifications ",
+                "description": "mark as read for patient notifications  ",
+                "operationId": "mark_as_read_patient_noti",
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patientss/notifications/{id}/mark-as-read": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "mark as read for patient given id notifications ",
+                "description": "mark as read for patient  given id  notifications  ",
+                "operationId": "mark_as_read_patient_single_noti",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {}

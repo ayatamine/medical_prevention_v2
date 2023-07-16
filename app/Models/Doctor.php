@@ -48,6 +48,18 @@ class Doctor extends Model
         'location',
     ];
     // accesors
+    public function notificationStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function onlineStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
     public function thumbnail():Attribute
     {
         return Attribute::make(

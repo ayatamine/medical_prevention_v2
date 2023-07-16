@@ -22,9 +22,9 @@ class ReviewRequest extends FormRequest
      */
     public function rules(): array
     {
-        $accepted =[1,2,3,4,5];
+        // $accepted =[1,2,3,4,5];
         return [
-            'rating'=>['required','integer', Rule::in($this->accepted)],
+            'rating'=>['required','integer','max:5'],
             'comment'=>['sometimes','nullable','string']
         ];
     }

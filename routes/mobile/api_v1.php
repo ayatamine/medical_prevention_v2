@@ -34,6 +34,9 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::delete('/', 'deletePatientAccount');
             Route::post('/logout', 'logout');
             Route::put('/notifications-status/{status}', 'switchNotificationsStataus');
+            Route::get('/notifications', 'myNotifications');
+            Route::post('/notifications/mark-as-read', 'markNotificationsAsRead');
+            Route::post('/notifications/{id}/mark-as-read', 'markSingleNotificationsAsRead');
 
             //patient scales
             Route::get('scales', 'getPatientScales');
@@ -57,6 +60,9 @@ Route::group(['as' => 'api_v1.'], function () {
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
             Route::get('/profile/my', 'show');
+            Route::get('/profile/notifications', 'myNotifications');
+            Route::post('/profile/notifications/mark-as-read', 'markNotificationsAsRead');
+            Route::post('/profile/notifications/{id}/mark-as-read', 'markSingleNotificationsAsRead');
             Route::get('/profile/home', 'getHomeProfileData');
             // Route::get('/profile/main', 'profileDetails');
             Route::post('logout', 'logout');

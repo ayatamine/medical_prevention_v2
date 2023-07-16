@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Exception;
+use App\Models\Doctor;
 use App\Models\Rating;
 use App\Models\Patient;
 use App\Models\Summary;
@@ -10,6 +11,7 @@ use App\Models\Consultation;
 use App\Models\PatientScale;
 use App\Models\ScaleQuestion;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\DoctorReviewAdded;
 use App\Http\Resources\PatientScaleResource;
 use App\Notifications\ConsultationStatusUpdated;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
@@ -37,16 +39,25 @@ class ConsultationRepository extends AbstractRepository
      */
     public function approveConuslt($consultation_id)
     {
-        $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
-        //TODO: send notification to patient
+        $consultation = request()->user()->consultations()
+        ->where('status', 'pending')
+        ->findOrFail($consultation_id);
+        
+      
         $patient =Patient::findOrFail($consultation->patient_id);
+
+        $consultation->update(['status'=>'in_progress']);
+
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been approved',
             'consultation_id'=>$consultation_id,
             'patient'=>$patient
         );
-        $patient->notify(new ConsultationStatusUpdated($data));
-        // $consultation->update(['status' => 'in_progress']);
+
+        $delay = now()->addMinutes(5);
+        $patient->notify(((new ConsultationStatusUpdated($data))->delay($delay))->delay($delay));
+        
+        return $patient;
     }
     /**
      * reject a consultation request
@@ -54,16 +65,20 @@ class ConsultationRepository extends AbstractRepository
      */
     public function rejectConsult($consultation_id)
     {
-        $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
-        //TODO: send notification to patient
+        $consultation = request()->user()->consultations()
+        ->where('status', 'pending')
+        ->findOrFail($consultation_id);
+    
         $patient =Patient::findOrFail($consultation->patient_id);
+        $consultation->update(['status' => 'rejected']);
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has bee rejected',
             'consultation_id'=>$consultation_id,
             'patient'=>$patient
         );
-        $patient->notify(new ConsultationStatusUpdated($data));
-        $consultation->update(['status' => 'rejected']);
+        $delay = now()->addMinutes(5);
+        $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
+       return $patient;
     }
     /**
      * reject a consultation request
@@ -71,18 +86,21 @@ class ConsultationRepository extends AbstractRepository
      */
     public function finishConsult($consultation_id)
     {
-        $consultation = request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
+        $consultation = request()->user()->consultations()->where('status', 'in_progress')->findOrFail($consultation_id);
 
         $patient =Patient::findOrFail($consultation->patient_id);
+        $consultation->update(['status' => 'incompleted']);
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
             'consultation_id'=>$consultation_id,
             'patient'=>$patient
         );
-        $patient->notify(new ConsultationStatusUpdated($data));
-                //TODO: send notification to patient
+        $delay = now()->addMinutes(5);
+        $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
+       
+        return $patient;
         //incompleted means need summary
-        $consultation->update(['status' => 'incompleted']);
+       
     }
     /**
      * add a summary to a consultation
@@ -118,11 +136,12 @@ class ConsultationRepository extends AbstractRepository
                 //notify patient
                 $patient =Patient::findOrFail($consultation->patient_id);
                     $data=array(
-                        'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
+                        'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been updated with the summary',
                         'consultation_id'=>$consultation_id,
                         'patient'=>$patient
                     );
-                $patient->notify(new ConsultationStatusUpdated($data));
+                    $delay = now()->addMinutes(5);
+                $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
                 return $summary;
             });
         }
@@ -169,13 +188,26 @@ class ConsultationRepository extends AbstractRepository
         $consultation = Consultation::findOrFail($consultation_id);
 
         if ($consultation->status == 'completed' || $consultation->status == 'incompleted') {
-            Rating::create([
+            Rating::firstOrCreate([ 'consultation_id' => $consultation_id],
+            [
                 'consultation_id' => $consultation_id,
                 'rating' => $request['rating'],
                 'comment' => $request['comment'] ?? null,
             ]);
+            $doctor =Doctor::findOrFail($consultation->doctor_id);
+            $data=array(
+                'message'=>'A Review has been added to your consultation #'.$consultation_id,
+                'consultation_id'=>$consultation_id,
+                'doctor'=>$doctor
+            );
+            $delay = now()->addMinutes(5);
+            $doctor->notify((new DoctorReviewAdded($data))->delay($delay));
+            return true;
         } else {
-            abort(403);
+           return response()->json([
+            'success'=>false,
+            'message'=>'The consultation is not completed yet'
+           ]);
         }
         return true;
     }

@@ -124,7 +124,7 @@ class ConsultationController extends Controller
                 ->message("The consult request rejected successfully")
                 ->send();
         } catch (Exception $ex) {
-            return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+            return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='pending'");
             // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
         }
     }
@@ -613,7 +613,7 @@ class ConsultationController extends Controller
                 ->message("The consult request finished successfully")
                 ->send();
         } catch (Exception $ex) {
-            return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
+            return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='in_progres'");
             // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
         }
     }

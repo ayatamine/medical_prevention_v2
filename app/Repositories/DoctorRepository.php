@@ -342,7 +342,7 @@ class DoctorRepository extends AbstractRepository
     public function show($id)
     {
         $doctor =  Doctor::active()
-            ->with('reviews')
+            ->with('reviews','reviews.consultation')
             ->withSum('reviews', 'rating')
             ->with('sub_specialities:id,name,name_ar,slug')
             ->findOrfail($id);
