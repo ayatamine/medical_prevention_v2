@@ -157,8 +157,9 @@ class ConsultationRepository extends AbstractRepository
      */
     public function patientMedicalRecord($consultation_id)
     {
-        $consult = Consultation::with('patient', 'patient.allergy', "patient.familyHistory", "patient.chronicDisease")
+        $consult = Consultation::with('patient',  "patient.allergies","patient.family_histories", "patient.chronic_diseases")
             ->findOrFail($consultation_id);
+
         $anexiety_scale = $this->patientScales($consult->patient->id, 1);
         $depression_scale = $this->patientScales($consult->patient->id, 2);
         return array('consult' => $consult, 'anexiety_scale' => $anexiety_scale, 'depression_scale' => $depression_scale);

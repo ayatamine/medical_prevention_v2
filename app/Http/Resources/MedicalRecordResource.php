@@ -23,9 +23,9 @@ class MedicalRecordResource extends JsonResource
             'gender'=> $this['consult']->patient->gender,
             'height'=> $this['consult']->patient->height,
             'wheight'=> $this['consult']->patient->weight,
-            'allergy'=>$this['consult']->patient->allergy,
-            'chronic_disease'=>$this['consult']->patient->chronicDisease,
-            'family_history'=>$this['consult']->patient->familyHistory,
+            'allergies'=>$this['consult']->patient->allergies,
+            'chronic_diseases'=>$this['consult']->patient->chronic_diseases,
+            'family_histories'=>$this['consult']->patient->family_histories,
             'activities'=>[
                 "physical_activity"=>(bool)$this['consult']->patient->has_physical_activity,
                 "cancer_screening"=>(bool)$this['consult']->patient->has_cancer_screening,

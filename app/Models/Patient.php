@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Allergy;
 use App\Models\BallanceHistory;
 use App\Models\ChronicDiseases;
 use Laravel\Sanctum\HasApiTokens;

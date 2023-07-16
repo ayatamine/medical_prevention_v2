@@ -11,7 +11,7 @@ class Allergy extends Model
     use HasFactory;
     protected $fillable=['name','name_ar',
     'icon'];
-    protected $table=['allergies'];
+    // protected $table=['allergies'];
 
     public function getPublishDateAttribute($date)
     {

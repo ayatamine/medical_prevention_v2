@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Allergy;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('patient_allergy', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Patient::class);
+            $table->foreignIdFor(Allergy::class);
             $table->timestamps();
         });
     }
