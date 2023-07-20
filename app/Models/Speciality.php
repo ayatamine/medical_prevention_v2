@@ -20,6 +20,7 @@ class Speciality extends Model
         'name',
         'name_ar',
         'slug',
+        'icon',
     ];
 
     /**

@@ -111,24 +111,30 @@ class ConsultationRepository extends AbstractRepository
 
         // $consultation =  request()->user()->consultations()->where('status', 'pending')->findOrFail($consultation_id);
         //  //TODO: send notification to patient
-        $consultation = Consultation::findOrFail($consultation_id);
+        $consultation = Consultation::where('status','incompleted')->findOrFail($consultation_id);
         $summary = Summary::where('consultation_id',$consultation_id)->first();
         if($summary) return 'exists';
-        if ($consultation->status == 'incompleted') { //summay not added yet
             DB::transaction(function () use ($consultation,$consultation_id,$request) {
                 $summary = Summary::create([
                     'description' => $request['description'],
                     'sick_leave' => $request['sick_leave'],
                     'other_lab_tests' => $request['other_lab_tests'] ? json_encode($request['other_lab_tests']) :null,
                     'notes' => $request['note'] ?? null,
-                    'prescriptions' =>$request['prescriptions'] ? json_encode($request['prescriptions']) :null,
+                    // 'prescription' =>$request['prescription'] ? json_encode($request['prescription']) :null,
                     'consultation_id' => $consultation_id
                 ]);
                 if(array_key_exists('lab_tests',$request))
                 {
                     if(is_array($request['lab_tests']))
                     {
-                     $summary->labTests->sync($request['lab_tests']);
+                     $summary->labTests()->sync($request['lab_tests']);
+                    }
+                }
+                if(array_key_exists('medicines',$request))
+                {
+                    if(is_array($request['medicines']))
+                    {
+                     $summary->medicines()->sync($request['medicines']);
                     }
                 }
                 //mark as completed
@@ -144,13 +150,11 @@ class ConsultationRepository extends AbstractRepository
                 $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
                 return $summary;
             });
-        }
-        return false;
     }
     /** view a summary */
     public function viewSummary($consultation_id)
     {
-        return Consultation::with('summary','review')->findOrFail($consultation_id);
+        return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name','summary','review')->findOrFail($consultation_id);
     }
     /**
      * fetch patient medical record
@@ -187,7 +191,12 @@ class ConsultationRepository extends AbstractRepository
     {
 
         $consultation = Consultation::findOrFail($consultation_id);
-
+        if( Rating::where('consultation_id',$consultation_id)->first())  return response()->json(
+            [
+                'success'=>false,
+                'message'=>'you  have already rated this consultation'
+            ]
+            );
         if ($consultation->status == 'completed' || $consultation->status == 'incompleted') {
             Rating::firstOrCreate([ 'consultation_id' => $consultation_id],
             [

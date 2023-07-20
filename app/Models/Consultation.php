@@ -66,6 +66,12 @@ class Consultation extends Model
     {
         return $this->hasOne(Rating::class);
     }
+    public function createdAt():Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? date('d-m-Y',strtotime($value)) :null
+        );
+    }
 
 
 }

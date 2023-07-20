@@ -1507,6 +1507,73 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "update patient scale (anexiety or depression) ",
+                "description": "update patient scale (anexiety or depression)  ",
+                "operationId": "update patient scale",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "scale title",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "answers": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "scale updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/patients/recommendations": {
@@ -1581,7 +1648,7 @@
                 ]
             }
         },
-        "/api/v1/patientss/notifications": {
+        "/api/v1/patients/notifications": {
             "get": {
                 "tags": [
                     "patients"
@@ -1622,7 +1689,7 @@
                 ]
             }
         },
-        "/api/v1/patientss/notifications/mark-as-read": {
+        "/api/v1/patients/notifications/mark-as-read": {
             "post": {
                 "tags": [
                     "patients"
@@ -1663,7 +1730,7 @@
                 ]
             }
         },
-        "/api/v1/patientss/notifications/{id}/mark-as-read": {
+        "/api/v1/patients/notifications/{id}/mark-as-read": {
             "post": {
                 "tags": [
                     "patients"
@@ -1952,8 +2019,15 @@
                                         "type": "text",
                                         "example": "description here"
                                     },
-                                    "prescriptions": {
-                                        "type": "text"
+                                    "medicines": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
                                     },
                                     "lab_tests": {
                                         "type": "array",
@@ -2780,47 +2854,14 @@
                 }
             }
         },
-        "/api/v1/my-prescriptions": {
-            "get": {
-                "tags": [
-                    "doctors"
-                ],
-                "summary": "get doctor prescriptions list ",
-                "description": "get doctor prescriptions list  ",
-                "operationId": "prescriptionsList",
-                "responses": {
-                    "200": {
-                        "description": "prescriptions fetched succefully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "no prescriptions found ",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/my-prescriptions/store": {
+        "/api/v1/doctors/medicines/store": {
             "post": {
                 "tags": [
                     "doctors"
                 ],
-                "summary": "create a new prescription ",
-                "description": "create a new prescription by a doctor ",
-                "operationId": "storeNewPrescription",
+                "summary": "create a new medicine ",
+                "description": "create a new medicine by a doctor ",
+                "operationId": "storeNewmedicine",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
@@ -2859,7 +2900,11 @@
                                         "type": "string"
                                     },
                                     "prn": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
                                     },
                                     "instructions": {
                                         "type": "text"
@@ -2875,7 +2920,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "the prescription created succefully",
+                        "description": "the medicine created succefully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -2900,6 +2945,46 @@
                     },
                     "401": {
                         "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/medicines/list": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get doctor medecines list ",
+                "description": "get doctor me list  ",
+                "operationId": "medicinesList",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "medicine name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "medicines fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no medicine found ",
                         "content": {
                             "application/json": {
                                 "schema": {}

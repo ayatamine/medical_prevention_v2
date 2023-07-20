@@ -34,5 +34,13 @@ class PrescriptionRepository extends AbstractRepository
         $prescription = request()->user()->prescriptions()->save($prescription);
         return $prescription;
     }
+    public function myMedicineList(){
+        $medicines = Prescription::where('doctor_id',request()->user()->id)
+                     ->when(request()->has('search'),function($query){
+                         $query->where('drug_name','like','%'.request()->query()['search'].'%');
+                     })
+                     ->get();
+        return $medicines;
+    }
 
 }

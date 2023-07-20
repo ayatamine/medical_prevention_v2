@@ -22,8 +22,8 @@ class PatientScale extends Model
     protected $fillable = [
         'answer',
         'patient_id',
-        'scale_question_id',
-    
+        'scale_question_id',  
+        'question_answers'
     ];
     
     
@@ -31,6 +31,9 @@ class PatientScale extends Model
     protected $dates = [
         'created_at',
         'updated_at',
+    ];
+    protected $casts=[
+        'question_answers'=>'array'
     ];
     /* ************************ RELATIONS ************************ */
     /**

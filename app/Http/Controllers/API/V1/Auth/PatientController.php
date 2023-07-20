@@ -491,9 +491,9 @@ class PatientController extends Controller
             return handleTwoCommunErrors($ex, "No Record Found");
         }
     }
-     /**
+    /**
      * @OA\Get(
-     * path="/api/v1/patientss/notifications",
+     * path="/api/v1/patients/notifications",
      * operationId="get patient notifications",
      * tags={"patients"},
      * security={ {"sanctum": {} }},
@@ -514,12 +514,12 @@ class PatientController extends Controller
                 ->payload($notifications)
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no patient found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
         }
     }
-     /**
+    /**
      * @OA\Post(
-     * path="/api/v1/patientss/notifications/mark-as-read",
+     * path="/api/v1/patients/notifications/mark-as-read",
      * operationId="mark_as_read_patient_noti",
      * tags={"patients"},
      * security={ {"sanctum": {} }},
@@ -538,12 +538,12 @@ class PatientController extends Controller
                 ->message('notifications marked as read successfully')
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no patient found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
         }
     }
-        /**
+    /**
      * @OA\Post(
-     * path="/api/v1/patientss/notifications/{id}/mark-as-read",
+     * path="/api/v1/patients/notifications/{id}/mark-as-read",
      * operationId="mark_as_read_patient_single_noti",
      * tags={"patients"},
      * security={ {"sanctum": {} }},
@@ -558,13 +558,51 @@ class PatientController extends Controller
     public function markSingleNotificationsAsRead($id)
     {
         try {
-            DB::table('notifications')->where('id',$id)->update(['read_at'=>Carbon::now()]);
+            DB::table('notifications')->where('id', $id)->update(['read_at' => Carbon::now()]);
 
             return $this->api->success()
                 ->message('notification marked as read successfully')
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no patient found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/patients/scales/{title}",
+     * operationId="update patient scale",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="update patient scale (anexiety or depression) ",
+     * description="update patient scale (anexiety or depression)  ",
+     * @OA\Parameter(  name="title", in="path", description="scale title", required=true),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *               @OA\Property( property="answers",type="array",@OA\Items(type="integer")),
+     *              )
+     *          )
+     * ),
+     *      @OA\Response( response=200, description="scale updated successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no patient found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function updatePatientScale(Request $request, $title)
+    {
+        $this->validate($request, [
+            'answers' => 'required|array',
+            'answers.*.scale_question_id' => 'required|exists:scale_questions,id'
+        ]);
+        $this->repository->updateScale($request, $title);
+        try {
+            return $this->api->success()
+                ->message('scale updated successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
         }
     }
 }

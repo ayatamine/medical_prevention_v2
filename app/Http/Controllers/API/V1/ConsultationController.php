@@ -143,7 +143,7 @@ class ConsultationController extends Controller
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 @OA\Property( property="description",type="text",example="description here"),
-     *                 @OA\Property( property="prescriptions",type="text"),
+     *                 @OA\Property( property="medicines",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="other_lab_tests",type="string",example="new test"),
      *                 @OA\Property( property="sick_leave",type="integer",enum={0, 1}),
@@ -154,16 +154,19 @@ class ConsultationController extends Controller
      *      @OA\Response(response=400,description="There is no consultation related to this doctor with the given id",@OA\JsonContent()),
      *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
      *     )
+     *  * @group Consultation
+     * @urlParam id integer required The ID of the consultation.
+    * @bodyParam description string
+    * @bodyParam description string
+    * @bodyParam sick_leave boolean .
+    * @bodyParam medicines integer[] group of medicals puts in prescripion as array
+    * @bodyParam lab_tests integer[] the id's of lab tests 
      */
     public function addSummary(SummaryRequest $request, $id)
     {
         try {
             $result= $this->repository->addSummary($request->validated(), $id);
-            if($result == false){
-                return $this->api->failed()
-                ->message("The consultation is not completed yet")
-                ->send();
-            }
+
             if($result == 'exists'){
                 return $this->api->failed()
                 ->message("The summary has been already added to this consultation ")
@@ -531,7 +534,10 @@ class ConsultationController extends Controller
      *          @OA\JsonContent()
      *       ),
      *     )
+     * @group Consultation
+     * @urlParam consultation_id integer required The ID of the consultation.
      */
+    
     public function patientMedicalRecord($consultation_id)
     {
         try {

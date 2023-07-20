@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+require base_path('routes/channels.php');
 
 Route::group(['as' => 'api_v1.'], function () {
     Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class, 'index']);
@@ -41,6 +41,7 @@ Route::group(['as' => 'api_v1.'], function () {
             //patient scales
             Route::get('scales', 'getPatientScales');
             Route::get('scales/{title}', 'patientScaleDetails');
+            Route::post('scales/{title}', 'updatePatientScale');
             // recommendation with age and sex filtered base on the patient
             Route::get('/recommendations', 'recommendations');
             Route::get('/recommendations/{id}', 'recommendationDetails');
@@ -70,6 +71,8 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::put('profile/update-phone-number', 'updatePhone');
             Route::delete('/','deleteAccount');
             Route::post('/update-thumbnail', 'updateThumbnail');
+
+
         });
     });
 });
@@ -91,8 +94,10 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
     //Prescripiton controller
     Route::controller(\App\Http\Controllers\API\V1\PrescriptionController::class)->group(function () {
         //prescripitons
-        Route::get('/my-prescriptions', 'index');
-        Route::post('/my-prescriptions/store', 'store');
+        // Route::get('/my-medicines', 'index');
+        Route::post('/doctors/medicines/store', 'store');
+        Route::get('/doctors/medicines/list', 'searchMedicines');
+
     });
 });
 Route::middleware('auth:sanctum')->group(function () {

@@ -21,4 +21,5 @@ class Prescription extends Model
         'instructions',
         'doctor_id'
     ];
+    protected $hidden=['created_at','updated_at'];
 }
