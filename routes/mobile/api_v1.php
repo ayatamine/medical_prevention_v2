@@ -105,6 +105,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('consultations/{id}/medical-record/', [\App\Http\Controllers\API\V1\ConsultationController::class,'patientMedicalRecord']);
     Route::post('consultations/{id}/send-message', [\App\Http\Controllers\API\V1\ConsultationController::class,'sendMessage']);
     Route::post('consultations/{id}/view-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'viewSummary']);
-    // Route::get('consultations/{id}/print-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'printSummary']);
+    Route::get('consultations/{id}/print-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'printSummary']);
 });
-Route::get('consultations/{id}/print-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'printSummary']);

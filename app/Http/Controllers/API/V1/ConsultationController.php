@@ -230,7 +230,7 @@ class ConsultationController extends Controller
     {
         try {
             $result= $this->repository->printSummary($id);
-            return $result;
+            
             return $this->api->success()
                 ->message("The summary fetched successfully")
                 ->payload($result)

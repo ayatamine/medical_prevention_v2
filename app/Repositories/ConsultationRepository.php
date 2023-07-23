@@ -54,7 +54,7 @@ class ConsultationRepository extends AbstractRepository
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been approved',
             'consultation_id'=>$consultation_id,
-            'patient'=>$patient
+           // 'patient'=>$patient
         );
 
         $delay = now()->addMinutes(5);
@@ -77,7 +77,7 @@ class ConsultationRepository extends AbstractRepository
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has bee rejected',
             'consultation_id'=>$consultation_id,
-            'patient'=>$patient
+           // 'patient'=>$patient
         );
         $delay = now()->addMinutes(5);
         $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
@@ -96,7 +96,7 @@ class ConsultationRepository extends AbstractRepository
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
             'consultation_id'=>$consultation_id,
-            'patient'=>$patient
+           // 'patient'=>$patient
         );
         $delay = now()->addMinutes(5);
         $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
@@ -147,7 +147,7 @@ class ConsultationRepository extends AbstractRepository
                     $data=array(
                         'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been updated with the summary',
                         'consultation_id'=>$consultation_id,
-                        'patient'=>$patient
+                       // 'patient'=>$patient
                     );
                     $delay = now()->addMinutes(5);
                 $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
@@ -178,7 +178,7 @@ class ConsultationRepository extends AbstractRepository
         // file_put_contents($filePath, $pdfContent);
         return url('storage',$filePath);
         // $pdf->render();
-return $pdf->stream('sdfsdf.pdf');
+// return $pdf->stream('sdfsdf.pdf');
         // return  $pdf->download("consultation_#$summary->id.pdf");
 
 

@@ -15,6 +15,7 @@ use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorProfileDataResource;
 use App\Http\Resources\DoctorHomeProfileDataResource;
+use App\Http\Resources\SimpleNotificationResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DoctorController extends Controller
@@ -518,7 +519,7 @@ class DoctorController extends Controller
 
             return $this->api->success()
                 ->message('notification fetched successfully')
-                ->payload($notifications)
+                ->payload(SimpleNotificationResource::collection($notifications))
                 ->send();
         } catch (Exception $ex) {
             handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
