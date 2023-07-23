@@ -2044,7 +2044,7 @@
                                         "example": "new test"
                                     },
                                     "sick_leave": {
-                                        "type": "integer",
+                                        "type": "boolean",
                                         "enum": [
                                             0,
                                             1
@@ -2103,6 +2103,55 @@
                 "summary": "view a summary of a finished consultation",
                 "description": "view summary to a finished consultation",
                 "operationId": "view_consultation_summary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The summary fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/print-summary": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "summary": "print a summary of a finished consultation",
+                "description": "print summary to a finished consultation",
+                "operationId": "print_consultation_summary",
                 "parameters": [
                     {
                         "name": "id",

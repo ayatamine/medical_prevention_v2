@@ -2,20 +2,23 @@
 
 namespace App\Repositories;
 
+use PDF;
 use Exception;
 use App\Models\Doctor;
 use App\Models\Rating;
 use App\Models\Patient;
+use App\Models\Setting;
 use App\Models\Summary;
 use App\Models\Consultation;
 use App\Models\PatientScale;
 use App\Models\ScaleQuestion;
+use Spatie\Valuestore\Valuestore;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Notifications\DoctorReviewAdded;
 use App\Http\Resources\PatientScaleResource;
 use App\Notifications\ConsultationStatusUpdated;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
-
 
 class ConsultationRepository extends AbstractRepository
 {
@@ -155,6 +158,31 @@ class ConsultationRepository extends AbstractRepository
     public function viewSummary($consultation_id)
     {
         return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name','summary','review')->findOrFail($consultation_id);
+    }
+    /** print a summary */
+    public function printSummary($consultation_id)
+    {
+        $consult = Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name,birth_date','summary','review')->findOrFail($consultation_id);
+        // $summmary_pdf = new Dompdf();
+        // $summmary_pdf->loadHtml('hello world');
+        $settings = Setting::firstOrFail();
+    
+        // dd($settings->app_logo);
+        $pdf = PDF::loadView('print_consultation_pdf', ['consult'=>$consult,'settings'=>$settings])->set_option('isRemoteEnabled', true);
+        $pdfContent = $pdf->output();
+        $filePath = "/consultations/pdf/consultation_#$consult->id.pdf";
+        // file_put_contents($filePath, $pdfContent);
+
+        Storage::disk('public')->put($filePath,$pdfContent);
+      
+        // file_put_contents($filePath, $pdfContent);
+        return url('storage',$filePath);
+        // $pdf->render();
+return $pdf->stream('sdfsdf.pdf');
+        // return  $pdf->download("consultation_#$summary->id.pdf");
+
+
+
     }
     /**
      * fetch patient medical record

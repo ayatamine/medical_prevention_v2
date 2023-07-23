@@ -146,7 +146,7 @@ class ConsultationController extends Controller
      *                 @OA\Property( property="medicines",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="other_lab_tests",type="string",example="new test"),
-     *                 @OA\Property( property="sick_leave",type="integer",enum={0, 1}),
+     *                 @OA\Property( property="sick_leave",type="boolean",enum={0, 1}),
      *                 @OA\Property( property="notes",type="text"),
      *             )),
      *    ),
@@ -207,6 +207,33 @@ class ConsultationController extends Controller
             return $this->api->success()
                 ->message("The summary fetched successfully")
                 ->payload(new SummaryResource($result))
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "There is no consultation with the given id");
+        }
+    }
+     /**
+     * @OA\Get(
+     * path="/api/v1/consultations/{id}/print-summary",
+     * operationId="print_consultation_summary",
+     * tags={"consultation"},
+     * security={ {"sanctum": {} }},
+     * summary="print a summary of a finished consultation",
+     * description="print summary to a finished consultation",
+     * @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(response=200,description="The summary fetched successfully",@OA\JsonContent()),
+     *      @OA\Response(response=400,description="There is no consultation with the given id",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function printSummary($id)
+    {
+        try {
+            $result= $this->repository->printSummary($id);
+            return $result;
+            return $this->api->success()
+                ->message("The summary fetched successfully")
+                ->payload($result)
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "There is no consultation with the given id");
