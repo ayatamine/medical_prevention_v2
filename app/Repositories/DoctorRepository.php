@@ -51,6 +51,12 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
+            if (array_key_exists('thumbnail', $request)) {
+                $request['thumbnail'] = $request['thumbnail']->storePublicly(
+                    "/",
+                    ['disk' => 'public']
+                );
+            }
             $doctor = Doctor::create($request);
 
             // update speciality
@@ -198,6 +204,15 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
+            if (array_key_exists('thumbnail', $request)) {
+                if (file_exists(public_path('storage/' . $doctor['thumbnail']))) {
+                    unlink(public_path('storage/' . $doctor['thumbnail']));
+                };
+                $request['thumbnail'] = $request['thumbnail']->storePublicly(
+                    "/",
+                    ['disk' => 'public']
+                );
+            }
 
             // update speciality
             if (array_key_exists('sub_specialities', $request)) {
@@ -215,6 +230,9 @@ class DoctorRepository extends AbstractRepository
             }
             if (array_key_exists('certification_file', $request)) {
                 unset($equest['certification_file']);
+            }
+            if (array_key_exists('thumbnail', $request)) {
+                unset($equest['thumbnail']);
             }
             if (array_key_exists('sub_specialities', $request)) {
                 unset($request['sub_specialities']);
@@ -249,6 +267,13 @@ class DoctorRepository extends AbstractRepository
 
                 if (file_exists($cv_file)) {
                     unlink($cv_file);
+                };
+            }
+            if (isset($request['thumbnail'])) {
+                $thumbnail = public_path('storage/' . $request['thumbnail']);
+
+                if (file_exists($thumbnail)) {
+                    unlink($thumbnail);
                 };
             }
             //rollback 

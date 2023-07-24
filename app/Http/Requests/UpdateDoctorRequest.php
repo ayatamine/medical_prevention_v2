@@ -34,6 +34,7 @@ class UpdateDoctorRequest extends FormRequest
             'medical_licence_file' => ['sometimes','nullable','file', 'max:3000'],   
             'cv_file' =>  ['sometimes','nullable','file', 'max:3000'],   
             'certification_file' =>  ['sometimes','nullable','file', 'max:3000'], 
+            'bio' => ['sometimes', 'nullable'],
         ];
     }
 }

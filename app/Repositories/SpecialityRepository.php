@@ -71,8 +71,8 @@ class SpecialityRepository extends AbstractRepository
 
         $doctors = Doctor::active()->withCount('reviews')
             ->withSum('reviews', 'rating')
-            ->whereHas('speciality', function ($query) use ($speciality_id) {
-                $query->where('id', $speciality_id);
+            ->whereHas('specialities', function ($query) use ($speciality_id) {
+                $query->where('speciality_id', $speciality_id);
             });
         return $doctors;
     }
@@ -80,7 +80,7 @@ class SpecialityRepository extends AbstractRepository
      * @return subspeciality doctors
      *  
      */
-    public function SubSpecialityDoctors($speciality_id)
+    public function SubSpecialityDoctors($sub_speciality_id)
     {
         $search = request()->query('search'); // Get the search keyword
         $bestRated = request()->query('best_rated'); // Get the best-rated filter
@@ -90,8 +90,8 @@ class SpecialityRepository extends AbstractRepository
 
         $doctors = Doctor::active()->withCount('reviews')
             ->withSum('reviews', 'rating')
-            ->whereHas('sub_speciality', function ($query) use ($speciality_id) {
-                $query->where('id', $speciality_id);
+            ->whereHas('sub_specialities', function ($query) use ($sub_speciality_id) {
+                $query->where('sub_speciality_id', $sub_speciality_id);
             });
         return $doctors;
     }

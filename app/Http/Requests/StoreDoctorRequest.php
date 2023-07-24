@@ -35,6 +35,8 @@ class StoreDoctorRequest extends FormRequest
             'medical_licence_file' => ['file', 'max:3000'],   
             'cv_file' =>  ['file', 'max:3000'],   
             'certification_file' =>  ['file', 'max:3000'],   
+            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
+            'bio' => ['sometimes', 'nullable'],
         ];
     }
 }

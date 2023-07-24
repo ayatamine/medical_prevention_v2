@@ -14,9 +14,9 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'index']);
     Route::get('/specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'show']);
     Route::get('/specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'doctors'])->name('speciality_doctors');
-    Route::get('/sub_pecialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'subIndex']);
-    Route::get('/sub_pecialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
-    Route::get('/sub_pecialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
+    Route::get('/sub_specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'subIndex']);
+    Route::get('/sub_specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
+    Route::get('/sub_specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);

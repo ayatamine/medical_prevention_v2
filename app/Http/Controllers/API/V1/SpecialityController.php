@@ -208,11 +208,11 @@ class SpecialityController extends Controller
             try {
                  $doctors = $this->repository->SubSpecialityDoctors($speciality_id);
                  if(array_key_exists('limit', request()->query())) return SimpleDoctorResource::collection($doctors->paginate(request()->query()['limit']));
-                 return SimpleDoctorResource::collection($doctors->get());
-                 //  return $this->api->success()
-                //         ->message('speciality doctors details fetched successfully')
-                //         ->payload(SimpleDoctorResource::collection($doctors->paginate(1)))
-                //         ->send();
+                 
+                  return $this->api->success()
+                        ->message('sub speciality doctors details fetched successfully')
+                        ->payload(SimpleDoctorResource::collection($doctors->get()))
+                        ->send();
             }
              catch(Exception $ex){
                 if ($ex instanceof ModelNotFoundException) {

@@ -127,6 +127,13 @@
                                     },
                                     "certification_file": {
                                         "type": "file"
+                                    },
+                                    "bio": {
+                                        "description": "doctor bio",
+                                        "type": "text"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object"
@@ -570,6 +577,9 @@
                                     "bio": {
                                         "description": "doctor bio",
                                         "type": "text"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object"
@@ -3172,6 +3182,127 @@
                     },
                     "404": {
                         "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get list of doctors sub specialities ",
+                "description": "get list of doctors sub specialities  ",
+                "operationId": "sub_specialitis_index",
+                "responses": {
+                    "200": {
+                        "description": "sub_specialities fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities/{id}": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get details of a sub_speciality by id  ",
+                "description": "get details of a sub_speciality by id  ",
+                "operationId": "sub_specialy_show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "sub_speciality id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "sub_speciality details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities/{id}/doctors": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get doctors of a sub speciality by id  ",
+                "description": "get doctors of a sub speciality by id  ",
+                "operationId": "sub_speciality_doctors",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "sub speciality id ",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "sub speciality doctors fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no sub speciality found with the given id",
                         "content": {
                             "application/json": {
                                 "schema": {}
