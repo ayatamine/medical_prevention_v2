@@ -18,6 +18,7 @@ use App\Http\Requests\Api\PatientRequest;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Resources\PatientScaleResource;
 use App\Http\Resources\RecommendationResource;
+use App\Http\Resources\SimpleNotificationResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
@@ -511,7 +512,7 @@ class PatientController extends Controller
 
             return $this->api->success()
                 ->message('notification fetched successfully')
-                ->payload($notifications)
+                ->payload(SimpleNotificationResource::collection($notifications))
                 ->send();
         } catch (Exception $ex) {
             handleTwoCommunErrors($ex, 'no patient found ,please verify your login');

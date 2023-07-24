@@ -20,9 +20,9 @@ class SubSpecialityFactory extends Factory
         return [
             'name'=>$this->faker->name,
             'slug'=>$this->faker->slug,
-            'speciality_id'=>function () {
-                return Speciality::find(1)?->id ?? Speciality::factory()->create()->id;
-            }
+            // 'speciality_id'=>function () {
+            //     return Speciality::find(1)?->id ?? Speciality::factory()->create()->id;
+            // }
         ];
     }
 }

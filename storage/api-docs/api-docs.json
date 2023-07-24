@@ -91,6 +91,16 @@
                                         "type": "string",
                                         "example": "chronic disease"
                                     },
+                                    "specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
                                     "sub_specialities": {
                                         "type": "array",
                                         "items": {
@@ -515,6 +525,16 @@
                                     "job_title": {
                                         "type": "string",
                                         "example": "chronic disease"
+                                    },
+                                    "specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
                                     },
                                     "sub_specialities": {
                                         "type": "array",

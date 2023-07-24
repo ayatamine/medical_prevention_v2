@@ -313,7 +313,7 @@ class DoctorRepository extends AbstractRepository
 
         $doctors = Doctor::active()->withCount('reviews')
             ->withSum('reviews', 'rating')
-            ->whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
+            ->whereHas('speciality', function ($query) use ($speciality_id) {
                 $query->where('id', $speciality_id);
             })
             ->when($bestRated, function ($query) {

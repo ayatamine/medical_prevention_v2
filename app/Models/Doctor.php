@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rating;
+use App\Models\Speciality;
 use App\Models\Prescription;
 use App\Models\SubSpeciality;
 use App\Models\BallanceHistory;
@@ -96,6 +97,19 @@ class Doctor extends Model
             'doctor_sub_speciality',
             'doctor_id',
             'sub_speciality_id'
+        );
+    }
+    /**
+     * @return subspecialities collection
+     * 
+     */
+    public function specialities():BelongsToMany
+    {
+        return $this->belongsToMany(
+            Speciality::class,
+            'doctor_speciality',
+            'doctor_id',
+            'speciality_id'
         );
     }
     /**
