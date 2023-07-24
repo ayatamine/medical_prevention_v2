@@ -17,7 +17,7 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'icons.cogs';
     public static function  canCreate():bool
     {
         return false;

@@ -22,6 +22,7 @@ class ChatMessage extends Model
         'content',
         'attachement'
     ];
+    protected $appends=['attachement_type'];
     
     public function consultation(): BelongsTo
     {
@@ -48,8 +49,80 @@ class ChatMessage extends Model
     }
     public function getAttachementAttribute($value)
     {
-
           return ($value) ? url('storage/'.$value) :null;
+    }
+    public function getAttachementTypeAttribute($value)
+    {
+        $extension = pathinfo($this->attachement, PATHINFO_EXTENSION);
+        return $this->getFileType($extension);
 
+    }
+    private function getFileType($extension)
+    {
+        // Map common file extensions to file types
+        $fileTypes = [
+            'jpg' => 'image',
+            'jpeg' => 'image',
+            'png' => 'image',
+            'gif' => 'image',
+            'bmp' => 'image',
+            'webp' => 'image',
+            'tiff' => 'image',
+            'tif' => 'image',
+            'svg' => 'image',
+            'ai' => 'image', // Adobe Illustrator
+            'psd' => 'image', // Adobe Photoshop
+            'eps' => 'image', // Encapsulated PostScript
+            'icns' => 'image', // macOS Icon
+    
+            'mp3' => 'audio',
+            'wav' => 'audio',
+            'ogg' => 'audio',
+            'flac' => 'audio',
+            'aac' => 'audio',
+            'wma' => 'audio',
+            'm4a' => 'audio',
+    
+            'mp4' => 'video',
+            'avi' => 'video',
+            'mkv' => 'video',
+            'mov' => 'video',
+            'wmv' => 'video',
+            'flv' => 'video',
+            'webm' => 'video',
+            'mpeg' => 'video',
+            'mpg' => 'video',
+    
+            'txt' => 'text',
+            'csv' => 'text', // Comma-Separated Values
+            'xml' => 'text', // eXtensible Markup Language
+            'json' => 'text', // JavaScript Object Notation
+            'pdf' => 'text', // Portable Document Format
+            'doc' => 'text', // Microsoft Word
+            'docx' => 'text', // Microsoft Word
+            'xls' => 'text', // Microsoft Excel
+            'xlsx' => 'text', // Microsoft Excel
+            'ppt' => 'text', // Microsoft PowerPoint
+            'pptx' => 'text', // Microsoft PowerPoint
+    
+            'zip' => 'archive',
+            'rar' => 'archive',
+            '7z' => 'archive',
+            'tar' => 'archive',
+            'gz' => 'archive', // Gzip
+            'bz2' => 'archive', // Bzip2
+    
+            'ttf' => 'font', // TrueType Font
+            'otf' => 'font', // OpenType Font
+            'woff' => 'font', // Web Open Font Format
+            'woff2' => 'font', // Web Open Font Format 2
+    
+            'exe' => 'executable', // Windows
+            'dmg' => 'executable', // macOS
+            'deb' => 'executable', // Debian Linux
+            'apk' => 'executable', // Android Package
+        ];
+
+        return isset($fileTypes[$extension]) ? $fileTypes[$extension] : 'unknown';
     }
 }

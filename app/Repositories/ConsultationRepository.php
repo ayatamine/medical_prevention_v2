@@ -249,4 +249,5 @@ class ConsultationRepository extends AbstractRepository
         }
         return true;
     }
+
 }
