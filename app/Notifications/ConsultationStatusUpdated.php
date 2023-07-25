@@ -50,6 +50,7 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
      */
     public function toArray(object $notifiable): array
     {
+        unset($this->data['patient']);
         return $this->data;
     }
 }
