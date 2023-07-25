@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Livewire\Auth\Login;
@@ -53,4 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', LogoutController::class)
         ->name('logout');
+    Route::controller(AdminController::class)->prefix('patients')->group(function(){
+    Route::get('/admin/notifications/mark-as-read', 'markNotificationsAsRead')->name('admin.notification.mark-as-readAll');
+    Route::get('/admin/notifications/{id}/mark-as-read', 'markSingleNotificationsAsRead')->name('admin.notification.mark-as-read');
+});
+
 });
