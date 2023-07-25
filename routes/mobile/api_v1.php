@@ -93,6 +93,8 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
     Route::controller(\App\Http\Controllers\API\V1\DoctorProfileController::class)->prefix('doctors')->group(function () {
         Route::put('online-status/{status}', 'switchOnlineStatus');
         Route::put('notification-status/{status}', 'switchNotificationStatus');
+        Route::put('profile/update-last-online-status', 'updateLastOnlineStatus');
+
     });
     //Prescripiton controller
     Route::controller(\App\Http\Controllers\API\V1\PrescriptionController::class)->group(function () {

@@ -15,7 +15,14 @@
               {{-- <div class="rounded-full h-8 w-8 bg-gray-300"></div> --}}
               <div class="ml-4">
                 <p class="font-bold">{{$notification->type}}</p>
-                <p class="text-gray-500">{{$notification->data['message']}}</p>
+                <p class="text-gray-500">
+                    {{$notification->data['message']}}
+                    @if($notification->type =='App\Notifications\NewDoctorRegisteration')
+                    <a class="text-blue-600 underline underline-offset-2" href="{{route('filament.resources.doctors.index')}}" class="mx-3">View Doctors</a>
+                    @elseif($notification->type =='App\Notifications\NewPatientsRegisteration')
+                    <a class="text-blue-600 underline underline-offset-2" href="{{route('filament.resources.patients.index')}}" class="mx-3">View Patients</a>
+                    @endif
+                </p>
               </div>
             </div>
           @if(!$notification->read_at)

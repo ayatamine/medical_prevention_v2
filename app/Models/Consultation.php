@@ -54,6 +54,9 @@ class Consultation extends Model
     public function scopeCompleted(){
         return $this->whereNotNull('finished_at');
     }
+    public function scopeRejected(){
+        return $this->where('status','rejected');
+    }
     public function chatMessages():HasMany
     {
         return $this->hasMany(ChatMessage::class);

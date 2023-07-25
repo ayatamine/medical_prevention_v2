@@ -6,19 +6,18 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Webbingbrasil\FilamentNotification\Notifications\NotificationLevel;
-use Webbingbrasil\FilamentNotification\Actions\ButtonAction;
 
-class NewDoctorRegisteration extends Notification
+class NewPatientsRegisteration extends Notification
 {
     use Queueable;
 
+    public $data;
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        
+        $this->data = $data;
     }
 
     /**
@@ -28,7 +27,7 @@ class NewDoctorRegisteration extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [ 'database'];
+        return ['database'];
     }
 
     /**
@@ -37,9 +36,9 @@ class NewDoctorRegisteration extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -50,7 +49,8 @@ class NewDoctorRegisteration extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'New Doctors Registeration',
-            'message' => 'Hi Admin, there is'.$this->data['count'].' new doctors registeration'
+            'title' => 'New Patients Registeration',
+            'message' => 'Hi Admin, there is'.$this->data['count'].' new patients registeration'
+        ];
     }
 }

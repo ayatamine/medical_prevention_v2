@@ -92,7 +92,7 @@ class ConsultationController extends Controller
     public function approveConsult($id)
     {
         try {
-           return  $this->repository->approveConuslt($id);
+            $this->repository->approveConuslt($id);
 
             return $this->api->success()
                 ->message("The consult request approved successfully")

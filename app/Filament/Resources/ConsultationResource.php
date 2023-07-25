@@ -8,6 +8,9 @@ use App\Models\Consultation;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\Layout\View;
+use Filament\Tables\Columns\Layout\Panel;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -21,6 +24,10 @@ class ConsultationResource extends Resource
     protected static ?string $navigationIcon = 'icons.consult';
     protected static ?string $navigationGroup = 'Consultations';
 
+    public static function  canCreate():bool
+    {
+        return false;
+    }
     public static function form(Form $form): Form
     {    
         return $form
@@ -40,21 +47,33 @@ class ConsultationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
+            ])
             ->columns([
-                Tables\Columns\TextColumn::make('doctor.full_name')->label('Doctor'),
-                Tables\Columns\TextColumn::make('patient.full_name')->label('Patient'),
-                Tables\Columns\TextColumn::make('start_time')->label('Start time')->dateTime(),
-                Tables\Columns\TextColumn::make('end_time')->label('End time')->dateTime(),
-                Tables\Columns\SelectColumn::make('status')->label('Consultation Status') 
-                ->options([
-                    'pending' => 'Pending',
-                    'in_progress' => 'In progress',
-                    'incompleted' => 'Incompleted',
-                    'completed' => 'completed',
-                    'canceled' => 'Canceled',
-                    'completed' => 'Completed',
-                    'rejected' => 'Rejected',
+                
+               
+                Panel::make([
+                    Stack::make([
+                        // Tables\Columns\TextColumn::make('doctor.full_name')->label('Doctor'),
+                        // Tables\Columns\TextColumn::make('patient.full_name')->label('Patient'),
+                        // Tables\Columns\TextColumn::make('start_time')->label('Start time')->dateTime(),
+                        // Tables\Columns\TextColumn::make('end_time')->label('End time')->dateTime(),
+                        // Tables\Columns\TextColumn::make('status')->label('Status')->sortable(),
+                        // Tables\Columns\SelectColumn::make('status')->label('Consultation Status')
+                        // ->options([
+                        //     'pending' => 'Pending',
+                        //     'in_progress' => 'In progress',
+                        //     'incompleted' => 'Incompleted',
+                        //     'completed' => 'completed',
+                        //     'canceled' => 'Canceled',
+                        //     'completed' => 'Completed',
+                        //     'rejected' => 'Rejected',
+                        // ]),
+                    ]),
                 ]),
+                View::make('livewire.consultation-cards')
             ])
             ->filters([
                 SelectFilter::make('status')->label('Select Status')->options([
@@ -68,11 +87,11 @@ class ConsultationResource extends Resource
                 ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     
@@ -87,8 +106,8 @@ class ConsultationResource extends Resource
     {
         return [
             'index' => Pages\ListConsultations::route('/'),
-            'create' => Pages\CreateConsultation::route('/create'),
-            'edit' => Pages\EditConsultation::route('/{record}/edit'),
+            // 'create' => Pages\CreateConsultation::route('/create'),
+            // 'edit' => Pages\EditConsultation::route('/{record}/edit'),
         ];
     }    
 }

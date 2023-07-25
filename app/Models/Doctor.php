@@ -47,6 +47,7 @@ class Doctor extends Model
         'medical_licence_file','cv_file','certification_file',
         'ballance',
         'location',
+        'last_online_at'
     ];
     // accesors
     public function notificationStatus():Attribute

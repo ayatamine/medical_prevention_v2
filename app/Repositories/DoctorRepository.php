@@ -3,10 +3,13 @@
 namespace App\Repositories;
 
 use Exception;
+use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Rating;
+use App\Notifications\NewDoctorRegisteration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -67,7 +70,15 @@ class DoctorRepository extends AbstractRepository
                     $doctor->sub_specialities()->sync($request['sub_specialities']);
                 }
             }
-
+            $delay = now()->addMinutes(5);
+            $doctors_count = Doctor::where('account_status','pending')->count();
+            if($doctors_count == 5)
+            {
+             $admins = User::where('is_admin',true)->get();
+             Notification::send($admins, (new NewDoctorRegisteration())->delay($delay));
+            }
+            
+            
             return $doctor;
         } catch (Exception $ex) {
 
@@ -129,6 +140,15 @@ class DoctorRepository extends AbstractRepository
     public function switchOnlineStatus($status)
     {
         return request()->user()->update(['online_status' => $status]);
+    }
+    /**
+     * switch on/off online staus
+     * 
+     * @return boolean
+     */
+    public function updateLastOnlineStatus()
+    {
+         request()->user()->update(['last_online_at' => now()]);
     }
     /**
      * update doctor phone number
@@ -327,7 +347,7 @@ class DoctorRepository extends AbstractRepository
     /**
      * @return speciality doctors
      *  
-     */
+     */  
     public function searchDoctors($speciality_id)
     {
         $search = request()->query('search'); // Get the search keyword

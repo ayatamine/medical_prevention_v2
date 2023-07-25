@@ -54,6 +54,17 @@ class ConsultationOverView extends ApexChartWidget
         )
         ->perMonth()
         ->count();
+        $rejected = Trend::model(Consultation::class)
+        ->query(  
+            Consultation::query()
+            ->rejected()
+        )
+        ->between(
+            start: now()->startOfYear(),
+            end: now()->endOfYear(),
+        )
+        ->perMonth()
+        ->count();
         return [
             'chart' => [
                 'type' => 'area',
@@ -67,6 +78,10 @@ class ConsultationOverView extends ApexChartWidget
                 [
                     'name' => 'Incompleted Consultations',
                     'data' => $incompleted->map(fn (TrendValue $value) => $value->aggregate),
+                ],
+                [
+                    'name' => 'Rejected Consultations',
+                    'data' => $rejected->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
             'xaxis' => [
