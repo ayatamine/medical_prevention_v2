@@ -1,15 +1,17 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Livewire\Auth\Login;
-use App\Http\Livewire\Auth\Passwords\Confirm;
+use App\Http\Livewire\Auth\Verify;
+use App\Http\Livewire\Auth\Register;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Livewire\Auth\Passwords\Email;
 use App\Http\Livewire\Auth\Passwords\Reset;
-use App\Http\Livewire\Auth\Register;
-use App\Http\Livewire\Auth\Verify;
-use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Auth\Passwords\Confirm;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Imports\MedicineImport;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/notifications/{id}/mark-as-read', 'markSingleNotificationsAsRead')->name('admin.notification.mark-as-read');
 });
 
+});
+Route::get('/import-medicines',function(){
+    // dd(base_path('storage/medicines.xlsx'));
+    Excel::import(new MedicineImport,base_path('storage/medicines.xlsx'));
+
+    dd('yes');
 });
