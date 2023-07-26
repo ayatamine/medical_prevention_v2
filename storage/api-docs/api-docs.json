@@ -2045,6 +2045,15 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
+                                    "symptomes": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
+                                    },
                                     "description": {
                                         "type": "text",
                                         "example": "description here"
@@ -2859,6 +2868,54 @@
                 ]
             }
         },
+        "/api/v1/doctors/profile/update-last-online-status": {
+            "put": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update last online status on / off for the doctor ",
+                "description": "update last online status on / off for the doctor  ",
+                "operationId": "update last online status",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "online status : 0,1",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The last online status updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found please verfiy your login status",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/family-histories": {
             "get": {
                 "tags": [
@@ -3051,6 +3108,46 @@
                         "name": "search",
                         "in": "query",
                         "description": "medicine name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "medicines fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no medicine found ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/medicines/list": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "summary": "get medecines list ",
+                "description": "get medicines list  ",
+                "operationId": "searchMedicinesList",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "scientific_name or commercial_name"
                     }
                 ],
                 "responses": {

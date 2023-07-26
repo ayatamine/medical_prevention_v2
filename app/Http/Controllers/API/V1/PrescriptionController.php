@@ -121,4 +121,30 @@ class PrescriptionController extends Controller
                 return handleTwoCommunErrors($ex,"no medicines found");
             }
         }
+         /**
+       * @OA\Get(
+        * path="/api/v1/medicines/list",
+        * operationId="searchMedicinesList",
+        * tags={"consultation"},
+        * security={ {"sanctum": {} }},
+        * summary="get medecines list ",
+        * description="get medicines list  ",
+        *       @OA\Parameter(name="search",in="query",description="scientific_name or commercial_name"),
+        *      @OA\Response( response=200, description="medicines fetched succefully", @OA\JsonContent() ),
+        *      @OA\Response( response=404, description="no medicine found ", @OA\JsonContent() ),
+        *    )
+        */
+        public function searchMedicinesList(){
+            try{
+                $medicines  = $this->repository->searchMedicineList();
+                
+                return $this->api->success()
+                                 ->message("medicines fetched succefully")
+                                 ->payload($medicines)
+                                 ->send();
+            }
+            catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"no medicines found");
+            }
+        }
 }

@@ -102,6 +102,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
         // Route::get('/my-medicines', 'index');
         Route::post('/doctors/medicines/store', 'store');
         Route::get('/doctors/medicines/list', 'searchMedicines');
+        Route::get('/medicines/list', 'searchMedicinesList');
 
     });
 });

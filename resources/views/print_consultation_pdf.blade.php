@@ -121,6 +121,15 @@
 
 
     </div>
+    <h2 style="background-color: gainsboro;padding:15px 8px;margin-bottom:12px">Symptomes:</h2>
+    @forelse ($consult->summary->symptomes as $key=>$symptomes)
+    <p><strong style="font-size: 16px">Name:</strong> {{$symptomes->name}}</p> 
+    @empty
+    <div>
+        
+        <p>No Symptome found</p>
+    </div>
+    @endforelse
     @forelse ($consult->summary->medicines as $key=>$med)
     <h2 style="background-color: gainsboro;padding:15px 8px;margin-bottom:12px">{{$key}}: {{$med->drug_name}}</h2>
     <p><strong style="font-size: 16px">Drug Name:</strong> {{$med->drug_name}}</p> 
@@ -148,7 +157,9 @@
 
     </div>
     @endforelse
-    <br><br><br><br>
+    <br>
+   
+    <br><br><br>
     <div style="text-align:right;margin-top:40px;clear:both;">
         {{-- <img height="400px;width:550px;float:right;" src="{{$settings->app_logo}}" alt="{{$settings->app_name}}"> --}}
         {{-- <img src="data:image/png;base64,{{ base64_encode(file_get_contents($settings->app_logo)) }}" alt="{{$settings->app_name}}"> --}}

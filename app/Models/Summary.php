@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Models\LabTest;
+use App\Models\Symptome;
 use App\Models\Consultation;
-use App\Models\Prescription as Medicine;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Prescription as Medicine;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,15 @@ class Summary extends Model
             'summary_prescription',
             'summary_id',
             'prescription_id'
+        );
+    }
+    public function symptomes():BelongsToMany
+    {
+        return $this->belongsToMany(
+            Symptome::class,
+            'summary_symptome',
+            'summary_id',
+            'symptome_id'
         );
     }
     public function labTests():BelongsToMany

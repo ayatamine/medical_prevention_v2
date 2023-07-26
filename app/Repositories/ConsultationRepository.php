@@ -140,6 +140,13 @@ class ConsultationRepository extends AbstractRepository
                      $summary->medicines()->sync($request['medicines']);
                     }
                 }
+                if(array_key_exists('symptomes',$request))
+                {
+                    if(is_array($request['symptomes']))
+                    {
+                     $summary->symptomes()->sync($request['symptomes']);
+                    }
+                }
                 //mark as completed
                 $consultation->update(['status' => 'completed','finished_at'=>now()]);
                 //notify patient

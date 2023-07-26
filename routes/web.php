@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/import-medicines',function(){
     // dd(base_path('storage/medicines.xlsx'));
-    Excel::import(new MedicineImport,base_path('storage/medicines.xlsx'));
+    Excel::import(new MedicineImport,base_path('storage/simple_medicines2.xlsx'));
 
     dd('yes');
 });
