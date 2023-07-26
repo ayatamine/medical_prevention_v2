@@ -25,11 +25,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         //settings
-        $json = file_get_contents(config('filament-settings.path'));
-        $form_inputs=[];
-        foreach (json_decode($json,true) as $key=>$value) {
-            array_push($form_inputs, \Filament\Forms\Components\TextInput::make($key));
-        }
-        \Reworck\FilamentSettings\FilamentSettings::setFormFields($form_inputs);
+        // $json = file_get_contents(config('filament-settings.path'));
+        // $form_inputs = [];
+        // foreach (json_decode($json, true) as $key => $value) {
+        //     if ($key == 'logo' || $key == 'signature_image') {
+        //         array_push($form_inputs, \Filament\Forms\Components\FileUpload::make($key));
+        //     } else {
+        //         array_push($form_inputs, \Filament\Forms\Components\TextInput::make($key));
+        //     }
+        // }
+        // \Reworck\FilamentSettings\FilamentSettings::setFormFields($form_inputs);
     }
 }

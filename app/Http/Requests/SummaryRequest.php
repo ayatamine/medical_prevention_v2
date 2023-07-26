@@ -23,12 +23,12 @@ class SummaryRequest extends FormRequest
     {
         return [
             'description'=>'string|required',
-            'prescriptions'=>'sometimes|nullable|array',
-            'prescriptions.*'=>'integer',
+            'medicines'=>'sometimes|nullable|array',
+            'medicines.*'=>'integer|exists:prescriptions,id',
             'lab_tests'=>'sometimes|nullable|array',
-            'lab_tests.*'=>'integer',
+            'lab_tests.*'=>'integer|exists:prescriptions,id',
             'other_lab_tests'=>'nullable|string',
-            'sick_leave'=>'sometimes|nullable|boolean',
+            'sick_leave'=>'required|in:0,1',
             'notes'=>'sometimes|nullable|string'
         ];
     }

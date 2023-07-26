@@ -3,10 +3,13 @@
 namespace App\Repositories;
 
 use Exception;
+use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Rating;
+use App\Notifications\NewDoctorRegisteration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -51,6 +54,12 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
+            if (array_key_exists('thumbnail', $request)) {
+                $request['thumbnail'] = $request['thumbnail']->storePublicly(
+                    "/",
+                    ['disk' => 'public']
+                );
+            }
             $doctor = Doctor::create($request);
 
             // update speciality
@@ -61,7 +70,15 @@ class DoctorRepository extends AbstractRepository
                     $doctor->sub_specialities()->sync($request['sub_specialities']);
                 }
             }
-
+            $delay = now()->addMinutes(5);
+            $doctors_count = Doctor::where('account_status','pending')->count();
+            if($doctors_count == 5)
+            {
+             $admins = User::where('is_admin',true)->get();
+             Notification::send($admins, (new NewDoctorRegisteration())->delay($delay));
+            }
+            
+            
             return $doctor;
         } catch (Exception $ex) {
 
@@ -123,6 +140,15 @@ class DoctorRepository extends AbstractRepository
     public function switchOnlineStatus($status)
     {
         return request()->user()->update(['online_status' => $status]);
+    }
+    /**
+     * switch on/off online staus
+     * 
+     * @return boolean
+     */
+    public function updateLastOnlineStatus()
+    {
+         request()->user()->update(['last_online_at' => now()]);
     }
     /**
      * update doctor phone number
@@ -198,6 +224,15 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
+            if (array_key_exists('thumbnail', $request)) {
+                if (file_exists(public_path('storage/' . $doctor['thumbnail']))) {
+                    unlink(public_path('storage/' . $doctor['thumbnail']));
+                };
+                $request['thumbnail'] = $request['thumbnail']->storePublicly(
+                    "/",
+                    ['disk' => 'public']
+                );
+            }
 
             // update speciality
             if (array_key_exists('sub_specialities', $request)) {
@@ -215,6 +250,9 @@ class DoctorRepository extends AbstractRepository
             }
             if (array_key_exists('certification_file', $request)) {
                 unset($equest['certification_file']);
+            }
+            if (array_key_exists('thumbnail', $request)) {
+                unset($equest['thumbnail']);
             }
             if (array_key_exists('sub_specialities', $request)) {
                 unset($request['sub_specialities']);
@@ -249,6 +287,13 @@ class DoctorRepository extends AbstractRepository
 
                 if (file_exists($cv_file)) {
                     unlink($cv_file);
+                };
+            }
+            if (isset($request['thumbnail'])) {
+                $thumbnail = public_path('storage/' . $request['thumbnail']);
+
+                if (file_exists($thumbnail)) {
+                    unlink($thumbnail);
                 };
             }
             //rollback 
@@ -302,7 +347,7 @@ class DoctorRepository extends AbstractRepository
     /**
      * @return speciality doctors
      *  
-     */
+     */  
     public function searchDoctors($speciality_id)
     {
         $search = request()->query('search'); // Get the search keyword
@@ -313,7 +358,7 @@ class DoctorRepository extends AbstractRepository
 
         $doctors = Doctor::active()->withCount('reviews')
             ->withSum('reviews', 'rating')
-            ->whereHas('sub_specialities.speciality', function ($query) use ($speciality_id) {
+            ->whereHas('speciality', function ($query) use ($speciality_id) {
                 $query->where('id', $speciality_id);
             })
             ->when($bestRated, function ($query) {
@@ -342,7 +387,7 @@ class DoctorRepository extends AbstractRepository
     public function show($id)
     {
         $doctor =  Doctor::active()
-            ->with('reviews')
+            ->with('reviews','reviews.consultation')
             ->withSum('reviews', 'rating')
             ->with('sub_specialities:id,name,name_ar,slug')
             ->findOrfail($id);

@@ -21,7 +21,7 @@ class DoctorProfileDataResource extends JsonResource
             'online_status'=>$this->online_status,
             'thumbnail'=>$this->thumbnail,
             'notification_status'=>$this->notification_status,
-            'ballance'=>$this->ballance,
+            'balance'=>$this->ballance,
             'notifications_count'=>3,
         ];
     }

@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\API\V1\Auth;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Doctor;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorResource;
 use App\Repositories\DoctorRepository;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorProfileDataResource;
 use App\Http\Resources\DoctorHomeProfileDataResource;
-use App\Http\Resources\DoctorResource;
+use App\Http\Resources\SimpleNotificationResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DoctorController extends Controller
@@ -46,12 +49,15 @@ class DoctorController extends Controller
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *                 @OA\Property( property="email",type="string",example="email@email.com"),
      *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
+     *                 @OA\Property( property="specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="classification_number",type="string",example="784899554"),
      *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
      *                 @OA\Property( property="medical_licence_file",type="file"),
      *                 @OA\Property( property="cv_file",type="file"),
      *                 @OA\Property( property="certification_file",type="file"),
+     *                 @OA\Property( property="bio",description="doctor bio",type="text"),
+     *                 @OA\Property( property="thumbnail",type="file"),
      *             )),
      *    ),
      *    @OA\Response( response=200, description="Record Completed successfully", @OA\JsonContent() ),
@@ -310,19 +316,7 @@ class DoctorController extends Controller
             return handleTwoCommunErrors($ex, "no doctor found with the given id");
         }
     }
-    /**
-     * @OA\post(
-     * path="/api/v1/doctors/logout",
-     * operationId="logoutDoctor",
-     * security={ {"sanctum": {} }},
-     * tags={"doctors"},
-     * description="Logout a Doctor",
-     *    @OA\Response( response=200, description="You logged out successfully", @OA\JsonContent() ),
-     *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
-     *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
-     *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
-     *    )
-     */
+
     /**
      * @OA\Post(
      * path="/api/v1/doctors/update-thumbnail",
@@ -350,7 +344,7 @@ class DoctorController extends Controller
     public function updateThumbnail(Request $request)
     {
         $request->validate([
-            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
         ]);
         try {
             $docotr = $this->repository->updateThumbnail($request->only('thumbnail'));
@@ -363,6 +357,19 @@ class DoctorController extends Controller
             return handleTwoCommunErrors($ex, "No Doctor Found with this request please verify your login");
         }
     }
+        /**
+     * @OA\post(
+     * path="/api/v1/doctors/logout",
+     * operationId="logoutDoctor",
+     * security={ {"sanctum": {} }},
+     * tags={"doctors"},
+     * description="Logout a Doctor",
+     *    @OA\Response( response=200, description="You logged out successfully", @OA\JsonContent() ),
+     *    @OA\Response( response=404,description="No Doctor Found please verify your login", @OA\JsonContent()),
+     *    @OA\Response(response=500,description="internal server error", @OA\JsonContent() ),
+     *      @OA\Response( response=401, description="unauthenticated", @OA\JsonContent() ),
+     *    )
+     */
     public function logout()
     {
 
@@ -394,6 +401,7 @@ class DoctorController extends Controller
      *                 @OA\Property( property="birth_date",type="string",example="doctor birth_date"),
      *                 @OA\Property( property="email",type="string",example=""),
      *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
+     *                 @OA\Property( property="specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="classification_number",type="string",example="784899554"),
      *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
@@ -402,6 +410,7 @@ class DoctorController extends Controller
      *                 @OA\Property( property="certification_file",type="file"),
      *                 @OA\Property( property="location",description="json location when picked from map",type="json"),
      *                 @OA\Property( property="bio",description="doctor bio",type="text"),
+     *                 @OA\Property( property="thumbnail",type="file"),
      *             ),
      *       )
      *    ),
@@ -493,6 +502,82 @@ class DoctorController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No Doctor Found please verify your login");
+        }
+    }
+     /**
+     * @OA\Get(
+     * path="/api/v1/doctors/profile/notifications",
+     * operationId="get doctor notifications",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="get list of notifications related to a given doctor ",
+     * description="get list of notifications related to a given doctor  ",
+     *      @OA\Response( response=200, description="notification fetched successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no doctor found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function myNotifications()
+    {
+        try {
+            $notifications = request()->user()->notifications;
+
+            return $this->api->success()
+                ->message('notification fetched successfully')
+                ->payload(SimpleNotificationResource::collection($notifications))
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
+        }
+    }
+     /**
+     * @OA\Post(
+     * path="/api/v1/doctors/profile/notifications/mark-as-read",
+     * operationId="mark_as_read_doctor_noti",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="mark as read for doctor notifications ",
+     * description="mark as read for doctor notifications  ",
+     *      @OA\Response( response=200, description="notification marked as read successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no doctor found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function markNotificationsAsRead()
+    {
+        try {
+            $notifications = request()->user()->unreadNotifications->markAsRead();
+            return $this->api->success()
+                ->message('notifications marked as read successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
+        }
+    }
+        /**
+     * @OA\Post(
+     * path="/api/v1/doctors/profile/notifications/{id}/mark-as-read",
+     * operationId="mark_as_read_doctor_single_noti",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="mark as read for doctor given id notifications ",
+     * description="mark as read for doctor  given id  notifications  ",
+     * @OA\Parameter(  name="id", in="path", description="Notification id ", required=true),
+     *      @OA\Response( response=200, description="notification marked as read successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no doctor found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function markSingleNotificationsAsRead($id)
+    {
+        try {
+            DB::table('notifications')->where('id',$id)->update(['read_at'=>Carbon::now()]);
+
+            return $this->api->success()
+                ->message('notification marked as read successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
         }
     }
 }

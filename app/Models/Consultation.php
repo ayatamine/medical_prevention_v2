@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Summary;
+use App\Models\ChatMessage;
 use App\Traits\FormatsDates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,6 +53,27 @@ class Consultation extends Model
     }
     public function scopeCompleted(){
         return $this->whereNotNull('finished_at');
+    }
+    public function scopeRejected(){
+        return $this->where('status','rejected');
+    }
+    public function chatMessages():HasMany
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
+    public function summary():HasOne
+    {
+        return $this->hasOne(Summary::class);
+    }
+    public function review():HasOne
+    {
+        return $this->hasOne(Rating::class);
+    }
+    public function createdAt():Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? date('d-m-Y',strtotime($value)) :null
+        );
     }
 
 

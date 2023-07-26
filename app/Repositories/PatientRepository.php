@@ -36,14 +36,35 @@ class PatientRepository extends AbstractRepository
     public function store($request)
     {
         try {
-            $to_unset = ['thumbnail', 'phone_number'];
-            foreach ($to_unset as $attr) {
-                if (isset($request[$attr])) {
-                    unset($request[$attr]);
+            // $to_unset = ['thumbnail', 'phone_number'];
+            // foreach ($to_unset as $attr) {
+            //     if (isset($request[$attr])) {
+            //         unset($request[$attr]);
+            //     }
+            // }
+            $patient = request()->user()->update($request->except(['thumbnail', 'phone_number','allergies','chronic_diseases','family_histories']));
+
+            if (request()->has('allergies')) {
+                if (gettype($request['allergies']) == 'string') {
+                    $patient->allergies()->sync(explode(',', $request['allergies']));
+                } else {
+                    $patient->allergies()->sync($request['allergies']);
                 }
             }
-
-            $patient = request()->user()->update($request);
+            if (request()->has('chronic_diseases')) {
+                if (gettype($request['chronic_diseases']) == 'string') {
+                    $patient->chronic_diseases()->sync(explode(',', $request['chronic_diseases']));
+                } else {
+                    $patient->chronic_diseases()->sync($request['chronic_diseases']);
+                }
+            }
+            if (request()->has('family_histories')) {
+                if (gettype($request['family_histories']) == 'string') {
+                    $patient->family_histories()->sync(explode(',', $request['family_histories']));
+                } else {
+                    $patient->family_histories()->sync($request['family_histories']);
+                }
+            }
             return $patient;
         } catch (Exception $ex) {
             throw $ex;

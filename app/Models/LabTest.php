@@ -9,4 +9,5 @@ class LabTest extends Model
 {
     use HasFactory;
     protected $fillable=['name','name_ar'];
+    protected $hidden=['created_at','updated_at'];
 }

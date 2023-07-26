@@ -19,7 +19,7 @@ class MedicalInstruction extends Model
     protected $appends=['status'];
     public function getPublishDateAttribute($date)
     {
-         return $this->formatDate($date,'d-m-Y H:i');
+         return date('d-m-Y H:i',strtotime($date));
     }
     //get only publishable using duration and publish date
     public function scopePublishable($query)

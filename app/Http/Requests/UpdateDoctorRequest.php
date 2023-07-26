@@ -29,10 +29,12 @@ class UpdateDoctorRequest extends FormRequest
             'job_title' => 'sometimes|nullable|string|max:150',
             'classification_number' => 'sometimes|nullable|string|max:150|unique:doctors,classification_number,'.request()->user()->id,
             'insurance_number' => 'sometimes|nullable|string|max:150|unique:doctors,insurance_number,'.request()->user()->id,
+            'specialities'=>'sometimes|nullable|nullable|string',
             'sub_specialities'=>'sometimes|nullable|nullable|string',
             'medical_licence_file' => ['sometimes','nullable','file', 'max:3000'],   
             'cv_file' =>  ['sometimes','nullable','file', 'max:3000'],   
             'certification_file' =>  ['sometimes','nullable','file', 'max:3000'], 
+            'bio' => ['sometimes', 'nullable'],
         ];
     }
 }

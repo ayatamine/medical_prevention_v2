@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API\V1\Auth;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Patient;
 use App\Helpers\ApiResponse;
 use App\Models\PatientScale;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ScaleResource;
 use App\Repositories\PatientRepository;
@@ -16,6 +18,7 @@ use App\Http\Requests\Api\PatientRequest;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Resources\PatientScaleResource;
 use App\Http\Resources\RecommendationResource;
+use App\Http\Resources\SimpleNotificationResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
@@ -62,7 +65,7 @@ class PatientController extends Controller
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
-                    ->message("no doctor found with the given phone number")
+                    ->message("no patient found with the given phone number")
                     ->send();
             }
             return $this->api->failed()->code(500)
@@ -152,12 +155,12 @@ class PatientController extends Controller
      *                 @OA\Property( property="address",type="integer",example="adrar alg"),
      *                 @OA\Property( property="height",type="integer",example=180),
      *                 @OA\Property( property="weight",type="double",example="55.5"),
-     *                 @OA\Property( property="allergy_id",type="integer",example=1),
-     *                 @OA\Property( property="chronic_diseases_id",type="integer",example=1),
-     *                 @OA\Property( property="family_history_id",type="integer",example=1),
+     *                 @OA\Property( property="allergies",type="array",@OA\Items(type="integer"), example={1}),
+     *                 @OA\Property( property="chronic_diseases",type="array",@OA\Items(type="integer"), example={1}),
+     *                 @OA\Property( property="family_histories",type="array",@OA\Items(type="integer"), example={1}),
      *                 @OA\Property( property="has_cancer_screening",type="boolean",enum={0, 1}),
      *                 @OA\Property( property="has_depression_screening",type="boolean",enum={0, 1}),
-     *                 @OA\Property( property="other_problems",type="object"),
+     *                 @OA\Property( property="other_problems",type="json"),
      *             )
      *        ),
      *    ),
@@ -171,7 +174,7 @@ class PatientController extends Controller
     {
         try {
             $patient  = $this->repository
-                ->store($request->validated());
+                ->store($request);
 
 
             return $this->api->success()
@@ -251,7 +254,7 @@ class PatientController extends Controller
     public function updateThumbnail(Request $request)
     {
         $request->validate([
-            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
         ]);
         try {
             $patient = $this->repository->updateThumbnail($request->only('thumbnail'));
@@ -487,6 +490,120 @@ class PatientController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No Record Found");
+        }
+    }
+    /**
+     * @OA\Get(
+     * path="/api/v1/patients/notifications",
+     * operationId="get patient notifications",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="get list of notifications related to a given patient ",
+     * description="get list of notifications related to a given patient  ",
+     *      @OA\Response( response=200, description="notification fetched successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no patient found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function myNotifications()
+    {
+        try {
+            $notifications = request()->user()->notifications;
+
+            return $this->api->success()
+                ->message('notification fetched successfully')
+                ->payload(SimpleNotificationResource::collection($notifications))
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/patients/notifications/mark-as-read",
+     * operationId="mark_as_read_patient_noti",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="mark as read for patient notifications ",
+     * description="mark as read for patient notifications  ",
+     *      @OA\Response( response=200, description="notification marked as read successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no patient found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function markNotificationsAsRead()
+    {
+        try {
+            $notifications = request()->user()->unreadNotifications->markAsRead();
+            return $this->api->success()
+                ->message('notifications marked as read successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/patients/notifications/{id}/mark-as-read",
+     * operationId="mark_as_read_patient_single_noti",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="mark as read for patient given id notifications ",
+     * description="mark as read for patient  given id  notifications  ",
+     * @OA\Parameter(  name="id", in="path", description="Notification id ", required=true),
+     *      @OA\Response( response=200, description="notification marked as read successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no patient found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function markSingleNotificationsAsRead($id)
+    {
+        try {
+            DB::table('notifications')->where('id', $id)->update(['read_at' => Carbon::now()]);
+
+            return $this->api->success()
+                ->message('notification marked as read successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/patients/scales/{title}",
+     * operationId="update patient scale",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="update patient scale (anexiety or depression) ",
+     * description="update patient scale (anexiety or depression)  ",
+     * @OA\Parameter(  name="title", in="path", description="scale title", required=true),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *               @OA\Property( property="answers",type="array",@OA\Items(type="integer")),
+     *              )
+     *          )
+     * ),
+     *      @OA\Response( response=200, description="scale updated successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no patient found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function updatePatientScale(Request $request, $title)
+    {
+        $this->validate($request, [
+            'answers' => 'required|array',
+            'answers.*.scale_question_id' => 'required|exists:scale_questions,id'
+        ]);
+        $this->repository->updateScale($request, $title);
+        try {
+            return $this->api->success()
+                ->message('scale updated successfully')
+                ->send();
+        } catch (Exception $ex) {
+            handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
         }
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Page;
 use App\Models\Scale;
 use App\Models\LabTest;
 use App\Models\Patient;
+use App\Models\Setting;
 use App\Models\Language;
 use App\Models\Symptome;
 use App\Models\Consultation;
@@ -81,6 +82,9 @@ class DatabaseSeeder extends Seeder
         }
         if(!ScaleQuestion::count()){
             $this->call(ScaleQuestionSeeder::class);
+        }
+        if(!Setting::count()){
+            $this->call(SettingSeeder::class);
         }
 
 

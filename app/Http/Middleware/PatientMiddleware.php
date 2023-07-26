@@ -17,7 +17,11 @@ class PatientMiddleware
     {
         if(!request()->user()->tokenCan('role:patient'))
         {
-            return abort(401);
+            // return abort(401);
+            return response()->json([
+                'success'=>false,
+                'message'=>'You are not allowed to do this action , only for patients'
+            ]);
         }
         return $next($request);
     }

@@ -30,10 +30,13 @@ class StoreDoctorRequest extends FormRequest
             'job_title' => 'string|max:150',
             'classification_number' => 'integer|unique:doctors',
             'insurance_number' => 'integer|unique:doctors',
+            'specialities'=>'sometimes|nullable',
             'sub_specialities'=>'sometimes|nullable',
             'medical_licence_file' => ['file', 'max:3000'],   
             'cv_file' =>  ['file', 'max:3000'],   
             'certification_file' =>  ['file', 'max:3000'],   
+            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
+            'bio' => ['sometimes', 'nullable'],
         ];
     }
 }

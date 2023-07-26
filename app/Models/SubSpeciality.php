@@ -16,10 +16,11 @@ class SubSpeciality extends Model
      * @var array
      */
     protected $fillable = [
-        'speciality_id',
+        // 'speciality_id',
         'name',
         'name_ar',
         'slug',
+        'icon',
     ];
 
     /**
@@ -30,8 +31,8 @@ class SubSpeciality extends Model
     protected $casts = [
         'id' => 'integer',
     ];
-    public function speciality():BelongsTo
-    {
-        return $this->belongsTo(Speciality::class,'speciality_id');
-    }
+    // public function speciality():BelongsTo
+    // {
+    //     return $this->belongsTo(Speciality::class,'speciality_id');
+    // }
 }

@@ -18,13 +18,13 @@ class SpecialityResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'name_ar'=>$this->name_ar,
-            'sub_specialities'=> $this->sub_specialities->map(function($sub){
-                return [
-                    'id'=>$sub->id,
-                    'name'=>$sub->name,
-                    'name_ar'=>$sub->name_ar
-                ];
-            }),   
+            // 'sub_specialities'=> $this->sub_specialities->map(function($sub){
+            //     return [
+            //         'id'=>$sub->id,
+            //         'name'=>$sub->name,
+            //         'name_ar'=>$sub->name_ar
+            //     ];
+            // }),   
         ];
     }
 }

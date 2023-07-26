@@ -20,6 +20,7 @@ class Speciality extends Model
         'name',
         'name_ar',
         'slug',
+        'icon',
     ];
 
     /**
@@ -30,9 +31,9 @@ class Speciality extends Model
     protected $casts = [
         'id' => 'integer',
     ];
-    public function sub_specialities():HasMany
-    {
-        return $this->hasMany(SubSpeciality::class,'speciality_id','id');
-    }
+    // public function sub_specialities():HasMany
+    // {
+    //     return $this->hasMany(SubSpeciality::class,'speciality_id','id');
+    // }
 
 }

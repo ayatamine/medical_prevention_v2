@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Rating;
+use App\Models\Speciality;
 use App\Models\Prescription;
 use App\Models\SubSpeciality;
 use App\Models\BallanceHistory;
@@ -46,8 +47,21 @@ class Doctor extends Model
         'medical_licence_file','cv_file','certification_file',
         'ballance',
         'location',
+        'last_online_at'
     ];
     // accesors
+    public function notificationStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function onlineStatus():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
     public function thumbnail():Attribute
     {
         return Attribute::make(
@@ -87,6 +101,19 @@ class Doctor extends Model
         );
     }
     /**
+     * @return subspecialities collection
+     * 
+     */
+    public function specialities():BelongsToMany
+    {
+        return $this->belongsToMany(
+            Speciality::class,
+            'doctor_speciality',
+            'doctor_id',
+            'speciality_id'
+        );
+    }
+    /**
      * @return ballancehistory collection
      */
     public function balanceHistories(): MorphMany
@@ -95,7 +122,7 @@ class Doctor extends Model
     }
     public function consultations(): HasMany
     {
-        return $this->hasMany(Consultation::class);
+        return $this->hasMany(Consultation::class,'doctor_id','id');
     }
     public function sentMessages(): MorphMany
     {

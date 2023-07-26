@@ -13,4 +13,5 @@
 [blue-card]{@apply bg-primary-400}
 [blue-fonc-card]{@apply bg-[#32bfbf]}
 [open-red-card]{@apply bg-[#ff6161]}
+[open-green-card]{@apply bg-[#33c736]}
 [blue-card] .card-header svg{@apply text-primary-400}

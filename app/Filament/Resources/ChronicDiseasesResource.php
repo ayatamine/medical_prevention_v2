@@ -31,6 +31,7 @@ class ChronicDiseasesResource extends Resource
                 Forms\Components\TextInput::make('name_ar')
                     ->unique(table: ChronicDiseases::class,ignoreRecord:true)
                     ->maxLength(150),
+                Forms\Components\FileUpload::make('icon'),
             ]);
     }
 
@@ -41,6 +42,7 @@ class ChronicDiseasesResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
+                Tables\Columns\ImageColumn::make('icon'),
             ])
             ->filters([
                 //

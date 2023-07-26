@@ -18,7 +18,7 @@ class SubSpecialityResource extends Resource
 {
     protected static ?string $model = SubSpeciality::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'icons.sub_specialities';
     protected static ?string $navigationGroup = 'Doctors';
 
 
@@ -26,9 +26,9 @@ class SubSpecialityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('speciality_id')
-                    ->relationship('speciality', 'name')
-                    ->required(),
+                // Forms\Components\Select::make('speciality_id')
+                //     ->relationship('speciality', 'name')
+                //     ->required(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
@@ -39,6 +39,7 @@ class SubSpecialityResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('icon'),
                     
             ]);
     }
@@ -47,10 +48,11 @@ class SubSpecialityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('speciality.name')->label('Speciality'),
-                Tables\Columns\TextColumn::make('name')->label('Name'),
-                Tables\Columns\TextColumn::make('name_ar')->label('Name in Arabic'),
+                // Tables\Columns\TextColumn::make('speciality.name')->label('Speciality'),
+                Tables\Columns\TextColumn::make('name')->label('Name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('name_ar')->label('Name in Arabic')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('slug'),
+                Tables\Columns\ImageColumn::make('icon'),
                 // Tables\Columns\TextColumn::make('created_at')
                 //     ->dateTime(),
                 // Tables\Columns\TextColumn::make('updated_at')

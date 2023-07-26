@@ -12,6 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements FilamentUser,HasAvatar
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     public function canAccessFilament(): bool
     {
         if (!app()->environment('local')) {
@@ -24,8 +26,7 @@ class User extends Authenticatable implements FilamentUser,HasAvatar
     {
         return $this->avatar_url;
     }
-    use HasApiTokens, HasFactory, Notifiable;
-
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -35,6 +36,7 @@ class User extends Authenticatable implements FilamentUser,HasAvatar
         'name',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**

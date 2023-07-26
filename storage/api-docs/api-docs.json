@@ -27,6 +27,33 @@
                 }
             }
         },
+        "/api/v1/allergies": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of common allergies",
+                "operationId": "allergiesindex",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "common allergies fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/doctors/register": {
             "post": {
                 "tags": [
@@ -64,6 +91,16 @@
                                         "type": "string",
                                         "example": "chronic disease"
                                     },
+                                    "specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
                                     "sub_specialities": {
                                         "type": "array",
                                         "items": {
@@ -89,6 +126,13 @@
                                         "type": "file"
                                     },
                                     "certification_file": {
+                                        "type": "file"
+                                    },
+                                    "bio": {
+                                        "description": "doctor bio",
+                                        "type": "text"
+                                    },
+                                    "thumbnail": {
                                         "type": "file"
                                     }
                                 },
@@ -408,6 +452,54 @@
                 ]
             }
         },
+        "/api/v1/doctors/logout": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "description": "Logout a Doctor",
+                "operationId": "logoutDoctor",
+                "responses": {
+                    "200": {
+                        "description": "You logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Doctor Found please verify your login",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/profile/update": {
             "post": {
                 "tags": [
@@ -440,6 +532,16 @@
                                     "job_title": {
                                         "type": "string",
                                         "example": "chronic disease"
+                                    },
+                                    "specialities": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
                                     },
                                     "sub_specialities": {
                                         "type": "array",
@@ -475,6 +577,9 @@
                                     "bio": {
                                         "description": "doctor bio",
                                         "type": "text"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file"
                                     }
                                 },
                                 "type": "object"
@@ -687,6 +792,137 @@
                 ]
             }
         },
+        "/api/v1/doctors/profile/notifications": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get list of notifications related to a given doctor ",
+                "description": "get list of notifications related to a given doctor  ",
+                "operationId": "get doctor notifications",
+                "responses": {
+                    "200": {
+                        "description": "notification fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/notifications/mark-as-read": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "mark as read for doctor notifications ",
+                "description": "mark as read for doctor notifications  ",
+                "operationId": "mark_as_read_doctor_noti",
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/profile/notifications/{id}/mark-as-read": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "mark as read for doctor given id notifications ",
+                "description": "mark as read for doctor  given id  notifications  ",
+                "operationId": "mark_as_read_doctor_single_noti",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [
@@ -841,17 +1077,32 @@
                                         "format": "double",
                                         "example": "55.5"
                                     },
-                                    "allergy_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "allergies": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
-                                    "chronic_diseases_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "chronic_diseases": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
-                                    "family_history_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "family_histories": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
                                     },
                                     "has_cancer_screening": {
                                         "type": "boolean",
@@ -868,7 +1119,7 @@
                                         ]
                                     },
                                     "other_problems": {
-                                        "type": "object"
+                                        "type": "json"
                                     }
                                 },
                                 "type": "object"
@@ -1286,6 +1537,73 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "update patient scale (anexiety or depression) ",
+                "description": "update patient scale (anexiety or depression)  ",
+                "operationId": "update patient scale",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "scale title",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "answers": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "scale updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/patients/recommendations": {
@@ -1360,14 +1678,145 @@
                 ]
             }
         },
+        "/api/v1/patients/notifications": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "get list of notifications related to a given patient ",
+                "description": "get list of notifications related to a given patient  ",
+                "operationId": "get patient notifications",
+                "responses": {
+                    "200": {
+                        "description": "notification fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/notifications/mark-as-read": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "mark as read for patient notifications ",
+                "description": "mark as read for patient notifications  ",
+                "operationId": "mark_as_read_patient_noti",
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/notifications/{id}/mark-as-read": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "mark as read for patient given id notifications ",
+                "description": "mark as read for patient  given id  notifications  ",
+                "operationId": "mark_as_read_patient_single_noti",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notification marked as read successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no patient found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/my-wallet/history": {
             "get": {
                 "tags": [
                     "doctors"
                 ],
-                "summary": "return the ballance history for the doctor ",
-                "description": "return the ballance history for the doctor  ",
-                "operationId": "my_ballance_history",
+                "summary": "return the balance history for the doctor ",
+                "description": "return the balance history for the doctor  ",
+                "operationId": "my_balance_history",
                 "parameters": [
                     {
                         "name": "period",
@@ -1388,7 +1837,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The ballance history fetched successfully",
+                        "description": "The balance history fetched successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1578,7 +2027,7 @@
         "/api/v1/consultations/{id}/add-summary": {
             "post": {
                 "tags": [
-                    "doctors"
+                    "consultation"
                 ],
                 "summary": "add a summary to a finished consultation",
                 "description": "the doctor add a summary to a finished consultation",
@@ -1600,7 +2049,7 @@
                                         "type": "text",
                                         "example": "description here"
                                     },
-                                    "prescriptions": {
+                                    "medicines": {
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
@@ -1625,7 +2074,11 @@
                                         "example": "new test"
                                     },
                                     "sick_leave": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
                                     },
                                     "notes": {
                                         "type": "text"
@@ -1672,10 +2125,108 @@
                 ]
             }
         },
+        "/api/v1/consultations/{id}/view-summary": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "summary": "view a summary of a finished consultation",
+                "description": "view summary to a finished consultation",
+                "operationId": "view_consultation_summary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The summary fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/print-summary": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "summary": "print a summary of a finished consultation",
+                "description": "print summary to a finished consultation",
+                "operationId": "print_consultation_summary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The summary fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/consultations/payment/create": {
             "post": {
                 "tags": [
-                    "patients"
+                    "consultation"
                 ],
                 "description": "pay for consultation with doctor",
                 "operationId": "pay_consult",
@@ -1732,7 +2283,7 @@
         "/api/v1/consultations/payment/verify": {
             "post": {
                 "tags": [
-                    "patients"
+                    "consultation"
                 ],
                 "description": "paymentVerify for consultation",
                 "operationId": "paymentVerify",
@@ -1772,6 +2323,326 @@
                     },
                     "401": {
                         "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/chat-messages": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get consultation chat message",
+                "operationId": "get a consultation chat messages",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "consultations chat messages fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The Consultation either not found or not yet accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/send-message": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "sendConsultationMessage",
+                "operationId": "sendConsultationMessage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "sender_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "patient",
+                                            "doctor"
+                                        ]
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "attachement": {
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "message sended successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "The Consultation either not found or not yet accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/medical-record": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get patient medical record of a given consultation",
+                "operationId": "consultMedicalRecord",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "patient medical record fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/reviews": {
+            "post": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "rate the consultation with doctor",
+                "operationId": "add_consult_review",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer"
+                                    },
+                                    "comment": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "review added successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/consultations/{id}/finish": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "finish a consultation request",
+                "description": "the doctor finish a patient consultation request",
+                "operationId": "finish_consultation",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The consult request finished successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -2062,47 +2933,14 @@
                 }
             }
         },
-        "/api/v1/my-prescriptions": {
-            "get": {
-                "tags": [
-                    "doctors"
-                ],
-                "summary": "get doctor prescriptions list ",
-                "description": "get doctor prescriptions list  ",
-                "operationId": "prescriptionsList",
-                "responses": {
-                    "200": {
-                        "description": "prescriptions fetched succefully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "no prescriptions found ",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/my-prescriptions/store": {
+        "/api/v1/doctors/medicines/store": {
             "post": {
                 "tags": [
                     "doctors"
                 ],
-                "summary": "create a new prescription ",
-                "description": "create a new prescription by a doctor ",
-                "operationId": "storeNewPrescription",
+                "summary": "create a new medicine ",
+                "description": "create a new medicine by a doctor ",
+                "operationId": "storeNewmedicine",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
@@ -2141,7 +2979,11 @@
                                         "type": "string"
                                     },
                                     "prn": {
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
                                     },
                                     "instructions": {
                                         "type": "text"
@@ -2157,7 +2999,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "the prescription created succefully",
+                        "description": "the medicine created succefully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -2182,6 +3024,46 @@
                     },
                     "401": {
                         "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/doctors/medicines/list": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get doctor medecines list ",
+                "description": "get doctor me list  ",
+                "operationId": "medicinesList",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "medicine name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "medicines fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no medicine found ",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -2300,6 +3182,127 @@
                     },
                     "404": {
                         "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get list of doctors sub specialities ",
+                "description": "get list of doctors sub specialities  ",
+                "operationId": "sub_specialitis_index",
+                "responses": {
+                    "200": {
+                        "description": "sub_specialities fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities/{id}": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get details of a sub_speciality by id  ",
+                "description": "get details of a sub_speciality by id  ",
+                "operationId": "sub_specialy_show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "sub_speciality id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "sub_speciality details fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sub_specialities/{id}/doctors": {
+            "get": {
+                "tags": [
+                    "specialities"
+                ],
+                "summary": "get doctors of a sub speciality by id  ",
+                "description": "get doctors of a sub speciality by id  ",
+                "operationId": "sub_speciality_doctors",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "sub speciality id ",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "sub speciality doctors fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no sub speciality found with the given id",
                         "content": {
                             "application/json": {
                                 "schema": {}

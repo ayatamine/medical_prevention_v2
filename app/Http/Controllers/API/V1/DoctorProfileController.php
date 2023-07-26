@@ -44,6 +44,7 @@ class DoctorProfileController extends Controller
 
             return $this->api->success()
                              ->message("The notification status updated successfully")
+                             ->payload(['notification_status'=>(bool)$status])
                              ->send();
         }
         catch(Exception $ex){
@@ -58,7 +59,8 @@ class DoctorProfileController extends Controller
     * security={ {"sanctum": {} }},
     * summary="switch online status on / off for the doctor ",
     * description="switch online status on / off for the doctor  ",
-    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true, *     @OA\Schema(
+    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true, 
+    *     @OA\Schema(
     *       type="string",
     *       enum={ 0,1},
     *       ),
@@ -73,6 +75,38 @@ class DoctorProfileController extends Controller
 
             return $this->api->success()
                              ->message("The online status updated successfully")
+                             ->payload(['online_status'=>(bool)$status])
+                             ->send();
+        }
+        catch(Exception $ex){
+            return handleTwoCommunErrors($ex,"no doctor found please verfiy your login status");
+        }
+    }
+    /**
+   * @OA\Put(
+    * path="/api/v1/doctors/profile/update-last-online-status",
+    * operationId="update last online status",
+    * tags={"doctors"},
+    * security={ {"sanctum": {} }},
+    * summary="update last online status on / off for the doctor ",
+    * description="update last online status on / off for the doctor  ",
+    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true, 
+    *     @OA\Schema(
+    *       type="string",
+    *       enum={ 0,1},
+    *       ),
+    *      ),
+    *      @OA\Response( response=200, description="The last online status updated successfully", @OA\JsonContent() ),
+    *      @OA\Response( response=404, description="no doctor found please verfiy your login status", @OA\JsonContent() ),
+    *    )
+    */
+    public function updateLastOnlineStatus(){
+        try{
+            $this->repository->updateLastOnlineStatus();
+
+            return $this->api->success()
+                             ->message("The last online status updated successfully")
+                             ->payload(['last_online_at'=>request()->user()->last_online_at])
                              ->send();
         }
         catch(Exception $ex){

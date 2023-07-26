@@ -8,21 +8,24 @@
     <div x-show="open" @click.outside="open=false" class="absolute right-0 w-64 mt-2 bg-white rounded-md shadow-lg">
       <div class="py-2">
         <!-- Notification Item -->
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Notification 1</a>
+        @php
+            $notifications = Auth::user()->notifications;
+        @endphp
+        @forelse ($notifications as $notification)
+          <a href="{{route('filament.pages.admin-notifications')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+            {{$notification->data['message']}}
+          </a>
+          <hr>
+        @empty
+          no notification found  
+        @endforelse
   
-        <!-- Notification Item -->
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Notification 2</a>
-  
-        <!-- Notification Item -->
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Notification 3</a>
-  
-        <!-- Notification Item -->
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Notification 4</a>
+       
       </div>
   
       <!-- View All Notifications Button -->
       <div class="px-4 py-2 bg-gray-100">
-        <a href="#" class="block text-sm text-center text-blue-500 hover:underline">View All Notifications</a>
+        <a href="{{route('filament.pages.admin-notifications')}}" class="block text-sm text-center text-blue-500 hover:underline">View All Notifications</a>
       </div>
     </div>
   </div>

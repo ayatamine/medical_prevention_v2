@@ -3,7 +3,11 @@
 namespace App\Models;
 
 use App\Models\LabTest;
+use App\Models\Consultation;
+use App\Models\Prescription as Medicine;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,13 +19,16 @@ class Summary extends Model
         'description',
         'sick_leave',
         'other_lab_tests',
-        'notes'
+        'notes',
+        'prescriptions',
+        'consultation_id'
     ];
+   
     //----------------relationships---------------------------
-    public function prescriptions():BelongsToMany
+    public function medicines():BelongsToMany
     {
         return $this->belongsToMany(
-            Prescription::class,
+            Medicine::class,
             'summary_prescription',
             'summary_id',
             'prescription_id'
@@ -35,5 +42,21 @@ class Summary extends Model
             'summary_id',
             'lab_test_id'
         );
+    }
+    public function otherLabTests():Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? json_decode($value) :null
+        );
+    }
+    // public function prescriptions():Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($value) => $value ? json_decode($value) :null
+    //     );
+    // }
+    public function consultation():BelongsTo
+    {
+        return $this->belongsTo(Consultation::class);
     }
 }

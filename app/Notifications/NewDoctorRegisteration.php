@@ -18,7 +18,7 @@ class NewDoctorRegisteration extends Notification
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
@@ -50,23 +50,7 @@ class NewDoctorRegisteration extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'level' => NotificationLevel::INFO,
-            'title' => 'New Doctor Registeration',
-            'message' => 'Hi Admin, there is a new registeration from a doctor'
-        ];
-    }
-    static public function notificationFeedActions()
-    {
-        return [
-            ButtonAction::make('markRead')->icon('heroicon-o-check')
-                ->label('Mark as read')
-                ->hidden(fn ($record) => $record->read()) // Use $record to access/update notification, this is DatabaseNotification model
-                ->action(function ($record, $livewire) {
-                    $record->markAsRead();
-                    $livewire->refresh(); // $livewire can be used to refresh ou reset notification feed
-                })
-                ->outlined()
-                ->color('secondary'),
-        ];
+            'title' => 'New Doctors Registeration',
+            'message' => 'Hi Admin, there is'.$this->data['count'].' new doctors registeration'
     }
 }

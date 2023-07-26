@@ -32,6 +32,7 @@ class AllergyResource extends Resource
                 Forms\Components\TextInput::make('name_ar')
                     ->unique(table: Allergy::class,ignoreRecord:true)
                     ->maxLength(150),
+                Forms\Components\FileUpload::make('icon'),
             ]);
     }
 
@@ -42,6 +43,7 @@ class AllergyResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
+                Tables\Columns\ImageColumn::make('icon'),
             ])
             ->filters([
                 //

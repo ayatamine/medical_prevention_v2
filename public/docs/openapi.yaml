@@ -1,0 +1,2611 @@
+openapi: 3.0.3
+info:
+  title: 'NEOMED APP'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  '/api/v1/consultations/{id}/medical-record':
+    get:
+      summary: ''
+      operationId: getApiV1ConsultationsIdMedicalRecord
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Consultation
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: consultation_id
+        description: 'The ID of the consultation.'
+        example: 7
+        required: true
+        schema:
+          type: integer
+  /api/documentation:
+    get:
+      summary: 'Display Swagger API page.'
+      operationId: displaySwaggerAPIPage
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>L5 Swagger UI</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"http://localhost:8000/docs/asset/swagger-ui.css?v=1a3104533e165579a786263992e35a84\">\n    <link rel=\"icon\" type=\"image/png\" href=\"http://localhost:8000/docs/asset/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6\" sizes=\"32x32\"/>\n    <link rel=\"icon\" type=\"image/png\" href=\"http://localhost:8000/docs/asset/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384\" sizes=\"16x16\"/>\n    <style>\n    html\n    {\n        box-sizing: border-box;\n        overflow: -moz-scrollbars-vertical;\n        overflow-y: scroll;\n    }\n    *,\n    *:before,\n    *:after\n    {\n        box-sizing: inherit;\n    }\n\n    body {\n      margin:0;\n      background: #fafafa;\n    }\n    </style>\n</head>\n\n<body>\n<div id=\"swagger-ui\"></div>\n\n<script src=\"http://localhost:8000/docs/asset/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441\"></script>\n<script src=\"http://localhost:8000/docs/asset/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70\"></script>\n<script>\n    window.onload = function() {\n        // Build a system\n        const ui = SwaggerUIBundle({\n            dom_id: '#swagger-ui',\n            url: \"http://localhost:8000/docs/api-docs.json\",\n            operationsSorter: null,\n            configUrl: null,\n            validatorUrl: null,\n            oauth2RedirectUrl: \"http://localhost:8000/api/oauth2-callback\",\n\n            requestInterceptor: function(request) {\n                request.headers['X-CSRF-TOKEN'] = '';\n                return request;\n            },\n\n            presets: [\n                SwaggerUIBundle.presets.apis,\n                SwaggerUIStandalonePreset\n            ],\n\n            plugins: [\n                SwaggerUIBundle.plugins.DownloadUrl\n            ],\n\n            layout: \"StandaloneLayout\",\n            docExpansion : \"none\",\n            deepLinking: true,\n            filter: true,\n            persistAuthorization: \"false\",\n\n        })\n\n        window.ui = ui\n\n            }\n</script>\n</body>\n</html>\n"
+      tags:
+        - Endpoints
+  /api/oauth2-callback:
+    get:
+      summary: 'Display Oauth2 callback pages.'
+      operationId: displayOauth2CallbackPages
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "<!doctype html>\n<html lang=\"en-US\">\n<head>\n    <title>Swagger UI: OAuth2 Redirect</title>\n</head>\n<body>\n<script>\n    'use strict';\n    function run () {\n        var oauth2 = window.opener.swaggerUIRedirectOauth2;\n        var sentState = oauth2.state;\n        var redirectUrl = oauth2.redirectUrl;\n        var isValid, qp, arr;\n\n        if (/code|token|error/.test(window.location.hash)) {\n            qp = window.location.hash.substring(1).replace('?', '&');\n        } else {\n            qp = location.search.substring(1);\n        }\n\n        arr = qp.split(\"&\");\n        arr.forEach(function (v,i,_arr) { _arr[i] = '\"' + v.replace('=', '\":\"') + '\"';});\n        qp = qp ? JSON.parse('{' + arr.join() + '}',\n                function (key, value) {\n                    return key === \"\" ? value : decodeURIComponent(value);\n                }\n        ) : {};\n\n        isValid = qp.state === sentState;\n\n        if ((\n          oauth2.auth.schema.get(\"flow\") === \"accessCode\" ||\n          oauth2.auth.schema.get(\"flow\") === \"authorizationCode\" ||\n          oauth2.auth.schema.get(\"flow\") === \"authorization_code\"\n        ) && !oauth2.auth.code) {\n            if (!isValid) {\n                oauth2.errCb({\n                    authId: oauth2.auth.name,\n                    source: \"auth\",\n                    level: \"warning\",\n                    message: \"Authorization may be unsafe, passed state was changed in server. The passed state wasn't returned from auth server.\"\n                });\n            }\n\n            if (qp.code) {\n                delete oauth2.state;\n                oauth2.auth.code = qp.code;\n                oauth2.callback({auth: oauth2.auth, redirectUrl: redirectUrl});\n            } else {\n                let oauthErrorMsg;\n                if (qp.error) {\n                    oauthErrorMsg = \"[\"+qp.error+\"]: \" +\n                        (qp.error_description ? qp.error_description+ \". \" : \"no accessCode received from the server. \") +\n                        (qp.error_uri ? \"More info: \"+qp.error_uri : \"\");\n                }\n\n                oauth2.errCb({\n                    authId: oauth2.auth.name,\n                    source: \"auth\",\n                    level: \"error\",\n                    message: oauthErrorMsg || \"[Authorization failed]: no accessCode received from the server.\"\n                });\n            }\n        } else {\n            oauth2.callback({auth: oauth2.auth, token: qp, isValid: isValid, redirectUrl: redirectUrl});\n        }\n        window.close();\n    }\n\n    if (document.readyState !== 'loading') {\n        run();\n    } else {\n        document.addEventListener('DOMContentLoaded', function () {\n            run();\n        });\n    }\n</script>\n</body>\n</html>\n"
+      tags:
+        - Endpoints
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/chronic-diseases:
+    get:
+      summary: ''
+      operationId: getApiV1ChronicDiseases
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'chronic diseases fetched successfuly'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Jadyn Cummerata'
+                      name_ar: 'جيدا كرم'
+                      icon: null
+                    -
+                      id: 2
+                      name: 'Cullen Konopelski'
+                      name_ar: null
+                      icon: null
+                    -
+                      id: 4
+                      name: 'Mr. Christopher Langworth'
+                      name_ar: null
+                      icon: null
+                    -
+                      id: 5
+                      name: 'Jeffrey Fadel'
+                      name_ar: null
+                      icon: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'chronic diseases fetched successfuly'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Jadyn Cummerata'
+                        name_ar: 'جيدا كرم'
+                        icon: null
+                      -
+                        id: 2
+                        name: 'Cullen Konopelski'
+                        name_ar: null
+                        icon: null
+                      -
+                        id: 4
+                        name: 'Mr. Christopher Langworth'
+                        name_ar: null
+                        icon: null
+                      -
+                        id: 5
+                        name: 'Jeffrey Fadel'
+                        name_ar: null
+                        icon: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Jadyn Cummerata'
+                        name_ar:
+                          type: string
+                          example: 'جيدا كرم'
+                        icon:
+                          type: string
+                          example: null
+      tags:
+        - Endpoints
+  /api/v1/allergies:
+    get:
+      summary: ''
+      operationId: getApiV1Allergies
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'allergies fetched successfuly'
+                  payload:
+                    -
+                      id: 1
+                      name: 'new allergy'
+                      name_ar: حساسي
+                      icon: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'allergies fetched successfuly'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'new allergy'
+                        name_ar: حساسي
+                        icon: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'new allergy'
+                        name_ar:
+                          type: string
+                          example: حساسي
+                        icon:
+                          type: string
+                          example: null
+      tags:
+        - Endpoints
+  /api/v1/symptomes:
+    get:
+      summary: ''
+      operationId: getApiV1Symptomes
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'symptomes fetched successfuly'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Jovani Dare'
+                      name_ar: 'Alvera Abbott'
+                      icon: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+                    -
+                      id: 2
+                      name: 'Ms. Audrey Durgan Jr.'
+                      name_ar: 'Albina VonRueden'
+                      icon: null
+                    -
+                      id: 3
+                      name: 'Harmon Reilly'
+                      name_ar: 'Dee Wuckert'
+                      icon: null
+                    -
+                      id: 4
+                      name: 'Marlin Lesch'
+                      name_ar: 'Annette Wunsch MD'
+                      icon: null
+                    -
+                      id: 5
+                      name: 'Everett Osinski'
+                      name_ar: 'Brenda Dickinson'
+                      icon: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'symptomes fetched successfuly'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Jovani Dare'
+                        name_ar: 'Alvera Abbott'
+                        icon: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+                      -
+                        id: 2
+                        name: 'Ms. Audrey Durgan Jr.'
+                        name_ar: 'Albina VonRueden'
+                        icon: null
+                      -
+                        id: 3
+                        name: 'Harmon Reilly'
+                        name_ar: 'Dee Wuckert'
+                        icon: null
+                      -
+                        id: 4
+                        name: 'Marlin Lesch'
+                        name_ar: 'Annette Wunsch MD'
+                        icon: null
+                      -
+                        id: 5
+                        name: 'Everett Osinski'
+                        name_ar: 'Brenda Dickinson'
+                        icon: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Jovani Dare'
+                        name_ar:
+                          type: string
+                          example: 'Alvera Abbott'
+                        icon:
+                          type: string
+                          example: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+      tags:
+        - Endpoints
+  /api/v1/family-histories:
+    get:
+      summary: ''
+      operationId: getApiV1FamilyHistories
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'family history fetched successfuly'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Joanne Kunde'
+                      name_ar: 'جيدا كرم'
+                    -
+                      id: 2
+                      name: 'Savanah Leuschke Sr.'
+                      name_ar: null
+                    -
+                      id: 3
+                      name: 'Cristian Mertz II'
+                      name_ar: null
+                    -
+                      id: 4
+                      name: 'Dr. Wilburn Mayert'
+                      name_ar: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'family history fetched successfuly'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Joanne Kunde'
+                        name_ar: 'جيدا كرم'
+                      -
+                        id: 2
+                        name: 'Savanah Leuschke Sr.'
+                        name_ar: null
+                      -
+                        id: 3
+                        name: 'Cristian Mertz II'
+                        name_ar: null
+                      -
+                        id: 4
+                        name: 'Dr. Wilburn Mayert'
+                        name_ar: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Joanne Kunde'
+                        name_ar:
+                          type: string
+                          example: 'جيدا كرم'
+      tags:
+        - Endpoints
+  /api/v1/advertisements:
+    get:
+      summary: ''
+      operationId: getApiV1Advertisements
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Advertisements fetched successfuly'
+                  payload: []
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Advertisements fetched successfuly'
+                  payload:
+                    type: array
+                    example: []
+      tags:
+        - Endpoints
+  /api/v1/medical-instructions:
+    get:
+      summary: ''
+      operationId: getApiV1MedicalInstructions
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Medical instructions  fetched successfuly'
+                  payload: []
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Medical instructions  fetched successfuly'
+                  payload:
+                    type: array
+                    example: []
+      tags:
+        - Endpoints
+  /api/v1/specialities:
+    get:
+      summary: ''
+      operationId: getApiV1Specialities
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'specialities fetched successfully'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Jovanny Torphy Sr.'
+                      name_ar: 'جيدا كرم'
+                      sub_specialities:
+                        -
+                          id: 1
+                          name: 'Julie Toy'
+                          name_ar: null
+                        -
+                          id: 2
+                          name: 'Prof. Lonnie Dickens DDS'
+                          name_ar: null
+                        -
+                          id: 3
+                          name: 'Ed Fahey III'
+                          name_ar: null
+                        -
+                          id: 5
+                          name: ' sdfsdf ss'
+                          name_ar: null
+                    -
+                      id: 2
+                      name: 'speciality1 s'
+                      name_ar: 'التخصص 1'
+                      sub_specialities: []
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'specialities fetched successfully'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Jovanny Torphy Sr.'
+                        name_ar: 'جيدا كرم'
+                        sub_specialities:
+                          -
+                            id: 1
+                            name: 'Julie Toy'
+                            name_ar: null
+                          -
+                            id: 2
+                            name: 'Prof. Lonnie Dickens DDS'
+                            name_ar: null
+                          -
+                            id: 3
+                            name: 'Ed Fahey III'
+                            name_ar: null
+                          -
+                            id: 5
+                            name: ' sdfsdf ss'
+                            name_ar: null
+                      -
+                        id: 2
+                        name: 'speciality1 s'
+                        name_ar: 'التخصص 1'
+                        sub_specialities: []
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Jovanny Torphy Sr.'
+                        name_ar:
+                          type: string
+                          example: 'جيدا كرم'
+                        sub_specialities:
+                          type: array
+                          example:
+                            -
+                              id: 1
+                              name: 'Julie Toy'
+                              name_ar: null
+                            -
+                              id: 2
+                              name: 'Prof. Lonnie Dickens DDS'
+                              name_ar: null
+                            -
+                              id: 3
+                              name: 'Ed Fahey III'
+                              name_ar: null
+                            -
+                              id: 5
+                              name: ' sdfsdf ss'
+                              name_ar: null
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: 'Julie Toy'
+                              name_ar:
+                                type: string
+                                example: null
+      tags:
+        - Endpoints
+  '/api/v1/specialities/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1SpecialitiesId
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'speciality details fetched successfully'
+                  payload:
+                    id: 1
+                    name: 'Jovanny Torphy Sr.'
+                    name_ar: 'جيدا كرم'
+                    sub_specialities:
+                      -
+                        id: 1
+                        name: 'Julie Toy'
+                        name_ar: null
+                      -
+                        id: 2
+                        name: 'Prof. Lonnie Dickens DDS'
+                        name_ar: null
+                      -
+                        id: 3
+                        name: 'Ed Fahey III'
+                        name_ar: null
+                      -
+                        id: 5
+                        name: ' sdfsdf ss'
+                        name_ar: 'امين ساب'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'speciality details fetched successfully'
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Jovanny Torphy Sr.'
+                      name_ar:
+                        type: string
+                        example: 'جيدا كرم'
+                      sub_specialities:
+                        type: array
+                        example:
+                          -
+                            id: 1
+                            name: 'Julie Toy'
+                            name_ar: null
+                          -
+                            id: 2
+                            name: 'Prof. Lonnie Dickens DDS'
+                            name_ar: null
+                          -
+                            id: 3
+                            name: 'Ed Fahey III'
+                            name_ar: null
+                          -
+                            id: 5
+                            name: ' sdfsdf ss'
+                            name_ar: 'امين ساب'
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: 'Julie Toy'
+                            name_ar:
+                              type: string
+                              example: null
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the speciality.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/specialities/{id}/doctors':
+    get:
+      summary: ''
+      operationId: getApiV1SpecialitiesIdDoctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      full_name: 'doctor full Name'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                    -
+                      id: 3
+                      full_name: 'doctor full Name'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        full_name: 'doctor full Name'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                      -
+                        id: 3
+                        full_name: 'doctor full Name'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        full_name:
+                          type: string
+                          example: 'doctor full Name'
+                        online_status:
+                          type: boolean
+                          example: true
+                        reviews_count:
+                          type: integer
+                          example: 0
+                        rating_value:
+                          type: integer
+                          example: 0
+                        location:
+                          type: string
+                          example: null
+                        thumbnail:
+                          type: string
+                          example: 'http://localhost:8000/storage/doctor.png'
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the speciality.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/doctors:
+    get:
+      summary: ''
+      operationId: getApiV1Doctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      full_name: 'doctor full Name'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                    -
+                      id: 3
+                      full_name: 'doctor full Name'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        full_name: 'doctor full Name'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                      -
+                        id: 3
+                        full_name: 'doctor full Name'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        full_name:
+                          type: string
+                          example: 'doctor full Name'
+                        online_status:
+                          type: boolean
+                          example: true
+                        reviews_count:
+                          type: integer
+                          example: 0
+                        rating_value:
+                          type: integer
+                          example: 0
+                        location:
+                          type: string
+                          example: null
+                        thumbnail:
+                          type: string
+                          example: 'http://localhost:8000/storage/doctor.png'
+      tags:
+        - Endpoints
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    delete:
+      summary: ''
+      operationId: deleteApiV1Doctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  '/api/v1/doctors/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsId
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Doctor details fetched successfuly'
+                  payload:
+                    id: 1
+                    full_name: 'doctor full Name'
+                    online_status: true
+                    reviews_count: 0
+                    rating_value: 0
+                    location: null
+                    thumbnail: 'http://localhost:8000/storage/doctor.png'
+                    speciality:
+                      id: 1
+                      name: 'Jovanny Torphy Sr.'
+                      slug: eos-dolores-nemo-molestiae-ex-praesentium-dolorem
+                      created_at: '2023-05-23T11:40:14.000000Z'
+                      updated_at: '2023-06-17T09:55:06.000000Z'
+                      name_ar: 'جيدا كرم'
+                      icon: null
+                    sub_specialities:
+                      -
+                        id: 1
+                        name: 'Julie Toy'
+                        name_ar: null
+                        slug: dolores-possimus-ut-quis-non
+                      -
+                        id: 2
+                        name: 'Prof. Lonnie Dickens DDS'
+                        name_ar: null
+                        slug: non-quia-iusto-qui-cupiditate
+                    bio: null
+                    reviews: []
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Doctor details fetched successfuly'
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      full_name:
+                        type: string
+                        example: 'doctor full Name'
+                      online_status:
+                        type: boolean
+                        example: true
+                      reviews_count:
+                        type: integer
+                        example: 0
+                      rating_value:
+                        type: integer
+                        example: 0
+                      location:
+                        type: string
+                        example: null
+                      thumbnail:
+                        type: string
+                        example: 'http://localhost:8000/storage/doctor.png'
+                      speciality:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: 'Jovanny Torphy Sr.'
+                          slug:
+                            type: string
+                            example: eos-dolores-nemo-molestiae-ex-praesentium-dolorem
+                          created_at:
+                            type: string
+                            example: '2023-05-23T11:40:14.000000Z'
+                          updated_at:
+                            type: string
+                            example: '2023-06-17T09:55:06.000000Z'
+                          name_ar:
+                            type: string
+                            example: 'جيدا كرم'
+                          icon:
+                            type: string
+                            example: null
+                      sub_specialities:
+                        type: array
+                        example:
+                          -
+                            id: 1
+                            name: 'Julie Toy'
+                            name_ar: null
+                            slug: dolores-possimus-ut-quis-non
+                          -
+                            id: 2
+                            name: 'Prof. Lonnie Dickens DDS'
+                            name_ar: null
+                            slug: non-quia-iusto-qui-cupiditate
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: 'Julie Toy'
+                            name_ar:
+                              type: string
+                              example: null
+                            slug:
+                              type: string
+                              example: dolores-possimus-ut-quis-non
+                      bio:
+                        type: string
+                        example: null
+                      reviews:
+                        type: array
+                        example: []
+      tags:
+        - Endpoints
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the doctor.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/doctors/{id}/add-to-favorites':
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsIdAddToFavorites
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the doctor.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/doctors/{id}/remove-from-favorites':
+    delete:
+      summary: ''
+      operationId: deleteApiV1DoctorsIdRemoveFromFavorites
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the doctor.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/consultations/payment/create:
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsPaymentCreate
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/consultations/payment/verify:
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsPaymentVerify
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  '/api/v1/consultations/{id}/reviews':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdReviews
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: integer
+                  description: 'Must not be greater than 5.'
+                  example: 4
+                comment:
+                  type: string
+                  description: ''
+                  example: aut
+              required:
+                - rating
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  '/api/v1/pages/{title}':
+    get:
+      summary: ''
+      operationId: getApiV1PagesTitle
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'no page found with the given title'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'no page found with the given title'
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: title
+        description: ''
+        example: minima
+        required: true
+        schema:
+          type: string
+  /api/v1/patients/otp/send:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsOtpSend
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/patients/otp/verify:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsOtpVerify
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
+                  example: '+43260910790'
+                otp:
+                  type: string
+                  description: ''
+                  example: est
+              required:
+                - phone_number
+                - otp
+  /api/v1/patients/complete-medical-record:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsCompleteMedicalRecord
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must not be greater than 300 characters.'
+                  example: uqzaljyfufuqmphgfwwfzch
+                birth_date:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2023-07-20T16:15:01'
+                height:
+                  type: number
+                  description: ''
+                  example: 30.0
+                weight:
+                  type: number
+                  description: ''
+                  example: 78889448.573263
+                age:
+                  type: integer
+                  description: 'Must be between 1 and 110.'
+                  example: 2
+                gender:
+                  type: string
+                  description: 'Must be one of <code>male</code> or <code>female</code>.'
+                  example: female
+                allergies:
+                  type: string
+                  description: ''
+                  example: null
+                chronic_diseases:
+                  type: string
+                  description: ''
+                  example: null
+                family_histories:
+                  type: string
+                  description: ''
+                  example: null
+                has_physical_activity:
+                  type: boolean
+                  description: 'Must be one of <code>0</code> or <code>1</code>.'
+                  example: '0'
+                has_cancer_screening:
+                  type: boolean
+                  description: 'Must be one of <code>0</code> or <code>1</code>.'
+                  example: '0'
+                has_depression_screening:
+                  type: boolean
+                  description: 'Must be one of <code>0</code> or <code>1</code>.'
+                  example: '1'
+                other_problems:
+                  type: string
+                  description: 'Must be a valid JSON string.'
+                  example: '["et","cum"]'
+  /api/v1/patients/update-phone-number:
+    put:
+      summary: ''
+      operationId: putApiV1PatientsUpdatePhoneNumber
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
+                  example: '+56233995667'
+              required:
+                - phone_number
+  /api/v1/patients/update-thumbnail:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsUpdateThumbnail
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thumbnail:
+                  type: string
+                  description: 'Must not be greater than 3000 characters.'
+                  example: zsqe
+              required:
+                - thumbnail
+  /api/v1/patients:
+    delete:
+      summary: ''
+      operationId: deleteApiV1Patients
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/patients/logout:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsLogout
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  '/api/v1/patients/notifications-status/{status}':
+    put:
+      summary: ''
+      operationId: putApiV1PatientsNotificationsStatusStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: status
+        description: ''
+        example: nobis
+        required: true
+        schema:
+          type: string
+  /api/v1/patients/notifications:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsNotifications
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/patients/notifications/mark-as-read:
+    post:
+      summary: ''
+      operationId: postApiV1PatientsNotificationsMarkAsRead
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  '/api/v1/patients/notifications/{id}/mark-as-read':
+    post:
+      summary: ''
+      operationId: postApiV1PatientsNotificationsIdMarkAsRead
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the notification.'
+        example: et
+        required: true
+        schema:
+          type: string
+  /api/v1/patients/scales:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsScales
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  '/api/v1/patients/scales/{title}':
+    get:
+      summary: ''
+      operationId: getApiV1PatientsScalesTitle
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+    post:
+      summary: ''
+      operationId: postApiV1PatientsScalesTitle
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: array
+                  description: ''
+                  example:
+                    - minus
+                  items:
+                    type: string
+              required:
+                - answers
+    parameters:
+      -
+        in: path
+        name: title
+        description: ''
+        example: ut
+        required: true
+        schema:
+          type: string
+  /api/v1/patients/recommendations:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsRecommendations
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  '/api/v1/patients/recommendations/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1PatientsRecommendationsId
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the recommendation.'
+        example: velit
+        required: true
+        schema:
+          type: string
+  /api/v1/doctors/register:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsRegister
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: kfpukaxg
+                id_number:
+                  type: integer
+                  description: ''
+                  example: 13
+                birth_date:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: zmrwpptbxehjbl
+                phone_number:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: azddnufjsekhcskbxhtgkgzcw
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: roob.sophia@example.net
+                job_title:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: eritybcwupgtwyybalrohkjow
+                classification_number:
+                  type: integer
+                  description: ''
+                  example: 3
+                insurance_number:
+                  type: integer
+                  description: ''
+                  example: 8
+                sub_specialities:
+                  type: string
+                  description: ''
+                  example: null
+                medical_licence_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                cv_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                certification_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+              required:
+                - phone_number
+                - email
+  '/api/v1/doctors/{id}/check-status':
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsIdCheckStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'Request Status Checked'
+                  payload:
+                    request_status: accepted
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Request Status Checked'
+                  payload:
+                    type: object
+                    properties:
+                      request_status:
+                        type: string
+                        example: accepted
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the doctor.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/doctors/otp/send:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsOtpSend
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/doctors/otp/verify:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsOtpVerify
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
+                  example: '+037429029908'
+                otp:
+                  type: string
+                  description: ''
+                  example: esse
+              required:
+                - phone_number
+                - otp
+  /api/v1/doctors/profile/my:
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsProfileMy
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/doctors/profile/notifications:
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsProfileNotifications
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/doctors/profile/notifications/mark-as-read:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsProfileNotificationsMarkAsRead
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  '/api/v1/doctors/profile/notifications/{id}/mark-as-read':
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsProfileNotificationsIdMarkAsRead
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the notification.'
+        example: sunt
+        required: true
+        schema:
+          type: string
+  /api/v1/doctors/profile/home:
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsProfileHome
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/doctors/logout:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsLogout
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/doctors/profile/update-phone-number:
+    put:
+      summary: ''
+      operationId: putApiV1DoctorsProfileUpdatePhoneNumber
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: ''
+                  example: null
+  /api/v1/doctors/update-thumbnail:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsUpdateThumbnail
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thumbnail:
+                  type: string
+                  description: 'Must not be greater than 3000 characters.'
+                  example: vnrmpaanzbratlzk
+              required:
+                - thumbnail
+  /api/v1/doctors/my-wallet/history:
+    get:
+      summary: ''
+      operationId: getApiV1DoctorsMyWalletHistory
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/consultations:
+    get:
+      summary: ''
+      operationId: getApiV1Consultations
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  '/api/v1/consultations/{id}/approve':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdApprove
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/reject':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdReject
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/finish':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdFinish
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/add-summary':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdAddSummary
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: ''
+                  example: 'Doloribus non nihil vel reiciendis enim aliquam.'
+                medicines:
+                  type: array
+                  description: 'group of medicals puts in prescripion as array'
+                  example:
+                    - 2
+                  items:
+                    type: integer
+                lab_tests:
+                  type: array
+                  description: "the id's of lab tests"
+                  example:
+                    - 13
+                  items:
+                    type: integer
+                other_lab_tests:
+                  type: string
+                  description: ''
+                  example: rerum
+                sick_leave:
+                  type: boolean
+                  description: .
+                  example: true
+                notes:
+                  type: string
+                  description: ''
+                  example: voluptatem
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 5
+        required: true
+        schema:
+          type: integer
+  '/api/v1/doctors/online-status/{status}':
+    put:
+      summary: ''
+      operationId: putApiV1DoctorsOnlineStatusStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: status
+        description: ''
+        example: blanditiis
+        required: true
+        schema:
+          type: string
+  '/api/v1/doctors/notification-status/{status}':
+    put:
+      summary: ''
+      operationId: putApiV1DoctorsNotificationStatusStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: status
+        description: ''
+        example: accusamus
+        required: true
+        schema:
+          type: string
+  /api/v1/my-prescriptions:
+    get:
+      summary: ''
+      operationId: getApiV1MyPrescriptions
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+  /api/v1/my-prescriptions/store:
+    post:
+      summary: ''
+      operationId: postApiV1MyPrescriptionsStore
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                drug_name:
+                  type: string
+                  description: 'Must not be greater than 250 characters.'
+                  example: cjrvfzxvyqmovmjb
+                route:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: fjqjzupzrbfonobz
+                dose:
+                  type: integer
+                  description: ''
+                  example: 4
+                unit:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: tpsajjnir
+                frequancy:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: oip
+                duration:
+                  type: integer
+                  description: ''
+                  example: 15
+                duration_unit:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: xqwmltkeyberfaexpaimw
+                shape:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: dxtr
+                prn:
+                  type: boolean
+                  description: ''
+                  example: false
+                instructions:
+                  type: string
+                  description: ''
+                  example: hic
+              required:
+                - drug_name
+                - route
+                - dose
+                - unit
+                - frequancy
+                - duration
+                - duration_unit
+                - shape
+                - prn
+                - instructions
+  '/api/v1/consultations/{id}/chat-messages':
+    get:
+      summary: ''
+      operationId: getApiV1ConsultationsIdChatMessages
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/send-message':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdSendMessage
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/view-summary':
+    post:
+      summary: ''
+      operationId: postApiV1ConsultationsIdViewSummary
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: Consultation
+    description: ''
+  -
+    name: Endpoints
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []
