@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ar-php/ar-php": "^1.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "cms-multi/filament-clear-cache": "^1.0",
         "darkaonline/l5-swagger": "^8.5",
@@ -13,6 +14,7 @@
         "filament/spatie-laravel-translatable-plugin": "*",
         "flowframe/laravel-trend": "^0.1.5",
         "guzzlehttp/guzzle": "^7.2",
+        "khaled.alshamaa/ar-php": "^6.3",
         "laravel-frontend-presets/tall": "^6.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

@@ -36,6 +36,6 @@ class MedicineResource extends JsonResource
             'control',
             'marketing_company_name',
             'representative',
-        ]
+        ];
     }
 }
