@@ -44,8 +44,13 @@ class PrescriptionRepository extends AbstractRepository
         return $medicines;
     }
     public function searchMedicineList(){
+        $page = request()->has('page') ? request()->get('page') : 1;
+        $limit = request()->has('limit') ? request()->get('limit') : 10;
+
         $medicines = Medicine::where('commercial_name','like','%'.request()->query()['search'].'%')
                      ->orWhere('scientific_name','like','%'.request()->query()['search'].'%')
+                     ->limit($limit)
+                     ->offset(($page - 1) * $limit)
                      ->get();
         return $medicines;
     }

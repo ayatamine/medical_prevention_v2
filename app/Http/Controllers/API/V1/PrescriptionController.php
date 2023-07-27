@@ -7,6 +7,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PrescriptionRequest;
+use App\Http\Resources\MedicineResource;
 use App\Repositories\PrescriptionRepository;
 
 class PrescriptionController extends Controller
@@ -129,7 +130,9 @@ class PrescriptionController extends Controller
         * security={ {"sanctum": {} }},
         * summary="get medecines list ",
         * description="get medicines list  ",
-        *       @OA\Parameter(name="search",in="query",description="scientific_name or commercial_name"),
+        *       @OA\Parameter(name="search",in="query",description="scientific_name or commercial_name",example="ziag"),
+        *       @OA\Parameter(name="page",in="query",description="page number"),
+        *       @OA\Parameter(name="limit",in="query",description="number of items in each page"),
         *      @OA\Response( response=200, description="medicines fetched succefully", @OA\JsonContent() ),
         *      @OA\Response( response=404, description="no medicine found ", @OA\JsonContent() ),
         *    )
@@ -140,7 +143,7 @@ class PrescriptionController extends Controller
                 
                 return $this->api->success()
                                  ->message("medicines fetched succefully")
-                                 ->payload($medicines)
+                                 ->payload(MedicineResource::collection($medicines)) 
                                  ->send();
             }
             catch(Exception $ex){

@@ -3148,6 +3148,16 @@
                         "name": "search",
                         "in": "query",
                         "description": "scientific_name or commercial_name"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page number"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "number of items in each page"
                     }
                 ],
                 "responses": {
