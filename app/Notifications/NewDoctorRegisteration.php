@@ -12,13 +12,13 @@ use Webbingbrasil\FilamentNotification\Actions\ButtonAction;
 class NewDoctorRegisteration extends Notification
 {
     use Queueable;
-
+  public $data;
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($data)
     {
-        
+        $this->data = $data;
     }
 
     /**
@@ -52,5 +52,6 @@ class NewDoctorRegisteration extends Notification
         return [
             'title' => 'New Doctors Registeration',
             'message' => 'Hi Admin, there is'.$this->data['count'].' new doctors registeration'
+        ];
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Prescription;
 use Exception;
+use App\Models\Medicine;
+use App\Models\Prescription;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -39,6 +40,17 @@ class PrescriptionRepository extends AbstractRepository
                      ->when(request()->has('search'),function($query){
                          $query->where('drug_name','like','%'.request()->query()['search'].'%');
                      })
+                     ->get();
+        return $medicines;
+    }
+    public function searchMedicineList(){
+        $page = request()->has('page') ? request()->get('page') : 1;
+        $limit = request()->has('limit') ? request()->get('limit') : 10;
+
+        $medicines = Medicine::where('commercial_name','like','%'.request()->query()['search'].'%')
+                     ->orWhere('scientific_name','like','%'.request()->query()['search'].'%')
+                     ->limit($limit)
+                     ->offset(($page - 1) * $limit)
                      ->get();
         return $medicines;
     }

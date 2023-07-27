@@ -16,7 +16,7 @@ class OnlineDoctors extends Page
     use  InteractsWithForms; 
     public $notification_title,$notification_content;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
+    protected static bool $shouldRegisterNavigation = false;
     protected static string $view = 'filament.pages.online-doctors';
     protected function getViewData(): array
     {
@@ -49,28 +49,5 @@ class OnlineDoctors extends Page
             ])
         ];
     }
-   protected function getFormSchema(): array
-    {  
-        return [
-            Section::make('Send Notification')
-                ->schema([
-                    Forms\Components\TextInput::make('notification_title')
-                    ->required()
-                    ->label(trans('notification_title'))
-                    ->maxLength(150),
-                    Forms\Components\Textarea::make('notification_content')
-                        ->required()
-                        ->columnSpan('full')
-                        ->maxLength(16777),
-                        
-                ])
-                ->collapsible()
-                ->collapsed()
-                
-            ];
-    }
-    public function submit(): void
-    {
-       dd($this->form->getState());
-    }
+ 
 }

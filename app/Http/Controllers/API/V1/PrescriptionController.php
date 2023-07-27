@@ -7,6 +7,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PrescriptionRequest;
+use App\Http\Resources\MedicineResource;
 use App\Repositories\PrescriptionRepository;
 
 class PrescriptionController extends Controller
@@ -115,6 +116,34 @@ class PrescriptionController extends Controller
                 return $this->api->success()
                                  ->message("medicines fetched succefully")
                                  ->payload($medicines)
+                                 ->send();
+            }
+            catch(Exception $ex){
+                return handleTwoCommunErrors($ex,"no medicines found");
+            }
+        }
+         /**
+       * @OA\Get(
+        * path="/api/v1/medicines/list",
+        * operationId="searchMedicinesList",
+        * tags={"consultation"},
+        * security={ {"sanctum": {} }},
+        * summary="get medecines list ",
+        * description="get medicines list  ",
+        *       @OA\Parameter(name="search",in="query",description="scientific_name or commercial_name",example="ziag"),
+        *       @OA\Parameter(name="page",in="query",description="page number"),
+        *       @OA\Parameter(name="limit",in="query",description="number of items in each page"),
+        *      @OA\Response( response=200, description="medicines fetched succefully", @OA\JsonContent() ),
+        *      @OA\Response( response=404, description="no medicine found ", @OA\JsonContent() ),
+        *    )
+        */
+        public function searchMedicinesList(){
+            try{
+                $medicines  = $this->repository->searchMedicineList();
+                
+                return $this->api->success()
+                                 ->message("medicines fetched succefully")
+                                 ->payload(MedicineResource::collection($medicines)) 
                                  ->send();
             }
             catch(Exception $ex){
