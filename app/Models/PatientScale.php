@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scale;
+use App\Models\ScaleQuestion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PatientScale extends Model
 {
@@ -84,5 +86,14 @@ class PatientScale extends Model
             return self::$res11;
             break;
        }
+    }
+    public function question()
+    {
+        return $this->belongsTo(ScaleQuestion::class,'scale_question_id','id');
+    }
+
+    public function scale()
+    {
+        return $this->belongsTo(Scale::class);
     }
 }

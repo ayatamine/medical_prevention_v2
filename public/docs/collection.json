@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "NEOMED APP",
-        "_postman_id": "b02bf947-0d1f-4b30-9d77-7ae35d65790d",
+        "_postman_id": "50bbd038-1c0b-475c-8bf9-eec7bb4a1bc9",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -37,7 +37,7 @@
                                 {
                                     "id": "consultation_id",
                                     "key": "consultation_id",
-                                    "value": "7",
+                                    "value": "1",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -585,7 +585,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\",\"sub_specialities\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null},{\"id\":3,\"name\":\"Ed Fahey III\",\"name_ar\":null},{\"id\":5,\"name\":\" sdfsdf ss\",\"name_ar\":null}]},{\"id\":2,\"name\":\"speciality1 s\",\"name_ar\":\"\\u0627\\u0644\\u062a\\u062e\\u0635\\u0635 1\",\"sub_specialities\":[]}]}",
+                            "body": "{\"success\":true,\"message\":\"specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\"},{\"id\":2,\"name\":\"speciality1 s\",\"name_ar\":\"\\u0627\\u0644\\u062a\\u062e\\u0635\\u0635 1\"}]}",
                             "name": ""
                         }
                     ]
@@ -646,7 +646,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\",\"sub_specialities\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null},{\"id\":3,\"name\":\"Ed Fahey III\",\"name_ar\":null},{\"id\":5,\"name\":\" sdfsdf ss\",\"name_ar\":\"\\u0627\\u0645\\u064a\\u0646 \\u0633\\u0627\\u0628\"}]}}",
+                            "body": "{\"success\":true,\"message\":\"speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\"}}",
                             "name": ""
                         }
                     ]
@@ -707,7 +707,182 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"},{\"id\":3,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"}]}",
+                            "body": "{\"data\":[]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/sub_specialities",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sub_specialities",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sub_specialities"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "50"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"success\":true,\"message\":\"sub specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null},{\"id\":3,\"name\":\"Ed Fahey III\",\"name_ar\":null},{\"id\":5,\"name\":\" sdfsdf ss\",\"name_ar\":\"\\u0627\\u0645\\u064a\\u0646 \\u0633\\u0627\\u0628\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/sub_specialities\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sub_specialities\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sub_specialities\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the sub speciality."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "49"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"success\":true,\"message\":\"sub_speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/sub_specialities\/{id}\/doctors",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/sub_specialities\/:id\/doctors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/sub_specialities\/:id\/doctors",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the sub speciality."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "48"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"success\":true,\"message\":\"sub speciality doctors details fetched successfully\",\"payload\":[{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"},{\"id\":3,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"}]}",
                             "name": ""
                         }
                     ]
@@ -752,7 +927,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "50"
+                                    "value": "47"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -838,7 +1013,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "49"
+                                    "value": "46"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -846,7 +1021,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"Doctor details fetched successfuly\",\"payload\":{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\",\"speciality\":{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"slug\":\"eos-dolores-nemo-molestiae-ex-praesentium-dolorem\",\"created_at\":\"2023-05-23T11:40:14.000000Z\",\"updated_at\":\"2023-06-17T09:55:06.000000Z\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\",\"icon\":null},\"sub_specialities\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null,\"slug\":\"dolores-possimus-ut-quis-non\"},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null,\"slug\":\"non-quia-iusto-qui-cupiditate\"}],\"bio\":null,\"reviews\":[]}}",
+                            "body": "{\"success\":true,\"message\":\"Doctor details fetched successfuly\",\"payload\":{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\",\"specialities\":[],\"sub_specialities\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null,\"slug\":\"dolores-possimus-ut-quis-non\"},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null,\"slug\":\"non-quia-iusto-qui-cupiditate\"}],\"bio\":null,\"reviews\":[]}}",
                             "name": ""
                         }
                     ]
@@ -1045,7 +1220,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "consequatur",
+                                    "value": "modi",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -1063,7 +1238,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"rating\":4,\"comment\":\"aut\"}"
+                            "raw": "{\"rating\":2,\"comment\":\"voluptas\"}"
                         },
                         "description": ""
                     },
@@ -1081,7 +1256,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "minima",
+                                    "value": "id",
                                     "description": ""
                                 }
                             ]
@@ -1117,7 +1292,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "48"
+                                    "value": "45"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1177,7 +1352,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+43260910790\",\"otp\":\"est\"}"
+                            "raw": "{\"phone_number\":\"+18735490539\",\"otp\":\"iusto\"}"
                         },
                         "description": ""
                     },
@@ -1205,7 +1380,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"uqzaljyfufuqmphgfwwfzch\",\"birth_date\":\"2023-07-20T16:15:01\",\"height\":30,\"weight\":78889448.5732633,\"age\":2,\"gender\":\"female\",\"has_physical_activity\":\"0\",\"has_cancer_screening\":\"0\",\"has_depression_screening\":\"1\",\"other_problems\":\"[\\\"et\\\",\\\"cum\\\"]\"}"
+                            "raw": "{\"full_name\":\"jfrjhiauvpzjwj\",\"birth_date\":\"2023-07-27T11:09:41\",\"height\":0,\"weight\":2106250.34748391,\"age\":1,\"gender\":\"female\",\"has_physical_activity\":\"1\",\"has_cancer_screening\":\"0\",\"has_depression_screening\":\"0\",\"other_problems\":\"[\\\"impedit\\\",\\\"et\\\"]\"}"
                         },
                         "description": ""
                     },
@@ -1233,7 +1408,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+56233995667\"}"
+                            "raw": "{\"phone_number\":\"+475059216860\"}"
                         },
                         "description": ""
                     },
@@ -1261,7 +1436,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"zsqe\"}"
+                            "raw": "{\"thumbnail\":\"flhttcjtxbvoq\"}"
                         },
                         "description": ""
                     },
@@ -1329,7 +1504,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "nobis",
+                                    "value": "reiciendis",
                                     "description": ""
                                 }
                             ]
@@ -1432,7 +1607,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "et",
+                                    "value": "cupiditate",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -1510,7 +1685,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "ut",
+                                    "value": "sunt",
                                     "description": ""
                                 }
                             ]
@@ -1563,7 +1738,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "quam",
+                                    "value": "aut",
                                     "description": ""
                                 }
                             ]
@@ -1581,7 +1756,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"answers\":[\"minus\"]}"
+                            "raw": "[]"
                         },
                         "description": ""
                     },
@@ -1644,7 +1819,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "velit",
+                                    "value": "non",
                                     "description": "The ID of the recommendation."
                                 }
                             ]
@@ -1710,51 +1885,57 @@
                             "formdata": [
                                 {
                                     "key": "full_name",
-                                    "value": "kfpukaxg",
+                                    "value": "delroie",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "id_number",
-                                    "value": 13,
+                                    "value": 19,
                                     "type": "text",
                                     "description": ""
                                 },
                                 {
                                     "key": "birth_date",
-                                    "value": "zmrwpptbxehjbl",
+                                    "value": "rsadlhrhgecdcvk",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "phone_number",
-                                    "value": "azddnufjsekhcskbxhtgkgzcw",
+                                    "value": "sodkf",
                                     "type": "text",
                                     "description": "Must not be greater than 255 characters."
                                 },
                                 {
                                     "key": "email",
-                                    "value": "roob.sophia@example.net",
+                                    "value": "blanche24@example.org",
                                     "type": "text",
                                     "description": "Must be a valid email address. Must not be greater than 255 characters."
                                 },
                                 {
                                     "key": "job_title",
-                                    "value": "eritybcwupgtwyybalrohkjow",
+                                    "value": "vvqgztecvdhewzelxycagkku",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "classification_number",
-                                    "value": 3,
+                                    "value": 19,
                                     "type": "text",
                                     "description": ""
                                 },
                                 {
                                     "key": "insurance_number",
-                                    "value": 8,
+                                    "value": 1,
                                     "type": "text",
                                     "description": ""
+                                },
+                                {
+                                    "key": "thumbnail",
+                                    "value": "toaobxgjymljm",
+                                    "type": "text",
+                                    "description": "Must not be greater than 3000 characters."
                                 },
                                 {
                                     "key": "medical_licence_file",
@@ -1825,7 +2006,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "47"
+                                    "value": "44"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1885,7 +2066,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+037429029908\",\"otp\":\"esse\"}"
+                            "raw": "{\"phone_number\":\"+83715280193\",\"otp\":\"quam\"}"
                         },
                         "description": ""
                     },
@@ -2018,7 +2199,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "sunt",
+                                    "value": "eum",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -2184,7 +2365,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"vnrmpaanzbratlzk\"}"
+                            "raw": "{\"thumbnail\":\"cecslvzljcoblmozwivbm\"}"
                         },
                         "description": ""
                     },
@@ -2391,7 +2572,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "5",
+                                    "value": "14",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2409,7 +2590,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"description\":\"Doloribus non nihil vel reiciendis enim aliquam.\",\"medicines\":[2],\"lab_tests\":[13],\"other_lab_tests\":\"rerum\",\"sick_leave\":true,\"notes\":\"voluptatem\"}"
+                            "raw": "{\"description\":\"Et dolore architecto et.\",\"medicines\":[19],\"lab_tests\":[2],\"other_lab_tests\":\"et\",\"sick_leave\":false,\"notes\":\"iste\"}"
                         },
                         "description": ""
                     },
@@ -2427,7 +2608,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "blanditiis",
+                                    "value": "omnis",
                                     "description": ""
                                 }
                             ]
@@ -2460,7 +2641,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "accusamus",
+                                    "value": "ut",
                                     "description": ""
                                 }
                             ]
@@ -2482,13 +2663,66 @@
                     "response": []
                 },
                 {
-                    "name": "GET api\/v1\/my-prescriptions",
+                    "name": "PUT api\/v1\/doctors\/profile\/update-last-online-status",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/my-prescriptions",
+                            "path": "api\/v1\/doctors\/profile\/update-last-online-status",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/my-prescriptions"
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/profile\/update-last-online-status"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/doctors\/medicines\/store",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/medicines\/store",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/medicines\/store"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"drug_name\":\"viskfvmtwwxjwifgsptopec\",\"route\":\"qifqxdduayrgtd\",\"dose\":18,\"unit\":\"rjirjbsfvuy\",\"frequancy\":\"t\",\"duration\":14,\"duration_unit\":\"ddjyfveonhufvlhantiunoreg\",\"shape\":\"mbl\",\"prn\":false,\"instructions\":\"dignissimos\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/v1\/doctors\/medicines\/list",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/medicines\/list",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/medicines\/list"
                         },
                         "method": "GET",
                         "header": [
@@ -2527,15 +2761,15 @@
                     ]
                 },
                 {
-                    "name": "POST api\/v1\/my-prescriptions\/store",
+                    "name": "GET api\/v1\/medicines\/list",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/v1\/my-prescriptions\/store",
+                            "path": "api\/v1\/medicines\/list",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/my-prescriptions\/store"
+                            "raw": "{{baseUrl}}\/api\/v1\/medicines\/list"
                         },
-                        "method": "POST",
+                        "method": "GET",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -2546,13 +2780,30 @@
                                 "value": "application\/json"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"drug_name\":\"cjrvfzxvyqmovmjb\",\"route\":\"fjqjzupzrbfonobz\",\"dose\":4,\"unit\":\"tpsajjnir\",\"frequancy\":\"oip\",\"duration\":15,\"duration_unit\":\"xqwmltkeyberfaexpaimw\",\"shape\":\"dxtr\",\"prn\":false,\"instructions\":\"hic\"}"
-                        },
+                        "body": null,
                         "description": ""
                     },
-                    "response": []
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
                 },
                 {
                     "name": "GET api\/v1\/consultations\/{id}\/chat-messages",
@@ -2672,6 +2923,67 @@
                         "description": ""
                     },
                     "response": []
+                },
+                {
+                    "name": "GET api\/v1\/consultations\/{id}\/print-summary",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/consultations\/:id\/print-summary",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/consultations\/:id\/print-summary",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the consultation."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "43"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\"success\":false,\"message\":\"There is no consultation with the given id\"}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         }

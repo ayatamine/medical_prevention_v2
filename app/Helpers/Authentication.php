@@ -4,6 +4,7 @@ use App\Models\Doctor;
 use App\Models\Patient;
 // use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Http;
+use HossamMonir\Msegat\Facades\Msegat;
 
 if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model)
@@ -47,21 +48,24 @@ if(!function_exists('send_sms')){
             //     'from' => $twilio_number, 
             //     'body' => $message
             // ]);
-            $response = Http::withHeaders([
-                'Content-Type'=> 'application/json',
-                'charset'=>'UTF-8'
-            ])->post('https://www.msegat.com/gw/sendsms.php', [
+            // $response = Http::withHeaders([
+            //     'Content-Type'=> 'application/json',
+            //     'charset'=>'UTF-8'
+            // ])->post('https://www.msegat.com/gw/sendsms.php', [
 
-                "userName"=> env('MSGAT_USERNAME'),
-                "numbers"=>"213664419425",
-                "apiKey"=>env('MSGAT_API_KEY'),
-                "userSender"=>"NEOMED APP",
-                "msg"=>$message
+            //     "userName"=> env('MSGAT_USERNAME'),
+            //     "numbers"=>"213664419425",
+            //     "apiKey"=>env('MSGAT_API_KEY'),
+            //     "userSender"=>"NEOMED APP",
+            //     "msg"=>$message
             
-            ]);
+            // ]);
+            $res = Msegat::numbers([ltrim($receiverNumber,'+')])
+            ->sendOTP($content);
+            
             return response()->json([
                 "success"=>true,
-                'message'=>'The OTP send Successfully',
+                'message'=>$res,
             ],200);
     
         } catch (\Exception $e) {

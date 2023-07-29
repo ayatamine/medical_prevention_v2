@@ -48,7 +48,7 @@ paths:
         in: path
         name: consultation_id
         description: 'The ID of the consultation.'
-        example: 7
+        example: 1
         required: true
         schema:
           type: integer
@@ -559,28 +559,10 @@ paths:
                       id: 1
                       name: 'Jovanny Torphy Sr.'
                       name_ar: 'جيدا كرم'
-                      sub_specialities:
-                        -
-                          id: 1
-                          name: 'Julie Toy'
-                          name_ar: null
-                        -
-                          id: 2
-                          name: 'Prof. Lonnie Dickens DDS'
-                          name_ar: null
-                        -
-                          id: 3
-                          name: 'Ed Fahey III'
-                          name_ar: null
-                        -
-                          id: 5
-                          name: ' sdfsdf ss'
-                          name_ar: null
                     -
                       id: 2
                       name: 'speciality1 s'
                       name_ar: 'التخصص 1'
-                      sub_specialities: []
                 properties:
                   success:
                     type: boolean
@@ -595,28 +577,10 @@ paths:
                         id: 1
                         name: 'Jovanny Torphy Sr.'
                         name_ar: 'جيدا كرم'
-                        sub_specialities:
-                          -
-                            id: 1
-                            name: 'Julie Toy'
-                            name_ar: null
-                          -
-                            id: 2
-                            name: 'Prof. Lonnie Dickens DDS'
-                            name_ar: null
-                          -
-                            id: 3
-                            name: 'Ed Fahey III'
-                            name_ar: null
-                          -
-                            id: 5
-                            name: ' sdfsdf ss'
-                            name_ar: null
                       -
                         id: 2
                         name: 'speciality1 s'
                         name_ar: 'التخصص 1'
-                        sub_specialities: []
                     items:
                       type: object
                       properties:
@@ -629,37 +593,6 @@ paths:
                         name_ar:
                           type: string
                           example: 'جيدا كرم'
-                        sub_specialities:
-                          type: array
-                          example:
-                            -
-                              id: 1
-                              name: 'Julie Toy'
-                              name_ar: null
-                            -
-                              id: 2
-                              name: 'Prof. Lonnie Dickens DDS'
-                              name_ar: null
-                            -
-                              id: 3
-                              name: 'Ed Fahey III'
-                              name_ar: null
-                            -
-                              id: 5
-                              name: ' sdfsdf ss'
-                              name_ar: null
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: integer
-                                example: 1
-                              name:
-                                type: string
-                                example: 'Julie Toy'
-                              name_ar:
-                                type: string
-                                example: null
       tags:
         - Endpoints
   '/api/v1/specialities/{id}':
@@ -689,23 +622,6 @@ paths:
                     id: 1
                     name: 'Jovanny Torphy Sr.'
                     name_ar: 'جيدا كرم'
-                    sub_specialities:
-                      -
-                        id: 1
-                        name: 'Julie Toy'
-                        name_ar: null
-                      -
-                        id: 2
-                        name: 'Prof. Lonnie Dickens DDS'
-                        name_ar: null
-                      -
-                        id: 3
-                        name: 'Ed Fahey III'
-                        name_ar: null
-                      -
-                        id: 5
-                        name: ' sdfsdf ss'
-                        name_ar: 'امين ساب'
                 properties:
                   success:
                     type: boolean
@@ -725,37 +641,6 @@ paths:
                       name_ar:
                         type: string
                         example: 'جيدا كرم'
-                      sub_specialities:
-                        type: array
-                        example:
-                          -
-                            id: 1
-                            name: 'Julie Toy'
-                            name_ar: null
-                          -
-                            id: 2
-                            name: 'Prof. Lonnie Dickens DDS'
-                            name_ar: null
-                          -
-                            id: 3
-                            name: 'Ed Fahey III'
-                            name_ar: null
-                          -
-                            id: 5
-                            name: ' sdfsdf ss'
-                            name_ar: 'امين ساب'
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              example: 1
-                            name:
-                              type: string
-                              example: 'Julie Toy'
-                            name_ar:
-                              type: string
-                              example: null
       tags:
         - Endpoints
     parameters:
@@ -788,7 +673,183 @@ paths:
               schema:
                 type: object
                 example:
+                  data: []
+                properties:
                   data:
+                    type: array
+                    example: []
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the speciality.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/sub_specialities:
+    get:
+      summary: ''
+      operationId: getApiV1Sub_specialities
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'sub specialities fetched successfully'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Julie Toy'
+                      name_ar: null
+                    -
+                      id: 2
+                      name: 'Prof. Lonnie Dickens DDS'
+                      name_ar: null
+                    -
+                      id: 3
+                      name: 'Ed Fahey III'
+                      name_ar: null
+                    -
+                      id: 5
+                      name: ' sdfsdf ss'
+                      name_ar: 'امين ساب'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'sub specialities fetched successfully'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Julie Toy'
+                        name_ar: null
+                      -
+                        id: 2
+                        name: 'Prof. Lonnie Dickens DDS'
+                        name_ar: null
+                      -
+                        id: 3
+                        name: 'Ed Fahey III'
+                        name_ar: null
+                      -
+                        id: 5
+                        name: ' sdfsdf ss'
+                        name_ar: 'امين ساب'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Julie Toy'
+                        name_ar:
+                          type: string
+                          example: null
+      tags:
+        - Endpoints
+  '/api/v1/sub_specialities/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1Sub_specialitiesId
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'sub_speciality details fetched successfully'
+                  payload:
+                    id: 1
+                    name: 'Julie Toy'
+                    name_ar: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'sub_speciality details fetched successfully'
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Julie Toy'
+                      name_ar:
+                        type: string
+                        example: null
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the sub speciality.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/sub_specialities/{id}/doctors':
+    get:
+      summary: ''
+      operationId: getApiV1Sub_specialitiesIdDoctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'sub speciality doctors details fetched successfully'
+                  payload:
                     -
                       id: 1
                       full_name: 'doctor full Name'
@@ -806,7 +867,13 @@ paths:
                       location: null
                       thumbnail: 'http://localhost:8000/storage/doctor.png'
                 properties:
-                  data:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'sub speciality doctors details fetched successfully'
+                  payload:
                     type: array
                     example:
                       -
@@ -855,7 +922,7 @@ paths:
       -
         in: path
         name: id
-        description: 'The ID of the speciality.'
+        description: 'The ID of the sub speciality.'
         example: 1
         required: true
         schema:
@@ -1005,14 +1072,7 @@ paths:
                     rating_value: 0
                     location: null
                     thumbnail: 'http://localhost:8000/storage/doctor.png'
-                    speciality:
-                      id: 1
-                      name: 'Jovanny Torphy Sr.'
-                      slug: eos-dolores-nemo-molestiae-ex-praesentium-dolorem
-                      created_at: '2023-05-23T11:40:14.000000Z'
-                      updated_at: '2023-06-17T09:55:06.000000Z'
-                      name_ar: 'جيدا كرم'
-                      icon: null
+                    specialities: []
                     sub_specialities:
                       -
                         id: 1
@@ -1057,30 +1117,9 @@ paths:
                       thumbnail:
                         type: string
                         example: 'http://localhost:8000/storage/doctor.png'
-                      speciality:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 1
-                          name:
-                            type: string
-                            example: 'Jovanny Torphy Sr.'
-                          slug:
-                            type: string
-                            example: eos-dolores-nemo-molestiae-ex-praesentium-dolorem
-                          created_at:
-                            type: string
-                            example: '2023-05-23T11:40:14.000000Z'
-                          updated_at:
-                            type: string
-                            example: '2023-06-17T09:55:06.000000Z'
-                          name_ar:
-                            type: string
-                            example: 'جيدا كرم'
-                          icon:
-                            type: string
-                            example: null
+                      specialities:
+                        type: array
+                        example: []
                       sub_specialities:
                         type: array
                         example:
@@ -1264,11 +1303,11 @@ paths:
                 rating:
                   type: integer
                   description: 'Must not be greater than 5.'
-                  example: 4
+                  example: 2
                 comment:
                   type: string
                   description: ''
-                  example: aut
+                  example: voluptas
               required:
                 - rating
     parameters:
@@ -1276,7 +1315,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: consequatur
+        example: modi
         required: true
         schema:
           type: string
@@ -1317,7 +1356,7 @@ paths:
         in: path
         name: title
         description: ''
-        example: minima
+        example: id
         required: true
         schema:
           type: string
@@ -1363,11 +1402,11 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+43260910790'
+                  example: '+18735490539'
                 otp:
                   type: string
                   description: ''
-                  example: est
+                  example: iusto
               required:
                 - phone_number
                 - otp
@@ -1397,23 +1436,23 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 300 characters.'
-                  example: uqzaljyfufuqmphgfwwfzch
+                  example: jfrjhiauvpzjwj
                 birth_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2023-07-20T16:15:01'
+                  example: '2023-07-27T11:09:41'
                 height:
                   type: number
                   description: ''
-                  example: 30.0
+                  example: 0.0
                 weight:
                   type: number
                   description: ''
-                  example: 78889448.573263
+                  example: 2106250.3474839
                 age:
                   type: integer
                   description: 'Must be between 1 and 110.'
-                  example: 2
+                  example: 1
                 gender:
                   type: string
                   description: 'Must be one of <code>male</code> or <code>female</code>.'
@@ -1433,7 +1472,7 @@ paths:
                 has_physical_activity:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
-                  example: '0'
+                  example: '1'
                 has_cancer_screening:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
@@ -1441,11 +1480,11 @@ paths:
                 has_depression_screening:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
-                  example: '1'
+                  example: '0'
                 other_problems:
                   type: string
                   description: 'Must be a valid JSON string.'
-                  example: '["et","cum"]'
+                  example: '["impedit","et"]'
   /api/v1/patients/update-phone-number:
     put:
       summary: ''
@@ -1472,7 +1511,7 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+56233995667'
+                  example: '+475059216860'
               required:
                 - phone_number
   /api/v1/patients/update-thumbnail:
@@ -1501,7 +1540,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: zsqe
+                  example: flhttcjtxbvoq
               required:
                 - thumbnail
   /api/v1/patients:
@@ -1557,7 +1596,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: nobis
+        example: reiciendis
         required: true
         schema:
           type: string
@@ -1626,7 +1665,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: et
+        example: cupiditate
         required: true
         schema:
           type: string
@@ -1702,7 +1741,7 @@ paths:
       tags:
         - Endpoints
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
@@ -1711,18 +1750,15 @@ paths:
                 answers:
                   type: array
                   description: ''
-                  example:
-                    - minus
+                  example: null
                   items:
                     type: string
-              required:
-                - answers
     parameters:
       -
         in: path
         name: title
         description: ''
-        example: ut
+        example: sunt
         required: true
         schema:
           type: string
@@ -1787,7 +1823,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the recommendation.'
-        example: velit
+        example: non
         required: true
         schema:
           type: string
@@ -1817,35 +1853,39 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: kfpukaxg
+                  example: delroie
                 id_number:
                   type: integer
                   description: ''
-                  example: 13
+                  example: 19
                 birth_date:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: zmrwpptbxehjbl
+                  example: rsadlhrhgecdcvk
                 phone_number:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: azddnufjsekhcskbxhtgkgzcw
+                  example: sodkf
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: roob.sophia@example.net
+                  example: blanche24@example.org
                 job_title:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: eritybcwupgtwyybalrohkjow
+                  example: vvqgztecvdhewzelxycagkku
                 classification_number:
                   type: integer
                   description: ''
-                  example: 3
+                  example: 19
                 insurance_number:
                   type: integer
                   description: ''
-                  example: 8
+                  example: 1
+                specialities:
+                  type: string
+                  description: ''
+                  example: null
                 sub_specialities:
                   type: string
                   description: ''
@@ -1862,9 +1902,18 @@ paths:
                   type: string
                   format: binary
                   description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                thumbnail:
+                  type: string
+                  description: 'Must not be greater than 3000 characters.'
+                  example: toaobxgjymljm
+                bio:
+                  type: string
+                  description: ''
+                  example: null
               required:
                 - phone_number
                 - email
+                - thumbnail
   '/api/v1/doctors/{id}/check-status':
     get:
       summary: ''
@@ -1956,11 +2005,11 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+037429029908'
+                  example: '+83715280193'
                 otp:
                   type: string
                   description: ''
-                  example: esse
+                  example: quam
               required:
                 - phone_number
                 - otp
@@ -2057,7 +2106,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: sunt
+        example: eum
         required: true
         schema:
           type: string
@@ -2158,7 +2207,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: vnrmpaanzbratlzk
+                  example: cecslvzljcoblmozwivbm
               required:
                 - thumbnail
   /api/v1/doctors/my-wallet/history:
@@ -2318,39 +2367,39 @@ paths:
                 description:
                   type: string
                   description: ''
-                  example: 'Doloribus non nihil vel reiciendis enim aliquam.'
+                  example: 'Et dolore architecto et.'
                 medicines:
                   type: array
                   description: 'group of medicals puts in prescripion as array'
                   example:
-                    - 2
+                    - 19
                   items:
                     type: integer
                 lab_tests:
                   type: array
                   description: "the id's of lab tests"
                   example:
-                    - 13
+                    - 2
                   items:
                     type: integer
                 other_lab_tests:
                   type: string
                   description: ''
-                  example: rerum
+                  example: et
                 sick_leave:
                   type: boolean
                   description: .
-                  example: true
+                  example: false
                 notes:
                   type: string
                   description: ''
-                  example: voluptatem
+                  example: iste
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 5
+        example: 14
         required: true
         schema:
           type: integer
@@ -2375,7 +2424,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: blanditiis
+        example: omnis
         required: true
         schema:
           type: string
@@ -2400,14 +2449,103 @@ paths:
         in: path
         name: status
         description: ''
-        example: accusamus
+        example: ut
         required: true
         schema:
           type: string
-  /api/v1/my-prescriptions:
+  /api/v1/doctors/profile/update-last-online-status:
+    put:
+      summary: ''
+      operationId: putApiV1DoctorsProfileUpdateLastOnlineStatus
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/doctors/medicines/store:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsMedicinesStore
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                drug_name:
+                  type: string
+                  description: 'Must not be greater than 250 characters.'
+                  example: viskfvmtwwxjwifgsptopec
+                route:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: qifqxdduayrgtd
+                dose:
+                  type: integer
+                  description: ''
+                  example: 18
+                unit:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: rjirjbsfvuy
+                frequancy:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: t
+                duration:
+                  type: integer
+                  description: ''
+                  example: 14
+                duration_unit:
+                  type: string
+                  description: 'Must not be greater than 100 characters.'
+                  example: ddjyfveonhufvlhantiunoreg
+                shape:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: mbl
+                prn:
+                  type: boolean
+                  description: ''
+                  example: false
+                instructions:
+                  type: string
+                  description: ''
+                  example: dignissimos
+              required:
+                - drug_name
+                - route
+                - dose
+                - unit
+                - frequancy
+                - duration
+                - duration_unit
+                - shape
+                - instructions
+  /api/v1/doctors/medicines/list:
     get:
       summary: ''
-      operationId: getApiV1MyPrescriptions
+      operationId: getApiV1DoctorsMedicinesList
       description: ''
       parameters:
         -
@@ -2432,10 +2570,10 @@ paths:
                     example: Unauthenticated.
       tags:
         - Endpoints
-  /api/v1/my-prescriptions/store:
-    post:
+  /api/v1/medicines/list:
+    get:
       summary: ''
-      operationId: postApiV1MyPrescriptionsStore
+      operationId: getApiV1MedicinesList
       description: ''
       parameters:
         -
@@ -2445,67 +2583,21 @@ paths:
           example: 'Bearer {YOUR_AUTH_KEY}'
           schema:
             type: string
-      responses: {  }
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
       tags:
         - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                drug_name:
-                  type: string
-                  description: 'Must not be greater than 250 characters.'
-                  example: cjrvfzxvyqmovmjb
-                route:
-                  type: string
-                  description: 'Must not be greater than 100 characters.'
-                  example: fjqjzupzrbfonobz
-                dose:
-                  type: integer
-                  description: ''
-                  example: 4
-                unit:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: tpsajjnir
-                frequancy:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: oip
-                duration:
-                  type: integer
-                  description: ''
-                  example: 15
-                duration_unit:
-                  type: string
-                  description: 'Must not be greater than 100 characters.'
-                  example: xqwmltkeyberfaexpaimw
-                shape:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: dxtr
-                prn:
-                  type: boolean
-                  description: ''
-                  example: false
-                instructions:
-                  type: string
-                  description: ''
-                  example: hic
-              required:
-                - drug_name
-                - route
-                - dose
-                - unit
-                - frequancy
-                - duration
-                - duration_unit
-                - shape
-                - prn
-                - instructions
   '/api/v1/consultations/{id}/chat-messages':
     get:
       summary: ''
@@ -2582,6 +2674,47 @@ paths:
           schema:
             type: string
       responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/consultations/{id}/print-summary':
+    get:
+      summary: ''
+      operationId: getApiV1ConsultationsIdPrintSummary
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: false
+                  message: 'There is no consultation with the given id'
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'There is no consultation with the given id'
       tags:
         - Endpoints
     parameters:

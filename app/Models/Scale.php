@@ -13,4 +13,8 @@ class Scale extends Model
     public function scaleQuestions(){
         return $this->hasMany(\App\Models\ScaleQuestion::class,'scale_id','id');
     }
+    public function responses()
+    {
+        return $this->hasMany(PatientScale::class);
+    }
 }

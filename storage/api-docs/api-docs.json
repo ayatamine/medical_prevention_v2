@@ -1549,7 +1549,7 @@
                     {
                         "name": "title",
                         "in": "path",
-                        "description": "scale title",
+                        "description": "scale title (anexiety or depression)",
                         "required": true
                     }
                 ],
@@ -3147,7 +3147,8 @@
                     {
                         "name": "search",
                         "in": "query",
-                        "description": "scientific_name or commercial_name"
+                        "description": "scientific_name or commercial_name",
+                        "example": "ziag"
                     },
                     {
                         "name": "page",

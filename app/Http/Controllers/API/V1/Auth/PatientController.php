@@ -61,7 +61,7 @@ class PatientController extends Controller
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
             $otp = generate_otp($request->phone_number, 'Patient');
-            return sendSMS($request->phone_number, 'Your OTP code is ', $otp);
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp);
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
@@ -576,7 +576,7 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * summary="update patient scale (anexiety or depression) ",
      * description="update patient scale (anexiety or depression)  ",
-     * @OA\Parameter(  name="title", in="path", description="scale title", required=true),
+     * @OA\Parameter(  name="title", in="path", description="scale title (anexiety or depression)", required=true),
      *     @OA\RequestBody(
      *         @OA\JsonContent(),
      *         @OA\MediaType(
@@ -595,8 +595,9 @@ class PatientController extends Controller
     {
         $this->validate($request, [
             'answers' => 'required|array',
-            'answers.*.scale_question_id' => 'required|exists:scale_questions,id'
+            'answers.*' => 'exists:scale_questions,id'
         ]);
+        return $request;
         $this->repository->updateScale($request, $title);
         try {
             return $this->api->success()

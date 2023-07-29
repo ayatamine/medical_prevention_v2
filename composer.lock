@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d9a5486cf1cc41e8553442ba6d3ea18",
+    "content-hash": "a306ed61ab8b2cdef3f9ae18cc0a2975",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2258,6 +2258,57 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "hossammonir/msegat",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hossammonir/msegat.git",
+                "reference": "57ee0e9cbfc464a3a73b1b246235fda72a0e32b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hossammonir/msegat/zipball/57ee0e9cbfc464a3a73b1b246235fda72a0e32b9",
+                "reference": "57ee0e9cbfc464a3a73b1b246235fda72a0e32b9",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": ">=8.1"
+            },
+            "type": "prroject",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HossamMonir\\Msegat\\MsegatServiceProvider"
+                    ],
+                    "aliases": {
+                        "Msegat": "HossamMonir\\Msegat\\Facades\\Msegat"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HossamMonir\\Msegat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hossam Ibrahim",
+                    "email": "hossammonir@icloud.com"
+                }
+            ],
+            "description": "Msegat SMS Provider",
+            "support": {
+                "issues": "https://github.com/hossammonir/msegat/issues",
+                "source": "https://github.com/hossammonir/msegat/tree/v1.1.0"
+            },
+            "time": "2023-05-03T18:41:22+00:00"
         },
         {
             "name": "khaled.alshamaa/ar-php",

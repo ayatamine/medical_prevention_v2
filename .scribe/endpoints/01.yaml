@@ -30,12 +30,12 @@ endpoints:
         name: consultation_id
         description: 'The ID of the consultation.'
         required: true
-        example: 7
+        example: 1
         type: integer
         custom: []
     cleanUrlParameters:
       id: 1
-      consultation_id: 7
+      consultation_id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -55,7 +55,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer vb83f5hVak1dEgPcaeZ4D66'
+      - 'Bearer Eh6aPv56g1eZbf83ackdD4V'
     controller: null
     method: null
     route: null

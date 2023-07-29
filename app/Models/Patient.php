@@ -184,4 +184,8 @@ class Patient extends Model
             'chronic_diseases_id'
         );
     }
+    public function responses()
+    {
+        return $this->hasMany(PatientScale::class);
+    }
 }
