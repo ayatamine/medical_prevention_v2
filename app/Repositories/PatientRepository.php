@@ -10,6 +10,7 @@ use App\Models\Recommendation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\PatientScaleResource;
+use App\Models\Scale;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -86,6 +87,7 @@ class PatientRepository extends AbstractRepository
     public function findByOtpAndPhone($phone_number, $otp)
     {
         return $this->model::whereDeletedAt(null)->where('phone_number', $phone_number)
+            ->where('otp_verification_code', $otp)
             ->firstOrFail();
         //TODO: verify the otp
         // ->where('otp_verification_code', $otp)
@@ -285,5 +287,17 @@ class PatientRepository extends AbstractRepository
     {
         $recommendation = Recommendation::findOrFail($id);
         return $recommendation;
+    }
+    public function updateScale($request,$title){
+        // $scale = Scale::where('title',$title)->firstOrFail();
+        // $patientScale = PatientScale::wherePatientId(request()->user()->id)->get();
+        foreach ($responses=$request->answers as $response) {
+
+            $patientResponse = PatientScale::where('patient_id',$response['patient_id'])
+                                            ->where('scale_question_id',$response['scale_question_id'])
+                                            ->firstOrFail();
+            $patientResponse->update($response);
+        }
+        return true;
     }
 }

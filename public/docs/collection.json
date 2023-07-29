@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "NEOMED APP",
-        "_postman_id": "50bbd038-1c0b-475c-8bf9-eec7bb4a1bc9",
+        "_postman_id": "b163f083-8088-4bcd-b678-a435faf04466",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -37,7 +37,7 @@
                                 {
                                     "id": "consultation_id",
                                     "key": "consultation_id",
-                                    "value": "1",
+                                    "value": "19",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -1220,7 +1220,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "modi",
+                                    "value": "tenetur",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -1238,7 +1238,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"rating\":2,\"comment\":\"voluptas\"}"
+                            "raw": "{\"rating\":4,\"comment\":\"facere\"}"
                         },
                         "description": ""
                     },
@@ -1256,7 +1256,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "id",
+                                    "value": "ipsa",
                                     "description": ""
                                 }
                             ]
@@ -1352,7 +1352,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+18735490539\",\"otp\":\"iusto\"}"
+                            "raw": "{\"phone_number\":\"+866099657395\",\"otp\":\"reprehenderit\"}"
                         },
                         "description": ""
                     },
@@ -1380,7 +1380,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"jfrjhiauvpzjwj\",\"birth_date\":\"2023-07-27T11:09:41\",\"height\":0,\"weight\":2106250.34748391,\"age\":1,\"gender\":\"female\",\"has_physical_activity\":\"1\",\"has_cancer_screening\":\"0\",\"has_depression_screening\":\"0\",\"other_problems\":\"[\\\"impedit\\\",\\\"et\\\"]\"}"
+                            "raw": "{\"full_name\":\"jgqclorafyqxhnvivf\",\"birth_date\":\"2023-07-29T12:29:35\",\"height\":294297799.377,\"weight\":180.17665683,\"age\":2,\"gender\":\"female\",\"has_physical_activity\":\"1\",\"has_cancer_screening\":\"1\",\"has_depression_screening\":\"0\",\"other_problems\":\"[\\\"ut\\\",\\\"odit\\\"]\"}"
                         },
                         "description": ""
                     },
@@ -1408,7 +1408,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+475059216860\"}"
+                            "raw": "{\"phone_number\":\"+471173092568\"}"
                         },
                         "description": ""
                     },
@@ -1436,7 +1436,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"flhttcjtxbvoq\"}"
+                            "raw": "{\"thumbnail\":\"tigubujlsxmmdyzivarev\"}"
                         },
                         "description": ""
                     },
@@ -1504,7 +1504,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "reiciendis",
+                                    "value": "quibusdam",
                                     "description": ""
                                 }
                             ]
@@ -1607,7 +1607,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "cupiditate",
+                                    "value": "veniam",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -1685,7 +1685,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "sunt",
+                                    "value": "iure",
                                     "description": ""
                                 }
                             ]
@@ -1738,7 +1738,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "aut",
+                                    "value": "distinctio",
                                     "description": ""
                                 }
                             ]
@@ -1756,7 +1756,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "[]"
+                            "raw": "{\"answers\":[]}"
                         },
                         "description": ""
                     },
@@ -1819,7 +1819,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "non",
+                                    "value": "doloremque",
                                     "description": "The ID of the recommendation."
                                 }
                             ]
@@ -1885,55 +1885,55 @@
                             "formdata": [
                                 {
                                     "key": "full_name",
-                                    "value": "delroie",
+                                    "value": "rerxumxnnemrxe",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "id_number",
-                                    "value": 19,
+                                    "value": 12,
                                     "type": "text",
                                     "description": ""
                                 },
                                 {
                                     "key": "birth_date",
-                                    "value": "rsadlhrhgecdcvk",
+                                    "value": "mmrkiqlvzqnomylkxjeoid",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "phone_number",
-                                    "value": "sodkf",
+                                    "value": "hpchzditqqajnqkqhfrhgixw",
                                     "type": "text",
                                     "description": "Must not be greater than 255 characters."
                                 },
                                 {
                                     "key": "email",
-                                    "value": "blanche24@example.org",
+                                    "value": "jay36@example.org",
                                     "type": "text",
                                     "description": "Must be a valid email address. Must not be greater than 255 characters."
                                 },
                                 {
                                     "key": "job_title",
-                                    "value": "vvqgztecvdhewzelxycagkku",
+                                    "value": "hevppjfkyv",
                                     "type": "text",
                                     "description": "Must not be greater than 150 characters."
                                 },
                                 {
                                     "key": "classification_number",
-                                    "value": 19,
+                                    "value": 10,
                                     "type": "text",
                                     "description": ""
                                 },
                                 {
                                     "key": "insurance_number",
-                                    "value": 1,
+                                    "value": 17,
                                     "type": "text",
                                     "description": ""
                                 },
                                 {
                                     "key": "thumbnail",
-                                    "value": "toaobxgjymljm",
+                                    "value": "rwfejwrlqmaohuvrhblpgtvak",
                                     "type": "text",
                                     "description": "Must not be greater than 3000 characters."
                                 },
@@ -2066,7 +2066,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+83715280193\",\"otp\":\"quam\"}"
+                            "raw": "{\"phone_number\":\"+521268097098\",\"otp\":\"ipsum\"}"
                         },
                         "description": ""
                     },
@@ -2199,7 +2199,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eum",
+                                    "value": "harum",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -2365,7 +2365,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"cecslvzljcoblmozwivbm\"}"
+                            "raw": "{\"thumbnail\":\"lnzchqztcyxmxcpiwb\"}"
                         },
                         "description": ""
                     },
@@ -2572,7 +2572,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "14",
+                                    "value": "1",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2590,7 +2590,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"description\":\"Et dolore architecto et.\",\"medicines\":[19],\"lab_tests\":[2],\"other_lab_tests\":\"et\",\"sick_leave\":false,\"notes\":\"iste\"}"
+                            "raw": "{\"description\":\"Nihil nulla minus asperiores odio unde non.\",\"medicines\":[4],\"lab_tests\":[9],\"other_lab_tests\":\"expedita\",\"sick_leave\":true,\"notes\":\"dolores\"}"
                         },
                         "description": ""
                     },
@@ -2608,7 +2608,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "omnis",
+                                    "value": "est",
                                     "description": ""
                                 }
                             ]
@@ -2641,7 +2641,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "ut",
+                                    "value": "illo",
                                     "description": ""
                                 }
                             ]
@@ -2709,7 +2709,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"drug_name\":\"viskfvmtwwxjwifgsptopec\",\"route\":\"qifqxdduayrgtd\",\"dose\":18,\"unit\":\"rjirjbsfvuy\",\"frequancy\":\"t\",\"duration\":14,\"duration_unit\":\"ddjyfveonhufvlhantiunoreg\",\"shape\":\"mbl\",\"prn\":false,\"instructions\":\"dignissimos\"}"
+                            "raw": "{\"drug_name\":\"ycnjqykpumdpxwzqlbe\",\"route\":\"xydacvtthcjqhemxfhixo\",\"dose\":12,\"unit\":\"yegx\",\"frequancy\":\"uhvrc\",\"duration\":9,\"duration_unit\":\"obdvsjqvnuthowzdpbxbpgqt\",\"shape\":\"ocqalqjy\",\"prn\":false,\"instructions\":\"iste\"}"
                         },
                         "description": ""
                     },
@@ -2967,20 +2967,12 @@
                                     "value": "application\/json"
                                 },
                                 {
-                                    "key": "x-ratelimit-limit",
-                                    "value": "60"
-                                },
-                                {
-                                    "key": "x-ratelimit-remaining",
-                                    "value": "43"
-                                },
-                                {
                                     "key": "access-control-allow-origin",
                                     "value": "*"
                                 }
                             ],
-                            "code": 404,
-                            "body": "{\"success\":false,\"message\":\"There is no consultation with the given id\"}",
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
                             "name": ""
                         }
                     ]

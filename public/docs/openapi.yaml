@@ -48,7 +48,7 @@ paths:
         in: path
         name: consultation_id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 19
         required: true
         schema:
           type: integer
@@ -1303,11 +1303,11 @@ paths:
                 rating:
                   type: integer
                   description: 'Must not be greater than 5.'
-                  example: 2
+                  example: 4
                 comment:
                   type: string
                   description: ''
-                  example: voluptas
+                  example: facere
               required:
                 - rating
     parameters:
@@ -1315,7 +1315,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: modi
+        example: tenetur
         required: true
         schema:
           type: string
@@ -1356,7 +1356,7 @@ paths:
         in: path
         name: title
         description: ''
-        example: id
+        example: ipsa
         required: true
         schema:
           type: string
@@ -1402,11 +1402,11 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+18735490539'
+                  example: '+866099657395'
                 otp:
                   type: string
                   description: ''
-                  example: iusto
+                  example: reprehenderit
               required:
                 - phone_number
                 - otp
@@ -1436,23 +1436,23 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 300 characters.'
-                  example: jfrjhiauvpzjwj
+                  example: jgqclorafyqxhnvivf
                 birth_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2023-07-27T11:09:41'
+                  example: '2023-07-29T12:29:35'
                 height:
                   type: number
                   description: ''
-                  example: 0.0
+                  example: 294297799.377
                 weight:
                   type: number
                   description: ''
-                  example: 2106250.3474839
+                  example: 180.17665683
                 age:
                   type: integer
                   description: 'Must be between 1 and 110.'
-                  example: 1
+                  example: 2
                 gender:
                   type: string
                   description: 'Must be one of <code>male</code> or <code>female</code>.'
@@ -1476,7 +1476,7 @@ paths:
                 has_cancer_screening:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
-                  example: '0'
+                  example: '1'
                 has_depression_screening:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
@@ -1484,7 +1484,7 @@ paths:
                 other_problems:
                   type: string
                   description: 'Must be a valid JSON string.'
-                  example: '["impedit","et"]'
+                  example: '["ut","odit"]'
   /api/v1/patients/update-phone-number:
     put:
       summary: ''
@@ -1511,7 +1511,7 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+475059216860'
+                  example: '+471173092568'
               required:
                 - phone_number
   /api/v1/patients/update-thumbnail:
@@ -1540,7 +1540,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: flhttcjtxbvoq
+                  example: tigubujlsxmmdyzivarev
               required:
                 - thumbnail
   /api/v1/patients:
@@ -1596,7 +1596,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: reiciendis
+        example: quibusdam
         required: true
         schema:
           type: string
@@ -1665,7 +1665,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: cupiditate
+        example: veniam
         required: true
         schema:
           type: string
@@ -1741,24 +1741,25 @@ paths:
       tags:
         - Endpoints
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
                 answers:
-                  type: array
+                  type: object
                   description: ''
-                  example: null
-                  items:
-                    type: string
+                  example: []
+                  properties: []
+              required:
+                - answers
     parameters:
       -
         in: path
         name: title
         description: ''
-        example: sunt
+        example: iure
         required: true
         schema:
           type: string
@@ -1823,7 +1824,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the recommendation.'
-        example: non
+        example: doloremque
         required: true
         schema:
           type: string
@@ -1853,35 +1854,35 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: delroie
+                  example: rerxumxnnemrxe
                 id_number:
                   type: integer
                   description: ''
-                  example: 19
+                  example: 12
                 birth_date:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: rsadlhrhgecdcvk
+                  example: mmrkiqlvzqnomylkxjeoid
                 phone_number:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: sodkf
+                  example: hpchzditqqajnqkqhfrhgixw
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: blanche24@example.org
+                  example: jay36@example.org
                 job_title:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: vvqgztecvdhewzelxycagkku
+                  example: hevppjfkyv
                 classification_number:
                   type: integer
                   description: ''
-                  example: 19
+                  example: 10
                 insurance_number:
                   type: integer
                   description: ''
-                  example: 1
+                  example: 17
                 specialities:
                   type: string
                   description: ''
@@ -1905,7 +1906,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: toaobxgjymljm
+                  example: rwfejwrlqmaohuvrhblpgtvak
                 bio:
                   type: string
                   description: ''
@@ -2005,11 +2006,11 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+83715280193'
+                  example: '+521268097098'
                 otp:
                   type: string
                   description: ''
-                  example: quam
+                  example: ipsum
               required:
                 - phone_number
                 - otp
@@ -2106,7 +2107,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: eum
+        example: harum
         required: true
         schema:
           type: string
@@ -2207,7 +2208,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: cecslvzljcoblmozwivbm
+                  example: lnzchqztcyxmxcpiwb
               required:
                 - thumbnail
   /api/v1/doctors/my-wallet/history:
@@ -2367,39 +2368,39 @@ paths:
                 description:
                   type: string
                   description: ''
-                  example: 'Et dolore architecto et.'
+                  example: 'Nihil nulla minus asperiores odio unde non.'
                 medicines:
                   type: array
                   description: 'group of medicals puts in prescripion as array'
                   example:
-                    - 19
+                    - 4
                   items:
                     type: integer
                 lab_tests:
                   type: array
                   description: "the id's of lab tests"
                   example:
-                    - 2
+                    - 9
                   items:
                     type: integer
                 other_lab_tests:
                   type: string
                   description: ''
-                  example: et
+                  example: expedita
                 sick_leave:
                   type: boolean
                   description: .
-                  example: false
+                  example: true
                 notes:
                   type: string
                   description: ''
-                  example: iste
+                  example: dolores
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 14
+        example: 1
         required: true
         schema:
           type: integer
@@ -2424,7 +2425,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: omnis
+        example: est
         required: true
         schema:
           type: string
@@ -2449,7 +2450,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: ut
+        example: illo
         required: true
         schema:
           type: string
@@ -2495,35 +2496,35 @@ paths:
                 drug_name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: viskfvmtwwxjwifgsptopec
+                  example: ycnjqykpumdpxwzqlbe
                 route:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: qifqxdduayrgtd
+                  example: xydacvtthcjqhemxfhixo
                 dose:
                   type: integer
                   description: ''
-                  example: 18
+                  example: 12
                 unit:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: rjirjbsfvuy
+                  example: yegx
                 frequancy:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: t
+                  example: uhvrc
                 duration:
                   type: integer
                   description: ''
-                  example: 14
+                  example: 9
                 duration_unit:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: ddjyfveonhufvlhantiunoreg
+                  example: obdvsjqvnuthowzdpbxbpgqt
                 shape:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: mbl
+                  example: ocqalqjy
                 prn:
                   type: boolean
                   description: ''
@@ -2531,7 +2532,7 @@ paths:
                 instructions:
                   type: string
                   description: ''
-                  example: dignissimos
+                  example: iste
               required:
                 - drug_name
                 - route
@@ -2699,22 +2700,18 @@ paths:
           schema:
             type: string
       responses:
-        404:
+        401:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  success: false
-                  message: 'There is no consultation with the given id'
+                  message: Unauthenticated.
                 properties:
-                  success:
-                    type: boolean
-                    example: false
                   message:
                     type: string
-                    example: 'There is no consultation with the given id'
+                    example: Unauthenticated.
       tags:
         - Endpoints
     parameters:

@@ -1549,8 +1549,17 @@
                     {
                         "name": "title",
                         "in": "path",
-                        "description": "scale title (anexiety or depression)",
-                        "required": true
+                        "description": "Scale title",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "anxiety",
+                            "enum": [
+                                "anxiety",
+                                "depression"
+                            ]
+                        },
+                        "example": "anxiety"
                     }
                 ],
                 "requestBody": {
@@ -1561,7 +1570,7 @@
                                     "answers": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "type": "object"
                                         }
                                     }
                                 },

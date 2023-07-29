@@ -576,13 +576,27 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * summary="update patient scale (anexiety or depression) ",
      * description="update patient scale (anexiety or depression)  ",
-     * @OA\Parameter(  name="title", in="path", description="scale title (anexiety or depression)", required=true),
-     *     @OA\RequestBody(
+ *      @OA\Parameter( 
+     *     @OA\Schema(
+     *       default="anxiety",
+     *       type="string",
+     *       enum={
+     *         "anxiety",
+     *         "depression",
+     *       },
+     *     ),
+     *     description="Scale title",
+     *     example="anxiety",
+     *     in="path",
+     *     name="title",
+     *     required=true,
+     * ),
+     * @OA\RequestBody(
      *         @OA\JsonContent(),
      *         @OA\MediaType(
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *               @OA\Property( property="answers",type="array",@OA\Items(type="integer")),
+     *               @OA\Property( property="answers",type="array",@OA\Items(type="object")),
      *              )
      *          )
      * ),
@@ -595,9 +609,8 @@ class PatientController extends Controller
     {
         $this->validate($request, [
             'answers' => 'required|array',
-            'answers.*' => 'exists:scale_questions,id'
+            // 'answers.*' => 'exists:scale_questions,id'
         ]);
-        return $request;
         $this->repository->updateScale($request, $title);
         try {
             return $this->api->success()

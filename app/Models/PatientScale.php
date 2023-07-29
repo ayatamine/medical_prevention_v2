@@ -13,8 +13,8 @@ class PatientScale extends Model
     use HasFactory;
     public static $res1="Not at all";
     public static $res2="Several days";
-    public static $res3="More then half of the days";
-    public static $res4="nearly every day";
+    public static $res3="More than half of the days";
+    public static $res4="Nearly every day";
 
     public static $res11="على الإطلاق";
     public static $res22="العديد من الأيام";
