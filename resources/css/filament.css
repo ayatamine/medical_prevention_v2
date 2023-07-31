@@ -15,3 +15,7 @@
 [open-red-card]{@apply bg-[#ff6161]}
 [open-green-card]{@apply bg-[#33c736]}
 [blue-card] .card-header svg{@apply text-primary-400}
+.filament-resources-consultations .filament-tables-record-action-button{
+    width: 100%;
+    text-align: left;
+}

@@ -923,6 +923,47 @@
                 ]
             }
         },
+        "/api/v1/doctors/withdraw-ballance": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "withdraw-doctor-ballance",
+                "description": "withdraw-doctor-ballance",
+                "operationId": "withdraw-doctor-ballance",
+                "responses": {
+                    "200": {
+                        "description": "ballance Withdrew successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no doctor found with this id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [

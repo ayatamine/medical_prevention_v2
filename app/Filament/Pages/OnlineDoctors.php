@@ -4,12 +4,14 @@ namespace App\Filament\Pages;
 
 use Filament\Forms;
 use App\Models\Doctor;
+use App\Notifications\OnlineDoctorNotification;
 use Filament\Pages\Page;
 use Filament\Resources\Form;
 use Filament\Pages\Actions\Action;
 use Filament\Forms\Components\Section;
+use Illuminate\Support\Facades\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
+use Filament\Notifications\Notification as viewNotification;
 
 class OnlineDoctors extends Page
 {
@@ -30,7 +32,12 @@ class OnlineDoctors extends Page
         return [
             Action::make('Send Notification')->color('primary')
             ->action(function (array $data): void {
-                Notification::make()
+               
+                $doctors = Doctor::with('specialities:id,name')->with('sub_specialities:id,name')->whereNotificationStatus(true)->get();
+                $delay = now()->addMinutes(2);
+                Notification::send($doctors, (new OnlineDoctorNotification($data))->delay($delay));
+
+                viewNotification::make()
                             ->title('Notifications send successfully to doctors')
                             ->success() 
                             ->duration(5000) 

@@ -32,14 +32,23 @@ class ConsultationResource extends Resource
     {    
         return $form
             ->schema([
-                Forms\Components\Select::make('doctor_id')
-                ->relationship('doctor', 'full_name')
-                ->required(),
-                Forms\Components\Select::make('patient_id')
-                    ->relationship('patient', 'full_name')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('start_time'),
-                Forms\Components\DateTimePicker::make('end_time'),
+                // Forms\Components\Select::make('doctor_id')
+                // ->relationship('doctor', 'full_name')
+                // ->required(),
+                // Forms\Components\Select::make('patient_id')
+                //     ->relationship('patient', 'full_name')
+                //     ->required(),
+                // Forms\Components\DateTimePicker::make('start_time'),
+                // Forms\Components\DateTimePicker::make('end_time'),
+                Forms\Components\Select::make('status')->options([
+                                'pending' => 'Pending',
+                            'in_progress' => 'In progress',
+                            'incompleted' => 'Incompleted',
+                            'completed' => 'completed',
+                            'canceled' => 'Canceled',
+                            'completed' => 'Completed',
+                            'rejected' => 'Rejected',
+                ]),
                 // Forms\Components\Textarea::make('notes')
             ]);
     }
@@ -54,8 +63,8 @@ class ConsultationResource extends Resource
             ->columns([
                 
                
-                Panel::make([
-                    Stack::make([
+                // Panel::make([
+                //     Stack::make([
                         // Tables\Columns\TextColumn::make('doctor.full_name')->label('Doctor'),
                         // Tables\Columns\TextColumn::make('patient.full_name')->label('Patient'),
                         // Tables\Columns\TextColumn::make('start_time')->label('Start time')->dateTime(),
@@ -71,8 +80,8 @@ class ConsultationResource extends Resource
                         //     'completed' => 'Completed',
                         //     'rejected' => 'Rejected',
                         // ]),
-                    ]),
-                ]),
+                    // ]),
+                // ]),
                 View::make('livewire.consultation-cards')
             ])
             ->filters([
@@ -82,12 +91,11 @@ class ConsultationResource extends Resource
                     'incompleted' => 'Incompleted',
                     'completed' => 'completed',
                     'canceled' => 'Canceled',
-                    'completed' => 'Completed',
                     'rejected' => 'Rejected',
                 ]),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

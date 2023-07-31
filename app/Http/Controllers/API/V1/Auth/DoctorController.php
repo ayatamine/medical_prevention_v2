@@ -581,4 +581,20 @@ class DoctorController extends Controller
             handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
         }
     }
+            /**
+     * @OA\Post(
+     * path="/api/v1/doctors/withdraw-ballance",
+     * operationId="withdraw-doctor-ballance",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="withdraw-doctor-ballance",
+     * description="withdraw-doctor-ballance",
+     *      @OA\Response( response=200, description="ballance Withdrew successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=404, description="no doctor found with this id", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function withdrawBallance(){
+        
+    }
 }

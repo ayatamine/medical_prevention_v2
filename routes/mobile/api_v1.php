@@ -74,6 +74,8 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::put('profile/update-phone-number', 'updatePhone');
             Route::delete('/','deleteAccount');
             Route::post('/update-thumbnail', 'updateThumbnail');
+            Route::post('/withdraw-ballance', 'withdrawBallance');
+
 
 
         });
