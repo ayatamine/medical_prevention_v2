@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Allergy;
+use Illuminate\Support\Str;
 use App\Models\BallanceHistory;
 use App\Models\ChronicDiseases;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,7 +45,9 @@ class Patient extends Model
         // 'allergy_id',
         // 'chronic_diseases_id',
         // 'family_history_id',
-        'ballance'
+        'ballance',
+        'little_interest_doing_things',
+        'feeling_down_or_depressed'
     
     ];
     public function notificationStatus():Attribute
@@ -66,6 +69,18 @@ class Patient extends Model
         );
     }
     public function hasDepressionScreening():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function littleInterestDoingThings():Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => (bool)$value,
+        );
+    }
+    public function feelingDownOrDepressed():Attribute
     {
         return Attribute::make(
             get: fn (string $value) => (bool)$value,
@@ -114,7 +129,10 @@ class Patient extends Model
     public function thumbnail():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/'.$value) : url('storage/patients/thumbnails/patient.png'),
+            get: function ($value){
+                if(Str::startsWith($value,'patient')) return url('storage/'.$value);
+                return $value;
+            }
         );
     }
     public function balanceHistories(): MorphMany

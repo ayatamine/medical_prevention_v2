@@ -43,30 +43,34 @@ class PatientRepository extends AbstractRepository
             //         unset($request[$attr]);
             //     }
             // }
-            $patient = request()->user()->update($request->except(['thumbnail', 'phone_number','allergies','chronic_diseases','family_histories']));
+            $request['thumbnail'] =  "https://ui-avatars.com/api/?name=".$request["full_name"]."&background=0D8ABC&color=fff";
 
+            $patient = request()->user()->update($request->except(['phone_number','allergies','chronic_diseases','family_histories']));
+
+
+            
             if (request()->has('allergies')) {
                 if (gettype($request['allergies']) == 'string') {
-                    $patient->allergies()->sync(explode(',', $request['allergies']));
+                    request()->user()->allergies()->sync(explode(',', $request['allergies']));
                 } else {
-                    $patient->allergies()->sync($request['allergies']);
+                    request()->user()->allergies()->sync($request['allergies']);
                 }
             }
             if (request()->has('chronic_diseases')) {
                 if (gettype($request['chronic_diseases']) == 'string') {
-                    $patient->chronic_diseases()->sync(explode(',', $request['chronic_diseases']));
+                    request()->user()->chronic_diseases()->sync(explode(',', $request['chronic_diseases']));
                 } else {
-                    $patient->chronic_diseases()->sync($request['chronic_diseases']);
+                    request()->user()->chronic_diseases()->sync($request['chronic_diseases']);
                 }
             }
             if (request()->has('family_histories')) {
                 if (gettype($request['family_histories']) == 'string') {
-                    $patient->family_histories()->sync(explode(',', $request['family_histories']));
+                    request()->user()->family_histories()->sync(explode(',', $request['family_histories']));
                 } else {
-                    $patient->family_histories()->sync($request['family_histories']);
+                    request()->user()->family_histories()->sync($request['family_histories']);
                 }
             }
-            return $patient;
+            return request()->user();
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -86,9 +90,13 @@ class PatientRepository extends AbstractRepository
      */
     public function findByOtpAndPhone($phone_number, $otp)
     {
-        return $this->model::whereDeletedAt(null)->where('phone_number', $phone_number)
-            ->where('otp_verification_code', $otp)
+        $patient = $this->model::whereDeletedAt(null)->where('phone_number', $phone_number)
             ->firstOrFail();
+        if($patient && $patient->otp_verification_code != $otp){
+            abort(422,"Your OTP is not correct, Please Verify");  
+        }
+        return $patient;
+
         //TODO: verify the otp
         // ->where('otp_verification_code', $otp)
     }

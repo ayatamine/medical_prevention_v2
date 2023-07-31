@@ -105,13 +105,14 @@ class PatientController extends Controller
         try {
             $patient  = $this->repository
                 ->findByOtpAndPhone($request->phone_number, $request->otp);
-
+            
             $now = now();
-            if (!$patient) {
-                return $this->api->failed()->code(422)
-                    ->message('Your OTP Or Phone Number is not correct')
-                    ->send();
-            } elseif ($patient && $now->isAfter($patient->otp_expire_at)) {
+            // if (!$patient) {
+            //     return $this->api->failed()->code(422)
+            //         ->message('Your OTP Or Phone Number is not correct')
+            //         ->send();
+            // } 
+            if ($patient && $now->isAfter($patient->otp_expire_at)) {
                 return $this->api->failed()->code(419)
                     ->message('Your OTP has been expired')
                     ->send();
@@ -132,7 +133,8 @@ class PatientController extends Controller
                 ])
                 ->send();
         } catch (Exception $ex) {
-            return handleTwoCommunErrors($ex, "No doctor Found with the given phone number");
+          
+            return handleTwoCommunErrors($ex, "No patient Found with the given phone number");
         }
     }
     /**
@@ -151,8 +153,7 @@ class PatientController extends Controller
      *                 @OA\Property( property="full_name",type="string",example="ahmed amine"),
      *                 @OA\Property( property="birth_date",type="string",example="25-05-1995"),
      *                 @OA\Property( property="age",type="integer",example=28),
-     *                 @OA\Property( property="gender",type="integer",example="male"),
-     *                 @OA\Property( property="address",type="integer",example="adrar alg"),
+     *                 @OA\Property( property="gender",type="string",example="male"),
      *                 @OA\Property( property="height",type="integer",example=180),
      *                 @OA\Property( property="weight",type="double",example="55.5"),
      *                 @OA\Property( property="allergies",type="array",@OA\Items(type="integer"), example={1}),
@@ -160,7 +161,9 @@ class PatientController extends Controller
      *                 @OA\Property( property="family_histories",type="array",@OA\Items(type="integer"), example={1}),
      *                 @OA\Property( property="has_cancer_screening",type="boolean",enum={0, 1}),
      *                 @OA\Property( property="has_depression_screening",type="boolean",enum={0, 1}),
-     *                 @OA\Property( property="other_problems",type="json"),
+     *                 @OA\Property( property="has_physical_activity",type="boolean",enum={0, 1}),
+     *                 @OA\Property( property="little_interest_doing_things",type="boolean",enum={0, 1}),
+     *                 @OA\Property( property="feeling_down_or_depressed",type="boolean",enum={0, 1}),
      *             )
      *        ),
      *    ),

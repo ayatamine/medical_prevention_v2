@@ -34,7 +34,9 @@ class CreatePatientRequest extends FormRequest
                 'has_physical_activity' => 'boolean|in:0,1',
                 'has_cancer_screening' => 'boolean|in:0,1',
                 'has_depression_screening' => 'boolean|in:0,1',
-                'other_problems' => 'nullable|json', 
+                'little_interest_doing_things' => 'boolean|in:0,1',
+                'feeling_down_or_depressed' => 'boolean|in:0,1',
+                // 'other_problems' => 'nullable|json', 
         ];
     }
 }
