@@ -157,7 +157,7 @@ class DoctorController extends Controller
                             ->firstOrFail();
             if(!$doctor) {
                 return $this->api->failed()->code(401)
-                ->message("Your account is not ativated yet")
+                ->message("Your account either suspended or not ativated yet")
                 ->send();
             }       
             $otp = generate_otp($request->phone_number, 'Doctor');
@@ -208,11 +208,12 @@ class DoctorController extends Controller
                 ->findByOtpAndPhone($request->phone_number, $request->otp);
 
             $now = now();
-            if (!$doctor) {
-                return $this->api->failed()->code(422)
-                    ->message('Your OTP Or Phone Number is not correct')
-                    ->send();
-            } else if ($doctor && $now->isAfter($doctor->otp_expire_at)) {
+            // if (!$doctor) {
+            //     return $this->api->failed()->code(422)
+            //         ->message('Your OTP Or Phone Number is not correct')
+            //         ->send();
+            // }
+            if ($doctor && $now->isAfter($doctor->otp_expire_at)) {
                 return $this->api->failed()->code(419)
                     ->message('Your OTP has been expired')
                     ->send();

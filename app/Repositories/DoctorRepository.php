@@ -118,9 +118,13 @@ class DoctorRepository extends AbstractRepository
      */
     public function findByOtpAndPhone($phone_number, $otp)
     {
-        return Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)
-            ->where('otp_verification_code', $otp)
+        $doctor = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)
             ->firstOrFail();
+        if($doctor && $doctor->otp_verification_code != $otp){
+            abort(422,"Your OTP is not correct, Please Verify");  
+        }
+        return $doctor;
+
         //TODO: verify the otp
         // ->where('otp_verification_code', $otp)
     }
