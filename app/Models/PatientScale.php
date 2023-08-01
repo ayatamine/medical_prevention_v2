@@ -20,7 +20,7 @@ class PatientScale extends Model
     public static $res22="العديد من الأيام";
     public static $res33="أكثر من نصف الأيام";
     public static $res44="تقريباكل يوم";
-    
+         
     protected $fillable = [
         'answer',
         'patient_id',
