@@ -161,7 +161,7 @@ class DoctorController extends Controller
                 ->send();
             }       
             $otp = generate_otp($request->phone_number, 'Doctor');
-            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp);
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Doctor');
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)

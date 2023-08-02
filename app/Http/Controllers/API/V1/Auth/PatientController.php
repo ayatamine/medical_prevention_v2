@@ -61,7 +61,7 @@ class PatientController extends Controller
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
             $otp = generate_otp($request->phone_number, 'Patient');
-            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp);
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Patient');
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
@@ -124,7 +124,10 @@ class PatientController extends Controller
             $patient->otp_verification_code =  null;
             $patient->otp_expire_at =  now();
             $patient->save();
+            if(!$patient->birth_date || !$patient->height || !$patient->weight)
+            {
 
+            }
             return $this->api->success()
                 ->message('Phone number updated successfully')
                 ->payload([

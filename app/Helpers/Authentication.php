@@ -33,7 +33,7 @@ if (!function_exists('generate_otp')) {
 }
 if(!function_exists('send_sms')){
 
-    function sendSMS($receiverNumber,$message,$content)
+    function sendSMS($receiverNumber,$message,$content,$model)
     {
         $message = $message.' '.$content;
     
@@ -60,12 +60,28 @@ if(!function_exists('send_sms')){
             //     "msg"=>$message
             
             // ]);
+            $is_new = false;
+
+            if($model == 'Doctor'){
+                $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $receiverNumber)->firstOrfail();
+            }else{
+                //TODO: check if account is deleted
+                $model_record = Patient::where('phone_number', $receiverNumber)->firstOrCreate(['phone_number'=>$receiverNumber],array(['phone_number'=>$receiverNumber]));
+                if(!$model_record->birth_date || !$model_record->height || !$model_record->weight)
+                {
+                    $is_new = true;
+                }
+            }
+            
             $res = Msegat::numbers([ltrim($receiverNumber,'+')])
             ->sendOTP($content);
             
+           
             return response()->json([
                 "success"=>true,
                 'message'=>$res,
+                'new_registered'=>$is_new,
+                'id'=>$model_record->id
             ],200);
     
         } catch (\Exception $e) {
