@@ -17,7 +17,7 @@ Broadcast::channel('App.Models.User.*', function ($user, $id) {
     // return (int) $user->id === (int) $id;
     return true;
 });
-Broadcast::channel('consultation.*', function ($user, $id) {
+Broadcast::channel('consultation.{consultation_id}', function ($user,$consultation_id) {
     return true;
-});
+},[ 'middleware' => 'auth:sanctum']);
 

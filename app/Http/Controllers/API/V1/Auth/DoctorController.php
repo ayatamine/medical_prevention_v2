@@ -153,11 +153,11 @@ class DoctorController extends Controller
             ]);
             $doctor = Doctor::whereDeletedAt(null)
                             ->where('phone_number', $request->phone_number)
-                            ->whereNot('account_status',"pending")
-                            ->firstOrFail();
-            if(!$doctor) {
+                            ->where('account_status',"blocked")
+                            ->first();
+            if($doctor) {
                 return $this->api->failed()->code(401)
-                ->message("Your account either suspended or not ativated yet")
+                ->message("Your account was suspended ,please contact the support team")
                 ->send();
             }       
             $otp = generate_otp($request->phone_number, 'Doctor');

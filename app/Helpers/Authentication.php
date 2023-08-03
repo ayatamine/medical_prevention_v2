@@ -11,7 +11,7 @@ if (!function_exists('generate_otp')) {
     {
        
         if($model == 'Doctor'){
-            $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->firstOrfail();
+            $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
             //TODO: throw error if account is not yet accepted
         }else{
             //TODO: check if account is deleted
@@ -64,6 +64,10 @@ if(!function_exists('send_sms')){
 
             if($model == 'Doctor'){
                 $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $receiverNumber)->firstOrfail();
+                if(!$model_record->id_number || !$model_record->job_title || !$model_record->insurance_number)
+                {
+                    $is_new = true;
+                }
             }else{
                 //TODO: check if account is deleted
                 $model_record = Patient::where('phone_number', $receiverNumber)->firstOrCreate(['phone_number'=>$receiverNumber],array(['phone_number'=>$receiverNumber]));

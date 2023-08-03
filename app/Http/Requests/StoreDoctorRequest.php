@@ -22,20 +22,20 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'string|max:150',
-            'id_number' => 'integer|unique:doctors',
-            'birth_date' => 'string|max:150',
-            'phone_number' => 'required|max:255|unique:doctors',
-            'email' => 'required|email|max:255|unique:doctors',
-            'job_title' => 'string|max:150',
-            'classification_number' => 'integer|unique:doctors',
-            'insurance_number' => 'integer|unique:doctors',
+            'full_name' => 'sometimes|nullable|string|max:150',
+            'id_number' => 'sometimes|nullable|integer|unique:doctors',
+            'birth_date' => 'sometimes|nullable|string|max:150',
+            'phone_number' => 'sometimes|nullable|max:255|unique:doctors',
+            'email' => 'sometimes|nullable|email|max:255|unique:doctors',
+            'job_title' => 'sometimes|nullable|string|max:150',
+            'classification_number' => 'sometimes|nullable|integer|unique:doctors',
+            'insurance_number' => 'sometimes|nullable|integer|unique:doctors',
             'specialities'=>'sometimes|nullable',
             'sub_specialities'=>'sometimes|nullable',
-            'medical_licence_file' => ['file', 'max:3000'],   
-            'cv_file' =>  ['file', 'max:3000'],   
-            'certification_file' =>  ['file', 'max:3000'],   
-            'thumbnail' => ['required', 'mimes:jpg,jpeg,png', 'max:3000'],
+            'medical_licence_file' => ['sometimes','nullable','file', 'max:3000'],   
+            'cv_file' =>  ['sometimes','nullable','file', 'max:3000'],   
+            'certification_file' =>  ['sometimes','nullable','file', 'max:3000'],   
+            'thumbnail' => ['sometimes','nullable', 'mimes:jpg,jpeg,png', 'max:3000'],
             'bio' => ['sometimes', 'nullable'],
         ];
     }
