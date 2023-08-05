@@ -48,6 +48,7 @@ class ChatMessageEvent implements ShouldBroadcast
     {
         $message =$this->chatMessage->toArray();
         $message['attachement'] =$message['attachement'] ? url('storage/'.$message['attachement']) : null;
+        if(!$message['attachement']) unset($message['attachement_type']);
         return [
             'chat_message' => $message,
         ];
