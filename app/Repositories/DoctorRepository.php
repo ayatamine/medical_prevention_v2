@@ -80,7 +80,7 @@ class DoctorRepository extends AbstractRepository
             if($doctors_count == 5)
             {
              $admins = User::where('is_admin',true)->get();
-             Notification::send($admins, (new NewDoctorRegisteration())->delay($delay));
+             Notification::send($admins, (new NewDoctorRegisteration(array('count'=>$doctors_count)))->delay($delay));
             }
             
             

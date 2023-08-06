@@ -37,6 +37,7 @@ class StoreDoctorRequest extends FormRequest
             'certification_file' =>  ['sometimes','nullable','file', 'max:3000'],   
             'thumbnail' => ['sometimes','nullable', 'mimes:jpg,jpeg,png', 'max:3000'],
             'bio' => ['sometimes', 'nullable'],
+            'speciality_id' => ['sometimes', 'nullable','integer'],
         ];
     }
 }

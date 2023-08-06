@@ -49,7 +49,7 @@ class DoctorController extends Controller
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *                 @OA\Property( property="email",type="string",example="email@email.com"),
      *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
-     *                 @OA\Property( property="specialities",type="array",@OA\Items(type="integer"), example={1,2}),
+     *                 @OA\Property( property="speciality_id",type="integer"),
      *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="classification_number",type="string",example="784899554"),
      *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
@@ -152,16 +152,16 @@ class DoctorController extends Controller
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
             $doctor = Doctor::whereDeletedAt(null)
-                            ->where('phone_number', $request->phone_number)
-                            ->where('account_status',"blocked")
-                            ->first();
-            if($doctor) {
+                ->where('phone_number', $request->phone_number)
+                ->where('account_status', "blocked")
+                ->first();
+            if ($doctor) {
                 return $this->api->failed()->code(401)
-                ->message("Your account was suspended ,please contact the support team")
-                ->send();
-            }       
+                    ->message("Your account was suspended ,please contact the support team")
+                    ->send();
+            }
             $otp = generate_otp($request->phone_number, 'Doctor');
-            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Doctor');
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'Doctor');
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
@@ -228,11 +228,16 @@ class DoctorController extends Controller
             $doctor->is_phone_verified =  true;
             $doctor->save();
 
+            $is_new = false;
+            if (!$doctor->id_number || !$doctor->job_title || !$doctor->insurance_number) {
+                $is_new = true;
+            }
             return $this->api->success()
                 ->message('The verification passed successfully')
                 ->payload([
                     'token' => $doctor->createToken('mobile', ['role:doctor', 'doctor:update'])->plainTextToken,
-                    'id' => $doctor->id
+                    'id' => $doctor->id,
+                    'new_regitered'=>$is_new
                 ])
                 ->send();
         } catch (Exception $ex) {
@@ -358,7 +363,7 @@ class DoctorController extends Controller
             return handleTwoCommunErrors($ex, "No Doctor Found with this request please verify your login");
         }
     }
-        /**
+    /**
      * @OA\post(
      * path="/api/v1/doctors/logout",
      * operationId="logoutDoctor",
@@ -402,7 +407,7 @@ class DoctorController extends Controller
      *                 @OA\Property( property="birth_date",type="string",example="doctor birth_date"),
      *                 @OA\Property( property="email",type="string",example=""),
      *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
-     *                 @OA\Property( property="specialities",type="array",@OA\Items(type="integer"), example={1,2}),
+     *                 @OA\Property( property="speciality_id",type="integer"),
      *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="classification_number",type="string",example="784899554"),
      *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
@@ -505,7 +510,7 @@ class DoctorController extends Controller
             return handleTwoCommunErrors($ex, "No Doctor Found please verify your login");
         }
     }
-     /**
+    /**
      * @OA\Get(
      * path="/api/v1/doctors/profile/notifications",
      * operationId="get doctor notifications",
@@ -528,10 +533,10 @@ class DoctorController extends Controller
                 ->payload(SimpleNotificationResource::collection($notifications))
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');
         }
     }
-     /**
+    /**
      * @OA\Post(
      * path="/api/v1/doctors/profile/notifications/mark-as-read",
      * operationId="mark_as_read_doctor_noti",
@@ -552,10 +557,10 @@ class DoctorController extends Controller
                 ->message('notifications marked as read successfully')
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');
         }
     }
-        /**
+    /**
      * @OA\Post(
      * path="/api/v1/doctors/profile/notifications/{id}/mark-as-read",
      * operationId="mark_as_read_doctor_single_noti",
@@ -572,16 +577,16 @@ class DoctorController extends Controller
     public function markSingleNotificationsAsRead($id)
     {
         try {
-            DB::table('notifications')->where('id',$id)->update(['read_at'=>Carbon::now()]);
+            DB::table('notifications')->where('id', $id)->update(['read_at' => Carbon::now()]);
 
             return $this->api->success()
                 ->message('notification marked as read successfully')
                 ->send();
         } catch (Exception $ex) {
-            handleTwoCommunErrors($ex,'no doctor found ,please verify your login');
+            handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');
         }
     }
-            /**
+    /**
      * @OA\Post(
      * path="/api/v1/doctors/withdraw-ballance",
      * operationId="withdraw-doctor-ballance",
@@ -594,7 +599,7 @@ class DoctorController extends Controller
      *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
      *    )
      */
-    public function withdrawBallance(){
-        
+    public function withdrawBallance()
+    {
     }
 }

@@ -61,7 +61,7 @@ class PatientController extends Controller
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
             $otp = generate_otp($request->phone_number, 'Patient');
-            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Patient');
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'Patient');
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
                 return $this->api->failed()->code(404)
@@ -105,7 +105,7 @@ class PatientController extends Controller
         try {
             $patient  = $this->repository
                 ->findByOtpAndPhone($request->phone_number, $request->otp);
-            
+
             $now = now();
             // if (!$patient) {
             //     return $this->api->failed()->code(422)
@@ -124,19 +124,20 @@ class PatientController extends Controller
             $patient->otp_verification_code =  null;
             $patient->otp_expire_at =  now();
             $patient->save();
-            if(!$patient->birth_date || !$patient->height || !$patient->weight)
-            {
-
+            $is_new = false;
+            if (!$patient->birth_date || !$patient->height || !$patient->weight) {
+                $is_new = true;
             }
             return $this->api->success()
-                ->message('Phone number updated successfully')
+                ->message('The verification passed successfully')
                 ->payload([
                     'token' => $patient->createToken('mobile', ['role:patient', 'patient:update'])->plainTextToken,
-                    'patient_id' => $patient->id
+                    'patient_id' => $patient->id,
+                    'new_registered'=>$is_new
                 ])
                 ->send();
         } catch (Exception $ex) {
-          
+
             return handleTwoCommunErrors($ex, "No patient Found with the given phone number");
         }
     }
@@ -582,7 +583,7 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * summary="update patient scale (anexiety or depression) ",
      * description="update patient scale (anexiety or depression)  ",
- *      @OA\Parameter( 
+     *      @OA\Parameter( 
      *     @OA\Schema(
      *       default="anxiety",
      *       type="string",

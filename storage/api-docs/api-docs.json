@@ -91,15 +91,8 @@
                                         "type": "string",
                                         "example": "chronic disease"
                                     },
-                                    "specialities": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        },
-                                        "example": [
-                                            1,
-                                            2
-                                        ]
+                                    "speciality_id": {
+                                        "type": "integer"
                                     },
                                     "sub_specialities": {
                                         "type": "array",
@@ -533,15 +526,8 @@
                                         "type": "string",
                                         "example": "chronic disease"
                                     },
-                                    "specialities": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        },
-                                        "example": [
-                                            1,
-                                            2
-                                        ]
+                                    "speciality_id": {
+                                        "type": "integer"
                                     },
                                     "sub_specialities": {
                                         "type": "array",

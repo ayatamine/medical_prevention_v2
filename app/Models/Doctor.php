@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Doctor extends Model  
@@ -47,7 +48,8 @@ class Doctor extends Model
         'medical_licence_file','cv_file','certification_file',
         'ballance',
         'location',
-        'last_online_at'
+        'last_online_at',
+        'speciality_id',
     ];
     // accesors
     public function notificationStatus():Attribute
@@ -87,6 +89,14 @@ class Doctor extends Model
         );
     }
     //////////////////////////////////- relationships-///////////////////////
+    /**
+     * @return speciality item
+     * 
+     */
+    public function speciality():BelongsTo
+    {
+        return $this->belongsTo(Speciality::class,'speciality_id','id');
+    }
     /**
      * @return subspecialities collection
      * 

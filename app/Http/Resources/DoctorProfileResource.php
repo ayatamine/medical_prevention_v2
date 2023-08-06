@@ -13,6 +13,7 @@ class DoctorProfileResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    
     public function toArray(Request $request): array
     {
        
@@ -32,13 +33,14 @@ class DoctorProfileResource extends JsonResource
             "rating_value" => $reviews_count >0  ? $sum / $reviews_count : intval($sum) ,
             "location" => $this->location ,
             "thumbnail" => $this->thumbnail ,
-            "specialities" => $this->specialities->map(function($sub){
-                return [
-                    'id'=>$sub->id,
-                    'name'=>$sub->name,
-                    'name_ar'=>$sub->name_ar
-                ];
-            }),
+            "speciality"=>$this->speciality?->name,
+            // "specialities" => $this->specialities->map(function($sub){
+            //     return [
+            //         'id'=>$sub->id,
+            //         'name'=>$sub->name,
+            //         'name_ar'=>$sub->name_ar
+            //     ];
+            // }),
             "sub_specialities"=>$this->sub_specialities->map(function($sp){
                 return [
                     'id'=>$sp->id,

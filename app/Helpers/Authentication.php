@@ -78,12 +78,14 @@ if(!function_exists('send_sms')){
             }
             
             $res = Msegat::numbers([ltrim($receiverNumber,'+')])
-            ->sendOTP($content);
+            ->message($message)
+            ->sendWithDefaultSender();
+            // ->sendOTP($content);
             
            
             return response()->json([
                 "success"=>true,
-                'message'=>$res,
+                'message'=>"The OTP has been sent successfully",
                 'new_registered'=>$is_new,
                 'id'=>$model_record->id
             ],200);
