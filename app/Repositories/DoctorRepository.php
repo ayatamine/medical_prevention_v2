@@ -72,7 +72,11 @@ class DoctorRepository extends AbstractRepository
                 if (gettype($request['sub_specialities']) == 'string') {
                     $doctor->sub_specialities()->sync(explode(',', $request['sub_specialities']));
                 } else {
-                    $doctor->sub_specialities()->sync($request['sub_specialities']);
+                    $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
+                        return is_int($value);
+                    });
+                    
+                    $doctor->sub_specialities()->sync($ids);
                 }
             }
             $delay = now()->addMinutes(5);
@@ -249,7 +253,11 @@ class DoctorRepository extends AbstractRepository
                 if (gettype($request['sub_specialities']) == 'string') {
                     $doctor->sub_specialities()->sync(explode(',', $request['sub_specialities']));
                 } else {
-                    $doctor->sub_specialities()->sync($request['sub_specialities']);
+                    $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
+                        return is_int($value);
+                    });
+                    
+                    $doctor->sub_specialities()->sync($ids);
                 }
             }
             if (array_key_exists('medical_licence_file', $request)) {
