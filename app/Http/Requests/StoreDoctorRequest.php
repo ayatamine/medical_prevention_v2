@@ -25,7 +25,7 @@ class StoreDoctorRequest extends FormRequest
             'full_name' => 'sometimes|nullable|string|max:150',
             'id_number' => 'sometimes|nullable|integer|unique:doctors',
             'birth_date' => 'sometimes|nullable|string|max:150',
-            'phone_number' => 'sometimes|nullable|max:255|unique:doctors',
+            // 'phone_number' => 'sometimes|nullable|max:255|unique:doctors',
             'email' => 'sometimes|nullable|email|max:255|unique:doctors',
             'job_title' => 'sometimes|nullable|string|max:150',
             'classification_number' => 'sometimes|nullable|integer|unique:doctors',

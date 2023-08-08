@@ -36,6 +36,7 @@ class DoctorController extends Controller
      * path="/api/v1/doctors/register",
      * operationId="register_doctor",
      * tags={"doctors"},
+     * security={ {"sanctum": {} }},
      * summary="applying for register a new doctor using the form",
      * description="register a new doctor",
      *     @OA\RequestBody(
@@ -46,7 +47,6 @@ class DoctorController extends Controller
      *                 @OA\Property( property="full_name",type="string",example="doctor full Name"),
      *                 @OA\Property( property="id_number",type="integer",example="46126"),
      *                 @OA\Property( property="birth_date",type="string",example="doctor birth_date"),
-     *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *                 @OA\Property( property="email",type="string",example="email@email.com"),
      *                 @OA\Property( property="job_title",type="string",example="chronic disease"),
      *                 @OA\Property( property="speciality_id",type="integer"),

@@ -57,12 +57,13 @@ Route::group(['as' => 'api_v1.'], function () {
     // doctor controller
     Route::controller(\App\Http\Controllers\API\V1\Auth\DoctorController::class)->prefix('doctors')->group(function () {
         //------------------------Auth-----------------------
-        Route::post('register', 'store');
+      
         Route::get('{id}/check-status', 'checkStatus');
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
+            Route::post('register', 'store');
             Route::get('/profile/my', 'show');
             Route::get('/profile/notifications', 'myNotifications');
             Route::post('/profile/notifications/mark-as-read', 'markNotificationsAsRead');

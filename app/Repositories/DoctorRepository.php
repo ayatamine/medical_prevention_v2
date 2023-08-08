@@ -60,12 +60,13 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
-            $doctor = Doctor::where('phone_number',$request['phone_number'])->first();
-            if($doctor){
+            // $doctor = Doctor::where('phone_number',$request['phone_number'])->first();
+            $doctor = request()->user();
+            // if($doctor){
                 $doctor->update($request);
-            }else{
-                $doctor = Doctor::create($request);
-            }
+            // }else{
+            //     $doctor = Doctor::create($request);
+            // }
 
             // update speciality
             if (array_key_exists('sub_specialities', $request)) {
