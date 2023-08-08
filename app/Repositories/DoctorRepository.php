@@ -71,7 +71,11 @@ class DoctorRepository extends AbstractRepository
             // update speciality
             if (array_key_exists('sub_specialities', $request)) {
                 if (gettype($request['sub_specialities']) == 'string') {
-                    $doctor->sub_specialities()->sync(explode(',', $request['sub_specialities']));
+                    $ids = explode(',', $request['sub_specialities']);
+                    $filtered_data= array_filter($ids, function ($value) {
+                        return is_int($value);
+                    });
+                    $doctor->sub_specialities()->sync($filtered_data);
                 } else {
                     $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
                         return is_int($value);
@@ -252,7 +256,11 @@ class DoctorRepository extends AbstractRepository
             // update speciality
             if (array_key_exists('sub_specialities', $request)) {
                 if (gettype($request['sub_specialities']) == 'string') {
-                    $doctor->sub_specialities()->sync(explode(',', $request['sub_specialities']));
+                    $ids = explode(',', $request['sub_specialities']);
+                    $filtered_data= array_filter($ids, function ($value) {
+                        return is_int($value);
+                    });
+                    $doctor->sub_specialities()->sync($filtered_data);
                 } else {
                     $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
                         return is_int($value);
