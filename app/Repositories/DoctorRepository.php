@@ -73,7 +73,7 @@ class DoctorRepository extends AbstractRepository
                 if (gettype($request['sub_specialities']) == 'string') {
                     $ids = explode(',', $request['sub_specialities']);
                     $filtered_data= array_filter($ids, function ($value) {
-                        return is_int($value);
+                        return $value;
                     });
                     $doctor->sub_specialities()->sync($filtered_data);
                 } else {
@@ -258,7 +258,7 @@ class DoctorRepository extends AbstractRepository
                 if (gettype($request['sub_specialities']) == 'string') {
                     $ids = explode(',', $request['sub_specialities']);
                     $filtered_data= array_filter($ids, function ($value) {
-                        return is_int($value);
+                        return $value;
                     });
                     $doctor->sub_specialities()->sync($filtered_data);
                 } else {
