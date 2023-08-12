@@ -144,11 +144,12 @@ class ConsultationController extends Controller
      *             @OA\Schema(
      *                  @OA\Property( property="symptomes",type="array",@OA\Items(type="integer"), example={1}),
      *                 @OA\Property( property="description",type="text",example="description here"),
-     *                 @OA\Property( property="medicines",type="array",@OA\Items(type="integer"), example={1,2}),
+     *                 @OA\Property( property="medicines",type="array",@OA\Items(type="object")),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="other_lab_tests",type="string",example="new test"),
      *                 @OA\Property( property="sick_leave",type="boolean",enum={0, 1}),
      *                 @OA\Property( property="notes",type="text"),
+     *                 @OA\Property( property="other_medicines",type="text"),
      *             )),
      *    ),
      *      @OA\Response(response=200,description="The summary added successfully",@OA\JsonContent()),

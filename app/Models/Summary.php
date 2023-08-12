@@ -22,7 +22,9 @@ class Summary extends Model
         'other_lab_tests',
         'notes',
         'prescriptions',
-        'consultation_id'
+        'consultation_id',
+        'medicines',
+        'other_medicines'
     ];
    
     //----------------relationships---------------------------

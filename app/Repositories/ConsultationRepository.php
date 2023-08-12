@@ -124,7 +124,9 @@ class ConsultationRepository extends AbstractRepository
                     'other_lab_tests' => $request['other_lab_tests'] ? json_encode($request['other_lab_tests']) :null,
                     'notes' => $request['note'] ?? null,
                     // 'prescription' =>$request['prescription'] ? json_encode($request['prescription']) :null,
-                    'consultation_id' => $consultation_id
+                    'consultation_id' => $consultation_id,
+                    'medicines'=>json_encode($request['medicines']),
+                    'other_medicines'=>json_encode($request['other_medicines']),
                 ]);
                 if(array_key_exists('lab_tests',$request))
                 {
@@ -133,13 +135,13 @@ class ConsultationRepository extends AbstractRepository
                      $summary->labTests()->sync($request['lab_tests']);
                     }
                 }
-                if(array_key_exists('medicines',$request))
-                {
-                    if(is_array($request['medicines']))
-                    {
-                     $summary->medicines()->sync($request['medicines']);
-                    }
-                }
+                // if(array_key_exists('medicines',$request))
+                // {
+                //     if(is_array($request['medicines']))
+                //     {
+                //      $summary->medicines()->sync($request['medicines']);
+                //     }
+                // }
                 if(array_key_exists('symptomes',$request))
                 {
                     if(is_array($request['symptomes']))

@@ -7,6 +7,7 @@ require base_path('routes/channels.php');
 Route::group(['as' => 'api_v1.'], function () {
     Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class, 'index']);
     Route::get('/allergies', [\App\Http\Controllers\API\V1\AllergyController::class, 'index']);
+    Route::get('/lab-tests', [\App\Http\Controllers\API\V1\PrescriptionController::class, 'labTests']);
     Route::get('/symptomes', [\App\Http\Controllers\API\V1\SymptomeController::class, 'index']);
     Route::get('/family-histories', [\App\Http\Controllers\API\V1\FamilyHistoryController::class, 'index']);
     Route::get('/advertisements', [\App\Http\Controllers\API\V1\AdvertisementsController::class, 'index']);

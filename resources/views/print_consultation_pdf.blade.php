@@ -171,6 +171,7 @@
 
     </div>
     @endforelse
+    {{json_encode($consult->summary->medicines)}}
     <br>
    
     <br><br><br>

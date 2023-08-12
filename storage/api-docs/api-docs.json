@@ -79,10 +79,6 @@
                                         "type": "string",
                                         "example": "doctor birth_date"
                                     },
-                                    "phone_number": {
-                                        "type": "string",
-                                        "example": "+213664419425"
-                                    },
                                     "email": {
                                         "type": "string",
                                         "example": "email@email.com"
@@ -162,7 +158,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/doctors/{id}/check-status": {
@@ -2111,12 +2112,8 @@
                                     "medicines": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
-                                        },
-                                        "example": [
-                                            1,
-                                            2
-                                        ]
+                                            "type": "object"
+                                        }
                                     },
                                     "lab_tests": {
                                         "type": "array",
@@ -2140,6 +2137,9 @@
                                         ]
                                     },
                                     "notes": {
+                                        "type": "text"
+                                    },
+                                    "other_medicines": {
                                         "type": "text"
                                     }
                                 },
@@ -3234,6 +3234,33 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/api/v1/lab-tests": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of common lab tests",
+                "operationId": "lab testsindex",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit records",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "common lab tests fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/v1/specialities": {

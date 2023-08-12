@@ -23,8 +23,8 @@ class SummaryRequest extends FormRequest
     {
         return [
             'description'=>'string|required',
-            'medicines'=>'sometimes|nullable|array',
-            'medicines.*'=>'integer|exists:prescriptions,id',
+            'medicines'=>'sometimes|nullable',
+            // 'medicines.*'=>'integer|exists:prescriptions,id',
             'lab_tests'=>'sometimes|nullable|array',
             'lab_tests.*'=>'integer|exists:prescriptions,id',
             'other_lab_tests'=>'nullable|string',

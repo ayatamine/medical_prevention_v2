@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\LabTest;
 use Exception;
 use App\Models\Medicine;
 use App\Models\Prescription;
@@ -45,7 +46,7 @@ class PrescriptionRepository extends AbstractRepository
     }
     public function searchMedicineList(){
         $page = request()->has('page') ? request()->get('page') : 1;
-        $limit = request()->has('limit') ? request()->get('limit') : 10;
+        $limit = request()->has('limit') ? request()->get('limit') : 30;
 
         $medicines = Medicine::where('commercial_name','like','%'.request()->query()['search'].'%')
                      ->orWhere('scientific_name','like','%'.request()->query()['search'].'%')
@@ -53,6 +54,15 @@ class PrescriptionRepository extends AbstractRepository
                      ->offset(($page - 1) * $limit)
                      ->get();
         return $medicines;
+    }
+    public function labTests()
+    {
+        return LabTest::select('id','name','name_ar')
+                    ->when(array_key_exists('limit',request()->query()),function($query){
+                        $query->paginate(request()->query()['limit']);
+                    })
+                    ->get();
+
     }
 
 }
