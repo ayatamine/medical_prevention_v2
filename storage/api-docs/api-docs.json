@@ -1860,6 +1860,39 @@
                 ]
             }
         },
+        "/api/v1/patients/profile/my": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "get main patient details",
+                "description": "get main patient details",
+                "operationId": "show_patient_details",
+                "responses": {
+                    "200": {
+                        "description": "profile fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/my-wallet/history": {
             "get": {
                 "tags": [
