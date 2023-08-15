@@ -26,7 +26,7 @@ class SummaryRequest extends FormRequest
             'medicines'=>'sometimes|nullable',
             // 'medicines.*'=>'integer|exists:prescriptions,id',
             'lab_tests'=>'sometimes|nullable|array',
-            'lab_tests.*'=>'integer|exists:prescriptions,id',
+            'lab_tests.*'=>'integer',
             'other_lab_tests'=>'nullable|string',
             'sick_leave'=>'required|in:0,1',
             'notes'=>'sometimes|nullable|string'

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Api\PatientRequest;
 use App\Http\Requests\CreatePatientRequest;
 use App\Http\Resources\PatientScaleResource;
+use App\Http\Resources\PatientProfileResource;
 use App\Http\Resources\RecommendationResource;
 use App\Http\Resources\SimpleNotificationResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -627,4 +628,30 @@ class PatientController extends Controller
             handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
         }
     }
+    /**
+     * @OA\Get(
+     * path="/api/v1/patients/profile/my",
+     * operationId="show_patient_details",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="get main patient details",
+     * description="get main patient details",
+     *      @OA\Response( response=200, description="profile fetched successfully", @OA\JsonContent() ),
+     *      @OA\Response( response=401, description="unauthenticated ", @OA\JsonContent() ),
+     *    )
+     */
+
+     public function show()
+     {
+ 
+         try {
+ 
+             return $this->api->success()
+                 ->message('Profile fetched successfully')
+                 ->payload(new PatientProfileResource(request()->user()))
+                 ->send();
+         } catch (Exception $ex) {
+             return handleTwoCommunErrors($ex, "no doctor found with the given id");
+         }
+     }
 }

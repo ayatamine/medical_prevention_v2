@@ -22,7 +22,7 @@ class DoctorHomeProfileDataResource extends JsonResource
             'thumbnail'=>$this->thumbnail,
             'notification_status'=>$this->notification_status,
             'balance'=>$this->ballance,
-            'notifications_count'=>3,
+            'notifications_count'=>count(request()->user()->notifications) ?? 0,
             
         ];
     }

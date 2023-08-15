@@ -32,6 +32,7 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
         Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
+            Route::get('/profile/my', 'show');
             Route::post('complete-medical-record', 'storePatientData');
             Route::put('/update-phone-number', 'updatePhone');
             Route::post('/update-thumbnail', 'updateThumbnail');

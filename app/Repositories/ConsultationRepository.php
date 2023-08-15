@@ -126,7 +126,7 @@ class ConsultationRepository extends AbstractRepository
                     // 'prescription' =>$request['prescription'] ? json_encode($request['prescription']) :null,
                     'consultation_id' => $consultation_id,
                     'medicines'=>json_encode($request['medicines']),
-                    'other_medicines'=>json_encode($request['other_medicines']),
+                    'other_medicines'=>array_key_exists('other_medicines',$request) ? json_encode($request['other_medicines']) : null,
                 ]);
                 if(array_key_exists('lab_tests',$request))
                 {
