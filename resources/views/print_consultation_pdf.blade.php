@@ -142,7 +142,7 @@
 
     </div>
 
-    @forelse ($consult->summary->medicines as $key=>$med)
+    @forelse (json_decode($consult->summary->medicines) as $key=>$med)
     {{-- <h2 style="background-color: gainsboro;padding:15px 8px;margin-bottom:12px">{{$key}}: {{$med->drug_name}}</h2> --}}
     <p style="clear:both;"><strong style="font-size: 16px">-Drug Name:</strong> {{$med->drug_name}}</p> 
     <div style="padding: 0 5px;">
@@ -171,7 +171,6 @@
 
     </div>
     @endforelse
-    {{json_encode($consult->summary->medicines)}}
     <br>
    
     <br><br><br>

@@ -16,7 +16,7 @@ class SummaryResource extends JsonResource
     {
         return [
             "id"=>$this['summary']->id,
-            "symptomes"=>$this['summary']->symptomes->makeHidden('pivot'),
+            "symptomes"=>$this['summary']->symptomes?->makeHidden('pivot'),
             "description"=>$this['summary']->description,
             "sick_leave"=>(bool)$this['summary']->sick_leave,
             "lab_tests"=>$this['summary']->labTests->map(function($item){
@@ -31,7 +31,7 @@ class SummaryResource extends JsonResource
                 'date'=>$this->created_at,
                 'doctor_name'=>$this['doctor']->full_name,
                 'patient_name'=>$this['patient']->full_name,
-                'medicines'=>$this['summary']->medicines->makeHidden('pivot')
+                'medicines'=>json_decode($this['summary']->medicines)
             ],
             // "created_at"=>$this['summary']->created_at,
             "feedback"=>$this['review']

@@ -122,7 +122,7 @@ class ConsultationRepository extends AbstractRepository
                     'description' => $request['description'],
                     'sick_leave' => $request['sick_leave'],
                     'other_lab_tests' => $request['other_lab_tests'] ? json_encode($request['other_lab_tests']) :null,
-                    'notes' => $request['note'] ?? null,
+                    'notes' => $request['notes'] ?? null,
                     // 'prescription' =>$request['prescription'] ? json_encode($request['prescription']) :null,
                     'consultation_id' => $consultation_id,
                     'medicines'=>json_encode($request['medicines']),
