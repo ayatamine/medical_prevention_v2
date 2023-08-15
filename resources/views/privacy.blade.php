@@ -1,25 +1,36 @@
-@extends('layouts.app')
-@section('title','terms-conditions')
-@section('styles')
-    <style>
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
-        body {
-        font-family: "Inter", sans-serif;
-        }
-        body h1{
-            font-size: 1.6rem;
-        }
-        body p,li{font-weight: 600;line-height: 1.8;}
-        .text-center{text-align: center}
-        table, td, th{
-          border: 1px solid #DDD;text-align: left;
-        }
-        table td{padding: 15px;}
-    </style>
-@endsection
-@section('content')
+<!DOCTYPE html >
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"
 
-<div style="padding:3rem">
+            <title>Privacy Policy - {{ config('app.name') }}</title>
+
+
+        <!-- Favicon -->
+		<link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <style>
+          @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+                  body {
+                  font-family: "Inter", sans-serif;
+                  }
+                  body h1{
+                      font-size: 1.6rem;
+                  }
+                  body p,li{font-weight: 600;line-height: 1.8;}
+                  .text-center{text-align: center}
+                  table, td, th{
+                    border: 1px solid #DDD;text-align: left;
+                  }
+                  table td{padding: 15px;}
+                  body text {display: none}
+              </style>
+    </head>
+
+
+<body style="padding:3rem">
      <h1 class="text-center">
          PRIVACY POLICY
      </h1>
@@ -485,5 +496,4 @@
      </div>
      
      
-</div>
-@endsection
+</body>
