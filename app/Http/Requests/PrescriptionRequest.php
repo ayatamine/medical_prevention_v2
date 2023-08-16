@@ -22,6 +22,7 @@ class PrescriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'prescription_title'=>'string|required|max:250',
             'drug_name'=>'string|required|max:250',
             'route'=>'string|required|max:100',
             'dose'=>'integer|required',

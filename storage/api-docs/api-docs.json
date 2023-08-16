@@ -3086,6 +3086,10 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
+                                    "prescription_title": {
+                                        "type": "string",
+                                        "example": "Prescription title"
+                                    },
                                     "drug_name": {
                                         "type": "string",
                                         "example": "Medicine name"

@@ -38,10 +38,11 @@ class PrescriptionRepository extends AbstractRepository
     }
     public function myMedicineList(){
         $medicines = Prescription::where('doctor_id',request()->user()->id)
+                    
                      ->when(request()->has('search'),function($query){
                          $query->where('drug_name','like','%'.request()->query()['search'].'%');
                      })
-                     ->get();
+                     ->get()->groupBy('prescription_title');
         return $medicines;
     }
     public function searchMedicineList(){

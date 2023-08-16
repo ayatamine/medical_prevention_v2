@@ -19,7 +19,8 @@ class Prescription extends Model
         'shape',
         'prn',
         'instructions',
-        'doctor_id'
+        'doctor_id',
+        'prescription_title'
     ];
     protected $hidden=['created_at','updated_at'];
 }

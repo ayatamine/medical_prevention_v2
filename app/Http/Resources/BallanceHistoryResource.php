@@ -25,8 +25,17 @@ class BallanceHistoryResource extends JsonResource
     
             $attr['operation_name'] = $this->operation_name.' #'.$this->consult_id;
             $attr['consult_id'] =$this->consult_id;
-            $attr['patient_name'] =request()->user()->full_name;
+            if($this->user_type == "App\Models\Doctor")
+            {
+                $attr['doctor_name'] =request()->user()->full_name;
+            }
+            else 
+            {
+                $attr['patient_name'] =request()->user()->full_name;
+            }
+            
         }
+        
         return $attr;
     }
 }
