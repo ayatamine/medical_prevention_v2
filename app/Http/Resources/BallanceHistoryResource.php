@@ -23,8 +23,8 @@ class BallanceHistoryResource extends JsonResource
         ];
         if($this->operation_type == BallanceHistory::$RFC || $this->operation_type == BallanceHistory::$PFC){
     
-            $attr['operation_name'] = $this->operation_name.' #'.$this->consultation->id;
-            $attr['consult_id'] =$this->consultation->id;
+            $attr['operation_name'] = $this->operation_name.' #'.$this->consult_id;
+            $attr['consult_id'] =$this->consult_id;
             $attr['patient_name'] =request()->user()->full_name;
         }
         return $attr;
