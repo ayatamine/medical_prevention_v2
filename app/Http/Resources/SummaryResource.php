@@ -34,8 +34,14 @@ class SummaryResource extends JsonResource
                 'medicines'=>json_decode($this['summary']->medicines)
             ],
             // "created_at"=>$this['summary']->created_at,
-            "feedback"=>$this['review']
+            "feedback"=>
+            [
+                'consultation_id'=>$this['review']->consultation_id,
+                'rating'=>$this['review']->rating,
+                'comment'=>$this['review']->comment,    
+            ]
 
         ];
     }
 }
+

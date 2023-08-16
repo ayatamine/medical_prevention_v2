@@ -188,7 +188,7 @@ class ConsultationController extends Controller
         }
     }
     /**
-     * @OA\Post(
+     * @OA\Get(
      * path="/api/v1/consultations/{id}/view-summary",
      * operationId="view_consultation_summary",
      * tags={"consultation"},

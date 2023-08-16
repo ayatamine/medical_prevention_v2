@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Doctor extends Model  
 {
     use HasFactory;
-    use HasFactory;
     use HasApiTokens;
     use Notifiable;
     use SoftDeletes;

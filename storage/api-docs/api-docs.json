@@ -2218,7 +2218,7 @@
             }
         },
         "/api/v1/consultations/{id}/view-summary": {
-            "post": {
+            "get": {
                 "tags": [
                     "consultation"
                 ],
