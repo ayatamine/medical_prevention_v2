@@ -42,7 +42,8 @@ class PrescriptionRepository extends AbstractRepository
                      ->when(request()->has('search'),function($query){
                          $query->where('drug_name','like','%'.request()->query()['search'].'%');
                      })
-                     ->get()->groupBy('prescription_title');
+                     ->get()->groupBy('prescription_title')
+                     ->makeHidden('prescription_title');
         return $medicines;
     }
     public function searchMedicineList(){

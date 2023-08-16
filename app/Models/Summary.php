@@ -55,6 +55,15 @@ class Summary extends Model
             'lab_test_id'
         );
     }
+    public function subSpecialities():BelongsToMany
+    {
+        return $this->belongsToMany(
+            LabTest::class,
+            'summary_sub_speciality',
+            'summary_id',
+            'sub_speciality_id'
+        );
+    }
     public function otherLabTests():Attribute
     {
         return Attribute::make(

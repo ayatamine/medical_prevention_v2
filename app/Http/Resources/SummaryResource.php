@@ -16,10 +16,16 @@ class SummaryResource extends JsonResource
     {
         return [
             "id"=>$this['summary']->id,
-            "symptomes"=>$this['summary']->symptomes?->makeHidden('pivot'),
+            // "symptomes"=>$this['summary']->symptomes?->makeHidden('pivot'),
             "description"=>$this['summary']->description,
             "sick_leave"=>(bool)$this['summary']->sick_leave,
             "lab_tests"=>$this['summary']->labTests->map(function($item){
+                return[
+                    'name'=>$item->name,
+                    'name_ar'=>$item->name_ar,
+                ];
+            }),
+            "sub_specialities"=>$this['summary']->subSpecialities->map(function($item){
                 return[
                     'name'=>$item->name,
                     'name_ar'=>$item->name_ar,

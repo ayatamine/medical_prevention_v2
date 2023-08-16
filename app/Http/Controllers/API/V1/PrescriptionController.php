@@ -6,9 +6,10 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PrescriptionRequest;
 use App\Http\Resources\MedicineResource;
+use App\Http\Requests\PrescriptionRequest;
 use App\Repositories\PrescriptionRepository;
+use App\Http\Resources\DoctorPrescriptionMedicineResource;
 
 class PrescriptionController extends Controller
 {
@@ -113,10 +114,18 @@ class PrescriptionController extends Controller
         public function searchMedicines(){
             try{
                 $medicines  = $this->repository->myMedicineList();
-                
+                $formated_medicines=[];
+                $i=0;
+                foreach($medicines as $key=>$medicine){
+                    $formated_medicines[$i] =[
+                        "prescription_title"=>$key,
+                        "medicines"=>new DoctorPrescriptionMedicineResource($medicine)
+                    ];
+                    $i++;
+                }
                 return $this->api->success()
                                  ->message("medicines fetched succefully")
-                                 ->payload($medicines)
+                                 ->payload($formated_medicines)
                                  ->send();
             }
             catch(Exception $ex){

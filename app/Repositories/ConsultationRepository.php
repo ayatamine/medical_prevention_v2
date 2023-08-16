@@ -142,6 +142,13 @@ class ConsultationRepository extends AbstractRepository
                 //      $summary->medicines()->sync($request['medicines']);
                 //     }
                 // }
+                if(array_key_exists('sub_specialities',$request))
+                {
+                    if(is_array($request['sub_specialities']))
+                    {
+                     $summary->subSpecialities()->sync($request['sub_specialities']);
+                    }
+                }
                 if(array_key_exists('symptomes',$request))
                 {
                     if(is_array($request['symptomes']))

@@ -142,7 +142,7 @@ class ConsultationController extends Controller
      *         @OA\MediaType(
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *                  @OA\Property( property="symptomes",type="array",@OA\Items(type="integer"), example={1}),
+     *                  @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1}),
      *                 @OA\Property( property="description",type="text",example="description here"),
      *                 @OA\Property( property="medicines",type="array",@OA\Items(type="object")),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),

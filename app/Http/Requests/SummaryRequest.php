@@ -29,7 +29,8 @@ class SummaryRequest extends FormRequest
             'lab_tests.*'=>'integer',
             'other_lab_tests'=>'nullable|string',
             'sick_leave'=>'required|in:0,1',
-            'notes'=>'sometimes|nullable|string'
+            'notes'=>'sometimes|nullable|string',
+            'sub_specialities'=>'sometimes|nullable|array',
         ];
     }
 }

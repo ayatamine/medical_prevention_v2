@@ -2129,7 +2129,7 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "symptomes": {
+                                    "sub_specialities": {
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
