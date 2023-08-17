@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ChronicDiseasesResource\Pages;
-use App\Filament\Resources\ChronicDiseasesResource\RelationManagers;
-use App\Models\ChronicDiseases;
+use App\Filament\Resources\ChronicDiseaseCategoryResource\Pages;
+use App\Filament\Resources\ChronicDiseaseCategoryResource\RelationManagers;
+use App\Models\ChronicDiseaseCategory;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,11 +13,11 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ChronicDiseasesResource extends Resource
+class ChronicDiseaseCategoryResource extends Resource
 {
-    protected static ?string $model = ChronicDiseases::class;
+    protected static ?string $model = ChronicDiseaseCategory::class;
 
-    protected static ?string $navigationIcon = 'icons.chronic';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Chronic Diseases';
     public static function form(Form $form): Form
     {
@@ -25,13 +25,10 @@ class ChronicDiseasesResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label(trans('name'))
-                    ->unique(table: ChronicDiseases::class,ignoreRecord:true)
-                    ->maxLength(150),
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('name_ar')
-                    ->unique(table: ChronicDiseases::class,ignoreRecord:true)
-                    ->maxLength(150),
-                Forms\Components\FileUpload::make('icon'),
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -39,10 +36,8 @@ class ChronicDiseasesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
-                Tables\Columns\ImageColumn::make('icon'),
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name_ar'),
             ])
             ->filters([
                 //
@@ -59,7 +54,7 @@ class ChronicDiseasesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageChronicDiseases::route('/'),
+            'index' => Pages\ManageChronicDiseaseCategories::route('/'),
         ];
     }    
 }

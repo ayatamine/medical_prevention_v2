@@ -19,7 +19,7 @@ class SymptomeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $navigationIcon = 'icons.allergy';
-
+    protected static ?string $navigationGroup = 'Symptomes';
     public static function form(Form $form): Form
     {
         return $form
