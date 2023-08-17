@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Symptome;
+use App\Models\SymptomeCategory;
 use Exception;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
@@ -30,7 +31,7 @@ class SymptomeRepository extends AbstractRepository
     public function fetchAll()
     {
         // if(array_key_exists('limit',request()->query()))  return $this->model::select('id','name','name_ar')->limit(request()->query()['limit'])->get();
-        return $this->model::select('id','name','name_ar','icon')
+        return  SymptomeCategory::with('symptomes')
                     ->when(array_key_exists('limit',request()->query()),function($query){
                         $query->paginate(request()->query()['limit']);
                     })

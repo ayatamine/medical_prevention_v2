@@ -77,7 +77,7 @@ class DoctorRepository extends AbstractRepository
                     });
                     $doctor->sub_specialities()->sync($filtered_data);
                 } else {
-                    $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
+                    $ids =array_filter($request['sub_specialities'], function ($value) {
                         return is_int($value);
                     });
                     

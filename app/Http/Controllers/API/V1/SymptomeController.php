@@ -6,6 +6,7 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SymptomeResource;
 use App\Repositories\SymptomeRepository;
 
 class SymptomeController extends Controller
@@ -42,7 +43,7 @@ class SymptomeController extends Controller
 
             return $this->api->success()
                 ->message("symptomes fetched successfuly")
-                ->payload($symptomes)
+                ->payload(SymptomeResource::collection($symptomes))
                 ->send();
         } catch (Exception $ex) {
             return $this->api->failed()

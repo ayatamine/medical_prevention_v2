@@ -6,6 +6,7 @@ use Exception;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ChronicDiseaseResource;
 use App\Repositories\ChronicDiseasesRepository;
 
 class ChronicDiseasesController extends Controller
@@ -42,7 +43,7 @@ class ChronicDiseasesController extends Controller
 
             return $this->api->success()
                 ->message("chronic diseases fetched successfuly")
-                ->payload($chronic_diseases)
+                ->payload(ChronicDiseaseResource::collection($chronic_diseases))
                 ->send();
         } catch (Exception $ex) {
             return $this->api->failed()

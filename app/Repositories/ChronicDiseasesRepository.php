@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\ChronicDiseases;
 use Exception;
+use App\Models\ChronicDiseases;
+use App\Models\ChronicDiseaseCategory;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -29,8 +30,11 @@ class ChronicDiseasesRepository extends AbstractRepository
      */
     public function fetchAll()
     {
-        if(array_key_exists('limit',request()->query()))return ChronicDiseases::select('id','name','name_ar','icon')->limit(request()->query()['limit'])->get();
-        return ChronicDiseases::select('id','name','name_ar','icon')->get();
+        return  ChronicDiseaseCategory::with('chronicDiseases')
+        ->when(array_key_exists('limit',request()->query()),function($query){
+            $query->paginate(request()->query()['limit']);
+        })
+        ->get();
     }
     /**
      * @return ChronicDiseases instance 

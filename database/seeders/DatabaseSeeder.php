@@ -20,7 +20,9 @@ use App\Models\Recommendation;
 use App\Models\BallanceHistory;
 use App\Models\ChronicDiseases;
 use Illuminate\Database\Seeder;
+use App\Models\SymptomeCategory;
 use App\Models\MedicalInstruction;
+use App\Models\ChronicDiseaseCategory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -50,6 +52,14 @@ class DatabaseSeeder extends Seeder
         // if(!Page::count()){
         //     $this->call(PageSeeder::class);
         // }
+        if(!SymptomeCategory::count())
+        {
+            $this->call(SymptomeCategorySeeder::class);
+        }
+        if(!ChronicDiseaseCategory::count())
+        {
+            $this->call(ChronicDiseaseCategorySeeder::class);
+        }
         if(!Advertisement::count()){
             $this->call(AdvertisementSeeder::class);
         }
