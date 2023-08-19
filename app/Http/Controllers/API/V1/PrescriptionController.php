@@ -71,7 +71,6 @@ class PrescriptionController extends Controller
         *                 @OA\Property( property="frequancy",type="string",example="1 times per day"),
         *                 @OA\Property( property="duration",type="integer",example="1"),
         *                 @OA\Property( property="duration_unit",type="string",example="day", description="duration unit in : {hour,day,week,month,year}"),
-        *                 @OA\Property( property="shape",type="string"),
         *                 @OA\Property( property="prn",type="boolean",enum={0, 1}),
         *                 @OA\Property( property="instructions",type="text"),
         *             )),

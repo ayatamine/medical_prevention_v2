@@ -36,7 +36,9 @@ class SummaryResource extends JsonResource
             "prescription"=>[
                 'date'=>$this->created_at,
                 'doctor_name'=>$this['doctor']->full_name,
+                'doctor_thumbnail'=>$this['doctor']->thumbnail,
                 'patient_name'=>$this['patient']->full_name,
+                'patient_thumbnail'=>$this['patient']->thumbnail,
                 'medicines'=>json_decode($this['summary']->medicines)
             ],
             // "created_at"=>$this['summary']->created_at,

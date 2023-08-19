@@ -30,7 +30,7 @@ class PrescriptionRequest extends FormRequest
             'frequancy'=>'string|required|max:150',
             'duration'=>'integer|required',
             'duration_unit'=>'string|required|max:100',
-            'shape'=>'sometimes|nullable|string|required|max:150',
+            // 'shape'=>'sometimes|nullable|string|required|max:150',
             'prn'=>'sometimes|nullable|boolean',
             'instructions'=>'sometimes|nullable|string|required',
             // 'doctor_id'=>'integer|required|exists:doctors,id'

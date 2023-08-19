@@ -3174,9 +3174,6 @@
                                         "type": "string",
                                         "example": "day"
                                     },
-                                    "shape": {
-                                        "type": "string"
-                                    },
                                     "prn": {
                                         "type": "boolean",
                                         "enum": [

@@ -173,12 +173,12 @@ class ConsultationRepository extends AbstractRepository
     /** view a summary */
     public function viewSummary($consultation_id)
     {
-        return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name','summary','review')->findOrFail($consultation_id);
+        return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name,thumbnail','patient:id,full_name','summary','review')->findOrFail($consultation_id);
     }
     /** print a summary */
     public function printSummary($consultation_id)
     {
-        $consult = Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name,birth_date','summary','review')->findOrFail($consultation_id);
+        $consult = Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name,birth_date,thumbnail','summary','review')->findOrFail($consultation_id);
         // $summmary_pdf = new Dompdf();
         // $summmary_pdf->loadHtml('hello world');
         $settings = Setting::firstOrFail();
