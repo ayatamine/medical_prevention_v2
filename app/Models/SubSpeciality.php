@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Symptome;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SubSpeciality extends Model
 {
@@ -35,4 +36,13 @@ class SubSpeciality extends Model
     // {
     //     return $this->belongsTo(Speciality::class,'speciality_id');
     // }
+    public function symptomes()
+    {
+        return $this->belongsToMany(
+            Symptome::class,
+            'sub_speciality_symptome',
+            'sub_speciality_id',
+            'symptome_id'
+        );
+    }
 }

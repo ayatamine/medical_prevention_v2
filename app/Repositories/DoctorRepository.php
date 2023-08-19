@@ -420,4 +420,68 @@ class DoctorRepository extends AbstractRepository
             ->findOrfail($id);
         return $doctor;
     }
+    public function searchWithSymptomes($request)
+    {
+        
+        $search =$request->search;
+        $sort =$request->sort;
+        $selectedSymptoms = $request->symptomes;
+        if(is_array($selectedSymptoms)) {
+            $doctors = Doctor::active()->withCount('reviews')
+                ->withSum('reviews', 'rating')
+                ->whereHas('sub_specialities.symptomes', function ($query) use ($selectedSymptoms) {
+                    $query->whereIn('symptomes.id', $selectedSymptoms);
+                })
+                ->when($sort == "best_rated", function ($query) {
+                    $query->orderBy('reviews_sum_rating', 'desc');
+                })
+                ->when($sort == "latest", function ($query) {
+                    $query->latest();
+                })
+                ->when($sort == "oldest", function ($query) {
+                    $query->oldest();
+                })
+                ->when($search, function ($query, $search) {
+                    $query->where(function ($query) use ($search) {
+                        $query->where('full_name', 'like', '%' . $search . '%')
+                            ->orWhere('job_title', 'like', '%' . $search . '%');
+                    });
+                })
+                ->when($sort == "is_online", function ($query, $search) {
+                    $query->online();
+                });
+        }
+        else 
+        {
+            $ids = explode(',',$selectedSymptoms);
+            $ids = array_filter($ids,function($item){
+                return $item != null;
+            });
+            $doctors = Doctor::active()->withCount('reviews')
+            ->withSum('reviews', 'rating')
+            ->whereHas('sub_specialities.symptomes', function ($query) use ($ids) {
+                $query->whereIn('symptomes.id',$ids);
+            })
+            ->when($sort == "best_rated", function ($query) {
+                $query->orderBy('reviews_sum_rating', 'desc');
+            })
+            ->when($sort == "latest", function ($query) {
+                $query->latest();
+            })
+            ->when($sort == "oldest", function ($query) {
+                $query->oldest();
+            })
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('full_name', 'like', '%' . $search . '%')
+                        ->orWhere('job_title', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($sort == "is_online", function ($query, $search) {
+                $query->online();
+            })
+            ->get();
+        }
+        return $doctors;
+    }
 }

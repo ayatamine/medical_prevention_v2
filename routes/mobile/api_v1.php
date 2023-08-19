@@ -18,7 +18,9 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/sub_specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'subIndex']);
     Route::get('/sub_specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
     Route::get('/sub_specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
+  
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
+    Route::post('/symptomes/doctors', [\App\Http\Controllers\API\V1\DoctorController::class, 'doctorsBySymptomes'])->name('symptomes_doctors');
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);
         Route::delete('/doctors/{id}/remove-from-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'removeFromFavorites']);

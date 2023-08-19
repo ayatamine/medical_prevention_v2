@@ -207,4 +207,48 @@ class DoctorController extends Controller
     {
         //
     }
+     /**
+     * Display a listing of the resource.
+     */
+        /**
+     * @OA\Post(
+  *      path="/api/v1/symptomes/doctors",
+     *      operationId="doctor_list_using_symptomes",
+     *      tags={"patientApp"},
+     *      description="Get list of existing doctors of selected symptomes",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                @OA\Property( property="symptomes",type="array",@OA\Items(type="integer"), example={1,2}),
+     *                @OA\Property( property="search",type="string"),
+     *                @OA\Property( property="sort",type="string",enum={"best_rated","latest","oldest","is_online"}),
+     *      )
+     * )
+     * ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctors fetched successfuly",
+     *          @OA\JsonContent()
+     *       )
+     *     )
+     */
+    public function doctorsBySymptomes(Request $request)
+    {
+        try {
+            $doctors = $this->repository->searchWithSymptomes($request);
+            // if(array_key_exists('limit', request()->query())) return SimpleDoctorResource::collection($doctors->paginate(request()->query()['limit']));
+            // return SimpleDoctorResource::collection($doctors->get());
+            return $this->api->success()
+                ->message("doctors fetched successfuly")
+                ->payload($doctors)
+                ->send();
+        } catch (Exception $ex) {
+            return $this->api->failed()
+                ->message($ex->getMessage())
+                ->send();
+        }
+
+    }
 }

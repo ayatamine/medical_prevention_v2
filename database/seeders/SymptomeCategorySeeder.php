@@ -28,6 +28,6 @@ class SymptomeCategorySeeder extends Seeder
         ]);
         
         Symptome::whereNull('symptome_category_id')
-        ->update(['category_id'=>random_int(1,3)]);
+        ->update(['symptome_category_id'=>random_int(1,3)]);
     }
 }
