@@ -32,6 +32,12 @@ class Consultation extends Model
 
     //-----------------accessor -----------------
     
+    public function createdAt():Attribute
+    {
+        return Attribute::make(
+            get: fn($value)=> $this->formatDate($value,'d-m-Y, H:i')
+        );
+    }
     public function finishedAt():Attribute
     {
         return Attribute::make(
@@ -75,12 +81,7 @@ class Consultation extends Model
     {
         return $this->hasOne(Rating::class);
     }
-    public function createdAt():Attribute
-    {
-        return Attribute::make(
-            get: fn($value) => $value ? date('d-m-Y',strtotime($value)) :null
-        );
-    }
+ 
 
 
 }
