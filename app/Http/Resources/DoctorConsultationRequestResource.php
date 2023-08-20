@@ -38,7 +38,8 @@ class DoctorConsultationRequestResource extends JsonResource
                         'address'=>$r->patient->address,
                         'gender'=>$r->patient->gender,
                         'age'=>$r->patient->age
-                    ]
+                    ],
+                    'completed_at'=>$r->updated_at
                 ]; 
             }),
             'completed_requests'=>$this->completedConsultations()->get()->map(function($r){

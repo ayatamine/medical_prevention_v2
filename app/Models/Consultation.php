@@ -35,7 +35,13 @@ class Consultation extends Model
     public function finishedAt():Attribute
     {
         return Attribute::make(
-            get: fn($value)=> $this->formatDate($value,'H:i, d-m-Y')
+            get: fn($value)=> $this->formatDate($value,'d-m-Y, H:i')
+        );
+    }
+    public function updatedAt():Attribute
+    {
+        return Attribute::make(
+            get: fn($value)=> $this->formatDate($value,'d-m-Y, H:i')
         );
     }
     //-------------------relationships----------
