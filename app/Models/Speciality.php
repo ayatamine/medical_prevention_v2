@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\SubSpeciality;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,5 +36,16 @@ class Speciality extends Model
     // {
     //     return $this->hasMany(SubSpeciality::class,'speciality_id','id');
     // }
-
+    public function icon():Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
+        );
+    }
 }

@@ -129,9 +129,20 @@ class Patient extends Model
     public function thumbnail():Attribute
     {
         return Attribute::make(
-            get: function ($value){
-                if(Str::startsWith($value,'patient')) return url('storage/'.$value);
-                return $value;
+            // get: function ($value){
+            //     if(Str::startsWith($value,'patient')) return url('storage/'.$value);
+            //     return $value;
+            // }
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else 
+                {
+                    if(app()->isProduction()) return  url('storage/public/patients/thumbnails/doctor.png');
+                    return  url('storage/patients/thumbnails/doctor.png');
+                }
             }
         );
     }

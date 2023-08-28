@@ -71,7 +71,7 @@ class Doctor extends Model
                 {
                     if(app()->isProduction()) return  url('storage/public/'.$value);
                     return url('storage/'.$value);
-                }else return  url('storage/doctors/thumbnails/doctor.png');
+                }else return "https://ui-avatars.com/api/?name=$this->full_name&background=0D8ABC&color=fff";
             }
         );
     }

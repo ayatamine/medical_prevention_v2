@@ -48,4 +48,16 @@ class Advertisement extends Model
            }
        );
     }
+    public function image():Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
+        );
+    }
 }

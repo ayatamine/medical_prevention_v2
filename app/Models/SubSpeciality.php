@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Symptome;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -43,6 +44,18 @@ class SubSpeciality extends Model
             'sub_speciality_symptome',
             'sub_speciality_id',
             'symptome_id'
+        );
+    }
+    public function icon():Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
         );
     }
 }
