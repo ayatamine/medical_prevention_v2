@@ -16,9 +16,10 @@ class SymptomeResource extends JsonResource
     {
         return [
             "category_name"=>$this->name,
-            "category_nam_ar"=>$this->name_ar,
+            "category_name_ar"=>$this->name_ar,
             "symptomes"=>$this->symptomes->map(function($s){
                 return [
+                    "id"=>$s->id,
                     "name"=>$s->name,
                     "name_ar"=>$s->name_ar,
                     "icon"=>$s->icon,

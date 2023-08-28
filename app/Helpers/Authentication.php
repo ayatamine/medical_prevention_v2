@@ -9,13 +9,19 @@ use HossamMonir\Msegat\Facades\Msegat;
 if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model)
     {
-       
+        $model_record=null;
+        if(request()->user()) 
+        {
+            $model_record =request()->user();
+        }
+        else{
         if($model == 'Doctor'){
             $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
             //TODO: throw error if account is not yet accepted
         }else{
             //TODO: check if account is deleted
             $model_record = Patient::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
+        }
         }
   
         $now = now();
@@ -61,7 +67,12 @@ if(!function_exists('send_sms')){
             
             // ]);
             $is_new = false;
-
+            $model_record=null;
+            if(request()->user()) 
+            {
+                $model_record =request()->user();
+            }
+            else{
             if($model == 'Doctor'){
                 $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $receiverNumber)->firstOrfail();
                 if(!$model_record->id_number || !$model_record->job_title || !$model_record->insurance_number)
@@ -76,19 +87,24 @@ if(!function_exists('send_sms')){
                     $is_new = true;
                 }
             }
+            }
             
             $res = Msegat::numbers([ltrim($receiverNumber,'+')])
             ->message($message)
             ->sendWithDefaultSender();
             // ->sendOTP($content);
             
-           
-            return response()->json([
+            $resp =[
                 "success"=>true,
                 'message'=>"The OTP has been sent successfully",
-                'new_registered'=>$is_new,
-                'id'=>$model_record->id
-            ],200);
+               
+            ];
+            if(!request()->user()) 
+            {
+                 $resp['new_registered']= $is_new;
+                 $resp['id']= $model_record->id;
+            }
+            return response()->json($resp,200);
     
         } catch (\Exception $e) {
             return response()->json([

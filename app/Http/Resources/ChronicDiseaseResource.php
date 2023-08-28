@@ -16,9 +16,10 @@ class ChronicDiseaseResource extends JsonResource
     {
         return[
             "category_name"=>$this->name,
-            "category_nam_ar"=>$this->name_ar,
+            "category_name_ar"=>$this->name_ar,
             "chronic_diseases"=>$this->chronicDiseases->map(function($cd){
                 return [
+                    "id"=>$cd->id,
                     "name"=>$cd->name,
                     "name_ar"=>$cd->name_ar,
                     "icon"=>$cd->icon,

@@ -369,6 +369,7 @@ class ConsultationController extends Controller
                             'doctor_id' => $response->metadata->doctor_id,
                             'patient_id' => request()->user()->id,
                             'status' => 'pending',
+                            'paymentintent_id'=> $response->id
                         ]);
                         //TODO: cron job
                         BallanceHistory::create([

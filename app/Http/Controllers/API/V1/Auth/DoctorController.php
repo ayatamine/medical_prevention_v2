@@ -228,6 +228,12 @@ class DoctorController extends Controller
             $doctor->is_phone_verified =  true;
             $doctor->save();
 
+            if(request()->user())
+            {
+                 return $this->api->success()
+                    ->message('The verification passed successfully')
+                    ->send();
+            }
             $is_new = false;
             if (!$doctor->id_number || !$doctor->job_title || !$doctor->insurance_number) {
                 $is_new = true;

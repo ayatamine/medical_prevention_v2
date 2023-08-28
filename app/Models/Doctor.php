@@ -66,25 +66,49 @@ class Doctor extends Model
     public function thumbnail():Attribute
     {
         return Attribute::make(
-            get: fn (string $value) =>$value ? url('storage/'.$value) : url('storage/doctors/thumbnails/doctor.png'),
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  url('storage/doctors/thumbnails/doctor.png');
+            }
         );
     }
     public function cvFile():Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>$value ? url('storage/doctors/cv_files/'.$value) : null,
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
         );
     }
     public function medicalLicenceFile():Attribute
     {
         return Attribute::make(
-            get: fn ($value) =>$value ? url('storage/doctors/medical_licences/'.$value) : null,
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
         );
     }
     public function certificationFile():Attribute
     {
         return Attribute::make(
-            get: fn ( $value) =>$value ? url('storage/doctors/certifications/'.$value) : null,
+            get: function ($value) {
+                if($value)
+                {
+                    if(app()->isProduction()) return  url('storage/public/'.$value);
+                    return url('storage/'.$value);
+                }else return  null;
+            }
         );
     }
     //////////////////////////////////- relationships-///////////////////////
