@@ -276,16 +276,16 @@ class DoctorRepository extends AbstractRepository
                 }
             }
             if (array_key_exists('medical_licence_file', $request)) {
-                unset($equest['medical_licence_file']);
+                unset($request['medical_licence_file']);
             }
             if (array_key_exists('cv_file', $request)) {
-                unset($equest['cv_file']);
+                unset($request['cv_file']);
             }
             if (array_key_exists('certification_file', $request)) {
-                unset($equest['certification_file']);
+                unset($request['certification_file']);
             }
             if (array_key_exists('thumbnail', $request)) {
-                unset($equest['thumbnail']);
+                unset($request['thumbnail']);
             }
             if (array_key_exists('sub_specialities', $request)) {
                 unset($request['sub_specialities']);

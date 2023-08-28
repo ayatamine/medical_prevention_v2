@@ -151,6 +151,12 @@ class DoctorController extends Controller
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
+            if(request()->user() && request()->user()->phone_number == $request->phone_number)
+            {
+                return $this->api->failed()->code(400)
+                ->message("Same phone number provided")
+                ->send(); 
+            }
             $doctor = Doctor::whereDeletedAt(null)
                 ->where('phone_number', $request->phone_number)
                 ->where('account_status', "blocked")
@@ -160,6 +166,7 @@ class DoctorController extends Controller
                     ->message("Your account was suspended ,please contact the support team")
                     ->send();
             }
+           
             $otp = generate_otp($request->phone_number, 'Doctor');
             return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'Doctor');
         } catch (Exception $ex) {
@@ -422,7 +429,6 @@ class DoctorController extends Controller
      *                 @OA\Property( property="certification_file",type="file"),
      *                 @OA\Property( property="location",description="json location when picked from map",type="json"),
      *                 @OA\Property( property="bio",description="doctor bio",type="text"),
-     *                 @OA\Property( property="thumbnail",type="file"),
      *             ),
      *       )
      *    ),
