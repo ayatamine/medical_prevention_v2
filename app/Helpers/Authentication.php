@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Http;
 use HossamMonir\Msegat\Facades\Msegat;
 
 if (!function_exists('generate_otp')) {
-    function generate_otp($phone_number,$model)
+    function generate_otp($phone_number,$model,$auth=null)
     {
         $model_record=null;
-        if(request()->user()) 
+        if($auth) 
         {
-            $model_record =request()->user();
+            $model_record =$auth;
         }
         else{
         if($model == 'Doctor'){
@@ -39,7 +39,7 @@ if (!function_exists('generate_otp')) {
 }
 if(!function_exists('send_sms')){
 
-    function sendSMS($receiverNumber,$message,$content,$model)
+    function sendSMS($receiverNumber,$message,$content,$model,$auth=null)
     {
         $message = $message.' '.$content;
     
@@ -68,9 +68,9 @@ if(!function_exists('send_sms')){
             // ]);
             $is_new = false;
             $model_record=null;
-            if(request()->user()) 
+            if($auth) 
             {
-                $model_record =request()->user();
+                $model_record =$auth;
             }
             else{
             if($model == 'Doctor'){
@@ -99,7 +99,7 @@ if(!function_exists('send_sms')){
                 'message'=>"The OTP has been sent successfully",
                
             ];
-            if(!request()->user()) 
+            if(!$auth) 
             {
                  $resp['new_registered']= $is_new;
                  $resp['id']= $model_record->id;

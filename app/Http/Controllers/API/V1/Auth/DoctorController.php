@@ -139,6 +139,7 @@ class DoctorController extends Controller
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+     *                 @OA\Property(property="doctor_id",type="integer",example="1"),
      *             )),
      *    ),
      *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
@@ -149,13 +150,19 @@ class DoctorController extends Controller
     {
         try {
             $request->validate([
-                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
+                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+                'doctor_id'=>'sometimes|nullable|integer',
             ]);
-            if(request()->user() && request()->user()->phone_number == $request->phone_number)
-            {
-                return $this->api->failed()->code(400)
-                ->message("Same phone number provided")
-                ->send(); 
+            if($request->doctor_id) {
+                $doctor = Doctor::whereDeletedAt(null)->findOrFail($request->doctor_id);
+
+                if($doctor && $doctor->phone_number == $request->phone_number) {
+                    return $this->api->failed()->code(400)
+                    ->message("Same phone number provided")
+                    ->send();
+                }
+                $otp = generate_otp($request->phone_number, 'Doctor',$auth=$doctor);
+                return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Doctor',$auth=$doctor);
             }
             $doctor = Doctor::whereDeletedAt(null)
                 ->where('phone_number', $request->phone_number)
