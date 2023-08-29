@@ -41,6 +41,7 @@ class DoctorResource extends JsonResource
             "notification_status" => $this->notification_status,
             "online_status" => $this->online_status,
             "gender" => $this->gender,
+            "balance" => $this->ballance,
             "speciality"=>$this->speciality?->name,
             // "specialities"=>$this->specialities->map(function($sub){
             //     return [

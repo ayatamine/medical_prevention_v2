@@ -32,12 +32,12 @@ class Consultation extends Model
 
     //-----------------accessor -----------------
     
-    public function createdAt():Attribute
-    {
-        return Attribute::make(
-            get: fn($value)=> $this->formatDate($value,'d-m-Y, H:i')
-        );
-    }
+    // public function createdAt():Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn($value)=> $this->formatDate($value,'d-m-Y, H:i')
+    //     );
+    // }
     public function finishedAt():Attribute
     {
         return Attribute::make(
