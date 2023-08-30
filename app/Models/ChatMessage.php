@@ -49,7 +49,10 @@ class ChatMessage extends Model
     }
     public function getAttachementAttribute($value)
     {
-          return ($value) ? url('storage/'.$value) :null;
+
+                if(app()->isProduction()) return  url('storage/public/'.$value);
+                return url('storage/'.$value);
+
     }
     public function getAttachementTypeAttribute($value)
     {

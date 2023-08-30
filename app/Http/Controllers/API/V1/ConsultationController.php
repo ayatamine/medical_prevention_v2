@@ -507,12 +507,12 @@ class ConsultationController extends Controller
             ]);
             $sender_type = $request['sender_type'];
             $filename = '';
-            if ($request['attachement']) {
-                $filename = $request['attachement']->storePublicly(
-                    "consultations/files",
-                    ['disk' => 'public']
-                );
-            }
+            // if ($request['attachement']) {
+            //     $filename = $request['attachement']->storePublicly(
+            //         "consultations/files",
+            //         ['disk' => 'public']
+            //     );
+            // }
 
             $consult = Consultation::where('status', "in_progress")->findOrFail($id);
 
@@ -523,7 +523,10 @@ class ConsultationController extends Controller
             $chatMessage->receiver_id = ($sender_type == 'patient') ? $consult->doctor_id : $consult->patient_id;
             $chatMessage->receiver_type = ($sender_type == 'patient') ? Doctor::class : Patient::class;
             $chatMessage->content = $request['content'];
-            $chatMessage->attachement = $request['attachement'] ? $filename : null;
+            $chatMessage->attachement =  $request['attachement'] ? $request['attachement']->storePublicly(
+                "consultations/files",
+                ['disk' => 'public']
+            ) : null;
             $chatMessage->save();
 
             event(new ChatMessageEvent($chatMessage));
