@@ -151,19 +151,7 @@ class DoctorController extends Controller
         try {
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
-                'doctor_id'=>'sometimes|nullable|integer',
             ]);
-            if($request->doctor_id) {
-                $doctor = Doctor::whereDeletedAt(null)->findOrFail($request->doctor_id);
-
-                if($doctor && $doctor->phone_number == $request->phone_number) {
-                    return $this->api->failed()->code(400)
-                    ->message("Same phone number provided")
-                    ->send();
-                }
-                $otp = generate_otp($request->phone_number, 'Doctor',$auth=$doctor);
-                return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp,'Doctor',$auth=$doctor);
-            }
             $doctor = Doctor::whereDeletedAt(null)
                 ->where('phone_number', $request->phone_number)
                 ->where('account_status', "blocked")
@@ -173,8 +161,56 @@ class DoctorController extends Controller
                     ->message("Your account was suspended ,please contact the support team")
                     ->send();
             }
-           
+
             $otp = generate_otp($request->phone_number, 'Doctor');
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'Doctor');
+        } catch (Exception $ex) {
+            if ($ex instanceof ModelNotFoundException) {
+                return $this->api->failed()->code(404)
+                    ->message("no doctor found with the given phone number or Account is not active")
+                    ->send();
+            }
+            return $this->api->failed()->code(500)
+                ->message($ex->getMessage())
+                ->send();
+        }
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/doctors/otp/auth/send",
+     * operationId="sendOtpToAuth",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="send otp to authenticated doctor via phone number",
+     * description="send otp to authenticated doctor via phone number example +213684759496",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+     *             )),
+     *    ),
+     *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function sendToAuth(Request $request)
+    {
+        try {
+            $request->validate([
+                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+            ]);
+            $doctor = request()->user();
+
+            if ($doctor && $doctor->phone_number == $request->phone_number) {
+                return $this->api->failed()->code(400)
+                    ->message("Same phone number provided")
+                    ->send();
+            }
+
+            $otp = generate_otp($request->phone_number, 'Doctor',$doctor);
+
             return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'Doctor');
         } catch (Exception $ex) {
             if ($ex instanceof ModelNotFoundException) {
@@ -218,6 +254,8 @@ class DoctorController extends Controller
         ]);
 
         try {
+
+
             $doctor  = $this->repository
                 ->findByOtpAndPhone($request->phone_number, $request->otp);
 
@@ -240,11 +278,12 @@ class DoctorController extends Controller
             $doctor->otp_verification_code =  null;
             $doctor->otp_expire_at =  now();
             $doctor->is_phone_verified =  true;
+            //authenticated  login
+            if(request()->user()) $doctor->phone_number =$request->phone_number;
             $doctor->save();
 
-            if(request()->user())
-            {
-                 return $this->api->success()
+            if (request()->user()) {
+                return $this->api->success()
                     ->message('The verification passed successfully')
                     ->send();
             }
@@ -257,9 +296,80 @@ class DoctorController extends Controller
                 ->payload([
                     'token' => $doctor->createToken('mobile', ['role:doctor', 'doctor:update'])->plainTextToken,
                     'id' => $doctor->id,
-                    'new_regitered'=>$is_new
+                    'new_regitered' => $is_new
                 ])
                 ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "No doctor Found with the given phone number");
+        }
+    }
+        /**
+     * @OA\Post(
+     * path="/api/v1/doctors/otp/auth/verify",
+     * operationId="verifyOtpOfAuth",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="verify doctor otp code if match to login",
+     * description="verify doctor otp code if match to login using the phone_number and the otp",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+     *                 @OA\Property(property="otp",type="string",example="55555")
+     *             ) ),
+     *    ),
+     *      @OA\Response( response=200,description="The verification passed successfully",@OA\JsonContent()),
+     *      @OA\Response( response=422,description="Your OTP Or Phone Number is not correct",@OA\JsonContent()),
+     *      @OA\Response( response=419,description="Your OTP has been expired",@OA\JsonContent()),
+     *      @OA\Response(response=500,description="internal server error",@OA\JsonContent())
+     *     )
+     */
+    public function verifyOtpAuth(Request $request)
+    {
+        /* Validation */
+        $request->validate([
+            'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+            'otp' => 'required'
+        ]);
+
+        try {
+
+            $doctor =request()->user();
+            if($doctor && $doctor->otp_verification_code != $request->otp){
+                abort(422,"Your OTP is not correct, Please Verify");  
+            }
+
+            $now = now();
+            // if (!$doctor) {
+            //     return $this->api->failed()->code(422)
+            //         ->message('Your OTP Or Phone Number is not correct')
+            //         ->send();
+            // }
+            if ($doctor && $now->isAfter($doctor->otp_expire_at)) {
+                return $this->api->failed()->code(419)
+                    ->message('Your OTP has been expired')
+                    ->send();
+            }
+
+
+
+
+            //validate the otp
+            $doctor->otp_verification_code =  null;
+            $doctor->otp_expire_at =  now();
+            $doctor->is_phone_verified =  true;
+            //authenticated  login
+            if(request()->user()) $doctor->phone_number =$request->phone_number;
+            $doctor->save();
+
+            if (request()->user()) {
+                return $this->api->success()
+                    ->message('The verification passed successfully')
+                    ->send();
+            }
+           
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No doctor Found with the given phone number");
         }

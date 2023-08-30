@@ -11,8 +11,8 @@ if (!function_exists('generate_otp')) {
     {
         $model_record=null;
         if($auth) 
-        {
-            $model_record =$auth;
+        {           
+           $model_record =$auth;
         }
         else{
         if($model == 'Doctor'){
@@ -23,7 +23,6 @@ if (!function_exists('generate_otp')) {
             $model_record = Patient::where('phone_number', $phone_number)->firstOrCreate(['phone_number'=>$phone_number],array(['phone_number'=>$phone_number]));
         }
         }
-  
         $now = now();
         if($model_record && isset($model_record->otp_verification_code) && $model_record->otp_expire_at && $now->isBefore($model_record->otp_expire_at)){
             return $model_record->otp_verification_code;
@@ -39,7 +38,7 @@ if (!function_exists('generate_otp')) {
 }
 if(!function_exists('send_sms')){
 
-    function sendSMS($receiverNumber,$message,$content,$model,$auth=null)
+    function sendSMS($receiverNumber,$message,$content,$model)
     {
         $message = $message.' '.$content;
     
@@ -68,7 +67,7 @@ if(!function_exists('send_sms')){
             // ]);
             $is_new = false;
             $model_record=null;
-            if($auth) 
+            if( $auth = request()->user()) 
             {
                 $model_record =$auth;
             }
@@ -99,7 +98,7 @@ if(!function_exists('send_sms')){
                 'message'=>"The OTP has been sent successfully",
                
             ];
-            if(!$auth) 
+            if(!request()->user()) 
             {
                  $resp['new_registered']= $is_new;
                  $resp['id']= $model_record->id;
