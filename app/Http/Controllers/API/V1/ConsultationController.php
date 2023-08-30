@@ -523,7 +523,7 @@ class ConsultationController extends Controller
             $chatMessage->receiver_id = ($sender_type == 'patient') ? $consult->doctor_id : $consult->patient_id;
             $chatMessage->receiver_type = ($sender_type == 'patient') ? Doctor::class : Patient::class;
             $chatMessage->content = $request['content'];
-            $chatMessage->attachement = $request['attachement'] ?? null;
+            $chatMessage->attachement = $request['attachement'] ? $filename : null;
             $chatMessage->save();
 
             event(new ChatMessageEvent($chatMessage));
