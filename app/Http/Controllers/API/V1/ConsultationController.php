@@ -484,6 +484,7 @@ class ConsultationController extends Controller
      *                 @OA\Property( property="sender_type",type="string",enum={"patient", "doctor"}),
      *                 @OA\Property( property="content",type="string"),
      *                 @OA\Property( property="attachement",type="file"),
+     *                 @OA\Property( property="soundclip_duration",type="integer"),
      *             )),
      *    ),
      *      @OA\Response(
@@ -504,6 +505,7 @@ class ConsultationController extends Controller
                 'sender_type' => 'required|in:"patient","doctor"',
                 'content' => 'sometimes|nullable|string|required_without:attachement',
                 'attachement' => 'sometimes|nullable|file|max:3000|required_without:content',
+                'soundclip_duration'=>'sometimes|nullable|integer'
             ]);
             $sender_type = $request['sender_type'];
             $filename = '';
@@ -527,6 +529,7 @@ class ConsultationController extends Controller
                 "consultations/files",
                 ['disk' => 'public']
             ) : null;
+            $chatMessage->soundclip_duration = $request['soundclip_duration'] ?? null;
             $chatMessage->save();
 
             event(new ChatMessageEvent($chatMessage));

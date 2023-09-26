@@ -20,7 +20,8 @@ class ChatMessage extends Model
         'receiver_id',
         'receiver_type',
         'content',
-        'attachement'
+        'attachement',
+        'soundclip_duration'
     ];
     protected $appends=['attachement_type'];
     

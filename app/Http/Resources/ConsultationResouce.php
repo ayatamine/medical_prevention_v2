@@ -28,6 +28,7 @@ class ConsultationResouce extends JsonResource
                     "receiver_id"=>$item->receiver_id,
                     "content"=>$item->content,
                     "attachement"=>$item->attachement,
+                    "soundclip_duration"=>$item->soundclip_duration,
                     "created_at"=>$item->created_at
                 ];
                 if($item->attachement) $attr['attachement_type'] = $item->attachement_type;

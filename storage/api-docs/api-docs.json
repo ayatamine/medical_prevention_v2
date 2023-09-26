@@ -218,10 +218,6 @@
                                     "phone_number": {
                                         "type": "string",
                                         "example": "+213664419425"
-                                    },
-                                    "doctor_id": {
-                                        "type": "integer",
-                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -2640,6 +2636,9 @@
                                     },
                                     "attachement": {
                                         "type": "file"
+                                    },
+                                    "soundclip_duration": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
