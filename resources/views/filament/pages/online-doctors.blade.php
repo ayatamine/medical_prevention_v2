@@ -27,7 +27,7 @@
                 </div>
             </div>
         @empty
-            <span class="bg-blue-400 text-white p-2 text-base">No Speciality Presented</span>
+            <span class="bg-blue-400 text-white p-2 text-base">No User Presented</span>
         @endforelse
        
           

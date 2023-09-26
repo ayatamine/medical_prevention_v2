@@ -139,7 +139,6 @@ class DoctorController extends Controller
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
-     *                 @OA\Property(property="doctor_id",type="integer",example="1"),
      *             )),
      *    ),
      *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),

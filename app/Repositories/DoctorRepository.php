@@ -63,7 +63,7 @@ class DoctorRepository extends AbstractRepository
             // $doctor = Doctor::where('phone_number',$request['phone_number'])->first();
             $doctor = request()->user();
             // if($doctor){
-                $doctor->update($request);
+            $doctor->update($request);
             // }else{
             //     $doctor = Doctor::create($request);
             // }
@@ -223,7 +223,7 @@ class DoctorRepository extends AbstractRepository
             DB::beginTransaction();
 
             if (array_key_exists('medical_licence_file', $request)) {
-                if (file_exists(public_path('storage/' . $doctor['medical_licence_file']))) {
+                if ($doctor['medical_licence_file'] && file_exists(public_path('storage/' . $doctor['medical_licence_file']))) {
                     unlink(public_path('storage/' . $doctor['medical_licence_file']));
                 };
                 $request['medical_licence_file'] = $request['medical_licence_file']->storePublicly(
@@ -232,7 +232,7 @@ class DoctorRepository extends AbstractRepository
                 );
             }
             if (array_key_exists('cv_file', $request)) {
-                if (file_exists(public_path('storage/' . $doctor['cv_file']))) {
+                if ($doctor['cv_file'] && file_exists(public_path('storage/' . $doctor['cv_file']))) {
                     unlink(public_path('storage/' . $doctor['cv_file']));
                 };
                 $request['cv_file'] = $request['cv_file']->storePublicly(
@@ -241,7 +241,7 @@ class DoctorRepository extends AbstractRepository
                 );
             }
             if (array_key_exists('certification_file', $request)) {
-                if (file_exists(public_path('storage/' . $doctor['certification_file']))) {
+                if ($doctor['certification_file'] && file_exists(public_path('storage/' . $doctor['certification_file']))) {
                     unlink(public_path('storage/' . $doctor['certification_file']));
                 };
                 $request['certification_file'] = $request['certification_file']->storePublicly(
@@ -250,7 +250,7 @@ class DoctorRepository extends AbstractRepository
                 );
             }
             if (array_key_exists('thumbnail', $request)) {
-                if (file_exists(public_path('storage/' . $doctor['thumbnail']))) {
+                if ($doctor['thumbnail'] && file_exists(public_path('storage/' . $doctor['thumbnail']))) {
                     unlink(public_path('storage/' . $doctor['thumbnail']));
                 };
                 $request['thumbnail'] = $request['thumbnail']->storePublicly(
@@ -275,25 +275,24 @@ class DoctorRepository extends AbstractRepository
                     $doctor->sub_specialities()->sync($ids);
                 }
             }
-            if (array_key_exists('medical_licence_file', $request)) {
-                unset($request['medical_licence_file']);
-            }
-            if (array_key_exists('cv_file', $request)) {
-                unset($request['cv_file']);
-            }
-            if (array_key_exists('certification_file', $request)) {
-                unset($request['certification_file']);
-            }
-            if (array_key_exists('thumbnail', $request)) {
-                unset($request['thumbnail']);
-            }
+            // if (array_key_exists('medical_licence_file', $request)) {
+            //     unset($request['medical_licence_file']);
+            // }
+            // if (array_key_exists('cv_file', $request)) {
+            //     unset($request['cv_file']);
+            // }
+            // if (array_key_exists('certification_file', $request)) {
+            //     unset($request['certification_file']);
+            // }
+            // if (array_key_exists('thumbnail', $request)) {
+            //     unset($request['thumbnail']);
+            // }
             if (array_key_exists('sub_specialities', $request)) {
                 unset($request['sub_specialities']);
             }
 
             $doctor->update($request);
-            //commit 
-            return $doctor;
+
             DB::commit();
             return $doctor;
         } catch (Exception $ex) {

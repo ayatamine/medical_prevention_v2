@@ -138,11 +138,7 @@ class Patient extends Model
                 {
                     if(app()->isProduction()) return  url('storage/public/'.$value);
                     return url('storage/'.$value);
-                }else 
-                {
-                    if(app()->isProduction()) return  url('storage/public/patients/thumbnails/doctor.png');
-                    return  url('storage/patients/thumbnails/doctor.png');
-                }
+                }else return "https://ui-avatars.com/api/?name=$this->full_name&background=0D8ABC&color=fff";
             }
         );
     }
