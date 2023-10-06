@@ -156,7 +156,7 @@ class DoctorController extends Controller
                 return response()->json([
                     "success"=>true,
                     'message'=>"The OTP has been sent successfully",
-                    'new_registered' => false,
+                    'new_registered' => true,
                     'id'=> Doctor::wherePhoneNumber($request->phone_number)->first()->id
                 ]);
             }
@@ -214,7 +214,7 @@ class DoctorController extends Controller
                 return response()->json([
                     "success"=>true,
                     'message'=>"The OTP has been sent successfully",
-                    'new_registered' => false,
+                    'new_registered' => true,
                     'id'=> Doctor::wherePhoneNumber($request->phone_number)->first()->id
                 ]);
             }
@@ -279,7 +279,7 @@ class DoctorController extends Controller
                 ->payload([
                     'token' => $default_doctor->createToken('mobile', ['role:doctor', 'doctor:update'])->plainTextToken,
                     'doctor_id' => $default_doctor->id,
-                    'new_registered'=>false
+                    'new_registered'=>true
                 ])
                 ->send();
             }
@@ -369,7 +369,7 @@ class DoctorController extends Controller
                 ->payload([
                     'token' => $default_doctor->createToken('mobile', ['role:doctor', 'doctor:update'])->plainTextToken,
                     'doctor_id' => $default_doctor->id,
-                    'new_registered'=>false
+                    'new_registered'=>true
                 ])
                 ->send();
             }

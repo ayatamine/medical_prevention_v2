@@ -66,7 +66,7 @@ class PatientController extends Controller
                 return response()->json([
                     "success"=>true,
                     'message'=>"The OTP has been sent successfully",
-                    'new_registered' => false,
+                    'new_registered' => true,
                     'id'=> Patient::wherePhoneNumber($request->phone_number)->first()->id
                 ]);
             }
@@ -120,7 +120,7 @@ class PatientController extends Controller
                 ->payload([
                     'token' => $default_patient->createToken('mobile', ['role:patient', 'patient:update'])->plainTextToken,
                     'patient_id' => $default_patient->id,
-                    'new_registered'=>false
+                    'new_registered'=>true
                 ])
                 ->send();
             }
