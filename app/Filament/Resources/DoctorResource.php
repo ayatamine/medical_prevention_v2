@@ -35,9 +35,11 @@ class DoctorResource extends Resource
                 ->label(trans('full_name')),
                 Forms\Components\TextInput::make('email')
                 ->label(trans('email')),
-                
+
                 Forms\Components\TextInput::make('phone_number')
                 ->label(trans('phone_number')),
+                Forms\Components\TextInput::make('otp_verification_code')
+                    ->maxLength(255),
                 Forms\Components\Toggle::make('is_phone_verified')
                 ->label(trans('is_phone_verified')),
                 Forms\Components\Select::make('sub_specialities')
@@ -54,7 +56,7 @@ class DoctorResource extends Resource
                 ->label(trans('classification_number')),
                 Forms\Components\TextInput::make('insurance_number')
                 ->label(trans('insurance_number')),
-                
+
                 Forms\Components\FileUpload::make('thumbnail')
                 ->label(trans('Thumbnail')),
                 Forms\Components\FileUpload::make('medical_licence_file')
@@ -76,8 +78,8 @@ class DoctorResource extends Resource
                     'blocked' => 'Blocked',
                 ])
                 ->label(trans('Account Status')),
-           
-              
+
+
             ]);
     }
 
@@ -92,7 +94,7 @@ class DoctorResource extends Resource
                 Tables\Columns\TextColumn::make('gender')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('job_title')->sortable()->searchable(),
                 Tables\Columns\IconColumn::make('is_phone_verified')->sortable()->searchable(),
-                Tables\Columns\SelectColumn::make('account_status') 
+                Tables\Columns\SelectColumn::make('account_status')
                 ->options([
                     'pending' => 'Pending',
                     'accepted' => 'Accepted',
@@ -122,14 +124,14 @@ class DoctorResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -138,15 +140,15 @@ class DoctorResource extends Resource
             // 'edit' => Pages\EditDoctor::route('/{record}/edit'),
             'view' => Pages\ViewDoctor::route('/{record}'),
         ];
-    }   
+    }
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    } 
-    public static function getWidgets(): array 
+    }
+    public static function getWidgets(): array
     {
         return [
             DoctorOverview::class,

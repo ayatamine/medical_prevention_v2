@@ -151,7 +151,7 @@ class DoctorController extends Controller
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
             ]);
-            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')) 
+            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER'))
             {
                 return response()->json([
                     "success"=>true,
@@ -209,7 +209,7 @@ class DoctorController extends Controller
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
             ]);
-            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')) 
+            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER'))
             {
                 return response()->json([
                     "success"=>true,
@@ -273,7 +273,9 @@ class DoctorController extends Controller
         try {
 
             if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')){
-                $default_doctor = Doctor::wherePhoneNumber($request->phone_number)->first()->id;
+                // $default_doctor = Doctor::wherePhoneNumber($request->phone_number)->first()->id;
+                $default_doctor = Doctor::wherePhoneNumber($request->phone_number)->first();
+
                 return $this->api->success()
                 ->message('The verification passed successfully')
                 ->payload([
@@ -375,7 +377,7 @@ class DoctorController extends Controller
             }
             $doctor =request()->user();
             if($doctor && $doctor->otp_verification_code != $request->otp){
-                abort(422,"Your OTP is not correct, Please Verify");  
+                abort(422,"Your OTP is not correct, Please Verify");
             }
 
             $now = now();
@@ -406,7 +408,7 @@ class DoctorController extends Controller
                     ->message('The verification passed successfully')
                     ->send();
             }
-           
+
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No doctor Found with the given phone number");
         }

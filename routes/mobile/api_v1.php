@@ -18,7 +18,7 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/sub_specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'subIndex']);
     Route::get('/sub_specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
     Route::get('/sub_specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
-  
+
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
     Route::post('/symptomes/doctors', [\App\Http\Controllers\API\V1\DoctorController::class, 'doctorsBySymptomes'])->name('symptomes_doctors');
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
@@ -27,6 +27,7 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('/consultations/payment/create', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
         Route::post('/consultations/payment/verify', [\App\Http\Controllers\API\V1\ConsultationController::class, 'paymentVerify']);
         Route::post('/consultations/{id}/reviews', [\App\Http\Controllers\API\V1\ConsultationController::class, 'addReview']);
+        Route::get('/consultations/{id}', [\App\Http\Controllers\API\V1\ConsultationController::class, 'show']);
     });
     Route::get('/pages/{title}', [\App\Http\Controllers\API\V1\PageController::class, 'getPage']);
 
@@ -61,7 +62,7 @@ Route::group(['as' => 'api_v1.'], function () {
     // doctor controller
     Route::controller(\App\Http\Controllers\API\V1\Auth\DoctorController::class)->prefix('doctors')->group(function () {
         //------------------------Auth-----------------------
-      
+
         Route::get('{id}/check-status', 'checkStatus');
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');

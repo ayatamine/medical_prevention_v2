@@ -2129,6 +2129,54 @@
                 ]
             }
         },
+        "/api/v1/consultations/{id}": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get consultation details",
+                "operationId": "get consultation details",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "consultations details fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/consultations/{id}/approve": {
             "post": {
                 "tags": [

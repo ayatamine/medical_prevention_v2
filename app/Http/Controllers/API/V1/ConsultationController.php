@@ -23,6 +23,7 @@ use App\Http\Resources\ConsultationResource;
 use App\Repositories\ConsultationRepository;
 use App\Http\Resources\MedicalRecordResource;
 use App\Http\Resources\PatientMedicalResource;
+use App\Http\Resources\ConsultationWithoutChatResource;
 use App\Http\Resources\DoctorConsultationRequestResource;
 
 class ConsultationController extends Controller
@@ -74,6 +75,48 @@ class ConsultationController extends Controller
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "There is no doctor with the given details please verify login");
         }
+    }
+      /**
+     * @OA\Get(
+     *      path="/api/v1/consultations/{id}",
+     *      operationId="get consultation details",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="get consultation details",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(
+     *          response=200,
+     *          description="consultations details fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     */
+    public function show($id)
+    {
+        try {
+            $consult = Consultation::findOrFail($id);
+            if (($consult->doctor_id != request()->user()->id ) && ($consult->patient_id != request()->user()->id)) {
+                return $this->api->failed()->code(401)->message('unautorized')->send();
+            }
+
+            return $this->api->success()
+                ->message("The consultation details fetched successfully")
+                ->payload(new ConsultationWithoutChatResource($consult))
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "There is no consultation with the given id");
+        }
+
     }
     /**
      * @OA\Post(
@@ -162,7 +205,7 @@ class ConsultationController extends Controller
     * @bodyParam description string
     * @bodyParam sick_leave boolean .
     * @bodyParam medicines integer[] group of medicals puts in prescripion as array
-    * @bodyParam lab_tests integer[] the id's of lab tests 
+    * @bodyParam lab_tests integer[] the id's of lab tests
      */
     public function addSummary(SummaryRequest $request, $id)
     {
@@ -182,7 +225,7 @@ class ConsultationController extends Controller
                 return $this->api->failed()
                             ->message("The Consultation Status must be completed")
                             ->send();
-    
+
             }
             return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
         }
@@ -205,7 +248,7 @@ class ConsultationController extends Controller
     {
         try {
             $result= $this->repository->viewSummary($id);
-           
+
             return $this->api->success()
                 ->message("The summary fetched successfully")
                 ->payload(new SummaryResource($result))
@@ -232,7 +275,7 @@ class ConsultationController extends Controller
     {
         try {
             $result= $this->repository->printSummary($id);
-            
+
             return $this->api->success()
                 ->message("The summary fetched successfully")
                 ->payload($result)
@@ -355,7 +398,7 @@ class ConsultationController extends Controller
                 'payment_intent_id' => 'string|required',
             ]);
             $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-            // get from user payment intent id to check payment if done 
+            // get from user payment intent id to check payment if done
             $response = \Stripe\PaymentIntent::retrieve($request->payment_intent_id);
 
             if ($response->status == 'succeeded') {
@@ -573,11 +616,11 @@ class ConsultationController extends Controller
      * @group Consultation
      * @urlParam consultation_id integer required The ID of the consultation.
      */
-    
+
     public function patientMedicalRecord($consultation_id)
     {
         try {
-            $result = $this->repository->patientMedicalRecord($consultation_id); 
+            $result = $this->repository->patientMedicalRecord($consultation_id);
 
             return $this->api->success()
                 ->payload(new MedicalRecordResource($result))
@@ -627,7 +670,7 @@ class ConsultationController extends Controller
                 return $this->api->failed()
                             ->message("The Consultation Status must be completed")
                             ->send();
-    
+
             }
             return handleTwoCommunErrors($ex, "There is no consultation related to this doctor with the given id");
         }

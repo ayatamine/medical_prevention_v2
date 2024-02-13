@@ -61,7 +61,7 @@ class PatientController extends Controller
             $request->validate([
                 'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/'
             ]);
-            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')) 
+            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER'))
             {
                 return response()->json([
                     "success"=>true,
@@ -114,7 +114,9 @@ class PatientController extends Controller
         ]);
         try {
             if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')){
-                $default_patient = Patient::wherePhoneNumber($request->phone_number)->first()->id;
+                // $default_patient = Patient::wherePhoneNumber($request->phone_number)->first()->id;
+                $default_patient = Patient::wherePhoneNumber($request->phone_number)->first();
+
                 return $this->api->success()
                 ->message('The verification passed successfully')
                 ->payload([
@@ -132,7 +134,7 @@ class PatientController extends Controller
             //     return $this->api->failed()->code(422)
             //         ->message('Your OTP Or Phone Number is not correct')
             //         ->send();
-            // } 
+            // }
             if ($patient && $now->isAfter($patient->otp_expire_at)) {
                 return $this->api->failed()->code(419)
                     ->message('Your OTP has been expired')
@@ -355,7 +357,7 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * tags={"patients"},
      * description="change the notification status  on/off",
-     *      @OA\Parameter( 
+     *      @OA\Parameter(
      *     @OA\Schema(
      *       default="1",
      *       type="integer",
@@ -428,7 +430,7 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * tags={"patients"},
      * description="get patient filled scale details ",
-     *      @OA\Parameter( 
+     *      @OA\Parameter(
      *     @OA\Schema(
      *       default="anxiety",
      *       type="string",
@@ -604,7 +606,7 @@ class PatientController extends Controller
      * security={ {"sanctum": {} }},
      * summary="update patient scale (anexiety or depression) ",
      * description="update patient scale (anexiety or depression)  ",
-     *      @OA\Parameter( 
+     *      @OA\Parameter(
      *     @OA\Schema(
      *       default="anxiety",
      *       type="string",
@@ -663,9 +665,9 @@ class PatientController extends Controller
 
      public function show()
      {
- 
+
          try {
- 
+
              return $this->api->success()
                  ->message('Profile fetched successfully')
                  ->payload(new PatientProfileResource(request()->user()))

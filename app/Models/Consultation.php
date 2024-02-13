@@ -31,7 +31,7 @@ class Consultation extends Model
     ];
 
     //-----------------accessor -----------------
-    
+
     // public function createdAt():Attribute
     // {
     //     return Attribute::make(
@@ -53,12 +53,12 @@ class Consultation extends Model
     //-------------------relationships----------
     public function doctor(): BelongsTo
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Doctor::class)->withTrashed();
     }
 
     public function patient(): BelongsTo
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
     public function scopeInCompleted(){
         return $this->whereNull('finished_at');
@@ -81,7 +81,7 @@ class Consultation extends Model
     {
         return $this->hasOne(Rating::class);
     }
- 
+
 
 
 }
