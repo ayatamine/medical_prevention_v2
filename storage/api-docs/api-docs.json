@@ -2012,6 +2012,46 @@
                 ]
             }
         },
+        "/api/v1/patients/medical-record": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get patient medical record ",
+                "operationId": "getMedicalRecord",
+                "responses": {
+                    "200": {
+                        "description": "patient medical record fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/my-wallet/history": {
             "get": {
                 "tags": [

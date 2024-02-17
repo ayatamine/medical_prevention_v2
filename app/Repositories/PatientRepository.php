@@ -48,7 +48,7 @@ class PatientRepository extends AbstractRepository
             $patient = request()->user()->update($request->except(['phone_number','allergies','chronic_diseases','family_histories']));
 
 
-            
+
             if (request()->has('allergies')) {
                 if (gettype($request['allergies']) == 'string') {
                     request()->user()->allergies()->sync(explode(',', $request['allergies']));
@@ -85,7 +85,7 @@ class PatientRepository extends AbstractRepository
     }
     /**
      * find by otp an and phone
-     * 
+     *
      * @return collection
      */
     public function findByOtpAndPhone($phone_number, $otp)
@@ -93,7 +93,7 @@ class PatientRepository extends AbstractRepository
         $patient = $this->model::whereDeletedAt(null)->where('phone_number', $phone_number)
             ->firstOrFail();
         if($patient && $patient->otp_verification_code != $otp){
-            abort(422,"Your OTP is not correct, Please Verify");  
+            abort(422,"Your OTP is not correct, Please Verify");
         }
         return $patient;
 
@@ -102,7 +102,7 @@ class PatientRepository extends AbstractRepository
     }
     /**
      * switch on/off notifications
-     * 
+     *
      * @return boolean
      */
     public function switchNotification($status)
@@ -111,7 +111,7 @@ class PatientRepository extends AbstractRepository
     }
     /**
      * switch on/off online staus
-     * 
+     *
      * @return boolean
      */
     public function switchOnlineStatus($status)
@@ -120,7 +120,7 @@ class PatientRepository extends AbstractRepository
     }
     /**
      * update Patient thumbnail
-     * 
+     *
      * @return Patient instance
      */
     public function updateThumbnail($request)
@@ -143,7 +143,7 @@ class PatientRepository extends AbstractRepository
     }
     /**
      * update Patient phone number
-     * 
+     *
      * @return Patient instance
      */
     public function updatePhone($request)
@@ -197,7 +197,7 @@ class PatientRepository extends AbstractRepository
             if (isset($request['sub_specialities'])) {
                 $Patient->sub_specialities()->sync(explode(',', $request['sub_specialities']));
             }
-            //commit 
+            //commit
             DB::commit();
             return $Patient;
         } catch (Exception $ex) {
@@ -226,7 +226,7 @@ class PatientRepository extends AbstractRepository
                     unlink($cv_file);
                 };
             }
-            //rollback 
+            //rollback
             DB::rollBack();
 
             throw $ex;
@@ -307,5 +307,14 @@ class PatientRepository extends AbstractRepository
             $patientResponse->update($response);
         }
         return true;
+    }
+    /**
+     * fetch patient medical record
+     */
+    public function getMedicalRecord()
+    {
+
+        $medicl_record = Patient::with('allergies','family_histories','chronic_diseases')->findOrFail(request()->user()->id);
+        return $medicl_record;
     }
 }

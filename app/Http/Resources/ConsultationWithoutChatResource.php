@@ -26,7 +26,7 @@ class ConsultationWithoutChatResource extends JsonResource
                 "gender" => $this->doctor?->gender,
                 "bio"=>$this->doctor?->last_online_at,
                 "last_online_at" =>$this->doctor?->last_online_at,
-                "speciality_id"=>$this->doctor?->speciality->name
+                "speciality_id"=>$this->doctor?->speciality?->name
             ],
             'patient' =>[
                 "id"=> $this->id,

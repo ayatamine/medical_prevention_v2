@@ -20,6 +20,7 @@ use App\Http\Resources\PatientScaleResource;
 use App\Http\Resources\PatientProfileResource;
 use App\Http\Resources\RecommendationResource;
 use App\Http\Resources\SimpleNotificationResource;
+use App\Http\Resources\SimpleMedicalRecordResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
@@ -676,4 +677,43 @@ class PatientController extends Controller
              return handleTwoCommunErrors($ex, "no doctor found with the given id");
          }
      }
+         /**
+     * @OA\Get(
+     *      path="/api/v1/patients/medical-record",
+     *      operationId="getMedicalRecord",
+     *      tags={"patients"},
+     *      security={ {"sanctum": {} }},
+     *      description="get patient medical record ",
+     *      @OA\Response(
+     *          response=200,
+     *          description="patient medical record fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     * @group Consultation
+     */
+
+    public function getMedicalRecord()
+    {
+        try {
+            $result = $this->repository->getMedicalRecord();
+
+            return $this->api->success()
+                ->payload(new SimpleMedicalRecordResource($result))
+                ->message("patient medical record fetched successfuly")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "Not found ");
+        }
+    }
 }

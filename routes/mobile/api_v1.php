@@ -53,6 +53,8 @@ Route::group(['as' => 'api_v1.'], function () {
             // recommendation with age and sex filtered base on the patient
             Route::get('/recommendations', 'recommendations');
             Route::get('/recommendations/{id}', 'recommendationDetails');
+            //medical record
+            Route::get('/medical-record/', 'getMedicalRecord');
         });
     });
     // Route::controller(\App\Http\Controllers\API\V1\ScaleController::class)->prefix('scales')->group(function(){
