@@ -13,10 +13,10 @@ class DoctorProfileResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    
+
     public function toArray(Request $request): array
     {
-       
+
             $sum = $this->reviews_sum_rating;
             $reviews_count = count($this->reviews);
             $speciality =null;
@@ -59,7 +59,7 @@ class DoctorProfileResource extends JsonResource
                     ],
                     'rating'=>$review->rating,
                     'comment'=>$review->comment,
-                ]; 
+                ];
             })
 
         ];

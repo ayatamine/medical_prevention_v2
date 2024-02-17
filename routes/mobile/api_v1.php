@@ -55,6 +55,7 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::get('/recommendations/{id}', 'recommendationDetails');
             //medical record
             Route::get('/medical-record/', 'getMedicalRecord');
+            Route::get('/favorite-doctors/', 'getFavoriteDoctors');
         });
     });
     // Route::controller(\App\Http\Controllers\API\V1\ScaleController::class)->prefix('scales')->group(function(){

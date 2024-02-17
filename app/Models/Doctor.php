@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Doctor extends Model  
+class Doctor extends Model
 {
     use HasFactory;
     use HasApiTokens;
@@ -33,7 +33,7 @@ class Doctor extends Model
         'thumbnail',
         'id_number',
         'phone_number',
-        'otp_verification_code',    
+        'otp_verification_code',
         'otp_expire_at',
         'is_phone_verified',
         'gender',
@@ -114,7 +114,7 @@ class Doctor extends Model
     //////////////////////////////////- relationships-///////////////////////
     /**
      * @return speciality item
-     * 
+     *
      */
     public function speciality():BelongsTo
     {
@@ -122,7 +122,7 @@ class Doctor extends Model
     }
     /**
      * @return subspecialities collection
-     * 
+     *
      */
     public function sub_specialities():BelongsToMany
     {
@@ -135,7 +135,7 @@ class Doctor extends Model
     }
     /**
      * @return subspecialities collection
-     * 
+     *
      */
     public function specialities():BelongsToMany
     {
@@ -169,12 +169,12 @@ class Doctor extends Model
     {
         return $this->consultations()->where('status', 'pending')->with('patient');
     }
-    
+
     public function inProgressConsultations(): HasMany
     {
         return $this->consultations()->where('status', 'in_progress')->with('patient');
     }
-    
+
     public function completedConsultations(): HasMany
     {
         return $this->consultations()->where('status', 'completed')->with('patient');
@@ -183,7 +183,7 @@ class Doctor extends Model
     {
         return $this->consultations()->where('status', 'incompleted')->with('patient');
     }
-    
+
     public function canceledConsultations(): HasMany
     {
         return $this->consultations()->where('status', 'canceled')->with('patient');

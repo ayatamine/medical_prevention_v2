@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use Exception;
+use App\Models\Scale;
+use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\PatientScale;
 use App\Models\ScaleQuestion;
@@ -10,7 +12,6 @@ use App\Models\Recommendation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\PatientScaleResource;
-use App\Models\Scale;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -316,5 +317,18 @@ class PatientRepository extends AbstractRepository
 
         $medicl_record = Patient::with('allergies','family_histories','chronic_diseases')->findOrFail(request()->user()->id);
         return $medicl_record;
+    }
+    /**
+     * fetch patient medical record
+     */
+    public function getFavoriteDoctors()
+    {
+
+        $patient = Patient::with('favorites')->findOrFail(request()->user()->id);
+        $ids = $patient->favorites->pluck('id');
+        $docotrs = Doctor::with('reviews','reviews.consultation')
+        ->withSum('reviews', 'rating')
+        ->whereIn('id',$ids)->get();
+        return $docotrs;
     }
 }

@@ -16,6 +16,7 @@ use App\Repositories\PatientRepository;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Api\PatientRequest;
 use App\Http\Requests\CreatePatientRequest;
+use App\Http\Resources\FavoriteDoctorsResource;
 use App\Http\Resources\PatientScaleResource;
 use App\Http\Resources\PatientProfileResource;
 use App\Http\Resources\RecommendationResource;
@@ -711,6 +712,45 @@ class PatientController extends Controller
             return $this->api->success()
                 ->payload(new SimpleMedicalRecordResource($result))
                 ->message("patient medical record fetched successfuly")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "Not found ");
+        }
+    }
+         /**
+     * @OA\Get(
+     *      path="/api/v1/patients/favorite-doctors",
+     *      operationId="getFavoriteDoctors",
+     *      tags={"patients"},
+     *      security={ {"sanctum": {} }},
+     *      description="get patient favorite doctors ",
+     *      @OA\Response(
+     *          response=200,
+     *          description="patient favorite doctors fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     * @group Consultation
+     */
+
+    public function getFavoriteDoctors()
+    {
+        try {
+            $favorites = $this->repository->getFavoriteDoctors();
+
+            return $this->api->success()
+                ->payload(FavoriteDoctorsResource::collection($favorites))
+                ->message("patient favorite doctors fetched successfuly")
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "Not found ");
