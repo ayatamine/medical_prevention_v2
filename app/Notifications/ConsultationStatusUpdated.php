@@ -3,13 +3,15 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class ConsultationStatusUpdated extends Notification implements ShouldQueue
+class ConsultationStatusUpdated extends Notification implements ShouldBroadcast
 {
-    use Queueable;
+    // use Queueable;
     public $data;
     /**
      * Create a new notification instance.
@@ -26,8 +28,8 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        if($this->data['patient']->notification_status)   return ['mail','database'];
-        return ['mail'];
+        if($this->data['patient']->notification_status)   return ['broadcast','mail','database'];
+        // return ['mail'];
     }
 
     /**
@@ -52,5 +54,10 @@ class ConsultationStatusUpdated extends Notification implements ShouldQueue
     {
         unset($this->data['patient']);
         return $this->data;
+    }
+    public function toBroadcast($notifiable): BroadcastMessage
+    {
+        unset($this->data['patient']);
+        return new BroadcastMessage($this->data);
     }
 }

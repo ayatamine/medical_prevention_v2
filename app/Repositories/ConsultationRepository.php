@@ -38,15 +38,15 @@ class ConsultationRepository extends AbstractRepository
     ];
     /**
      * approve a consultation request
-     *  
+     *
      */
     public function approveConuslt($consultation_id)
     {
         $consultation = request()->user()->consultations()
         ->where('status', 'pending')
         ->findOrFail($consultation_id);
-        
-      
+
+
         $patient =Patient::findOrFail($consultation->patient_id);
 
         $consultation->update(['status'=>'in_progress']);
@@ -54,38 +54,38 @@ class ConsultationRepository extends AbstractRepository
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been approved',
             'consultation_id'=>$consultation_id,
-           'patient'=>$patient
+           'patient'=>$patient,
+           'status'=>'in_progress'
         );
 
-        $delay = now()->addMinutes(5);
-        $patient->notify(((new ConsultationStatusUpdated($data))->delay($delay))->delay($delay));
-        
+        $patient->notify((new ConsultationStatusUpdated($data)));
+
         return $patient;
     }
     /**
      * reject a consultation request
-     *  
+     *
      */
     public function rejectConsult($consultation_id)
     {
         $consultation = request()->user()->consultations()
         ->where('status', 'pending')
         ->findOrFail($consultation_id);
-    
+
         $patient =Patient::findOrFail($consultation->patient_id);
         $consultation->update(['status' => 'rejected']);
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has bee rejected',
             'consultation_id'=>$consultation_id,
-           'patient'=>$patient
+           'patient'=>$patient,
+           'status'=>'rejected'
         );
-        $delay = now()->addMinutes(5);
-        $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
+        $patient->notify((new ConsultationStatusUpdated($data)));
        return $patient;
     }
     /**
      * reject a consultation request
-     *  
+     *
      */
     public function finishConsult($consultation_id)
     {
@@ -96,18 +96,18 @@ class ConsultationRepository extends AbstractRepository
         $data=array(
             'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been completed, waiting for the doctor summary',
             'consultation_id'=>$consultation_id,
-           'patient'=>$patient
+            'patient'=>$patient,
+            'status'=>'incompleted'
         );
-        $delay = now()->addMinutes(5);
-        $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
-       
+        $patient->notify((new ConsultationStatusUpdated($data)));
+
         return $patient;
         //incompleted means need summary
-       
+
     }
     /**
      * add a summary to a consultation
-     *  
+     *
      */
     public function addSummary($request, $consultation_id)
     {
@@ -163,10 +163,10 @@ class ConsultationRepository extends AbstractRepository
                     $data=array(
                         'message'=>'your consultation #'.$consultation_id.' with the doctor '.request()->user()->full_name.' has been updated with the summary',
                         'consultation_id'=>$consultation_id,
-                       'patient'=>$patient
+                       'patient'=>$patient,
+                       'status'=>'completed'
                     );
-                    $delay = now()->addMinutes(5);
-                $patient->notify((new ConsultationStatusUpdated($data))->delay($delay));
+                $patient->notify((new ConsultationStatusUpdated($data)));
                 return $summary;
             });
     }
@@ -182,7 +182,7 @@ class ConsultationRepository extends AbstractRepository
         // $summmary_pdf = new Dompdf();
         // $summmary_pdf->loadHtml('hello world');
         $settings = Setting::firstOrFail();
-    
+
         // dd($settings->app_logo);
         $pdf = PDF::loadView('print_consultation_pdf', ['consult'=>$consult,'settings'=>$settings])->set_option('isRemoteEnabled', true);
         $pdfContent = $pdf->output();
@@ -190,7 +190,7 @@ class ConsultationRepository extends AbstractRepository
         // file_put_contents($filePath, $pdfContent);
 
         Storage::disk('public')->put($filePath,$pdfContent);
-      
+
         // file_put_contents($filePath, $pdfContent);
         return url('storage',$filePath);
         // $pdf->render();
@@ -254,8 +254,7 @@ class ConsultationRepository extends AbstractRepository
                 'consultation_id'=>$consultation_id,
                 'doctor'=>$doctor
             );
-            $delay = now()->addMinutes(5);
-            $doctor->notify((new DoctorReviewAdded($data))->delay($delay));
+            $doctor->notify((new DoctorReviewAdded($data)));
             return true;
         } else {
            return response()->json([
