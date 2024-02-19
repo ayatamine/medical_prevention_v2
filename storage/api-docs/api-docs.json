@@ -230,7 +230,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The otp sended successfully",
+                        "description": "The otp sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -276,7 +276,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The otp sended successfully",
+                        "description": "The otp sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1098,7 +1098,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The otp sended successfully",
+                        "description": "The otp sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -1729,7 +1729,10 @@
                             "schema": {
                                 "properties": {
                                     "answers": {
-                                        "type": "string"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -2067,6 +2070,57 @@
                     },
                     "401": {
                         "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/patients/otp/auth/send": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "send otp to authenticated patient via phone number",
+                "description": "send otp to authenticated patient via phone number example +213684759496",
+                "operationId": "sendOtpToAuthPatient",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The otp sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {}

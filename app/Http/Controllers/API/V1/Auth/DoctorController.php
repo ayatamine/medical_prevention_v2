@@ -141,7 +141,7 @@ class DoctorController extends Controller
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *             )),
      *    ),
-     *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
+     *      @OA\Response(response=200,description="The otp sent successfully",@OA\JsonContent()),
      *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
      *     )
      */
@@ -199,7 +199,7 @@ class DoctorController extends Controller
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *             )),
      *    ),
-     *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
+     *      @OA\Response(response=200,description="The otp sent successfully",@OA\JsonContent()),
      *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
      *     )
      */
@@ -694,7 +694,7 @@ class DoctorController extends Controller
     public function myNotifications()
     {
         try {
-            $notifications = request()->user()->notifications;
+            $notifications = request()->user()->notifications()->paginate();
 
             return $this->api->success()
                 ->message('notification fetched successfully')

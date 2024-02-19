@@ -53,7 +53,7 @@ class PatientController extends Controller
      *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
      *             )),
      *    ),
-     *      @OA\Response(response=200,description="The otp sended successfully",@OA\JsonContent()),
+     *      @OA\Response(response=200,description="The otp sent successfully",@OA\JsonContent()),
      *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
      *     )
      */
@@ -540,11 +540,11 @@ class PatientController extends Controller
     public function myNotifications()
     {
         try {
-            $notifications = request()->user()->notifications;
+            $notifications = request()->user()->notifications()->paginate();
 
             return $this->api->success()
                 ->message('notification fetched successfully')
-                ->payload(SimpleNotificationResource::collection($notifications))
+                ->payload($notifications)
                 ->send();
         } catch (Exception $ex) {
             handleTwoCommunErrors($ex, 'no patient found ,please verify your login');
@@ -754,6 +754,55 @@ class PatientController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "Not found ");
+        }
+    }
+        /**
+     * @OA\Post(
+     * path="/api/v1/patients/otp/auth/send",
+     * operationId="sendOtpToAuthPatient",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="send otp to authenticated patient via phone number",
+     * description="send otp to authenticated patient via phone number example +213684759496",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+     *             )),
+     *    ),
+     *      @OA\Response(response=200,description="The otp sent successfully",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function sendToAuth(Request $request)
+    {
+        try {
+            $request->validate([
+                'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+            ]);
+
+            $patient = request()->user();
+
+            if ($patient && $patient->phone_number == $request->phone_number) {
+                return $this->api->failed()->code(400)
+                    ->message("Same phone number provided")
+                    ->send();
+            }
+
+            $otp = generate_otp($request->phone_number, 'patient',$patient);
+
+            return sendSMS($request->phone_number, 'Your OTP Verification code is ', $otp, 'patient');
+        } catch (Exception $ex) {
+            if ($ex instanceof ModelNotFoundException) {
+                return $this->api->failed()->code(404)
+                    ->message("no patient found with the given phone number or Account is not active")
+                    ->send();
+            }
+            return $this->api->failed()->code(500)
+                ->message($ex->getMessage())
+                ->send();
         }
     }
 }
