@@ -5,12 +5,12 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost:8000"
+            "value": "http:\/\/neomed.test"
         }
     ],
     "info": {
         "name": "NEOMED APP",
-        "_postman_id": "b163f083-8088-4bcd-b678-a435faf04466",
+        "_postman_id": "6903a797-e0be-41ca-872b-14d2da65a218",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -19,6 +19,96 @@
             "name": "Consultation",
             "description": "",
             "item": [
+                {
+                    "name": "GET api\/v1\/patients\/medical-record",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/patients\/medical-record",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/patients\/medical-record"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/patients\/favorite-doctors",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/patients\/favorite-doctors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/patients\/favorite-doctors"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
                 {
                     "name": "GET api\/v1\/consultations\/{id}\/medical-record",
                     "request": {
@@ -31,7 +121,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 },
                                 {
@@ -124,7 +214,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>L5 Swagger UI<\/title>\n    <link rel=\"stylesheet\" type=\"text\/css\" href=\"http:\/\/localhost:8000\/docs\/asset\/swagger-ui.css?v=1a3104533e165579a786263992e35a84\">\n    <link rel=\"icon\" type=\"image\/png\" href=\"http:\/\/localhost:8000\/docs\/asset\/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6\" sizes=\"32x32\"\/>\n    <link rel=\"icon\" type=\"image\/png\" href=\"http:\/\/localhost:8000\/docs\/asset\/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384\" sizes=\"16x16\"\/>\n    <style>\n    html\n    {\n        box-sizing: border-box;\n        overflow: -moz-scrollbars-vertical;\n        overflow-y: scroll;\n    }\n    *,\n    *:before,\n    *:after\n    {\n        box-sizing: inherit;\n    }\n\n    body {\n      margin:0;\n      background: #fafafa;\n    }\n    <\/style>\n<\/head>\n\n<body>\n<div id=\"swagger-ui\"><\/div>\n\n<script src=\"http:\/\/localhost:8000\/docs\/asset\/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441\"><\/script>\n<script src=\"http:\/\/localhost:8000\/docs\/asset\/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70\"><\/script>\n<script>\n    window.onload = function() {\n        \/\/ Build a system\n        const ui = SwaggerUIBundle({\n            dom_id: '#swagger-ui',\n            url: \"http:\/\/localhost:8000\/docs\/api-docs.json\",\n            operationsSorter: null,\n            configUrl: null,\n            validatorUrl: null,\n            oauth2RedirectUrl: \"http:\/\/localhost:8000\/api\/oauth2-callback\",\n\n            requestInterceptor: function(request) {\n                request.headers['X-CSRF-TOKEN'] = '';\n                return request;\n            },\n\n            presets: [\n                SwaggerUIBundle.presets.apis,\n                SwaggerUIStandalonePreset\n            ],\n\n            plugins: [\n                SwaggerUIBundle.plugins.DownloadUrl\n            ],\n\n            layout: \"StandaloneLayout\",\n            docExpansion : \"none\",\n            deepLinking: true,\n            filter: true,\n            persistAuthorization: \"false\",\n\n        })\n\n        window.ui = ui\n\n            }\n<\/script>\n<\/body>\n<\/html>\n",
+                            "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>L5 Swagger UI<\/title>\n    <link rel=\"stylesheet\" type=\"text\/css\" href=\"http:\/\/neomed.test\/docs\/asset\/swagger-ui.css?v=1a3104533e165579a786263992e35a84\">\n    <link rel=\"icon\" type=\"image\/png\" href=\"http:\/\/neomed.test\/docs\/asset\/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6\" sizes=\"32x32\"\/>\n    <link rel=\"icon\" type=\"image\/png\" href=\"http:\/\/neomed.test\/docs\/asset\/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384\" sizes=\"16x16\"\/>\n    <style>\n    html\n    {\n        box-sizing: border-box;\n        overflow: -moz-scrollbars-vertical;\n        overflow-y: scroll;\n    }\n    *,\n    *:before,\n    *:after\n    {\n        box-sizing: inherit;\n    }\n\n    body {\n      margin:0;\n      background: #fafafa;\n    }\n    <\/style>\n<\/head>\n\n<body>\n<div id=\"swagger-ui\"><\/div>\n\n<script src=\"http:\/\/neomed.test\/docs\/asset\/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441\"><\/script>\n<script src=\"http:\/\/neomed.test\/docs\/asset\/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70\"><\/script>\n<script>\n    window.onload = function() {\n        \/\/ Build a system\n        const ui = SwaggerUIBundle({\n            dom_id: '#swagger-ui',\n            url: \"http:\/\/neomed.test\/docs\/api-docs.json\",\n            operationsSorter: null,\n            configUrl: null,\n            validatorUrl: null,\n            oauth2RedirectUrl: \"http:\/\/neomed.test\/api\/oauth2-callback\",\n\n            requestInterceptor: function(request) {\n                request.headers['X-CSRF-TOKEN'] = '';\n                return request;\n            },\n\n            presets: [\n                SwaggerUIBundle.presets.apis,\n                SwaggerUIStandalonePreset\n            ],\n\n            plugins: [\n                SwaggerUIBundle.plugins.DownloadUrl\n            ],\n\n            layout: \"StandaloneLayout\",\n            docExpansion : \"none\",\n            deepLinking: true,\n            filter: true,\n            persistAuthorization: \"false\",\n\n        })\n\n        window.ui = ui\n\n            }\n<\/script>\n<\/body>\n<\/html>\n",
                             "name": ""
                         }
                     ]
@@ -267,7 +357,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"chronic diseases fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"Jadyn Cummerata\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\",\"icon\":null},{\"id\":2,\"name\":\"Cullen Konopelski\",\"name_ar\":null,\"icon\":null},{\"id\":4,\"name\":\"Mr. Christopher Langworth\",\"name_ar\":null,\"icon\":null},{\"id\":5,\"name\":\"Jeffrey Fadel\",\"name_ar\":null,\"icon\":null}]}",
+                            "body": "{\"success\":true,\"message\":\"chronic diseases fetched successfuly\",\"payload\":[{\"category_name\":\"chronic disease \",\"category_name_ar\":\"chronic disease \",\"chronic_diseases\":[{\"id\":1,\"name\":\"new chronic\",\"name_ar\":\"sdfsdfsd\",\"icon\":null},{\"id\":2,\"name\":\"nes title\",\"name_ar\":\"\\u0633\\u0628\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\",\"icon\":null}]},{\"category_name\":\"chronic disease 2\",\"category_name_ar\":\"chronic disese 2\",\"chronic_diseases\":[]},{\"category_name\":\"chronic disease 3\",\"category_name_ar\":\"chronic disease 3\",\"chronic_diseases\":[]}]}",
                             "name": ""
                         }
                     ]
@@ -320,7 +410,60 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"allergies fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"new allergy\",\"name_ar\":\"\\u062d\\u0633\\u0627\\u0633\\u064a\",\"icon\":null}]}",
+                            "body": "{\"success\":true,\"message\":\"allergies fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"new allergy\",\"name_ar\":\"\\u064a\\u0644\\u064a\\u0644\\u064a\\u0628\\u0644\",\"icon\":null}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/lab-tests",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/lab-tests",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/lab-tests"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "x-ratelimit-limit",
+                                    "value": "60"
+                                },
+                                {
+                                    "key": "x-ratelimit-remaining",
+                                    "value": "57"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"success\":true,\"message\":\"lab tests fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"Test 1\",\"name_ar\":null},{\"id\":2,\"name\":\"Test 2\",\"name_ar\":null},{\"id\":3,\"name\":\"Test 3\",\"name_ar\":null},{\"id\":4,\"name\":\"Test 4\",\"name_ar\":null},{\"id\":5,\"name\":\"Test 5\",\"name_ar\":null}]}",
                             "name": ""
                         }
                     ]
@@ -365,7 +508,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "57"
+                                    "value": "56"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -373,7 +516,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"symptomes fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"Jovani Dare\",\"name_ar\":\"Alvera Abbott\",\"icon\":\"ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png\"},{\"id\":2,\"name\":\"Ms. Audrey Durgan Jr.\",\"name_ar\":\"Albina VonRueden\",\"icon\":null},{\"id\":3,\"name\":\"Harmon Reilly\",\"name_ar\":\"Dee Wuckert\",\"icon\":null},{\"id\":4,\"name\":\"Marlin Lesch\",\"name_ar\":\"Annette Wunsch MD\",\"icon\":null},{\"id\":5,\"name\":\"Everett Osinski\",\"name_ar\":\"Brenda Dickinson\",\"icon\":null}]}",
+                            "body": "{\"success\":true,\"message\":\"symptomes fetched successfuly\",\"payload\":[{\"category_name\":\"common health issues\",\"category_name_ar\":\"\\u0623\\u0643\\u062b\\u0631 \\u0627\\u0644\\u0627\\u0639\\u0631\\u0627\\u0636 \\u0627\\u0644\\u0645\\u0639\\u0631\\u0648\\u0641\\u0629\",\"symptomes\":[{\"id\":1,\"name\":\"Prof. Marilyne Spinka Jr.\",\"name_ar\":\"\\u0635\\u062f\\u0627\\u0639\",\"icon\":null},{\"id\":2,\"name\":\"Ines Wiza\",\"name_ar\":\"Joshuah Kiehn\",\"icon\":null},{\"id\":3,\"name\":\"Camille Robel\",\"name_ar\":\"Ms. Marjory Heidenreich\",\"icon\":null},{\"id\":4,\"name\":\"Itzel Ankunding\",\"name_ar\":\"Ryleigh Boyer Sr.\",\"icon\":null},{\"id\":5,\"name\":\"Rebeca Sawayn\",\"name_ar\":\"Benjamin Little\",\"icon\":null}]},{\"category_name\":\"General Physician\",\"category_name_ar\":\"\\u0641\\u064a\\u0632\\u064a\\u0627\\u0626\\u064a \\u0639\\u0627\\u0645\",\"symptomes\":[]},{\"category_name\":\"Orthopedist\",\"category_name_ar\":\" \\u0645\\u062a\\u062e\\u0635\\u0635 \\u0639\\u0638\\u0627\\u0645\",\"symptomes\":[]},{\"category_name\":\"urologies\",\"category_name_ar\":\"\\u0623\\u0645\\u0631\\u0627\\u0636 \\u062a\\u0646\\u0627\\u0633\\u0644\\u064a\\u0629\",\"symptomes\":[]}]}",
                             "name": ""
                         }
                     ]
@@ -418,7 +561,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "56"
+                                    "value": "55"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -426,7 +569,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"family history fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"Joanne Kunde\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\"},{\"id\":2,\"name\":\"Savanah Leuschke Sr.\",\"name_ar\":null},{\"id\":3,\"name\":\"Cristian Mertz II\",\"name_ar\":null},{\"id\":4,\"name\":\"Dr. Wilburn Mayert\",\"name_ar\":null}]}",
+                            "body": "{\"success\":true,\"message\":\"family history fetched successfuly\",\"payload\":[{\"id\":1,\"name\":\"nes title\",\"name_ar\":\"\\u062d\\u0633sdgdg\\u0627\\u0633\\u064a\"},{\"id\":2,\"name\":\"zit\",\"name_ar\":\"\\u0644\\u0627\\u064a\\u0644 \\u064a\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\"},{\"id\":3,\"name\":\"\\u0644\\u064a\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\",\"name_ar\":\"\\u0644\\u064a\\u0628\\u0644\\u064a\\u0644\"}]}",
                             "name": ""
                         }
                     ]
@@ -471,7 +614,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "55"
+                                    "value": "54"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -479,7 +622,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"Advertisements fetched successfuly\",\"payload\":[]}",
+                            "body": "{\"success\":true,\"message\":\"Advertisements fetched successfuly\",\"payload\":[{\"id\":2,\"title\":\"test ahmed\",\"title_ar\":\"hello\",\"image\":\"https:\\\/\\\/ui-avatars.com\\\/api\\\/?background=0D8ABC&color=fff\",\"text\":\"hello\",\"text_ar\":\"hekki\"}]}",
                             "name": ""
                         }
                     ]
@@ -524,7 +667,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "54"
+                                    "value": "53"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -577,7 +720,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "53"
+                                    "value": "52"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -585,7 +728,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\"},{\"id\":2,\"name\":\"speciality1 s\",\"name_ar\":\"\\u0627\\u0644\\u062a\\u062e\\u0635\\u0635 1\"}]}",
+                            "body": "{\"success\":true,\"message\":\"specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"speciality 1\",\"name_ar\":\"\\u0627\\u0644\\u062a\\u062e\\u0635\\u0635 1\"},{\"id\":2,\"name\":\"Speciality 2\",\"name_ar\":\"Speciality 2 ar\"}]}",
                             "name": ""
                         }
                     ]
@@ -638,7 +781,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "52"
+                                    "value": "51"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -646,7 +789,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"Jovanny Torphy Sr.\",\"name_ar\":\"\\u062c\\u064a\\u062f\\u0627 \\u0643\\u0631\\u0645\"}}",
+                            "body": "{\"success\":true,\"message\":\"speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"speciality 1\",\"name_ar\":\"\\u0627\\u0644\\u062a\\u062e\\u0635\\u0635 1\"}}",
                             "name": ""
                         }
                     ]
@@ -699,7 +842,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "51"
+                                    "value": "50"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -752,7 +895,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "50"
+                                    "value": "49"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -760,7 +903,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"sub specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null},{\"id\":3,\"name\":\"Ed Fahey III\",\"name_ar\":null},{\"id\":5,\"name\":\" sdfsdf ss\",\"name_ar\":\"\\u0627\\u0645\\u064a\\u0646 \\u0633\\u0627\\u0628\"}]}",
+                            "body": "{\"success\":true,\"message\":\"sub specialities fetched successfully\",\"payload\":[{\"id\":1,\"name\":\"new car model\",\"name_ar\":\"\\u062d\\u0633sdgdg\\u0627\\u0633\\u064a\"},{\"id\":2,\"name\":\"nes title\",\"name_ar\":\"\\u0644\\u0627\\u064a\\u0644 \\u064a\\u0644\\u064a\\u0628\\u0644\\u064a\\u0628\\u0644\"},{\"id\":3,\"name\":\"zit\",\"name_ar\":\"\\u0628\\u0627\\u0628\\u0644\\u0627\\u0628\\u0644\"},{\"id\":4,\"name\":\"aaa\",\"name_ar\":\"aaa\"}]}",
                             "name": ""
                         }
                     ]
@@ -813,7 +956,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "49"
+                                    "value": "48"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -821,7 +964,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"sub_speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null}}",
+                            "body": "{\"success\":true,\"message\":\"sub_speciality details fetched successfully\",\"payload\":{\"id\":1,\"name\":\"new car model\",\"name_ar\":\"\\u062d\\u0633sdgdg\\u0627\\u0633\\u064a\"}}",
                             "name": ""
                         }
                     ]
@@ -874,7 +1017,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "48"
+                                    "value": "47"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -882,7 +1025,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"sub speciality doctors details fetched successfully\",\"payload\":[{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"},{\"id\":3,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"}]}",
+                            "body": "{\"success\":true,\"message\":\"sub speciality doctors details fetched successfully\",\"payload\":[{\"id\":24,\"full_name\":\"Test\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctors\\\/thumbnails\\\/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg\"}]}",
                             "name": ""
                         }
                     ]
@@ -927,7 +1070,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "47"
+                                    "value": "46"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -935,7 +1078,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"data\":[{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"},{\"id\":3,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\"}]}",
+                            "body": "{\"data\":[{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctors\\\/thumbnails\\\/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg\"},{\"id\":2,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctor.png\"},{\"id\":3,\"full_name\":\"Dr. Ahmed adel\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctor.png\"},{\"id\":4,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctors\\\/thumbnails\\\/1eCJpRj7WoRrvwBSOLsNbLti2FE0JfOC2aEwQsjH.png\"},{\"id\":22,\"full_name\":\"Dr. Test2\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctor.png\"},{\"id\":24,\"full_name\":\"Test\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctors\\\/thumbnails\\\/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg\"},{\"id\":25,\"full_name\":\"Ahmed Adel\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctor.png\"},{\"id\":45,\"full_name\":\"default doctor\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctor.png\"}]}",
                             "name": ""
                         }
                     ]
@@ -1013,7 +1156,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "46"
+                                    "value": "45"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1021,7 +1164,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"success\":true,\"message\":\"Doctor details fetched successfuly\",\"payload\":{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/localhost:8000\\\/storage\\\/doctor.png\",\"specialities\":[],\"sub_specialities\":[{\"id\":1,\"name\":\"Julie Toy\",\"name_ar\":null,\"slug\":\"dolores-possimus-ut-quis-non\"},{\"id\":2,\"name\":\"Prof. Lonnie Dickens DDS\",\"name_ar\":null,\"slug\":\"non-quia-iusto-qui-cupiditate\"}],\"bio\":null,\"reviews\":[]}}",
+                            "body": "{\"success\":true,\"message\":\"Doctor details fetched successfuly\",\"payload\":{\"id\":1,\"full_name\":\"doctor full Name\",\"online_status\":true,\"reviews_count\":0,\"rating_value\":0,\"location\":null,\"thumbnail\":\"http:\\\/\\\/neomed.test\\\/storage\\\/doctors\\\/thumbnails\\\/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg\",\"speciality\":null,\"sub_specialities\":[],\"bio\":null,\"reviews\":[]}}",
                             "name": ""
                         }
                     ]
@@ -1077,6 +1220,31 @@
                             ]
                         },
                         "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/symptomes\/doctors",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/symptomes\/doctors",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/symptomes\/doctors"
+                        },
+                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -1220,7 +1388,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "tenetur",
+                                    "value": "fugiat",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -1238,11 +1406,64 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"rating\":4,\"comment\":\"facere\"}"
+                            "raw": "{\"rating\":1,\"comment\":\"qui\"}"
                         },
                         "description": ""
                     },
                     "response": []
+                },
+                {
+                    "name": "GET api\/v1\/consultations\/{id}",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/consultations\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/consultations\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "et",
+                                    "description": "The ID of the consultation."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
                 },
                 {
                     "name": "GET api\/v1\/pages\/{title}",
@@ -1256,7 +1477,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "ipsa",
+                                    "value": "ipsum",
                                     "description": ""
                                 }
                             ]
@@ -1292,7 +1513,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "45"
+                                    "value": "44"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -1352,11 +1573,56 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+866099657395\",\"otp\":\"reprehenderit\"}"
+                            "raw": "{\"phone_number\":\"+802393737158\",\"otp\":\"laudantium\"}"
                         },
                         "description": ""
                     },
                     "response": []
+                },
+                {
+                    "name": "GET api\/v1\/patients\/profile\/my",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/patients\/profile\/my",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/patients\/profile\/my"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
                 },
                 {
                     "name": "POST api\/v1\/patients\/complete-medical-record",
@@ -1380,7 +1646,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"jgqclorafyqxhnvivf\",\"birth_date\":\"2023-07-29T12:29:35\",\"height\":294297799.377,\"weight\":180.17665683,\"age\":2,\"gender\":\"female\",\"has_physical_activity\":\"1\",\"has_cancer_screening\":\"1\",\"has_depression_screening\":\"0\",\"other_problems\":\"[\\\"ut\\\",\\\"odit\\\"]\"}"
+                            "raw": "{\"full_name\":\"vtragnfizfcvvfofmuuarbout\",\"birth_date\":\"2024-02-19T13:19:50\",\"height\":8.8,\"weight\":6.32214,\"age\":1,\"gender\":\"female\",\"has_physical_activity\":\"1\",\"has_cancer_screening\":\"1\",\"has_depression_screening\":\"1\",\"little_interest_doing_things\":\"1\",\"feeling_down_or_depressed\":\"1\"}"
                         },
                         "description": ""
                     },
@@ -1408,7 +1674,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+471173092568\"}"
+                            "raw": "{\"phone_number\":\"+578352559056\"}"
                         },
                         "description": ""
                     },
@@ -1436,7 +1702,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"tigubujlsxmmdyzivarev\"}"
+                            "raw": "{\"thumbnail\":\"mnfexd\"}"
                         },
                         "description": ""
                     },
@@ -1504,7 +1770,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "quibusdam",
+                                    "value": "quis",
                                     "description": ""
                                 }
                             ]
@@ -1607,7 +1873,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "veniam",
+                                    "value": "deserunt",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -1685,7 +1951,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "iure",
+                                    "value": "id",
                                     "description": ""
                                 }
                             ]
@@ -1738,7 +2004,7 @@
                                 {
                                     "id": "title",
                                     "key": "title",
-                                    "value": "distinctio",
+                                    "value": "voluptas",
                                     "description": ""
                                 }
                             ]
@@ -1819,7 +2085,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "doloremque",
+                                    "value": "asperiores",
                                     "description": "The ID of the recommendation."
                                 }
                             ]
@@ -1859,104 +2125,6 @@
                             "name": ""
                         }
                     ]
-                },
-                {
-                    "name": "POST api\/v1\/doctors\/register",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/v1\/doctors\/register",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/register"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "multipart\/form-data"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "full_name",
-                                    "value": "rerxumxnnemrxe",
-                                    "type": "text",
-                                    "description": "Must not be greater than 150 characters."
-                                },
-                                {
-                                    "key": "id_number",
-                                    "value": 12,
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "birth_date",
-                                    "value": "mmrkiqlvzqnomylkxjeoid",
-                                    "type": "text",
-                                    "description": "Must not be greater than 150 characters."
-                                },
-                                {
-                                    "key": "phone_number",
-                                    "value": "hpchzditqqajnqkqhfrhgixw",
-                                    "type": "text",
-                                    "description": "Must not be greater than 255 characters."
-                                },
-                                {
-                                    "key": "email",
-                                    "value": "jay36@example.org",
-                                    "type": "text",
-                                    "description": "Must be a valid email address. Must not be greater than 255 characters."
-                                },
-                                {
-                                    "key": "job_title",
-                                    "value": "hevppjfkyv",
-                                    "type": "text",
-                                    "description": "Must not be greater than 150 characters."
-                                },
-                                {
-                                    "key": "classification_number",
-                                    "value": 10,
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "insurance_number",
-                                    "value": 17,
-                                    "type": "text",
-                                    "description": ""
-                                },
-                                {
-                                    "key": "thumbnail",
-                                    "value": "rwfejwrlqmaohuvrhblpgtvak",
-                                    "type": "text",
-                                    "description": "Must not be greater than 3000 characters."
-                                },
-                                {
-                                    "key": "medical_licence_file",
-                                    "src": [],
-                                    "type": "file"
-                                },
-                                {
-                                    "key": "cv_file",
-                                    "src": [],
-                                    "type": "file"
-                                },
-                                {
-                                    "key": "certification_file",
-                                    "src": [],
-                                    "type": "file"
-                                }
-                            ]
-                        },
-                        "description": ""
-                    },
-                    "response": []
                 },
                 {
                     "name": "GET api\/v1\/doctors\/{id}\/check-status",
@@ -2006,7 +2174,7 @@
                                 },
                                 {
                                     "key": "x-ratelimit-remaining",
-                                    "value": "44"
+                                    "value": "43"
                                 },
                                 {
                                     "key": "access-control-allow-origin",
@@ -2066,7 +2234,164 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"phone_number\":\"+521268097098\",\"otp\":\"ipsum\"}"
+                            "raw": "{\"phone_number\":\"+312576693494\",\"otp\":\"odio\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/doctors\/otp\/auth\/send",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/otp\/auth\/send",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/otp\/auth\/send"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/doctors\/otp\/auth\/verify",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/otp\/auth\/verify",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/otp\/auth\/verify"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"phone_number\":\"+763565543218\",\"otp\":\"dignissimos\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/doctors\/register",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "full_name",
+                                    "value": "hnpmbbpcmpjipztq",
+                                    "type": "text",
+                                    "description": "Must not be greater than 150 characters."
+                                },
+                                {
+                                    "key": "id_number",
+                                    "value": 7,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "birth_date",
+                                    "value": "ynddnwobjpnepuqamlx",
+                                    "type": "text",
+                                    "description": "Must not be greater than 150 characters."
+                                },
+                                {
+                                    "key": "email",
+                                    "value": "aleen.hintz@example.org",
+                                    "type": "text",
+                                    "description": "Must be a valid email address. Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "job_title",
+                                    "value": "imbegjpupsyki",
+                                    "type": "text",
+                                    "description": "Must not be greater than 150 characters."
+                                },
+                                {
+                                    "key": "classification_number",
+                                    "value": 11,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "insurance_number",
+                                    "value": 10,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "sub_specialities",
+                                    "value": "tenetur",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "thumbnail",
+                                    "value": "fimhlzzmvnr",
+                                    "type": "text",
+                                    "description": "Must not be greater than 3000 characters."
+                                },
+                                {
+                                    "key": "speciality_id",
+                                    "value": 6,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "medical_licence_file",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "cv_file",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "certification_file",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
                         },
                         "description": ""
                     },
@@ -2199,7 +2524,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "harum",
+                                    "value": "unde",
                                     "description": "The ID of the notification."
                                 }
                             ]
@@ -2365,8 +2690,33 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"thumbnail\":\"lnzchqztcyxmxcpiwb\"}"
+                            "raw": "{\"thumbnail\":\"umdsypcsfnwdiktusxepndnok\"}"
                         },
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/v1\/doctors\/withdraw-ballance",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/doctors\/withdraw-ballance",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/doctors\/withdraw-ballance"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
                         "description": ""
                     },
                     "response": []
@@ -2473,7 +2823,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2506,7 +2856,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2539,7 +2889,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2572,7 +2922,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "20",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2590,7 +2940,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"description\":\"Nihil nulla minus asperiores odio unde non.\",\"medicines\":[4],\"lab_tests\":[9],\"other_lab_tests\":\"expedita\",\"sick_leave\":true,\"notes\":\"dolores\"}"
+                            "raw": "{\"description\":\"Laboriosam nam enim earum molestiae sit quia.\",\"medicines\":[14],\"lab_tests\":[9],\"other_lab_tests\":\"corrupti\",\"sick_leave\":false,\"notes\":\"consequatur\"}"
                         },
                         "description": ""
                     },
@@ -2608,7 +2958,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "est",
+                                    "value": "sint",
                                     "description": ""
                                 }
                             ]
@@ -2641,7 +2991,7 @@
                                 {
                                     "id": "status",
                                     "key": "status",
-                                    "value": "illo",
+                                    "value": "nulla",
                                     "description": ""
                                 }
                             ]
@@ -2709,7 +3059,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"drug_name\":\"ycnjqykpumdpxwzqlbe\",\"route\":\"xydacvtthcjqhemxfhixo\",\"dose\":12,\"unit\":\"yegx\",\"frequancy\":\"uhvrc\",\"duration\":9,\"duration_unit\":\"obdvsjqvnuthowzdpbxbpgqt\",\"shape\":\"ocqalqjy\",\"prn\":false,\"instructions\":\"iste\"}"
+                            "raw": "{\"prescription_title\":\"tlbbsszdjgcfzxtr\",\"drug_name\":\"mtigfj\",\"route\":\"btbgkqxslbkpgxdbkvsznuz\",\"dose\":12,\"unit\":\"rzqphkvlbbwxnjyrp\",\"frequancy\":\"qnrahtoqzeypddytash\",\"duration\":2,\"duration_unit\":\"x\",\"prn\":true,\"instructions\":\"dolores\"}"
                         },
                         "description": ""
                     },
@@ -2817,7 +3167,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2870,7 +3220,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
@@ -2892,7 +3242,7 @@
                     "response": []
                 },
                 {
-                    "name": "POST api\/v1\/consultations\/{id}\/view-summary",
+                    "name": "GET api\/v1\/consultations\/{id}\/view-summary",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -2903,12 +3253,12 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]
                         },
-                        "method": "POST",
+                        "method": "GET",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -2922,7 +3272,27 @@
                         "body": null,
                         "description": ""
                     },
-                    "response": []
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
                 },
                 {
                     "name": "GET api\/v1\/consultations\/{id}\/print-summary",
@@ -2936,7 +3306,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the consultation."
                                 }
                             ]

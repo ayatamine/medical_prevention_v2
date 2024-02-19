@@ -5,8 +5,64 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'http://localhost:8000'
+    url: 'http://neomed.test'
 paths:
+  /api/v1/patients/medical-record:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsMedicalRecord
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Consultation
+  /api/v1/patients/favorite-doctors:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsFavoriteDoctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Consultation
   '/api/v1/consultations/{id}/medical-record':
     get:
       summary: ''
@@ -40,7 +96,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -72,7 +128,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>L5 Swagger UI</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"http://localhost:8000/docs/asset/swagger-ui.css?v=1a3104533e165579a786263992e35a84\">\n    <link rel=\"icon\" type=\"image/png\" href=\"http://localhost:8000/docs/asset/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6\" sizes=\"32x32\"/>\n    <link rel=\"icon\" type=\"image/png\" href=\"http://localhost:8000/docs/asset/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384\" sizes=\"16x16\"/>\n    <style>\n    html\n    {\n        box-sizing: border-box;\n        overflow: -moz-scrollbars-vertical;\n        overflow-y: scroll;\n    }\n    *,\n    *:before,\n    *:after\n    {\n        box-sizing: inherit;\n    }\n\n    body {\n      margin:0;\n      background: #fafafa;\n    }\n    </style>\n</head>\n\n<body>\n<div id=\"swagger-ui\"></div>\n\n<script src=\"http://localhost:8000/docs/asset/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441\"></script>\n<script src=\"http://localhost:8000/docs/asset/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70\"></script>\n<script>\n    window.onload = function() {\n        // Build a system\n        const ui = SwaggerUIBundle({\n            dom_id: '#swagger-ui',\n            url: \"http://localhost:8000/docs/api-docs.json\",\n            operationsSorter: null,\n            configUrl: null,\n            validatorUrl: null,\n            oauth2RedirectUrl: \"http://localhost:8000/api/oauth2-callback\",\n\n            requestInterceptor: function(request) {\n                request.headers['X-CSRF-TOKEN'] = '';\n                return request;\n            },\n\n            presets: [\n                SwaggerUIBundle.presets.apis,\n                SwaggerUIStandalonePreset\n            ],\n\n            plugins: [\n                SwaggerUIBundle.plugins.DownloadUrl\n            ],\n\n            layout: \"StandaloneLayout\",\n            docExpansion : \"none\",\n            deepLinking: true,\n            filter: true,\n            persistAuthorization: \"false\",\n\n        })\n\n        window.ui = ui\n\n            }\n</script>\n</body>\n</html>\n"
+                example: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>L5 Swagger UI</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"http://neomed.test/docs/asset/swagger-ui.css?v=1a3104533e165579a786263992e35a84\">\n    <link rel=\"icon\" type=\"image/png\" href=\"http://neomed.test/docs/asset/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6\" sizes=\"32x32\"/>\n    <link rel=\"icon\" type=\"image/png\" href=\"http://neomed.test/docs/asset/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384\" sizes=\"16x16\"/>\n    <style>\n    html\n    {\n        box-sizing: border-box;\n        overflow: -moz-scrollbars-vertical;\n        overflow-y: scroll;\n    }\n    *,\n    *:before,\n    *:after\n    {\n        box-sizing: inherit;\n    }\n\n    body {\n      margin:0;\n      background: #fafafa;\n    }\n    </style>\n</head>\n\n<body>\n<div id=\"swagger-ui\"></div>\n\n<script src=\"http://neomed.test/docs/asset/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441\"></script>\n<script src=\"http://neomed.test/docs/asset/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70\"></script>\n<script>\n    window.onload = function() {\n        // Build a system\n        const ui = SwaggerUIBundle({\n            dom_id: '#swagger-ui',\n            url: \"http://neomed.test/docs/api-docs.json\",\n            operationsSorter: null,\n            configUrl: null,\n            validatorUrl: null,\n            oauth2RedirectUrl: \"http://neomed.test/api/oauth2-callback\",\n\n            requestInterceptor: function(request) {\n                request.headers['X-CSRF-TOKEN'] = '';\n                return request;\n            },\n\n            presets: [\n                SwaggerUIBundle.presets.apis,\n                SwaggerUIStandalonePreset\n            ],\n\n            plugins: [\n                SwaggerUIBundle.plugins.DownloadUrl\n            ],\n\n            layout: \"StandaloneLayout\",\n            docExpansion : \"none\",\n            deepLinking: true,\n            filter: true,\n            persistAuthorization: \"false\",\n\n        })\n\n        window.ui = ui\n\n            }\n</script>\n</body>\n</html>\n"
       tags:
         - Endpoints
   /api/oauth2-callback:
@@ -151,25 +207,27 @@ paths:
                   message: 'chronic diseases fetched successfuly'
                   payload:
                     -
-                      id: 1
-                      name: 'Jadyn Cummerata'
-                      name_ar: 'جيدا كرم'
-                      icon: null
+                      category_name: 'chronic disease '
+                      category_name_ar: 'chronic disease '
+                      chronic_diseases:
+                        -
+                          id: 1
+                          name: 'new chronic'
+                          name_ar: sdfsdfsd
+                          icon: null
+                        -
+                          id: 2
+                          name: 'nes title'
+                          name_ar: سبليبليبليبل
+                          icon: null
                     -
-                      id: 2
-                      name: 'Cullen Konopelski'
-                      name_ar: null
-                      icon: null
+                      category_name: 'chronic disease 2'
+                      category_name_ar: 'chronic disese 2'
+                      chronic_diseases: []
                     -
-                      id: 4
-                      name: 'Mr. Christopher Langworth'
-                      name_ar: null
-                      icon: null
-                    -
-                      id: 5
-                      name: 'Jeffrey Fadel'
-                      name_ar: null
-                      icon: null
+                      category_name: 'chronic disease 3'
+                      category_name_ar: 'chronic disease 3'
+                      chronic_diseases: []
                 properties:
                   success:
                     type: boolean
@@ -181,40 +239,64 @@ paths:
                     type: array
                     example:
                       -
-                        id: 1
-                        name: 'Jadyn Cummerata'
-                        name_ar: 'جيدا كرم'
-                        icon: null
+                        category_name: 'chronic disease '
+                        category_name_ar: 'chronic disease '
+                        chronic_diseases:
+                          -
+                            id: 1
+                            name: 'new chronic'
+                            name_ar: sdfsdfsd
+                            icon: null
+                          -
+                            id: 2
+                            name: 'nes title'
+                            name_ar: سبليبليبليبل
+                            icon: null
                       -
-                        id: 2
-                        name: 'Cullen Konopelski'
-                        name_ar: null
-                        icon: null
+                        category_name: 'chronic disease 2'
+                        category_name_ar: 'chronic disese 2'
+                        chronic_diseases: []
                       -
-                        id: 4
-                        name: 'Mr. Christopher Langworth'
-                        name_ar: null
-                        icon: null
-                      -
-                        id: 5
-                        name: 'Jeffrey Fadel'
-                        name_ar: null
-                        icon: null
+                        category_name: 'chronic disease 3'
+                        category_name_ar: 'chronic disease 3'
+                        chronic_diseases: []
                     items:
                       type: object
                       properties:
-                        id:
-                          type: integer
-                          example: 1
-                        name:
+                        category_name:
                           type: string
-                          example: 'Jadyn Cummerata'
-                        name_ar:
+                          example: 'chronic disease '
+                        category_name_ar:
                           type: string
-                          example: 'جيدا كرم'
-                        icon:
-                          type: string
-                          example: null
+                          example: 'chronic disease '
+                        chronic_diseases:
+                          type: array
+                          example:
+                            -
+                              id: 1
+                              name: 'new chronic'
+                              name_ar: sdfsdfsd
+                              icon: null
+                            -
+                              id: 2
+                              name: 'nes title'
+                              name_ar: سبليبليبليبل
+                              icon: null
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: 'new chronic'
+                              name_ar:
+                                type: string
+                                example: sdfsdfsd
+                              icon:
+                                type: string
+                                example: null
       tags:
         - Endpoints
   /api/v1/allergies:
@@ -244,7 +326,7 @@ paths:
                     -
                       id: 1
                       name: 'new allergy'
-                      name_ar: حساسي
+                      name_ar: يليليبل
                       icon: null
                 properties:
                   success:
@@ -259,7 +341,7 @@ paths:
                       -
                         id: 1
                         name: 'new allergy'
-                        name_ar: حساسي
+                        name_ar: يليليبل
                         icon: null
                     items:
                       type: object
@@ -272,8 +354,96 @@ paths:
                           example: 'new allergy'
                         name_ar:
                           type: string
-                          example: حساسي
+                          example: يليليبل
                         icon:
+                          type: string
+                          example: null
+      tags:
+        - Endpoints
+  /api/v1/lab-tests:
+    get:
+      summary: ''
+      operationId: getApiV1LabTests
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  success: true
+                  message: 'lab tests fetched successfuly'
+                  payload:
+                    -
+                      id: 1
+                      name: 'Test 1'
+                      name_ar: null
+                    -
+                      id: 2
+                      name: 'Test 2'
+                      name_ar: null
+                    -
+                      id: 3
+                      name: 'Test 3'
+                      name_ar: null
+                    -
+                      id: 4
+                      name: 'Test 4'
+                      name_ar: null
+                    -
+                      id: 5
+                      name: 'Test 5'
+                      name_ar: null
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'lab tests fetched successfuly'
+                  payload:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Test 1'
+                        name_ar: null
+                      -
+                        id: 2
+                        name: 'Test 2'
+                        name_ar: null
+                      -
+                        id: 3
+                        name: 'Test 3'
+                        name_ar: null
+                      -
+                        id: 4
+                        name: 'Test 4'
+                        name_ar: null
+                      -
+                        id: 5
+                        name: 'Test 5'
+                        name_ar: null
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Test 1'
+                        name_ar:
                           type: string
                           example: null
       tags:
@@ -303,30 +473,46 @@ paths:
                   message: 'symptomes fetched successfuly'
                   payload:
                     -
-                      id: 1
-                      name: 'Jovani Dare'
-                      name_ar: 'Alvera Abbott'
-                      icon: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+                      category_name: 'common health issues'
+                      category_name_ar: 'أكثر الاعراض المعروفة'
+                      symptomes:
+                        -
+                          id: 1
+                          name: 'Prof. Marilyne Spinka Jr.'
+                          name_ar: صداع
+                          icon: null
+                        -
+                          id: 2
+                          name: 'Ines Wiza'
+                          name_ar: 'Joshuah Kiehn'
+                          icon: null
+                        -
+                          id: 3
+                          name: 'Camille Robel'
+                          name_ar: 'Ms. Marjory Heidenreich'
+                          icon: null
+                        -
+                          id: 4
+                          name: 'Itzel Ankunding'
+                          name_ar: 'Ryleigh Boyer Sr.'
+                          icon: null
+                        -
+                          id: 5
+                          name: 'Rebeca Sawayn'
+                          name_ar: 'Benjamin Little'
+                          icon: null
                     -
-                      id: 2
-                      name: 'Ms. Audrey Durgan Jr.'
-                      name_ar: 'Albina VonRueden'
-                      icon: null
+                      category_name: 'General Physician'
+                      category_name_ar: 'فيزيائي عام'
+                      symptomes: []
                     -
-                      id: 3
-                      name: 'Harmon Reilly'
-                      name_ar: 'Dee Wuckert'
-                      icon: null
+                      category_name: Orthopedist
+                      category_name_ar: ' متخصص عظام'
+                      symptomes: []
                     -
-                      id: 4
-                      name: 'Marlin Lesch'
-                      name_ar: 'Annette Wunsch MD'
-                      icon: null
-                    -
-                      id: 5
-                      name: 'Everett Osinski'
-                      name_ar: 'Brenda Dickinson'
-                      icon: null
+                      category_name: urologies
+                      category_name_ar: 'أمراض تناسلية'
+                      symptomes: []
                 properties:
                   success:
                     type: boolean
@@ -338,45 +524,98 @@ paths:
                     type: array
                     example:
                       -
-                        id: 1
-                        name: 'Jovani Dare'
-                        name_ar: 'Alvera Abbott'
-                        icon: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+                        category_name: 'common health issues'
+                        category_name_ar: 'أكثر الاعراض المعروفة'
+                        symptomes:
+                          -
+                            id: 1
+                            name: 'Prof. Marilyne Spinka Jr.'
+                            name_ar: صداع
+                            icon: null
+                          -
+                            id: 2
+                            name: 'Ines Wiza'
+                            name_ar: 'Joshuah Kiehn'
+                            icon: null
+                          -
+                            id: 3
+                            name: 'Camille Robel'
+                            name_ar: 'Ms. Marjory Heidenreich'
+                            icon: null
+                          -
+                            id: 4
+                            name: 'Itzel Ankunding'
+                            name_ar: 'Ryleigh Boyer Sr.'
+                            icon: null
+                          -
+                            id: 5
+                            name: 'Rebeca Sawayn'
+                            name_ar: 'Benjamin Little'
+                            icon: null
                       -
-                        id: 2
-                        name: 'Ms. Audrey Durgan Jr.'
-                        name_ar: 'Albina VonRueden'
-                        icon: null
+                        category_name: 'General Physician'
+                        category_name_ar: 'فيزيائي عام'
+                        symptomes: []
                       -
-                        id: 3
-                        name: 'Harmon Reilly'
-                        name_ar: 'Dee Wuckert'
-                        icon: null
+                        category_name: Orthopedist
+                        category_name_ar: ' متخصص عظام'
+                        symptomes: []
                       -
-                        id: 4
-                        name: 'Marlin Lesch'
-                        name_ar: 'Annette Wunsch MD'
-                        icon: null
-                      -
-                        id: 5
-                        name: 'Everett Osinski'
-                        name_ar: 'Brenda Dickinson'
-                        icon: null
+                        category_name: urologies
+                        category_name_ar: 'أمراض تناسلية'
+                        symptomes: []
                     items:
                       type: object
                       properties:
-                        id:
-                          type: integer
-                          example: 1
-                        name:
+                        category_name:
                           type: string
-                          example: 'Jovani Dare'
-                        name_ar:
+                          example: 'common health issues'
+                        category_name_ar:
                           type: string
-                          example: 'Alvera Abbott'
-                        icon:
-                          type: string
-                          example: ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png
+                          example: 'أكثر الاعراض المعروفة'
+                        symptomes:
+                          type: array
+                          example:
+                            -
+                              id: 1
+                              name: 'Prof. Marilyne Spinka Jr.'
+                              name_ar: صداع
+                              icon: null
+                            -
+                              id: 2
+                              name: 'Ines Wiza'
+                              name_ar: 'Joshuah Kiehn'
+                              icon: null
+                            -
+                              id: 3
+                              name: 'Camille Robel'
+                              name_ar: 'Ms. Marjory Heidenreich'
+                              icon: null
+                            -
+                              id: 4
+                              name: 'Itzel Ankunding'
+                              name_ar: 'Ryleigh Boyer Sr.'
+                              icon: null
+                            -
+                              id: 5
+                              name: 'Rebeca Sawayn'
+                              name_ar: 'Benjamin Little'
+                              icon: null
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: 'Prof. Marilyne Spinka Jr.'
+                              name_ar:
+                                type: string
+                                example: صداع
+                              icon:
+                                type: string
+                                example: null
       tags:
         - Endpoints
   /api/v1/family-histories:
@@ -405,20 +644,16 @@ paths:
                   payload:
                     -
                       id: 1
-                      name: 'Joanne Kunde'
-                      name_ar: 'جيدا كرم'
+                      name: 'nes title'
+                      name_ar: حسsdgdgاسي
                     -
                       id: 2
-                      name: 'Savanah Leuschke Sr.'
-                      name_ar: null
+                      name: zit
+                      name_ar: 'لايل يليبليبل'
                     -
                       id: 3
-                      name: 'Cristian Mertz II'
-                      name_ar: null
-                    -
-                      id: 4
-                      name: 'Dr. Wilburn Mayert'
-                      name_ar: null
+                      name: ليليبليبليبل
+                      name_ar: ليبليل
                 properties:
                   success:
                     type: boolean
@@ -431,20 +666,16 @@ paths:
                     example:
                       -
                         id: 1
-                        name: 'Joanne Kunde'
-                        name_ar: 'جيدا كرم'
+                        name: 'nes title'
+                        name_ar: حسsdgdgاسي
                       -
                         id: 2
-                        name: 'Savanah Leuschke Sr.'
-                        name_ar: null
+                        name: zit
+                        name_ar: 'لايل يليبليبل'
                       -
                         id: 3
-                        name: 'Cristian Mertz II'
-                        name_ar: null
-                      -
-                        id: 4
-                        name: 'Dr. Wilburn Mayert'
-                        name_ar: null
+                        name: ليليبليبليبل
+                        name_ar: ليبليل
                     items:
                       type: object
                       properties:
@@ -453,10 +684,10 @@ paths:
                           example: 1
                         name:
                           type: string
-                          example: 'Joanne Kunde'
+                          example: 'nes title'
                         name_ar:
                           type: string
-                          example: 'جيدا كرم'
+                          example: حسsdgdgاسي
       tags:
         - Endpoints
   /api/v1/advertisements:
@@ -482,7 +713,14 @@ paths:
                 example:
                   success: true
                   message: 'Advertisements fetched successfuly'
-                  payload: []
+                  payload:
+                    -
+                      id: 2
+                      title: 'test ahmed'
+                      title_ar: hello
+                      image: 'https://ui-avatars.com/api/?background=0D8ABC&color=fff'
+                      text: hello
+                      text_ar: hekki
                 properties:
                   success:
                     type: boolean
@@ -492,7 +730,35 @@ paths:
                     example: 'Advertisements fetched successfuly'
                   payload:
                     type: array
-                    example: []
+                    example:
+                      -
+                        id: 2
+                        title: 'test ahmed'
+                        title_ar: hello
+                        image: 'https://ui-avatars.com/api/?background=0D8ABC&color=fff'
+                        text: hello
+                        text_ar: hekki
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        title:
+                          type: string
+                          example: 'test ahmed'
+                        title_ar:
+                          type: string
+                          example: hello
+                        image:
+                          type: string
+                          example: 'https://ui-avatars.com/api/?background=0D8ABC&color=fff'
+                        text:
+                          type: string
+                          example: hello
+                        text_ar:
+                          type: string
+                          example: hekki
       tags:
         - Endpoints
   /api/v1/medical-instructions:
@@ -557,12 +823,12 @@ paths:
                   payload:
                     -
                       id: 1
-                      name: 'Jovanny Torphy Sr.'
-                      name_ar: 'جيدا كرم'
+                      name: 'speciality 1'
+                      name_ar: 'التخصص 1'
                     -
                       id: 2
-                      name: 'speciality1 s'
-                      name_ar: 'التخصص 1'
+                      name: 'Speciality 2'
+                      name_ar: 'Speciality 2 ar'
                 properties:
                   success:
                     type: boolean
@@ -575,12 +841,12 @@ paths:
                     example:
                       -
                         id: 1
-                        name: 'Jovanny Torphy Sr.'
-                        name_ar: 'جيدا كرم'
+                        name: 'speciality 1'
+                        name_ar: 'التخصص 1'
                       -
                         id: 2
-                        name: 'speciality1 s'
-                        name_ar: 'التخصص 1'
+                        name: 'Speciality 2'
+                        name_ar: 'Speciality 2 ar'
                     items:
                       type: object
                       properties:
@@ -589,10 +855,10 @@ paths:
                           example: 1
                         name:
                           type: string
-                          example: 'Jovanny Torphy Sr.'
+                          example: 'speciality 1'
                         name_ar:
                           type: string
-                          example: 'جيدا كرم'
+                          example: 'التخصص 1'
       tags:
         - Endpoints
   '/api/v1/specialities/{id}':
@@ -620,8 +886,8 @@ paths:
                   message: 'speciality details fetched successfully'
                   payload:
                     id: 1
-                    name: 'Jovanny Torphy Sr.'
-                    name_ar: 'جيدا كرم'
+                    name: 'speciality 1'
+                    name_ar: 'التخصص 1'
                 properties:
                   success:
                     type: boolean
@@ -637,10 +903,10 @@ paths:
                         example: 1
                       name:
                         type: string
-                        example: 'Jovanny Torphy Sr.'
+                        example: 'speciality 1'
                       name_ar:
                         type: string
-                        example: 'جيدا كرم'
+                        example: 'التخصص 1'
       tags:
         - Endpoints
     parameters:
@@ -715,20 +981,20 @@ paths:
                   payload:
                     -
                       id: 1
-                      name: 'Julie Toy'
-                      name_ar: null
+                      name: 'new car model'
+                      name_ar: حسsdgdgاسي
                     -
                       id: 2
-                      name: 'Prof. Lonnie Dickens DDS'
-                      name_ar: null
+                      name: 'nes title'
+                      name_ar: 'لايل يليبليبل'
                     -
                       id: 3
-                      name: 'Ed Fahey III'
-                      name_ar: null
+                      name: zit
+                      name_ar: بابلابل
                     -
-                      id: 5
-                      name: ' sdfsdf ss'
-                      name_ar: 'امين ساب'
+                      id: 4
+                      name: aaa
+                      name_ar: aaa
                 properties:
                   success:
                     type: boolean
@@ -741,20 +1007,20 @@ paths:
                     example:
                       -
                         id: 1
-                        name: 'Julie Toy'
-                        name_ar: null
+                        name: 'new car model'
+                        name_ar: حسsdgdgاسي
                       -
                         id: 2
-                        name: 'Prof. Lonnie Dickens DDS'
-                        name_ar: null
+                        name: 'nes title'
+                        name_ar: 'لايل يليبليبل'
                       -
                         id: 3
-                        name: 'Ed Fahey III'
-                        name_ar: null
+                        name: zit
+                        name_ar: بابلابل
                       -
-                        id: 5
-                        name: ' sdfsdf ss'
-                        name_ar: 'امين ساب'
+                        id: 4
+                        name: aaa
+                        name_ar: aaa
                     items:
                       type: object
                       properties:
@@ -763,10 +1029,10 @@ paths:
                           example: 1
                         name:
                           type: string
-                          example: 'Julie Toy'
+                          example: 'new car model'
                         name_ar:
                           type: string
-                          example: null
+                          example: حسsdgdgاسي
       tags:
         - Endpoints
   '/api/v1/sub_specialities/{id}':
@@ -794,8 +1060,8 @@ paths:
                   message: 'sub_speciality details fetched successfully'
                   payload:
                     id: 1
-                    name: 'Julie Toy'
-                    name_ar: null
+                    name: 'new car model'
+                    name_ar: حسsdgdgاسي
                 properties:
                   success:
                     type: boolean
@@ -811,10 +1077,10 @@ paths:
                         example: 1
                       name:
                         type: string
-                        example: 'Julie Toy'
+                        example: 'new car model'
                       name_ar:
                         type: string
-                        example: null
+                        example: حسsdgdgاسي
       tags:
         - Endpoints
     parameters:
@@ -851,21 +1117,13 @@ paths:
                   message: 'sub speciality doctors details fetched successfully'
                   payload:
                     -
-                      id: 1
-                      full_name: 'doctor full Name'
+                      id: 24
+                      full_name: Test
                       online_status: true
                       reviews_count: 0
                       rating_value: 0
                       location: null
-                      thumbnail: 'http://localhost:8000/storage/doctor.png'
-                    -
-                      id: 3
-                      full_name: 'doctor full Name'
-                      online_status: true
-                      reviews_count: 0
-                      rating_value: 0
-                      location: null
-                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                      thumbnail: 'http://neomed.test/storage/doctors/thumbnails/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg'
                 properties:
                   success:
                     type: boolean
@@ -877,30 +1135,22 @@ paths:
                     type: array
                     example:
                       -
-                        id: 1
-                        full_name: 'doctor full Name'
+                        id: 24
+                        full_name: Test
                         online_status: true
                         reviews_count: 0
                         rating_value: 0
                         location: null
-                        thumbnail: 'http://localhost:8000/storage/doctor.png'
-                      -
-                        id: 3
-                        full_name: 'doctor full Name'
-                        online_status: true
-                        reviews_count: 0
-                        rating_value: 0
-                        location: null
-                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                        thumbnail: 'http://neomed.test/storage/doctors/thumbnails/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg'
                     items:
                       type: object
                       properties:
                         id:
                           type: integer
-                          example: 1
+                          example: 24
                         full_name:
                           type: string
-                          example: 'doctor full Name'
+                          example: Test
                         online_status:
                           type: boolean
                           example: true
@@ -915,7 +1165,7 @@ paths:
                           example: null
                         thumbnail:
                           type: string
-                          example: 'http://localhost:8000/storage/doctor.png'
+                          example: 'http://neomed.test/storage/doctors/thumbnails/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg'
       tags:
         - Endpoints
     parameters:
@@ -956,15 +1206,63 @@ paths:
                       reviews_count: 0
                       rating_value: 0
                       location: null
-                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                      thumbnail: 'http://neomed.test/storage/doctors/thumbnails/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg'
                     -
-                      id: 3
+                      id: 2
                       full_name: 'doctor full Name'
                       online_status: true
                       reviews_count: 0
                       rating_value: 0
                       location: null
-                      thumbnail: 'http://localhost:8000/storage/doctor.png'
+                      thumbnail: 'http://neomed.test/storage/doctor.png'
+                    -
+                      id: 3
+                      full_name: 'Dr. Ahmed adel'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctor.png'
+                    -
+                      id: 4
+                      full_name: 'doctor full Name'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctors/thumbnails/1eCJpRj7WoRrvwBSOLsNbLti2FE0JfOC2aEwQsjH.png'
+                    -
+                      id: 22
+                      full_name: 'Dr. Test2'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctor.png'
+                    -
+                      id: 24
+                      full_name: Test
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctors/thumbnails/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg'
+                    -
+                      id: 25
+                      full_name: 'Ahmed Adel'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctor.png'
+                    -
+                      id: 45
+                      full_name: 'default doctor'
+                      online_status: true
+                      reviews_count: 0
+                      rating_value: 0
+                      location: null
+                      thumbnail: 'http://neomed.test/storage/doctor.png'
                 properties:
                   data:
                     type: array
@@ -976,15 +1274,63 @@ paths:
                         reviews_count: 0
                         rating_value: 0
                         location: null
-                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                        thumbnail: 'http://neomed.test/storage/doctors/thumbnails/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg'
                       -
-                        id: 3
+                        id: 2
                         full_name: 'doctor full Name'
                         online_status: true
                         reviews_count: 0
                         rating_value: 0
                         location: null
-                        thumbnail: 'http://localhost:8000/storage/doctor.png'
+                        thumbnail: 'http://neomed.test/storage/doctor.png'
+                      -
+                        id: 3
+                        full_name: 'Dr. Ahmed adel'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctor.png'
+                      -
+                        id: 4
+                        full_name: 'doctor full Name'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctors/thumbnails/1eCJpRj7WoRrvwBSOLsNbLti2FE0JfOC2aEwQsjH.png'
+                      -
+                        id: 22
+                        full_name: 'Dr. Test2'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctor.png'
+                      -
+                        id: 24
+                        full_name: Test
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctors/thumbnails/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg'
+                      -
+                        id: 25
+                        full_name: 'Ahmed Adel'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctor.png'
+                      -
+                        id: 45
+                        full_name: 'default doctor'
+                        online_status: true
+                        reviews_count: 0
+                        rating_value: 0
+                        location: null
+                        thumbnail: 'http://neomed.test/storage/doctor.png'
                     items:
                       type: object
                       properties:
@@ -1008,7 +1354,7 @@ paths:
                           example: null
                         thumbnail:
                           type: string
-                          example: 'http://localhost:8000/storage/doctor.png'
+                          example: 'http://neomed.test/storage/doctors/thumbnails/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg'
       tags:
         - Endpoints
     post:
@@ -1071,19 +1417,9 @@ paths:
                     reviews_count: 0
                     rating_value: 0
                     location: null
-                    thumbnail: 'http://localhost:8000/storage/doctor.png'
-                    specialities: []
-                    sub_specialities:
-                      -
-                        id: 1
-                        name: 'Julie Toy'
-                        name_ar: null
-                        slug: dolores-possimus-ut-quis-non
-                      -
-                        id: 2
-                        name: 'Prof. Lonnie Dickens DDS'
-                        name_ar: null
-                        slug: non-quia-iusto-qui-cupiditate
+                    thumbnail: 'http://neomed.test/storage/doctors/thumbnails/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg'
+                    speciality: null
+                    sub_specialities: []
                     bio: null
                     reviews: []
                 properties:
@@ -1116,38 +1452,13 @@ paths:
                         example: null
                       thumbnail:
                         type: string
-                        example: 'http://localhost:8000/storage/doctor.png'
-                      specialities:
-                        type: array
-                        example: []
+                        example: 'http://neomed.test/storage/doctors/thumbnails/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg'
+                      speciality:
+                        type: string
+                        example: null
                       sub_specialities:
                         type: array
-                        example:
-                          -
-                            id: 1
-                            name: 'Julie Toy'
-                            name_ar: null
-                            slug: dolores-possimus-ut-quis-non
-                          -
-                            id: 2
-                            name: 'Prof. Lonnie Dickens DDS'
-                            name_ar: null
-                            slug: non-quia-iusto-qui-cupiditate
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              example: 1
-                            name:
-                              type: string
-                              example: 'Julie Toy'
-                            name_ar:
-                              type: string
-                              example: null
-                            slug:
-                              type: string
-                              example: dolores-possimus-ut-quis-non
+                        example: []
                       bio:
                         type: string
                         example: null
@@ -1195,6 +1506,22 @@ paths:
         required: true
         schema:
           type: integer
+  /api/v1/symptomes/doctors:
+    post:
+      summary: ''
+      operationId: postApiV1SymptomesDoctors
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
   '/api/v1/doctors/{id}/add-to-favorites':
     post:
       summary: ''
@@ -1303,11 +1630,11 @@ paths:
                 rating:
                   type: integer
                   description: 'Must not be greater than 5.'
-                  example: 4
+                  example: 1
                 comment:
                   type: string
                   description: ''
-                  example: facere
+                  example: qui
               required:
                 - rating
     parameters:
@@ -1315,7 +1642,44 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: tenetur
+        example: fugiat
+        required: true
+        schema:
+          type: string
+  '/api/v1/consultations/{id}':
+    get:
+      summary: ''
+      operationId: getApiV1ConsultationsId
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the consultation.'
+        example: et
         required: true
         schema:
           type: string
@@ -1356,7 +1720,7 @@ paths:
         in: path
         name: title
         description: ''
-        example: ipsa
+        example: ipsum
         required: true
         schema:
           type: string
@@ -1402,14 +1766,42 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+866099657395'
+                  example: '+802393737158'
                 otp:
                   type: string
                   description: ''
-                  example: reprehenderit
+                  example: laudantium
               required:
                 - phone_number
                 - otp
+  /api/v1/patients/profile/my:
+    get:
+      summary: ''
+      operationId: getApiV1PatientsProfileMy
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
   /api/v1/patients/complete-medical-record:
     post:
       summary: ''
@@ -1436,23 +1828,23 @@ paths:
                 full_name:
                   type: string
                   description: 'Must not be greater than 300 characters.'
-                  example: jgqclorafyqxhnvivf
+                  example: vtragnfizfcvvfofmuuarbout
                 birth_date:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2023-07-29T12:29:35'
+                  example: '2024-02-19T13:19:50'
                 height:
                   type: number
                   description: ''
-                  example: 294297799.377
+                  example: 8.8
                 weight:
                   type: number
                   description: ''
-                  example: 180.17665683
+                  example: 6.32214
                 age:
                   type: integer
                   description: 'Must be between 1 and 110.'
-                  example: 2
+                  example: 1
                 gender:
                   type: string
                   description: 'Must be one of <code>male</code> or <code>female</code>.'
@@ -1480,11 +1872,15 @@ paths:
                 has_depression_screening:
                   type: boolean
                   description: 'Must be one of <code>0</code> or <code>1</code>.'
-                  example: '0'
-                other_problems:
-                  type: string
-                  description: 'Must be a valid JSON string.'
-                  example: '["ut","odit"]'
+                  example: '1'
+                little_interest_doing_things:
+                  type: boolean
+                  description: 'Must be one of <code>0</code> or <code>1</code>.'
+                  example: '1'
+                feeling_down_or_depressed:
+                  type: boolean
+                  description: 'Must be one of <code>0</code> or <code>1</code>.'
+                  example: '1'
   /api/v1/patients/update-phone-number:
     put:
       summary: ''
@@ -1511,7 +1907,7 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+471173092568'
+                  example: '+578352559056'
               required:
                 - phone_number
   /api/v1/patients/update-thumbnail:
@@ -1540,7 +1936,7 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: tigubujlsxmmdyzivarev
+                  example: mnfexd
               required:
                 - thumbnail
   /api/v1/patients:
@@ -1596,7 +1992,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: quibusdam
+        example: quis
         required: true
         schema:
           type: string
@@ -1665,7 +2061,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: veniam
+        example: deserunt
         required: true
         schema:
           type: string
@@ -1759,7 +2155,7 @@ paths:
         in: path
         name: title
         description: ''
-        example: iure
+        example: id
         required: true
         schema:
           type: string
@@ -1824,97 +2220,10 @@ paths:
         in: path
         name: id
         description: 'The ID of the recommendation.'
-        example: doloremque
+        example: asperiores
         required: true
         schema:
           type: string
-  /api/v1/doctors/register:
-    post:
-      summary: ''
-      operationId: postApiV1DoctorsRegister
-      description: ''
-      parameters:
-        -
-          in: header
-          name: Authorization
-          description: ''
-          example: 'Bearer {YOUR_AUTH_KEY}'
-          schema:
-            type: string
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                full_name:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: rerxumxnnemrxe
-                id_number:
-                  type: integer
-                  description: ''
-                  example: 12
-                birth_date:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: mmrkiqlvzqnomylkxjeoid
-                phone_number:
-                  type: string
-                  description: 'Must not be greater than 255 characters.'
-                  example: hpchzditqqajnqkqhfrhgixw
-                email:
-                  type: string
-                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: jay36@example.org
-                job_title:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: hevppjfkyv
-                classification_number:
-                  type: integer
-                  description: ''
-                  example: 10
-                insurance_number:
-                  type: integer
-                  description: ''
-                  example: 17
-                specialities:
-                  type: string
-                  description: ''
-                  example: null
-                sub_specialities:
-                  type: string
-                  description: ''
-                  example: null
-                medical_licence_file:
-                  type: string
-                  format: binary
-                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-                cv_file:
-                  type: string
-                  format: binary
-                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-                certification_file:
-                  type: string
-                  format: binary
-                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-                thumbnail:
-                  type: string
-                  description: 'Must not be greater than 3000 characters.'
-                  example: rwfejwrlqmaohuvrhblpgtvak
-                bio:
-                  type: string
-                  description: ''
-                  example: null
-              required:
-                - phone_number
-                - email
-                - thumbnail
   '/api/v1/doctors/{id}/check-status':
     get:
       summary: ''
@@ -2006,14 +2315,143 @@ paths:
                 phone_number:
                   type: string
                   description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
-                  example: '+521268097098'
+                  example: '+312576693494'
                 otp:
                   type: string
                   description: ''
-                  example: ipsum
+                  example: odio
               required:
                 - phone_number
                 - otp
+  /api/v1/doctors/otp/auth/send:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsOtpAuthSend
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+  /api/v1/doctors/otp/auth/verify:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsOtpAuthVerify
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  type: string
+                  description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
+                  example: '+763565543218'
+                otp:
+                  type: string
+                  description: ''
+                  example: dignissimos
+              required:
+                - phone_number
+                - otp
+  /api/v1/doctors/register:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsRegister
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: hnpmbbpcmpjipztq
+                id_number:
+                  type: integer
+                  description: ''
+                  example: 7
+                birth_date:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: ynddnwobjpnepuqamlx
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: aleen.hintz@example.org
+                job_title:
+                  type: string
+                  description: 'Must not be greater than 150 characters.'
+                  example: imbegjpupsyki
+                classification_number:
+                  type: integer
+                  description: ''
+                  example: 11
+                insurance_number:
+                  type: integer
+                  description: ''
+                  example: 10
+                sub_specialities:
+                  type: string
+                  description: ''
+                  example: tenetur
+                medical_licence_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                cv_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                certification_file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+                thumbnail:
+                  type: string
+                  description: 'Must not be greater than 3000 characters.'
+                  example: fimhlzzmvnr
+                bio:
+                  type: string
+                  description: ''
+                  example: null
+                speciality_id:
+                  type: integer
+                  description: ''
+                  example: 6
   /api/v1/doctors/profile/my:
     get:
       summary: ''
@@ -2107,7 +2545,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the notification.'
-        example: harum
+        example: unde
         required: true
         schema:
           type: string
@@ -2208,9 +2646,25 @@ paths:
                 thumbnail:
                   type: string
                   description: 'Must not be greater than 3000 characters.'
-                  example: lnzchqztcyxmxcpiwb
+                  example: umdsypcsfnwdiktusxepndnok
               required:
                 - thumbnail
+  /api/v1/doctors/withdraw-ballance:
+    post:
+      summary: ''
+      operationId: postApiV1DoctorsWithdrawBallance
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Endpoints
   /api/v1/doctors/my-wallet/history:
     get:
       summary: ''
@@ -2288,7 +2742,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -2313,7 +2767,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -2338,7 +2792,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -2368,12 +2822,12 @@ paths:
                 description:
                   type: string
                   description: ''
-                  example: 'Nihil nulla minus asperiores odio unde non.'
+                  example: 'Laboriosam nam enim earum molestiae sit quia.'
                 medicines:
                   type: array
                   description: 'group of medicals puts in prescripion as array'
                   example:
-                    - 4
+                    - 14
                   items:
                     type: integer
                 lab_tests:
@@ -2386,21 +2840,26 @@ paths:
                 other_lab_tests:
                   type: string
                   description: ''
-                  example: expedita
+                  example: corrupti
                 sick_leave:
                   type: boolean
                   description: .
-                  example: true
+                  example: false
                 notes:
                   type: string
                   description: ''
-                  example: dolores
+                  example: consequatur
+                sub_specialities:
+                  type: object
+                  description: ''
+                  example: null
+                  properties: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 20
         required: true
         schema:
           type: integer
@@ -2425,7 +2884,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: est
+        example: sint
         required: true
         schema:
           type: string
@@ -2450,7 +2909,7 @@ paths:
         in: path
         name: status
         description: ''
-        example: illo
+        example: nulla
         required: true
         schema:
           type: string
@@ -2493,14 +2952,18 @@ paths:
             schema:
               type: object
               properties:
+                prescription_title:
+                  type: string
+                  description: 'Must not be greater than 250 characters.'
+                  example: tlbbsszdjgcfzxtr
                 drug_name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: ycnjqykpumdpxwzqlbe
+                  example: mtigfj
                 route:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: xydacvtthcjqhemxfhixo
+                  example: btbgkqxslbkpgxdbkvsznuz
                 dose:
                   type: integer
                   description: ''
@@ -2508,32 +2971,29 @@ paths:
                 unit:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: yegx
+                  example: rzqphkvlbbwxnjyrp
                 frequancy:
                   type: string
                   description: 'Must not be greater than 150 characters.'
-                  example: uhvrc
+                  example: qnrahtoqzeypddytash
                 duration:
                   type: integer
                   description: ''
-                  example: 9
+                  example: 2
                 duration_unit:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: obdvsjqvnuthowzdpbxbpgqt
-                shape:
-                  type: string
-                  description: 'Must not be greater than 150 characters.'
-                  example: ocqalqjy
+                  example: x
                 prn:
                   type: boolean
                   description: ''
-                  example: false
+                  example: true
                 instructions:
                   type: string
                   description: ''
-                  example: iste
+                  example: dolores
               required:
+                - prescription_title
                 - drug_name
                 - route
                 - dose
@@ -2541,7 +3001,6 @@ paths:
                 - frequancy
                 - duration
                 - duration_unit
-                - shape
                 - instructions
   /api/v1/doctors/medicines/list:
     get:
@@ -2632,7 +3091,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -2657,14 +3116,14 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
   '/api/v1/consultations/{id}/view-summary':
-    post:
+    get:
       summary: ''
-      operationId: postApiV1ConsultationsIdViewSummary
+      operationId: getApiV1ConsultationsIdViewSummary
       description: ''
       parameters:
         -
@@ -2674,7 +3133,19 @@ paths:
           example: 'Bearer {YOUR_AUTH_KEY}'
           schema:
             type: string
-      responses: {  }
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
       tags:
         - Endpoints
     parameters:
@@ -2682,7 +3153,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer
@@ -2719,7 +3190,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the consultation.'
-        example: 1
+        example: 2
         required: true
         schema:
           type: integer

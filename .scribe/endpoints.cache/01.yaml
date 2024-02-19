@@ -6,6 +6,92 @@ endpoints:
   -
     httpMethods:
       - GET
+    uri: api/v1/patients/medical-record
+    metadata:
+      groupName: Consultation
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5ZV1f6EhPe6cDk38agbvad4'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/patients/favorite-doctors
+    metadata:
+      groupName: Consultation
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer gZE81edaVchPaD54kb6v36f'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
     uri: 'api/v1/consultations/{id}/medical-record'
     metadata:
       groupName: Consultation
@@ -25,7 +111,7 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
       consultation_id:
@@ -36,7 +122,7 @@ endpoints:
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
       consultation_id: 19
     queryParameters: []
     cleanQueryParameters: []
@@ -57,7 +143,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer bve4Pfa15EZ6gdVhka8c36D'
+      - 'Bearer 6gf1Ea4VZhvbPd3caek865D'
     controller: null
     method: null
     route: null

@@ -1729,10 +1729,7 @@
                             "schema": {
                                 "properties": {
                                     "answers": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "object"
-                                        }
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"

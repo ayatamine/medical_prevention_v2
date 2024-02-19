@@ -300,12 +300,12 @@ class PatientRepository extends AbstractRepository
     public function updateScale($request,$title){
         // $scale = Scale::where('title',$title)->firstOrFail();
         // $patientScale = PatientScale::wherePatientId(request()->user()->id)->get();
-        foreach ($responses=$request->answers as $response) {
+        foreach ($responses=$request->answers as $question_id=>$response) {
 
-            $patientResponse = PatientScale::where('patient_id',$response['patient_id'])
-                                            ->where('scale_question_id',$response['scale_question_id'])
+            $patientResponse = PatientScale::where('patient_id',request()->user()->id)
+                                            ->where('scale_question_id',$question_id)
                                             ->firstOrFail();
-            $patientResponse->update($response);
+            $patientResponse->update(['answer'=>$response]);
         }
         return true;
     }

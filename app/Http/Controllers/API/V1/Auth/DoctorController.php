@@ -698,7 +698,7 @@ class DoctorController extends Controller
 
             return $this->api->success()
                 ->message('notification fetched successfully')
-                ->payload(SimpleNotificationResource::collection($notifications))
+                ->payload($notifications)
                 ->send();
         } catch (Exception $ex) {
             handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');

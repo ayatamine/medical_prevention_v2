@@ -34,9 +34,9 @@ endpoints:
           <head>
               <meta charset="UTF-8">
               <title>L5 Swagger UI</title>
-              <link rel="stylesheet" type="text/css" href="http://localhost:8000/docs/asset/swagger-ui.css?v=1a3104533e165579a786263992e35a84">
-              <link rel="icon" type="image/png" href="http://localhost:8000/docs/asset/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6" sizes="32x32"/>
-              <link rel="icon" type="image/png" href="http://localhost:8000/docs/asset/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384" sizes="16x16"/>
+              <link rel="stylesheet" type="text/css" href="http://neomed.test/docs/asset/swagger-ui.css?v=1a3104533e165579a786263992e35a84">
+              <link rel="icon" type="image/png" href="http://neomed.test/docs/asset/favicon-32x32.png?v=40d4f2c38d1cd854ad463f16373cbcb6" sizes="32x32"/>
+              <link rel="icon" type="image/png" href="http://neomed.test/docs/asset/favicon-16x16.png?v=f0ae831196d55d8f4115b6c5e8ec5384" sizes="16x16"/>
               <style>
               html
               {
@@ -61,18 +61,18 @@ endpoints:
           <body>
           <div id="swagger-ui"></div>
 
-          <script src="http://localhost:8000/docs/asset/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441"></script>
-          <script src="http://localhost:8000/docs/asset/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70"></script>
+          <script src="http://neomed.test/docs/asset/swagger-ui-bundle.js?v=97fff9b3851e64cb29612bd503cbc441"></script>
+          <script src="http://neomed.test/docs/asset/swagger-ui-standalone-preset.js?v=0107c89c66bb6bdb198b28f7eeffea70"></script>
           <script>
               window.onload = function() {
                   // Build a system
                   const ui = SwaggerUIBundle({
                       dom_id: '#swagger-ui',
-                      url: "http://localhost:8000/docs/api-docs.json",
+                      url: "http://neomed.test/docs/api-docs.json",
                       operationsSorter: null,
                       configUrl: null,
                       validatorUrl: null,
-                      oauth2RedirectUrl: "http://localhost:8000/api/oauth2-callback",
+                      oauth2RedirectUrl: "http://neomed.test/api/oauth2-callback",
 
                       requestInterceptor: function(request) {
                           request.headers['X-CSRF-TOKEN'] = '';
@@ -112,7 +112,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer d8k1Zh665v3e4aEaVgDcfbP'
+      - 'Bearer V8Db346aafgZePhdvk51c6E'
     controller: null
     method: null
     route: null
@@ -234,7 +234,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 8Z3gev6Eka61PcbdDV4h5af'
+      - 'Bearer bDEevadakc4hf36Zg681P5V'
     controller: null
     method: null
     route: null
@@ -277,7 +277,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ec5gv8h46EfZV3daa1DP6bk'
+      - 'Bearer 5Pa4D6ceabE1fhZv6k3Vd8g'
     controller: null
     method: null
     route: null
@@ -309,7 +309,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"chronic diseases fetched successfuly","payload":[{"id":1,"name":"Jadyn Cummerata","name_ar":"\u062c\u064a\u062f\u0627 \u0643\u0631\u0645","icon":null},{"id":2,"name":"Cullen Konopelski","name_ar":null,"icon":null},{"id":4,"name":"Mr. Christopher Langworth","name_ar":null,"icon":null},{"id":5,"name":"Jeffrey Fadel","name_ar":null,"icon":null}]}'
+        content: '{"success":true,"message":"chronic diseases fetched successfuly","payload":[{"category_name":"chronic disease ","category_name_ar":"chronic disease ","chronic_diseases":[{"id":1,"name":"new chronic","name_ar":"sdfsdfsd","icon":null},{"id":2,"name":"nes title","name_ar":"\u0633\u0628\u0644\u064a\u0628\u0644\u064a\u0628\u0644\u064a\u0628\u0644","icon":null}]},{"category_name":"chronic disease 2","category_name_ar":"chronic disese 2","chronic_diseases":[]},{"category_name":"chronic disease 3","category_name_ar":"chronic disease 3","chronic_diseases":[]}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -322,7 +322,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer keEc6v5P64fVDa18h3bZdag'
+      - 'Bearer 4bd6Z6Dhka3c8a1V5egvfPE'
     controller: null
     method: null
     route: null
@@ -354,7 +354,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"allergies fetched successfuly","payload":[{"id":1,"name":"new allergy","name_ar":"\u062d\u0633\u0627\u0633\u064a","icon":null}]}'
+        content: '{"success":true,"message":"allergies fetched successfuly","payload":[{"id":1,"name":"new allergy","name_ar":"\u064a\u0644\u064a\u0644\u064a\u0628\u0644","icon":null}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -367,7 +367,52 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer af8b16VD5h4ZE6ce3gdvkPa'
+      - 'Bearer 6kaeEg1DPavf8Vh3b65d4Zc'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/lab-tests
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":"lab tests fetched successfuly","payload":[{"id":1,"name":"Test 1","name_ar":null},{"id":2,"name":"Test 2","name_ar":null},{"id":3,"name":"Test 3","name_ar":null},{"id":4,"name":"Test 4","name_ar":null},{"id":5,"name":"Test 5","name_ar":null}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '57'
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer d6v4g3aVDEe6kPc5a8fZhb1'
     controller: null
     method: null
     route: null
@@ -399,12 +444,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"symptomes fetched successfuly","payload":[{"id":1,"name":"Jovani Dare","name_ar":"Alvera Abbott","icon":"ghWyogr8v2tAyG5escLJEWn6rcaICp-metaYWpheF9yZXMyLnBuZw==-.png"},{"id":2,"name":"Ms. Audrey Durgan Jr.","name_ar":"Albina VonRueden","icon":null},{"id":3,"name":"Harmon Reilly","name_ar":"Dee Wuckert","icon":null},{"id":4,"name":"Marlin Lesch","name_ar":"Annette Wunsch MD","icon":null},{"id":5,"name":"Everett Osinski","name_ar":"Brenda Dickinson","icon":null}]}'
+        content: '{"success":true,"message":"symptomes fetched successfuly","payload":[{"category_name":"common health issues","category_name_ar":"\u0623\u0643\u062b\u0631 \u0627\u0644\u0627\u0639\u0631\u0627\u0636 \u0627\u0644\u0645\u0639\u0631\u0648\u0641\u0629","symptomes":[{"id":1,"name":"Prof. Marilyne Spinka Jr.","name_ar":"\u0635\u062f\u0627\u0639","icon":null},{"id":2,"name":"Ines Wiza","name_ar":"Joshuah Kiehn","icon":null},{"id":3,"name":"Camille Robel","name_ar":"Ms. Marjory Heidenreich","icon":null},{"id":4,"name":"Itzel Ankunding","name_ar":"Ryleigh Boyer Sr.","icon":null},{"id":5,"name":"Rebeca Sawayn","name_ar":"Benjamin Little","icon":null}]},{"category_name":"General Physician","category_name_ar":"\u0641\u064a\u0632\u064a\u0627\u0626\u064a \u0639\u0627\u0645","symptomes":[]},{"category_name":"Orthopedist","category_name_ar":" \u0645\u062a\u062e\u0635\u0635 \u0639\u0638\u0627\u0645","symptomes":[]},{"category_name":"urologies","category_name_ar":"\u0623\u0645\u0631\u0627\u0636 \u062a\u0646\u0627\u0633\u0644\u064a\u0629","symptomes":[]}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '57'
+          x-ratelimit-remaining: '56'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -412,7 +457,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ef5a4k8c1ZP3vhg6da6VDbE'
+      - 'Bearer gDPE3v56a6Ve4Z1bfdhca8k'
     controller: null
     method: null
     route: null
@@ -444,12 +489,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"family history fetched successfuly","payload":[{"id":1,"name":"Joanne Kunde","name_ar":"\u062c\u064a\u062f\u0627 \u0643\u0631\u0645"},{"id":2,"name":"Savanah Leuschke Sr.","name_ar":null},{"id":3,"name":"Cristian Mertz II","name_ar":null},{"id":4,"name":"Dr. Wilburn Mayert","name_ar":null}]}'
+        content: '{"success":true,"message":"family history fetched successfuly","payload":[{"id":1,"name":"nes title","name_ar":"\u062d\u0633sdgdg\u0627\u0633\u064a"},{"id":2,"name":"zit","name_ar":"\u0644\u0627\u064a\u0644 \u064a\u0644\u064a\u0628\u0644\u064a\u0628\u0644"},{"id":3,"name":"\u0644\u064a\u0644\u064a\u0628\u0644\u064a\u0628\u0644\u064a\u0628\u0644","name_ar":"\u0644\u064a\u0628\u0644\u064a\u0644"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '56'
+          x-ratelimit-remaining: '55'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -457,7 +502,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer gVchv4PkE6e83dZ5b61aafD'
+      - 'Bearer f85akhZb6VPEgd13D6ev4ac'
     controller: null
     method: null
     route: null
@@ -489,12 +534,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"Advertisements fetched successfuly","payload":[]}'
+        content: '{"success":true,"message":"Advertisements fetched successfuly","payload":[{"id":2,"title":"test ahmed","title_ar":"hello","image":"https:\/\/ui-avatars.com\/api\/?background=0D8ABC&color=fff","text":"hello","text_ar":"hekki"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '55'
+          x-ratelimit-remaining: '54'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -502,7 +547,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6e86abdEP1VkhD45cgZaf3v'
+      - 'Bearer vgE5aV6dbfZk43PeDac18h6'
     controller: null
     method: null
     route: null
@@ -539,7 +584,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '54'
+          x-ratelimit-remaining: '53'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -547,7 +592,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer PD1k4agZ65dbE8vea6fhVc3'
+      - 'Bearer VcZ8aa1DbPfe65d3vghE4k6'
     controller: null
     method: null
     route: null
@@ -579,12 +624,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"specialities fetched successfully","payload":[{"id":1,"name":"Jovanny Torphy Sr.","name_ar":"\u062c\u064a\u062f\u0627 \u0643\u0631\u0645"},{"id":2,"name":"speciality1 s","name_ar":"\u0627\u0644\u062a\u062e\u0635\u0635 1"}]}'
+        content: '{"success":true,"message":"specialities fetched successfully","payload":[{"id":1,"name":"speciality 1","name_ar":"\u0627\u0644\u062a\u062e\u0635\u0635 1"},{"id":2,"name":"Speciality 2","name_ar":"Speciality 2 ar"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '53'
+          x-ratelimit-remaining: '52'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -592,7 +637,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 4g5Vkv6aa38cD6b1hdfeEZP'
+      - 'Bearer g8Ec1ZeD5hvfbaPa4Vd366k'
     controller: null
     method: null
     route: null
@@ -632,12 +677,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"speciality details fetched successfully","payload":{"id":1,"name":"Jovanny Torphy Sr.","name_ar":"\u062c\u064a\u062f\u0627 \u0643\u0631\u0645"}}'
+        content: '{"success":true,"message":"speciality details fetched successfully","payload":{"id":1,"name":"speciality 1","name_ar":"\u0627\u0644\u062a\u062e\u0635\u0635 1"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '52'
+          x-ratelimit-remaining: '51'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -645,7 +690,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer dcPev835fVDhg4b61aaZ6Ek'
+      - 'Bearer vc6468fDgPahVba5dZ1e3Ek'
     controller: null
     method: null
     route: null
@@ -690,7 +735,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '51'
+          x-ratelimit-remaining: '50'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -698,7 +743,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer PVfhvb5aed4cDEga61Z36k8'
+      - 'Bearer vf3abc1Z65e6kPdhgE8VaD4'
     controller: null
     method: null
     route: null
@@ -730,12 +775,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"sub specialities fetched successfully","payload":[{"id":1,"name":"Julie Toy","name_ar":null},{"id":2,"name":"Prof. Lonnie Dickens DDS","name_ar":null},{"id":3,"name":"Ed Fahey III","name_ar":null},{"id":5,"name":" sdfsdf ss","name_ar":"\u0627\u0645\u064a\u0646 \u0633\u0627\u0628"}]}'
+        content: '{"success":true,"message":"sub specialities fetched successfully","payload":[{"id":1,"name":"new car model","name_ar":"\u062d\u0633sdgdg\u0627\u0633\u064a"},{"id":2,"name":"nes title","name_ar":"\u0644\u0627\u064a\u0644 \u064a\u0644\u064a\u0628\u0644\u064a\u0628\u0644"},{"id":3,"name":"zit","name_ar":"\u0628\u0627\u0628\u0644\u0627\u0628\u0644"},{"id":4,"name":"aaa","name_ar":"aaa"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '50'
+          x-ratelimit-remaining: '49'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -743,7 +788,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Edacehf8kVg563Dv146aPbZ'
+      - 'Bearer e6E1avkgP3f8VZDh4d56cba'
     controller: null
     method: null
     route: null
@@ -783,12 +828,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"sub_speciality details fetched successfully","payload":{"id":1,"name":"Julie Toy","name_ar":null}}'
+        content: '{"success":true,"message":"sub_speciality details fetched successfully","payload":{"id":1,"name":"new car model","name_ar":"\u062d\u0633sdgdg\u0627\u0633\u064a"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '49'
+          x-ratelimit-remaining: '48'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -796,7 +841,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer avd56a8Vbeh6gD14fcP3kEZ'
+      - 'Bearer 6vb4ZD15eah3EPc8kVa6fdg'
     controller: null
     method: null
     route: null
@@ -836,12 +881,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"sub speciality doctors details fetched successfully","payload":[{"id":1,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/localhost:8000\/storage\/doctor.png"},{"id":3,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/localhost:8000\/storage\/doctor.png"}]}'
+        content: '{"success":true,"message":"sub speciality doctors details fetched successfully","payload":[{"id":24,"full_name":"Test","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctors\/thumbnails\/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '48'
+          x-ratelimit-remaining: '47'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -849,7 +894,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer P3h6fEe5g4Va6kDb81davZc'
+      - 'Bearer EZf86dhg4653ecPavVkbDa1'
     controller: null
     method: null
     route: null
@@ -881,12 +926,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"data":[{"id":1,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/localhost:8000\/storage\/doctor.png"},{"id":3,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/localhost:8000\/storage\/doctor.png"}]}'
+        content: '{"data":[{"id":1,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctors\/thumbnails\/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg"},{"id":2,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctor.png"},{"id":3,"full_name":"Dr. Ahmed adel","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctor.png"},{"id":4,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctors\/thumbnails\/1eCJpRj7WoRrvwBSOLsNbLti2FE0JfOC2aEwQsjH.png"},{"id":22,"full_name":"Dr. Test2","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctor.png"},{"id":24,"full_name":"Test","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctors\/thumbnails\/f9Rs1QJkshapZZ22ovEZKexwF8dnu51NXA04LIWw.jpg"},{"id":25,"full_name":"Ahmed Adel","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctor.png"},{"id":45,"full_name":"default doctor","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctor.png"}]}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '47'
+          x-ratelimit-remaining: '46'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -894,7 +939,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6k3aache5E4fZdv6D8bgV1P'
+      - 'Bearer hcV5ZafD38k664PEegdb1va'
     controller: null
     method: null
     route: null
@@ -928,7 +973,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Pg6ZE1hcadV6fkvba48e53D'
+      - 'Bearer Dehf8P3ad4c1V6kg6Zb5avE'
     controller: null
     method: null
     route: null
@@ -968,12 +1013,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"success":true,"message":"Doctor details fetched successfuly","payload":{"id":1,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/localhost:8000\/storage\/doctor.png","specialities":[],"sub_specialities":[{"id":1,"name":"Julie Toy","name_ar":null,"slug":"dolores-possimus-ut-quis-non"},{"id":2,"name":"Prof. Lonnie Dickens DDS","name_ar":null,"slug":"non-quia-iusto-qui-cupiditate"}],"bio":null,"reviews":[]}}'
+        content: '{"success":true,"message":"Doctor details fetched successfuly","payload":{"id":1,"full_name":"doctor full Name","online_status":true,"reviews_count":0,"rating_value":0,"location":null,"thumbnail":"http:\/\/neomed.test\/storage\/doctors\/thumbnails\/DtLtzUUBdsKgENyovdpxtuWG65p4oHDmWtwu18ja.jpg","speciality":null,"sub_specialities":[],"bio":null,"reviews":[]}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '46'
+          x-ratelimit-remaining: '45'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -981,7 +1026,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer c54k1hdfED6V83a6PgbZeva'
+      - 'Bearer EdP6cgZ58ka3f1VbaD4veh6'
     controller: null
     method: null
     route: null
@@ -1024,7 +1069,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 156DEekZa64d3hcbVaPgvf8'
+      - 'Bearer 5a4fE3vge6dDk86Vb1ahcPZ'
     controller: null
     method: null
     route: null
@@ -1066,7 +1111,41 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer daVE86315bgfvaceD6ZkhP4'
+      - 'Bearer DbP86Zkvc16ge435fhdaaVE'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/symptomes/doctors
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer DZ16gVf5e6dcavE4akPh3b8'
     controller: null
     method: null
     route: null
@@ -1108,7 +1187,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6gVeDhfZ4acPE86kb15vad3'
+      - 'Bearer bd6Ve4cE3vfDh6a8gZPa5k1'
     controller: null
     method: null
     route: null
@@ -1150,7 +1229,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer akd1846hEf3b6cZVgPe5vDa'
+      - 'Bearer DafVbe1c6a5v8hE6P34kdZg'
     controller: null
     method: null
     route: null
@@ -1184,7 +1263,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 5haaVdPcgD81EbZkv64e36f'
+      - 'Bearer Va1dagf8D6k46e3vPc5bZhE'
     controller: null
     method: null
     route: null
@@ -1218,7 +1297,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Zc65VfD1aeghPE683kvdb4a'
+      - 'Bearer d4EVavZfk6D1ebPc3g65ah8'
     controller: null
     method: null
     route: null
@@ -1245,11 +1324,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: tenetur
+        example: fugiat
         type: string
         custom: []
     cleanUrlParameters:
-      id: tenetur
+      id: fugiat
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1257,26 +1336,77 @@ endpoints:
         name: rating
         description: 'Must not be greater than 5.'
         required: true
-        example: 4
+        example: 1
         type: integer
         custom: []
       comment:
         name: comment
         description: ''
         required: false
-        example: facere
+        example: qui
         type: string
         custom: []
     cleanBodyParameters:
-      rating: 4
-      comment: facere
+      rating: 1
+      comment: qui
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer echf1v8gEVbkZaD4a36Pd65'
+      - 'Bearer kD5E3ebh86aVgZPc461vadf'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/consultations/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the consultation.'
+        required: true
+        example: et
+        type: string
+        custom: []
+    cleanUrlParameters:
+      id: et
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer V63avkdeD5P6EZ1bh48gfac'
     controller: null
     method: null
     route: null
@@ -1303,11 +1433,11 @@ endpoints:
         name: title
         description: ''
         required: true
-        example: ipsa
+        example: ipsum
         type: string
         custom: []
     cleanUrlParameters:
-      title: ipsa
+      title: ipsum
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1321,7 +1451,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '45'
+          x-ratelimit-remaining: '44'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -1329,7 +1459,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Eh6fckVd4P6bZ8va3a5Dge1'
+      - 'Bearer d5af861hPvkbD4aEg6ZV3ec'
     controller: null
     method: null
     route: null
@@ -1363,7 +1493,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer fcEVkvd6e1aDPbh635g4Z8a'
+      - 'Bearer a61D4da8cgvkEVZh653fPbe'
     controller: null
     method: null
     route: null
@@ -1394,26 +1524,69 @@ endpoints:
         name: phone_number
         description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
         required: true
-        example: '+866099657395'
+        example: '+802393737158'
         type: string
         custom: []
       otp:
         name: otp
         description: ''
         required: true
-        example: reprehenderit
+        example: laudantium
         type: string
         custom: []
     cleanBodyParameters:
-      phone_number: '+866099657395'
-      otp: reprehenderit
+      phone_number: '+802393737158'
+      otp: laudantium
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer dvVafaEZ56h1bP8e436kcgD'
+      - 'Bearer 4gchf6k6Zaa5ve1b38PVdDE'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/patients/profile/my
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer k645dPDVE8ceb1avgaf6Z3h'
     controller: null
     method: null
     route: null
@@ -1444,35 +1617,35 @@ endpoints:
         name: full_name
         description: 'Must not be greater than 300 characters.'
         required: false
-        example: jgqclorafyqxhnvivf
+        example: vtragnfizfcvvfofmuuarbout
         type: string
         custom: []
       birth_date:
         name: birth_date
         description: 'Must be a valid date.'
         required: false
-        example: '2023-07-29T12:29:35'
+        example: '2024-02-19T13:19:50'
         type: string
         custom: []
       height:
         name: height
         description: ''
         required: false
-        example: 294297799.377
+        example: 8.8
         type: number
         custom: []
       weight:
         name: weight
         description: ''
         required: false
-        example: 180.17665683
+        example: 6.32214
         type: number
         custom: []
       age:
         name: age
         description: 'Must be between 1 and 110.'
         required: false
-        example: 2
+        example: 1
         type: integer
         custom: []
       gender:
@@ -1521,34 +1694,42 @@ endpoints:
         name: has_depression_screening
         description: 'Must be one of <code>0</code> or <code>1</code>.'
         required: false
-        example: '0'
+        example: '1'
         type: boolean
         custom: []
-      other_problems:
-        name: other_problems
-        description: 'Must be a valid JSON string.'
+      little_interest_doing_things:
+        name: little_interest_doing_things
+        description: 'Must be one of <code>0</code> or <code>1</code>.'
         required: false
-        example: '["ut","odit"]'
-        type: string
+        example: '1'
+        type: boolean
+        custom: []
+      feeling_down_or_depressed:
+        name: feeling_down_or_depressed
+        description: 'Must be one of <code>0</code> or <code>1</code>.'
+        required: false
+        example: '1'
+        type: boolean
         custom: []
     cleanBodyParameters:
-      full_name: jgqclorafyqxhnvivf
-      birth_date: '2023-07-29T12:29:35'
-      height: 294297799.377
-      weight: 180.17665683
-      age: 2
+      full_name: vtragnfizfcvvfofmuuarbout
+      birth_date: '2024-02-19T13:19:50'
+      height: 8.8
+      weight: 6.32214
+      age: 1
       gender: female
       has_physical_activity: '1'
       has_cancer_screening: '1'
-      has_depression_screening: '0'
-      other_problems: '["ut","odit"]'
+      has_depression_screening: '1'
+      little_interest_doing_things: '1'
+      feeling_down_or_depressed: '1'
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer b83vEZVacdfgekhD6465a1P'
+      - 'Bearer ha6cEkv468gZD1VadeP3bf5'
     controller: null
     method: null
     route: null
@@ -1579,18 +1760,18 @@ endpoints:
         name: phone_number
         description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
         required: true
-        example: '+471173092568'
+        example: '+578352559056'
         type: string
         custom: []
     cleanBodyParameters:
-      phone_number: '+471173092568'
+      phone_number: '+578352559056'
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer gd1aaZhPceD36f8kE64vbV5'
+      - 'Bearer v836d1EVh5akeDgcP6baf4Z'
     controller: null
     method: null
     route: null
@@ -1621,18 +1802,18 @@ endpoints:
         name: thumbnail
         description: 'Must not be greater than 3000 characters.'
         required: true
-        example: tigubujlsxmmdyzivarev
+        example: mnfexd
         type: string
         custom: []
     cleanBodyParameters:
-      thumbnail: tigubujlsxmmdyzivarev
+      thumbnail: mnfexd
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 65D3kaEvhP18ec46abgdVfZ'
+      - 'Bearer EkZ5dDef68bghP6c1Vva34a'
     controller: null
     method: null
     route: null
@@ -1666,7 +1847,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer f4hgvaEZcDkd6V6583Peb1a'
+      - 'Bearer 63ek6DhZVcba5vaPE1fd84g'
     controller: null
     method: null
     route: null
@@ -1700,7 +1881,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer P5ac1VdhDEa8Z6b6k3g4vef'
+      - 'Bearer e1ca6hVZ68dbPk5a34fgvDE'
     controller: null
     method: null
     route: null
@@ -1727,11 +1908,11 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: quibusdam
+        example: quis
         type: string
         custom: []
     cleanUrlParameters:
-      status: quibusdam
+      status: quis
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1742,7 +1923,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer f4a6D6EbaPZhd13Vek5v8cg'
+      - 'Bearer k38hZ65eb6EfvPV41aadgDc'
     controller: null
     method: null
     route: null
@@ -1785,7 +1966,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer efgb8a56a4hDZ63dPkV1cvE'
+      - 'Bearer 4D3Zvb8Vd61aa6c5PhekgEf'
     controller: null
     method: null
     route: null
@@ -1819,7 +2000,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 3fhkb4Z18cd6VaaDev5P6gE'
+      - 'Bearer 5dvgb8acfeE3D661akVh4ZP'
     controller: null
     method: null
     route: null
@@ -1846,11 +2027,11 @@ endpoints:
         name: id
         description: 'The ID of the notification.'
         required: true
-        example: veniam
+        example: deserunt
         type: string
         custom: []
     cleanUrlParameters:
-      id: veniam
+      id: deserunt
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1861,7 +2042,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer hPE8vd3kfgD64eVca5b61Za'
+      - 'Bearer fvDbc8g13kEheZV45Pd6a6a'
     controller: null
     method: null
     route: null
@@ -1904,7 +2085,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer aack5DZ8b6h1EgvdVPf634e'
+      - 'Bearer VbcP6Dfd6haZa3evgk154E8'
     controller: null
     method: null
     route: null
@@ -1931,11 +2112,11 @@ endpoints:
         name: title
         description: ''
         required: true
-        example: iure
+        example: id
         type: string
         custom: []
     cleanUrlParameters:
-      title: iure
+      title: id
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1955,7 +2136,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ke3D1f4vZdbgP68c5a6EVha'
+      - 'Bearer vVf1hdb38PagEeZkD54a66c'
     controller: null
     method: null
     route: null
@@ -1982,11 +2163,11 @@ endpoints:
         name: title
         description: ''
         required: true
-        example: distinctio
+        example: voluptas
         type: string
         custom: []
     cleanUrlParameters:
-      title: distinctio
+      title: voluptas
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2005,7 +2186,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer h6ac1DPgf8kdE43aVZev65b'
+      - 'Bearer a5VD1Eak8ebfh6cvdgZ6P34'
     controller: null
     method: null
     route: null
@@ -2048,7 +2229,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer f3Pe146gavacD65hVbEkZ8d'
+      - 'Bearer gDdc63ha6E5vPZe1V8ab4fk'
     controller: null
     method: null
     route: null
@@ -2075,11 +2256,11 @@ endpoints:
         name: id
         description: 'The ID of the recommendation.'
         required: true
-        example: doloremque
+        example: asperiores
         type: string
         custom: []
     cleanUrlParameters:
-      id: doloremque
+      id: asperiores
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2099,158 +2280,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 41daZeEavkc8bDV56fP3hg6'
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/v1/doctors/register
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: multipart/form-data
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      full_name:
-        name: full_name
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: rerxumxnnemrxe
-        type: string
-        custom: []
-      id_number:
-        name: id_number
-        description: ''
-        required: false
-        example: 12
-        type: integer
-        custom: []
-      birth_date:
-        name: birth_date
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: mmrkiqlvzqnomylkxjeoid
-        type: string
-        custom: []
-      phone_number:
-        name: phone_number
-        description: 'Must not be greater than 255 characters.'
-        required: true
-        example: hpchzditqqajnqkqhfrhgixw
-        type: string
-        custom: []
-      email:
-        name: email
-        description: 'Must be a valid email address. Must not be greater than 255 characters.'
-        required: true
-        example: jay36@example.org
-        type: string
-        custom: []
-      job_title:
-        name: job_title
-        description: 'Must not be greater than 150 characters.'
-        required: false
-        example: hevppjfkyv
-        type: string
-        custom: []
-      classification_number:
-        name: classification_number
-        description: ''
-        required: false
-        example: 10
-        type: integer
-        custom: []
-      insurance_number:
-        name: insurance_number
-        description: ''
-        required: false
-        example: 17
-        type: integer
-        custom: []
-      specialities:
-        name: specialities
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      sub_specialities:
-        name: sub_specialities
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      medical_licence_file:
-        name: medical_licence_file
-        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-        required: false
-        example: null
-        type: file
-        custom: []
-      cv_file:
-        name: cv_file
-        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-        required: false
-        example: null
-        type: file
-        custom: []
-      certification_file:
-        name: certification_file
-        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
-        required: false
-        example: null
-        type: file
-        custom: []
-      thumbnail:
-        name: thumbnail
-        description: 'Must not be greater than 3000 characters.'
-        required: true
-        example: rwfejwrlqmaohuvrhblpgtvak
-        type: string
-        custom: []
-      bio:
-        name: bio
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-    cleanBodyParameters:
-      full_name: rerxumxnnemrxe
-      id_number: 12
-      birth_date: mmrkiqlvzqnomylkxjeoid
-      phone_number: hpchzditqqajnqkqhfrhgixw
-      email: jay36@example.org
-      job_title: hevppjfkyv
-      classification_number: 10
-      insurance_number: 17
-      thumbnail: rwfejwrlqmaohuvrhblpgtvak
-    fileParameters:
-      medical_licence_file: null
-      cv_file: null
-      certification_file: null
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 6Eae3V8vdkfh1Zac645bPgD'
+      - 'Bearer de6E64vhf81k5aV3gDcZbPa'
     controller: null
     method: null
     route: null
@@ -2295,7 +2325,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '44'
+          x-ratelimit-remaining: '43'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -2303,7 +2333,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer gEvbeV6fP5a6D8aZd41ckh3'
+      - 'Bearer k4eh3DvbZE6aPg1faVd568c'
     controller: null
     method: null
     route: null
@@ -2337,7 +2367,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 5keP1cgDdVZ84v36ahf6Eba'
+      - 'Bearer 6haEZfVde435816bPvkcagD'
     controller: null
     method: null
     route: null
@@ -2368,26 +2398,255 @@ endpoints:
         name: phone_number
         description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
         required: true
-        example: '+521268097098'
+        example: '+312576693494'
         type: string
         custom: []
       otp:
         name: otp
         description: ''
         required: true
-        example: ipsum
+        example: odio
         type: string
         custom: []
     cleanBodyParameters:
-      phone_number: '+521268097098'
-      otp: ipsum
+      phone_number: '+312576693494'
+      otp: odio
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 15ZEgchvba6463efadVDkP8'
+      - 'Bearer dkfZaD4h61v5ab3V6Eec8gP'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/doctors/otp/auth/send
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Zc8E6V3DfPkd54b1aevha6g'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/doctors/otp/auth/verify
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      phone_number:
+        name: phone_number
+        description: 'Must match the regex /^(\+\d{1,2}\d{10})$/.'
+        required: true
+        example: '+763565543218'
+        type: string
+        custom: []
+      otp:
+        name: otp
+        description: ''
+        required: true
+        example: dignissimos
+        type: string
+        custom: []
+    cleanBodyParameters:
+      phone_number: '+763565543218'
+      otp: dignissimos
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Zkc6gd8a6VfbPe4v5E13Dah'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/doctors/register
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        name: full_name
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: hnpmbbpcmpjipztq
+        type: string
+        custom: []
+      id_number:
+        name: id_number
+        description: ''
+        required: false
+        example: 7
+        type: integer
+        custom: []
+      birth_date:
+        name: birth_date
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: ynddnwobjpnepuqamlx
+        type: string
+        custom: []
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 255 characters.'
+        required: false
+        example: aleen.hintz@example.org
+        type: string
+        custom: []
+      job_title:
+        name: job_title
+        description: 'Must not be greater than 150 characters.'
+        required: false
+        example: imbegjpupsyki
+        type: string
+        custom: []
+      classification_number:
+        name: classification_number
+        description: ''
+        required: false
+        example: 11
+        type: integer
+        custom: []
+      insurance_number:
+        name: insurance_number
+        description: ''
+        required: false
+        example: 10
+        type: integer
+        custom: []
+      sub_specialities:
+        name: sub_specialities
+        description: ''
+        required: false
+        example: tenetur
+        type: string
+        custom: []
+      medical_licence_file:
+        name: medical_licence_file
+        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+        required: false
+        example: null
+        type: file
+        custom: []
+      cv_file:
+        name: cv_file
+        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+        required: false
+        example: null
+        type: file
+        custom: []
+      certification_file:
+        name: certification_file
+        description: 'Must be a file. Must not be greater than 3000 kilobytes.'
+        required: false
+        example: null
+        type: file
+        custom: []
+      thumbnail:
+        name: thumbnail
+        description: 'Must not be greater than 3000 characters.'
+        required: false
+        example: fimhlzzmvnr
+        type: string
+        custom: []
+      bio:
+        name: bio
+        description: ''
+        required: false
+        example: null
+        type: string
+        custom: []
+      speciality_id:
+        name: speciality_id
+        description: ''
+        required: false
+        example: 6
+        type: integer
+        custom: []
+    cleanBodyParameters:
+      full_name: hnpmbbpcmpjipztq
+      id_number: 7
+      birth_date: ynddnwobjpnepuqamlx
+      email: aleen.hintz@example.org
+      job_title: imbegjpupsyki
+      classification_number: 11
+      insurance_number: 10
+      sub_specialities: tenetur
+      thumbnail: fimhlzzmvnr
+      speciality_id: 6
+    fileParameters:
+      medical_licence_file: null
+      cv_file: null
+      certification_file: null
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer gkb4ea3hvfZc186V5DdE6Pa'
     controller: null
     method: null
     route: null
@@ -2430,7 +2689,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer v6EDVZae85kb631dPfgc4ah'
+      - 'Bearer kP61fcZ5834bEvaDdVeg6ah'
     controller: null
     method: null
     route: null
@@ -2473,7 +2732,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer g56Z4P1aahkEc3V6D8fvbed'
+      - 'Bearer ahEbaevVZ6851kfgDP3c64d'
     controller: null
     method: null
     route: null
@@ -2507,7 +2766,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer hcb8fPgeka6D16a35vdEVZ4'
+      - 'Bearer a36Echv54a6dfZPe8gDkbV1'
     controller: null
     method: null
     route: null
@@ -2534,11 +2793,11 @@ endpoints:
         name: id
         description: 'The ID of the notification.'
         required: true
-        example: harum
+        example: unde
         type: string
         custom: []
     cleanUrlParameters:
-      id: harum
+      id: unde
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2549,7 +2808,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 5PaakdEeZc6hV43v1b8Dgf6'
+      - 'Bearer 3PagDevak1Zc8h6Ebd6fV45'
     controller: null
     method: null
     route: null
@@ -2592,7 +2851,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer aef8vPEdgh43Dba616kVZc5'
+      - 'Bearer 3Zfkga66v84hV1DbaPd5ceE'
     controller: null
     method: null
     route: null
@@ -2626,7 +2885,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer P16a8v5Zg4aDEhbfkVde6c3'
+      - 'Bearer 6c6PVhg85fbdD4kZea3aEv1'
     controller: null
     method: null
     route: null
@@ -2667,7 +2926,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Z5dhE13vgaaefP6b6V84Dkc'
+      - 'Bearer hDfg5Vda4636Z8aEeckP1bv'
     controller: null
     method: null
     route: null
@@ -2701,7 +2960,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ekvhcZ8aVP1d66fg5aEDb34'
+      - 'Bearer VbaDhdc4Z56gkE1eP3fv68a'
     controller: null
     method: null
     route: null
@@ -2732,18 +2991,52 @@ endpoints:
         name: thumbnail
         description: 'Must not be greater than 3000 characters.'
         required: true
-        example: lnzchqztcyxmxcpiwb
+        example: umdsypcsfnwdiktusxepndnok
         type: string
         custom: []
     cleanBodyParameters:
-      thumbnail: lnzchqztcyxmxcpiwb
+      thumbnail: umdsypcsfnwdiktusxepndnok
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 6adg3hVcD4v5Z8e61kaEbfP'
+      - 'Bearer 6VkfP8ev1agD6dcE43aZh5b'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/doctors/withdraw-ballance
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8hD3cZga5bV1EP6v6kfda4e'
     controller: null
     method: null
     route: null
@@ -2786,7 +3079,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer aah34ePZd65bv6VcfkD81gE'
+      - 'Bearer geckPDv6a18h364aEVdbfZ5'
     controller: null
     method: null
     route: null
@@ -2829,7 +3122,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer eVEfkhZa1ca34bg68D6d5vP'
+      - 'Bearer dVgacDe4vhf68EP6a5b13Zk'
     controller: null
     method: null
     route: null
@@ -2856,11 +3149,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2871,7 +3164,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer PZ58ga616kbfhae4v3cDdVE'
+      - 'Bearer edhkbZac6f4v35V8EDagP61'
     controller: null
     method: null
     route: null
@@ -2898,11 +3191,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2913,7 +3206,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 4PaEg6Zvdkhc86f3D1abVe5'
+      - 'Bearer 1ag6P5V4vd68kchEebfZ3aD'
     controller: null
     method: null
     route: null
@@ -2940,11 +3233,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2955,7 +3248,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer eh61fE4bV8acPdk6vD5Z3ag'
+      - 'Bearer hcDavda8e5Ef13bP6Zg6kV4'
     controller: null
     method: null
     route: null
@@ -2982,11 +3275,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 20
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 20
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2994,7 +3287,7 @@ endpoints:
         name: description
         description: ''
         required: false
-        example: 'Nihil nulla minus asperiores odio unde non.'
+        example: 'Laboriosam nam enim earum molestiae sit quia.'
         type: string
         custom: []
       medicines:
@@ -3002,7 +3295,7 @@ endpoints:
         description: 'group of medicals puts in prescripion as array'
         required: false
         example:
-          - 4
+          - 14
         type: 'integer[]'
         custom: []
       lab_tests:
@@ -3017,39 +3310,46 @@ endpoints:
         name: other_lab_tests
         description: ''
         required: false
-        example: expedita
+        example: corrupti
         type: string
         custom: []
       sick_leave:
         name: sick_leave
         description: .
         required: false
-        example: true
+        example: false
         type: boolean
         custom: []
       notes:
         name: notes
         description: ''
         required: false
-        example: dolores
+        example: consequatur
         type: string
         custom: []
+      sub_specialities:
+        name: sub_specialities
+        description: ''
+        required: false
+        example: null
+        type: object
+        custom: []
     cleanBodyParameters:
-      description: 'Nihil nulla minus asperiores odio unde non.'
+      description: 'Laboriosam nam enim earum molestiae sit quia.'
       medicines:
-        - 4
+        - 14
       lab_tests:
         - 9
-      other_lab_tests: expedita
-      sick_leave: true
-      notes: dolores
+      other_lab_tests: corrupti
+      sick_leave: false
+      notes: consequatur
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer ghD1f6P36ceabEV5d8a4Zkv'
+      - 'Bearer EafcbekDPZ5agvh3486dV16'
     controller: null
     method: null
     route: null
@@ -3076,11 +3376,11 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: est
+        example: sint
         type: string
         custom: []
     cleanUrlParameters:
-      status: est
+      status: sint
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3091,7 +3391,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer vbZ6EgVaDf65eca8kdhP143'
+      - 'Bearer 6aabEgfV84ckZ53dh6Dve1P'
     controller: null
     method: null
     route: null
@@ -3118,11 +3418,11 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: illo
+        example: nulla
         type: string
         custom: []
     cleanUrlParameters:
-      status: illo
+      status: nulla
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3133,7 +3433,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer e6ck3aPD85ZVbd4gaEh6fv1'
+      - 'Bearer a63h65dgEv8fe1ZcaDPkV4b'
     controller: null
     method: null
     route: null
@@ -3167,7 +3467,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer 6a5hb381EVDkdcfe6vZP4ag'
+      - 'Bearer cfa4DZV36P5vde1a86gkhEb'
     controller: null
     method: null
     route: null
@@ -3194,18 +3494,25 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
+      prescription_title:
+        name: prescription_title
+        description: 'Must not be greater than 250 characters.'
+        required: true
+        example: tlbbsszdjgcfzxtr
+        type: string
+        custom: []
       drug_name:
         name: drug_name
         description: 'Must not be greater than 250 characters.'
         required: true
-        example: ycnjqykpumdpxwzqlbe
+        example: mtigfj
         type: string
         custom: []
       route:
         name: route
         description: 'Must not be greater than 100 characters.'
         required: true
-        example: xydacvtthcjqhemxfhixo
+        example: btbgkqxslbkpgxdbkvsznuz
         type: string
         custom: []
       dose:
@@ -3219,69 +3526,62 @@ endpoints:
         name: unit
         description: 'Must not be greater than 150 characters.'
         required: true
-        example: yegx
+        example: rzqphkvlbbwxnjyrp
         type: string
         custom: []
       frequancy:
         name: frequancy
         description: 'Must not be greater than 150 characters.'
         required: true
-        example: uhvrc
+        example: qnrahtoqzeypddytash
         type: string
         custom: []
       duration:
         name: duration
         description: ''
         required: true
-        example: 9
+        example: 2
         type: integer
         custom: []
       duration_unit:
         name: duration_unit
         description: 'Must not be greater than 100 characters.'
         required: true
-        example: obdvsjqvnuthowzdpbxbpgqt
-        type: string
-        custom: []
-      shape:
-        name: shape
-        description: 'Must not be greater than 150 characters.'
-        required: true
-        example: ocqalqjy
+        example: x
         type: string
         custom: []
       prn:
         name: prn
         description: ''
         required: false
-        example: false
+        example: true
         type: boolean
         custom: []
       instructions:
         name: instructions
         description: ''
         required: true
-        example: iste
+        example: dolores
         type: string
         custom: []
     cleanBodyParameters:
-      drug_name: ycnjqykpumdpxwzqlbe
-      route: xydacvtthcjqhemxfhixo
+      prescription_title: tlbbsszdjgcfzxtr
+      drug_name: mtigfj
+      route: btbgkqxslbkpgxdbkvsznuz
       dose: 12
-      unit: yegx
-      frequancy: uhvrc
-      duration: 9
-      duration_unit: obdvsjqvnuthowzdpbxbpgqt
-      shape: ocqalqjy
-      prn: false
-      instructions: iste
+      unit: rzqphkvlbbwxnjyrp
+      frequancy: qnrahtoqzeypddytash
+      duration: 2
+      duration_unit: x
+      prn: true
+      instructions: dolores
     fileParameters: []
     responses: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer 6vEa5faVbdhcg81De43Z6kP'
+      - 'Bearer VhE3akD86ad5eZgbfc14v6P'
     controller: null
     method: null
     route: null
@@ -3324,7 +3624,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer Ddk8fca4vbEP15e6ag6VZ3h'
+      - 'Bearer ecDV83P1k6bva4af6hZdgE5'
     controller: null
     method: null
     route: null
@@ -3367,7 +3667,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer ge6cvPZkf618haE5bdD4a3V'
+      - 'Bearer bE4afVe6kg8v5ah1cdPZD36'
     controller: null
     method: null
     route: null
@@ -3394,11 +3694,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3418,7 +3718,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer DPf6Vbk64vae15dgchEaZ83'
+      - 'Bearer 31Z8bPav6h654fDcVEadegk'
     controller: null
     method: null
     route: null
@@ -3445,11 +3745,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3460,14 +3760,14 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer EeD8bc6V3h1ak4df6agvP5Z'
+      - 'Bearer k4h1f6aZePDvad8cb5VE63g'
     controller: null
     method: null
     route: null
     custom: []
   -
     httpMethods:
-      - POST
+      - GET
     uri: 'api/v1/consultations/{id}/view-summary'
     metadata:
       groupName: Endpoints
@@ -3487,22 +3787,31 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
-    responses: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
     responseFields: []
     auth:
       - headers
       - Authorization
-      - 'Bearer gDv8ZkeEdh5a1b3fP4c66aV'
+      - 'Bearer bEkaavgdc136hZ54VDPf86e'
     controller: null
     method: null
     route: null
@@ -3529,11 +3838,11 @@ endpoints:
         name: id
         description: 'The ID of the consultation.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     cleanUrlParameters:
-      id: 1
+      id: 2
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3553,7 +3862,7 @@ endpoints:
     auth:
       - headers
       - Authorization
-      - 'Bearer DP453daV16hZvakfgebcE68'
+      - 'Bearer ea1b83fh5cP6g4Eda6vVDZk'
     controller: null
     method: null
     route: null
