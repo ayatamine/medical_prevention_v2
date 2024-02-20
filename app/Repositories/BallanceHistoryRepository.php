@@ -24,12 +24,12 @@ class BallanceHistoryRepository extends AbstractRepository
         'created_at',
     ];
     /**
-     * @return HistoryBallance 
-     *  
+     * @return HistoryBallance
+     *
      */
    public function ballance_history()
    {
-       
+
         $ballance_histories = request()->user()->balanceHistories()
                               ->when(request()->period && request()->period != 'all',function($query){
                                 switch(request()->period){
@@ -43,7 +43,7 @@ class BallanceHistoryRepository extends AbstractRepository
                                         return  $query;
                                 }
                               })
-                              ->get();
+                              ->paginate(10);
         return $ballance_histories;
    }
 }

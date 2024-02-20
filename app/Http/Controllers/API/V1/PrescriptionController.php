@@ -39,7 +39,7 @@ class PrescriptionController extends Controller
     //     public function index(){
     //         try{
     //             $prescriptions  = $this->repository->findAllBy('doctor_id',request()->user()->id,['id','drug_name']);
-                
+
     //             return $this->api->success()
     //                              ->message("prescriptions fetched succefully")
     //                              ->payload($prescriptions)
@@ -49,7 +49,7 @@ class PrescriptionController extends Controller
     //             return handleTwoCommunErrors($ex,"no prescriptions found");
     //         }
     //     }
-        
+
           /**
         * @OA\Post(
         * path="/api/v1/doctors/medicines/store",
@@ -84,7 +84,7 @@ class PrescriptionController extends Controller
         public function store(PrescriptionRequest $request){
             try{
                 $medicine  = $this->repository->store($request->validated());
-                
+
                 return $this->api->success()
                                  ->message("the medicine created succefully")
                                  ->payload([
@@ -135,7 +135,7 @@ class PrescriptionController extends Controller
        * @OA\Get(
         * path="/api/v1/medicines/list",
         * operationId="searchMedicinesList",
-        * tags={"consultation"},
+        * tags={"doctors"},
         * security={ {"sanctum": {} }},
         * summary="get medecines list ",
         * description="get medicines list  ",
@@ -149,10 +149,10 @@ class PrescriptionController extends Controller
         public function searchMedicinesList(){
             try{
                 $medicines  = $this->repository->searchMedicineList();
-                
+
                 return $this->api->success()
                                  ->message("medicines fetched succefully")
-                                 ->payload(MedicineResource::collection($medicines)) 
+                                 ->payload(MedicineResource::collection($medicines))
                                  ->send();
             }
             catch(Exception $ex){
@@ -189,5 +189,5 @@ class PrescriptionController extends Controller
                 ->send();
         }
     }
-        
+
 }

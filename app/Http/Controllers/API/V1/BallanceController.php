@@ -48,8 +48,21 @@ class BallanceController extends Controller
                 return $this->api->success()
                                  ->message("The balance history fetched successfully")
                                  ->payload([
-                                    'balance'=>request()->user()?->ballance,
-                                    'balance_history'=>(BallanceHistoryResource::collection($ballance_history))->resolve()
+                                    'data'=>[
+                                        'balance'=>request()->user()?->ballance,
+                                        'balance_history'=>(BallanceHistoryResource::collection($ballance_history))->resolve()
+                                    ],
+                                    'total' => $ballance_history->total(),
+                                    'last_page' => $ballance_history->lastPage(),
+                                    'first_page_url' => $ballance_history->url(1),
+                                    'from' => $ballance_history->firstItem(),
+                                    'last_page_url' => $ballance_history->url($ballance_history->lastPage()),
+                                    'next_page_url' => $ballance_history->nextPageUrl(),
+                                    'prev_page_url' => $ballance_history->previousPageUrl(),
+                                    'current_page' => $ballance_history->currentPage(),
+                                    'per_page' => $ballance_history->perPage(),
+                                    'to' => $ballance_history->lastItem(),
+                                    'path' => $ballance_history->path(),
                                  ])
                                  ->send();
             }
@@ -58,7 +71,7 @@ class BallanceController extends Controller
                     return $this->api->failed()->code(404)
                                 ->message("no doctor found please verfiy your login status")
                                 ->send();
-        
+
                 }
                 return $this->api->failed()->code(500)
                                     ->message($ex->getMessage())
