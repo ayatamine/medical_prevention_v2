@@ -41,6 +41,7 @@ class MedicalRecordResource extends JsonResource
                     'consultation_id'=>$item->consultation->id,
                     'doctor_name'=>$item->consultation->doctor->full_name,
                     'completed_at'=>$item->consultation->finished_at,
+                    'thumbnail'=>$item->consultation->doctor->thumbnail,
                 ];
             })
         ];

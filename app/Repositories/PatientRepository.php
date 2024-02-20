@@ -331,4 +331,19 @@ class PatientRepository extends AbstractRepository
         ->whereIn('id',$ids)->get();
         return $docotrs;
     }
+    /**
+     * get patient summaries
+     */
+    public function previousSummaries()
+    {
+        $summaries =  request()->user()->previousSummaries();
+        return $summaries->map(function($item){
+            return [
+                'consultation_id'=>$item->consultation->id,
+                'doctor_name'=>$item->consultation->doctor->full_name,
+                'thumbnail'=>$item->consultation->doctor->thumbnail,
+                'completed_at'=>$item->consultation->finished_at,
+            ];
+        });
+    }
 }

@@ -22,6 +22,7 @@ use App\Http\Resources\PatientProfileResource;
 use App\Http\Resources\RecommendationResource;
 use App\Http\Resources\SimpleNotificationResource;
 use App\Http\Resources\SimpleMedicalRecordResource;
+use App\Http\Resources\SummaryResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientController extends Controller
@@ -803,6 +804,45 @@ class PatientController extends Controller
             return $this->api->failed()->code(500)
                 ->message($ex->getMessage())
                 ->send();
+        }
+    }
+    /**
+     * @OA\Get(
+     *      path="/api/v1/patients/summaries",
+     *      operationId="getPreviousSummaries",
+     *      tags={"patients"},
+     *      security={ {"sanctum": {} }},
+     *      description="get patient previous summaries ",
+     *      @OA\Response(
+     *          response=200,
+     *          description="patient previous summaries fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     * @group Consultation
+     */
+
+    public function previousSummaries()
+    {
+        try {
+            $summaries = $this->repository->previousSummaries();
+
+            return $this->api->success()
+                ->payload($summaries)
+                ->message("patient summaries fetched successfuly")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "Not found ");
         }
     }
 }

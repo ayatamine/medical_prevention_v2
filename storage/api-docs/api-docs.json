@@ -2143,6 +2143,46 @@
                 ]
             }
         },
+        "/api/v1/patients/summaries": {
+            "get": {
+                "tags": [
+                    "patients"
+                ],
+                "description": "get patient previous summaries ",
+                "operationId": "getPreviousSummaries",
+                "responses": {
+                    "200": {
+                        "description": "patient previous summaries fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/my-wallet/history": {
             "get": {
                 "tags": [
