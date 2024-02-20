@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Allergy;
+use App\Models\ChatMessage;
 use Illuminate\Support\Str;
 use App\Models\BallanceHistory;
 use App\Models\ChronicDiseases;
@@ -23,7 +24,7 @@ class Patient extends Model
     use HasApiTokens;
     use Notifiable;
     use SoftDeletes;
-    
+
     protected $fillable = [
         'full_name',
         'birth_date',
@@ -48,7 +49,7 @@ class Patient extends Model
         'ballance',
         'little_interest_doing_things',
         'feeling_down_or_depressed'
-    
+
     ];
     public function notificationStatus():Attribute
     {
@@ -125,7 +126,7 @@ class Patient extends Model
             get: fn ($value) => json_decode($value, true),
             set: fn ($value) => json_encode(json_decode($value,true)),
         );
-    } 
+    }
     public function thumbnail():Attribute
     {
         return Attribute::make(
@@ -152,11 +153,11 @@ class Patient extends Model
     }
     public function sentMessages(): MorphMany
     {
-        return $this->morphMany(Message::class, 'sender');
+        return $this->morphMany(ChatMessage::class, 'sender');
     }
     public function receivedMessages(): MorphMany
     {
-        return $this->morphMany(Message::class, 'receiver');
+        return $this->morphMany(ChatMessage::class, 'receiver');
     }
     public function reviews():HasMany
     {
@@ -164,7 +165,7 @@ class Patient extends Model
     }
     public function favorites()
     {
-        return $this->belongsToMany(Doctor::class, 'patient_favorites', 'patient_id', 'doctor_id');    
+        return $this->belongsToMany(Doctor::class, 'patient_favorites', 'patient_id', 'doctor_id');
     }
     public function previousSummaries(){
         $consultations = $this->consultations->pluck('id')->toArray();
@@ -172,7 +173,7 @@ class Patient extends Model
     }
         /**
      * @return allergies collection
-     * 
+     *
      */
     public function allergies():BelongsToMany
     {
@@ -185,7 +186,7 @@ class Patient extends Model
     }
         /**
      * @return family_histories collection
-     * 
+     *
      */
     public function family_histories():BelongsToMany
     {
@@ -198,7 +199,7 @@ class Patient extends Model
     }
         /**
      * @return chronic_diseases collection
-     * 
+     *
      */
     public function chronic_diseases():BelongsToMany
     {

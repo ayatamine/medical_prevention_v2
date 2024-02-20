@@ -25,6 +25,7 @@ use App\Http\Resources\MedicalRecordResource;
 use App\Http\Resources\PatientMedicalResource;
 use App\Http\Resources\ConsultationWithoutChatResource;
 use App\Http\Resources\DoctorConsultationRequestResource;
+use App\Http\Resources\DoctorConsultationResourceCollaction;
 
 class ConsultationController extends Controller
 {
@@ -46,7 +47,8 @@ class ConsultationController extends Controller
      *      operationId="get_doctor_consultations",
      *      tags={"doctors"},
      *      security={ {"sanctum": {} }},
-     *      description="fetch doctor consultation (pending,accepted,finished)",
+     *      description="fetch doctor consultation (pending,accepted,finished,canceled)",
+     *     @OA\Parameter(  name="type", in="query", description="consultation type (pending , incompleted, completed,canceled) "),
      *      @OA\Response(
      *          response=200,
      *          description="consultations fetched successfuly",
@@ -67,11 +69,71 @@ class ConsultationController extends Controller
     public function index()
     {
         try {
+            $consultations = null;
+            if(request()->filled('type'))
+            {
+                switch (request()->query()['type']) {
+                    case 'pending':
 
-            return $this->api->success()
-                ->payload(new DoctorConsultationRequestResource(request()->user()))
+                        $consultations = request()->user()->pendingConsultations()->paginate(10);
+                        break;
+                    case 'incompleted':
+                        $consultations = request()->user()->incompletedConsultations()->paginate(10);
+
+                        break;
+                    case 'completed':
+
+                        $consultations = request()->user()->completedConsultations()->paginate(10);
+
+                        break;
+                    case 'cenceled':
+
+                        $consultations = request()->user()->canceledConsultations()->paginate(10);
+
+                        break;
+
+                    default:
+                        $consultations = request()->user()->consultations()->paginate(10);
+                        break;
+                }
+                $collection = DoctorConsultationRequestResource::collection($consultations);
+                return $this->api->success()
+                ->payload([
+                    'data' => $collection->items(),
+                    'total' => $consultations->total(),
+                    'last_page' => $consultations->lastPage(),
+                    'first_page_url' => $consultations->url(1),
+                    'from' => $consultations->firstItem(),
+                    'last_page_url' => $consultations->url($consultations->lastPage()),
+                    'next_page_url' => $consultations->nextPageUrl(),
+                    'prev_page_url' => $consultations->previousPageUrl(),
+                    'current_page' => $consultations->currentPage(),
+                    'per_page' => $consultations->perPage(),
+                    'to' => $consultations->lastItem(),
+                    'path' => $consultations->path(),
+                ])
                 ->message("The consultations fetched successfully")
                 ->send();
+            }
+            $consultations =request()->user()->consultations()->paginate(10);
+            $collection = DoctorConsultationRequestResource::collection($consultations);
+            return $this->api->success()
+            ->payload([
+                'data' => $collection->items(),
+                'total' => $consultations->total(),
+                'last_page' => $consultations->lastPage(),
+                'first_page_url' => $consultations->url(1),
+                'from' => $consultations->firstItem(),
+                'last_page_url' => $consultations->url($consultations->lastPage()),
+                'next_page_url' => $consultations->nextPageUrl(),
+                'prev_page_url' => $consultations->previousPageUrl(),
+                'current_page' => $consultations->currentPage(),
+                'per_page' => $consultations->perPage(),
+                'to' => $consultations->lastItem(),
+                'path' => $consultations->path(),
+            ])
+            ->message("The consultations fetched successfully")
+            ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "There is no doctor with the given details please verify login");
         }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Rating;
 use App\Models\Speciality;
+use App\Models\ChatMessage;
 use App\Models\Prescription;
 use App\Models\SubSpeciality;
 use App\Models\BallanceHistory;
@@ -15,9 +16,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Doctor extends Model
@@ -159,11 +160,11 @@ class Doctor extends Model
     }
     public function sentMessages(): MorphMany
     {
-        return $this->morphMany(Message::class, 'sender');
+        return $this->morphMany(ChatMessage::class, 'sender');
     }
     public function receivedMessages(): MorphMany
     {
-        return $this->morphMany(Message::class, 'receiver');
+        return $this->morphMany(ChatMessage::class, 'receiver');
     }
     public function pendingConsultations(): HasMany
     {

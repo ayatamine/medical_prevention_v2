@@ -14,49 +14,18 @@ class DoctorConsultationRequestResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'pending_requests'=>$this->pendingConsultations()->get()->map(function($r){
-                return [    
-                    'id'=>$r->id,
+
+                return [
+                    'id'=>$this->id,
                     'patient'=>[
-                        'id'=>$r->patient->id,
-                        'full_name'=>$r->patient->full_name,
-                        'thumbnail'=>$r->patient->thumbnail,
-                        'address'=>$r->patient->address,
-                        'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->age
+                        'id'=>$this->patient->id,
+                        'full_name'=>$this->patient->full_name,
+                        'thumbnail'=>$this->patient->thumbnail,
+                        'address'=>$this->patient->address,
+                        'gender'=>$this->patient->gender,
+                        'age'=>$this->patient->age
                     ],
-                    'created_at'=>$r->created_at
+                    'created_at'=>$this->created_at
                 ];
-            }),
-            'incompleted_requests'=>$this->incompletedConsultations()->get()->map(function($r){
-                return [    
-                    'id'=>$r->id,
-                    'patient'=>[
-                        'id'=>$r->patient->id,
-                        'full_name'=>$r->patient->full_name,
-                        'thumbnail'=>$r->patient->thumbnail,
-                        'address'=>$r->patient->address,
-                        'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->age
-                    ],
-                    'completed_at'=>$r->updated_at
-                ]; 
-            }),
-            'completed_requests'=>$this->completedConsultations()->get()->map(function($r){
-                return [    
-                    'id'=>$r->id,
-                    'patient'=>[
-                        'id'=>$r->patient->id,
-                        'full_name'=>$r->patient->full_name,
-                        'thumbnail'=>$r->patient->thumbnail,
-                        'address'=>$r->patient->address,
-                        'gender'=>$r->patient->gender,
-                        'age'=>$r->patient->age
-                    ],
-                    'completed_at'=>$r->finished_at
-                ];
-            })
-        ];
     }
 }

@@ -2225,8 +2225,15 @@
                 "tags": [
                     "doctors"
                 ],
-                "description": "fetch doctor consultation (pending,accepted,finished)",
+                "description": "fetch doctor consultation (pending,accepted,finished,canceled)",
                 "operationId": "get_doctor_consultations",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "consultation type (pending , incompleted, completed,canceled) "
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "consultations fetched successfuly",
