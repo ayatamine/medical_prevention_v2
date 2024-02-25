@@ -86,7 +86,7 @@ class ConsultationController extends Controller
                         $consultations = request()->user()->completedConsultations()->paginate(10);
 
                         break;
-                    case 'cenceled':
+                    case 'canceled':
 
                         $consultations = request()->user()->canceledConsultations()->paginate(10);
 

@@ -137,9 +137,14 @@ class Patient extends Model
             get: function ($value) {
                 if($value)
                 {
-                    if(app()->isProduction()) return  url('storage/public/'.$value);
-                    return url('storage/'.$value);
-                }else return "https://ui-avatars.com/api/?name=$this->full_name&background=0D8ABC&color=fff";
+                    if(Str::contains($value,'patient'))
+                    {
+                        if(app()->isProduction()) return  url('storage/public/'.$value);
+                        return url('storage/'.$value);
+                    }
+                    return $value;
+
+                }else return "https://ui-avatars.com/api/?name=".Str::replace(' ','_',$this->full_name)."&background=0D8ABC&color=fff";
             }
         );
     }

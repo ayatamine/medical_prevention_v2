@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Rating;
 use App\Models\Speciality;
 use App\Models\ChatMessage;
+use Illuminate\Support\Str;
 use App\Models\Prescription;
 use App\Models\SubSpeciality;
 use App\Models\BallanceHistory;
@@ -70,9 +71,15 @@ class Doctor extends Model
             get: function ($value) {
                 if($value)
                 {
-                    if(app()->isProduction()) return  url('storage/public/'.$value);
-                    return url('storage/'.$value);
-                }else return "https://ui-avatars.com/api/?name=$this->full_name&background=0D8ABC&color=fff";
+                    if(Str::contains($value,'doctor'))
+                    {
+                        if(app()->isProduction()) return  url('storage/public/'.$value);
+                        return url('storage/'.$value);
+                    }
+                    return $value;
+
+                }
+                return "https://ui-avatars.com/api/?name=".Str::replace(' ','_',$this->full_name)."&background=0D8ABC&color=fff";
             }
         );
     }

@@ -52,10 +52,8 @@ class DoctorController extends Controller
      *                 @OA\Property( property="speciality_id",type="integer"),
      *                 @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="classification_number",type="string",example="784899554"),
-     *                 @OA\Property( property="insurance_number",type="string",example="78489966554"),
      *                 @OA\Property( property="medical_licence_file",type="file"),
      *                 @OA\Property( property="cv_file",type="file"),
-     *                 @OA\Property( property="certification_file",type="file"),
      *                 @OA\Property( property="bio",description="doctor bio",type="text"),
      *                 @OA\Property( property="thumbnail",type="file"),
      *             )),
@@ -694,7 +692,7 @@ class DoctorController extends Controller
     public function myNotifications()
     {
         try {
-            $notifications = request()->user()->notifications()->paginate();
+            $notifications = request()->user()->unreadnotifications()->paginate();
 
             return $this->api->success()
                 ->message('notification fetched successfully')

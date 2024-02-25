@@ -71,11 +71,12 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::get('{id}/check-status', 'checkStatus');
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
+        Route::post('register', 'store');
+
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
             Route::post('otp/auth/send', 'sendToAuth');
             Route::post('otp/auth/verify', 'verifyOtpAuth');
-            Route::post('register', 'store');
             Route::get('/profile/my', 'show');
             Route::get('/profile/notifications', 'myNotifications');
             Route::post('/profile/notifications/mark-as-read', 'markNotificationsAsRead');

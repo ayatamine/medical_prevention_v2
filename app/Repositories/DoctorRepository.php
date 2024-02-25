@@ -48,12 +48,12 @@ class DoctorRepository extends AbstractRepository
                     ['disk' => 'public']
                 );
             }
-            if (array_key_exists('certification_file', $request)) {
-                $request['certification_file'] = $request['certification_file']->storePublicly(
-                    "doctors/certifications",
-                    ['disk' => 'public']
-                );
-            }
+            // if (array_key_exists('certification_file', $request)) {
+            //     $request['certification_file'] = $request['certification_file']->storePublicly(
+            //         "doctors/certifications",
+            //         ['disk' => 'public']
+            //     );
+            // }
             if (array_key_exists('thumbnail', $request)) {
                 $request['thumbnail'] = $request['thumbnail']->storePublicly(
                     "/",
@@ -80,7 +80,7 @@ class DoctorRepository extends AbstractRepository
                     $ids =array_filter($request['sub_specialities'], function ($value) {
                         return is_int($value);
                     });
-                    
+
                     $doctor->sub_specialities()->sync($ids);
                 }
             }
@@ -91,8 +91,8 @@ class DoctorRepository extends AbstractRepository
              $admins = User::where('is_admin',true)->get();
              Notification::send($admins, (new NewDoctorRegisteration(array('count'=>$doctors_count)))->delay($delay));
             }
-            
-            
+
+
             return $doctor;
         } catch (Exception $ex) {
 
@@ -103,11 +103,11 @@ class DoctorRepository extends AbstractRepository
                 unlink($medical_licence);
             };
             // delete the cv file
-            $certification = public_path('storage/' . $request['certification_file']);
+            // $certification = public_path('storage/' . $request['certification_file']);
 
-            if (file_exists($certification)) {
-                unlink($certification);
-            };
+            // if (file_exists($certification)) {
+            //     unlink($certification);
+            // };
             // delete the medical_licence file
             $cv_file = public_path('storage/' . $request['cv_file']);
 
@@ -127,7 +127,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * find by otp an and phone
-     * 
+     *
      * @return collection
      */
     public function findByOtpAndPhone($phone_number, $otp)
@@ -141,7 +141,7 @@ class DoctorRepository extends AbstractRepository
             ->firstOrFail();
         }
         if($doctor && $doctor->otp_verification_code != $otp){
-            abort(422,"Your OTP is not correct, Please Verify");  
+            abort(422,"Your OTP is not correct, Please Verify");
         }
         return $doctor;
 
@@ -150,7 +150,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * switch on/off notifications
-     * 
+     *
      * @return boolean
      */
     public function switchNotification($status)
@@ -159,7 +159,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * switch on/off online staus
-     * 
+     *
      * @return boolean
      */
     public function switchOnlineStatus($status)
@@ -168,7 +168,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * switch on/off online staus
-     * 
+     *
      * @return boolean
      */
     public function updateLastOnlineStatus()
@@ -177,7 +177,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * update doctor phone number
-     * 
+     *
      * @return doctor instance
      */
     public function updatePhone($request)
@@ -189,7 +189,7 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * update Doctor phone number
-     * 
+     *
      * @return Doctor instance
      */
     public function updateThumbnail($request)
@@ -271,7 +271,7 @@ class DoctorRepository extends AbstractRepository
                     $ids =$integers = array_filter($request['sub_specialities'], function ($value) {
                         return is_int($value);
                     });
-                    
+
                     $doctor->sub_specialities()->sync($ids);
                 }
             }
@@ -328,7 +328,7 @@ class DoctorRepository extends AbstractRepository
                     unlink($thumbnail);
                 };
             }
-            //rollback 
+            //rollback
             DB::rollBack();
 
             throw $ex;
@@ -378,8 +378,8 @@ class DoctorRepository extends AbstractRepository
     }
     /**
      * @return speciality doctors
-     *  
-     */  
+     *
+     */
     public function searchDoctors($speciality_id)
     {
         $search = request()->query('search'); // Get the search keyword
@@ -427,7 +427,7 @@ class DoctorRepository extends AbstractRepository
     }
     public function searchWithSymptomes($request)
     {
-        
+
         $search =$request->search;
         $sort =$request->sort;
         $selectedSymptoms = $request->symptomes;
@@ -456,7 +456,7 @@ class DoctorRepository extends AbstractRepository
                     $query->online();
                 });
         }
-        else 
+        else
         {
             $ids = explode(',',$selectedSymptoms);
             $ids = array_filter($ids,function($item){

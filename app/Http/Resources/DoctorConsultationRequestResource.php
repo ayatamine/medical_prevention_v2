@@ -25,7 +25,11 @@ class DoctorConsultationRequestResource extends JsonResource
                         'gender'=>$this->patient->gender,
                         'age'=>$this->patient->age
                     ],
-                    'created_at'=>$this->created_at
+                    'created_at'=>$this->created_at,
+                    'start_time'=>$this->start_time,
+                    'end_time'=>$this->end_time,
+                    'status'=>$this->status,
+                    'finished_at'=>$this->finished_at || null,
                 ];
     }
 }
