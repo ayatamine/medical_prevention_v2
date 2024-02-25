@@ -104,17 +104,10 @@
                                         "type": "string",
                                         "example": "784899554"
                                     },
-                                    "insurance_number": {
-                                        "type": "string",
-                                        "example": "78489966554"
-                                    },
                                     "medical_licence_file": {
                                         "type": "file"
                                     },
                                     "cv_file": {
-                                        "type": "file"
-                                    },
-                                    "certification_file": {
                                         "type": "file"
                                     },
                                     "bio": {
@@ -3925,6 +3918,88 @@
                     },
                     "404": {
                         "description": "no sub speciality found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/support/contact": {
+            "post": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "contact support with messages",
+                "operationId": "contact support with messages",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "subject_id": {
+                                        "type": "integer",
+                                        "example": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "user_type": {
+                                        "type": "string",
+                                        "example": [
+                                            "patient",
+                                            "doctor"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "the request to the support sent successfully , wait for response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/support/subject-types": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "get support subject types",
+                "operationId": "get support subject types",
+                "responses": {
+                    "200": {
+                        "description": "support subject types fetched successfuly",
                         "content": {
                             "application/json": {
                                 "schema": {}

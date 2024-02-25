@@ -19,6 +19,8 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/sub_specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
     Route::get('/sub_specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
 
+    Route::get('support/subject-types', [\App\Http\Controllers\API\V1\SupportRequestController::class,'subjectTypes']);
+
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
     Route::post('/symptomes/doctors', [\App\Http\Controllers\API\V1\DoctorController::class, 'doctorsBySymptomes'])->name('symptomes_doctors');
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
@@ -128,4 +130,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('consultations/{id}/send-message', [\App\Http\Controllers\API\V1\ConsultationController::class,'sendMessage']);
     Route::get('consultations/{id}/view-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'viewSummary']);
     Route::get('consultations/{id}/print-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'printSummary']);
+
+    Route::post('support/contact', [\App\Http\Controllers\API\V1\SupportRequestController::class,'saveRequest']);
 });

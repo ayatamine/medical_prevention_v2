@@ -60,14 +60,14 @@ class ScaleQuestionResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -75,5 +75,5 @@ class ScaleQuestionResource extends Resource
             'create' => Pages\CreateScaleQuestion::route('/create'),
             'edit' => Pages\EditScaleQuestion::route('/{record}/edit'),
         ];
-    }    
+    }
 }
