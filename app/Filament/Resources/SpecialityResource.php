@@ -41,7 +41,7 @@ class SpecialityResource extends Resource
                 ->maxLength(150),
             Forms\Components\FileUpload::make('icon'),
             ]);
-            
+
     }
 
     public static function table(Table $table): Table
@@ -65,7 +65,7 @@ class SpecialityResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -73,7 +73,7 @@ class SpecialityResource extends Resource
             'create' => Pages\CreateSpeciality::route('/create'),
             'edit' => Pages\EditSpeciality::route('/{record}/edit'),
         ];
-    }    
+    }
     public static function getRelations(): array
     {
         return [

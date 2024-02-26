@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Symptome;
 use App\Models\SubSpeciality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -46,6 +47,24 @@ class Speciality extends Model
                     return url('storage/'.$value);
                 }else return  null;
             }
+        );
+    }
+    public function symptomes()
+    {
+        return $this->belongsToMany(
+            Symptome::class,
+            'speciality_symptome',
+            'speciality_id',
+            'symptome_id'
+        );
+    }
+    public function chronic_disease()
+    {
+        return $this->belongsToMany(
+            Symptome::class,
+            'speciality_chronic_disease',
+            'speciality_id',
+            'chronic_disease_id'
         );
     }
 }

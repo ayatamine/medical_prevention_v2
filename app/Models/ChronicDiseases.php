@@ -13,7 +13,7 @@ class ChronicDiseases extends Model
     protected $fillable = [
         'name','name_ar',
         'icon','chronic_disease_category_id'
-    
+
     ];
     protected $dates = [
         'created_at',
@@ -32,6 +32,15 @@ class ChronicDiseases extends Model
                     return url('storage/'.$value);
                 }else return  null;
             }
+        );
+    }
+    public function specialities()
+    {
+        return $this->belongsToMany(
+             Speciality::class,
+            'speciality_chronic_disease',
+            'chronic_disease_id',
+            'speciality_id',
         );
     }
 }

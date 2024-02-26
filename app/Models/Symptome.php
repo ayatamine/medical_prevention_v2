@@ -13,15 +13,27 @@ class Symptome extends Model
     protected $fillable = [
         'name','name_ar',
         'icon','symptome_category_id'
-    
+
     ];
     protected $dates = [
         'created_at',
         'updated_at',
     ];
     public function category(){
-        return $this->belongsTo(SymptomeCategory::class);
+        return $this->belongsTo(SymptomeCategory::class,'symptome_category_id','id');
     }
+    public function specialities()
+    {
+        return $this->belongsToMany(
+             Speciality::class,
+            'speciality_symptome',
+            'symptome_id',
+            'speciality_id',
+        );
+    }
+    /**
+     * with subspeciality abondoned
+     */
     public function subSpecialities()
     {
         return $this->belongsToMany(

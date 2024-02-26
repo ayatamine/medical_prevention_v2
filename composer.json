@@ -29,6 +29,7 @@
         "twilio/sdk": "^7.4"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.10",
         "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "knuckleswtf/scribe": "^4.22",

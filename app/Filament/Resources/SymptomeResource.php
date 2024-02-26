@@ -32,6 +32,9 @@ class SymptomeResource extends Resource
             Forms\Components\TextInput::make('name_ar')
                 ->unique(table: Symptome::class,ignoreRecord:true)
                 ->maxLength(150),
+            Forms\Components\Select::make('symptome_category_id')
+                    ->relationship('category', 'name')
+                    ->required(),
             Forms\Components\FileUpload::make('icon'),
             ]);
     }
@@ -41,6 +44,7 @@ class SymptomeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable(),
+                Tables\Columns\TextColumn::make('category.name')->label('category')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
                 Tables\Columns\ImageColumn::make('icon'),
@@ -56,11 +60,11 @@ class SymptomeResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ManageSymptomes::route('/'),
         ];
-    }    
+    }
 }
