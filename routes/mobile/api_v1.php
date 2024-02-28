@@ -7,7 +7,7 @@ require base_path('routes/channels.php');
 Route::group(['as' => 'api_v1.'], function () {
     Route::get('/chronic-diseases', [\App\Http\Controllers\API\V1\ChronicDiseasesController::class, 'index']);
     Route::get('/allergies', [\App\Http\Controllers\API\V1\AllergyController::class, 'index']);
-    Route::get('/lab-tests', [\App\Http\Controllers\API\V1\PrescriptionController::class, 'labTests']);
+    Route::get('/lab-tests', [\App\Http\Controllers\API\V1\DrugController::class, 'labTests']);
     Route::get('/symptomes', [\App\Http\Controllers\API\V1\SymptomeController::class, 'index']);
     Route::get('/family-histories', [\App\Http\Controllers\API\V1\FamilyHistoryController::class, 'index']);
     Route::get('/advertisements', [\App\Http\Controllers\API\V1\AdvertisementsController::class, 'index']);
@@ -73,10 +73,11 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::get('{id}/check-status', 'checkStatus');
         Route::post('otp/send', 'sendOtp');
         Route::post('otp/verify', 'loginWithOtp');
-        Route::post('register', 'store');
+
 
         //------------------------Auth-----------------------
         Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
+            Route::post('register', 'store');
             Route::post('otp/auth/send', 'sendToAuth');
             Route::post('otp/auth/verify', 'verifyOtpAuth');
             Route::get('/profile/my', 'show');
@@ -106,6 +107,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
         Route::post('/{id}/reject', 'rejectConsult');
         Route::post('/{id}/finish', 'finishConsult');
         Route::post('/{id}/add-summary', 'addSummary');
+        Route::post('/{id}/add-prescription', 'addPrescription');
     });
     //profile controller
     Route::controller(\App\Http\Controllers\API\V1\DoctorProfileController::class)->prefix('doctors')->group(function () {
@@ -115,11 +117,12 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
 
     });
     //Prescripiton controller
-    Route::controller(\App\Http\Controllers\API\V1\PrescriptionController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\API\V1\DrugController::class)->group(function () {
         //prescripitons
         // Route::get('/my-medicines', 'index');
-        Route::post('/doctors/medicines/store', 'store');
-        Route::get('/doctors/medicines/list', 'searchMedicines');
+        Route::post('/doctors/drugs/store', 'store');
+        Route::delete('/doctors/drugs/{id}', 'destroy');
+        Route::get('/doctors/drugs/list', 'searchDrugs');
         Route::get('/medicines/list', 'searchMedicinesList');
 
     });

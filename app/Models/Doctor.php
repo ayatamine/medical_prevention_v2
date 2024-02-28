@@ -197,9 +197,9 @@ class Doctor extends Model
         return $this->consultations()->where('status', 'canceled')->with('patient');
     }
     //prescription
-    public function prescriptions():HasMany
+    public function drugs():HasMany
     {
-        return $this->hasMany(Prescription::class);
+        return $this->hasMany(Drug::class);
     }
     public function reviews():HasMany
     {

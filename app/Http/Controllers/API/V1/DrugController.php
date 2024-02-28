@@ -3,23 +3,25 @@
 namespace App\Http\Controllers\API\V1;
 
 use Exception;
+use App\Models\Drug;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\DrugRequest;
 use App\Http\Controllers\Controller;
+use App\Repositories\DrugRepository;
 use App\Http\Resources\MedicineResource;
-use App\Http\Requests\PrescriptionRequest;
-use App\Repositories\PrescriptionRepository;
-use App\Http\Resources\DoctorPrescriptionMedicineResource;
+use App\Http\Resources\DoctorDrugResource;
+use App\Http\Resources\DoctorDrugMedicineResource;
 
-class PrescriptionController extends Controller
+class DrugController extends Controller
 {
         protected $repository;
 
         /**
-         * @var PrescriptionRepository
+         * @var DrugRepository
          * @var ApiResponse
          */
-        public function __construct(PrescriptionRepository $repository,ApiResponse $apiResponse)
+        public function __construct(DrugRepository $repository,ApiResponse $apiResponse)
         {
             parent::__construct($apiResponse);
             $this->repository = $repository;
@@ -52,7 +54,7 @@ class PrescriptionController extends Controller
 
           /**
         * @OA\Post(
-        * path="/api/v1/doctors/medicines/store",
+        * path="/api/v1/doctors/drugs/store",
         * operationId="storeNewmedicine",
         * tags={"doctors"},
         * security={ {"sanctum": {} }},
@@ -63,7 +65,7 @@ class PrescriptionController extends Controller
         *         @OA\MediaType(
         *            mediaType="application/x-www-form-urlencoded",
         *             @OA\Schema(
-        *                 @OA\Property( property="prescription_title",type="string",example="Prescription title"),
+        *                 @OA\Property( property="prescription_title",type="string",example="Drug title"),
         *                 @OA\Property( property="drug_name",type="string",example="Medicine name"),
         *                 @OA\Property( property="route",type="string",example=""),
         *                 @OA\Property( property="dose",type="integer",example="1"),
@@ -75,18 +77,18 @@ class PrescriptionController extends Controller
         *                 @OA\Property( property="instructions",type="text"),
         *             )),
         *    ),
-        *      @OA\Response(response=200,description="the medicine created succefully",@OA\JsonContent()),
+        *      @OA\Response(response=200,description="the drug created succefully",@OA\JsonContent()),
         *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
         *      @OA\Response( response=301,description="unauthorized", @OA\JsonContent()),
         *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent())
         *     )
         */
-        public function store(PrescriptionRequest $request){
+        public function store(DrugRequest $request){
             try{
                 $medicine  = $this->repository->store($request->validated());
 
                 return $this->api->success()
-                                 ->message("the medicine created succefully")
+                                 ->message("the drug created succefully")
                                  ->payload([
                                     'id'=>$medicine->id,
                                     'drug_name'=>$medicine->drug_name,
@@ -99,36 +101,50 @@ class PrescriptionController extends Controller
         }
          /**
        * @OA\Get(
-        * path="/api/v1/doctors/medicines/list",
-        * operationId="medicinesList",
+        * path="/api/v1/doctors/drugs/list",
+        * operationId="drugList",
         * tags={"doctors"},
         * security={ {"sanctum": {} }},
         * summary="get doctor medecines list ",
         * description="get doctor me list  ",
         *       @OA\Parameter(name="search",in="query",description="medicine name"),
-        *      @OA\Response( response=200, description="medicines fetched succefully", @OA\JsonContent() ),
+        *      @OA\Response( response=200, description="drugs fetched succefully", @OA\JsonContent() ),
         *      @OA\Response( response=404, description="no medicine found ", @OA\JsonContent() ),
         *    )
         */
-        public function searchMedicines(){
+        public function searchDrugs(){
             try{
-                $medicines  = $this->repository->myMedicineList();
-                $formated_medicines=[];
-                $i=0;
-                foreach($medicines as $key=>$medicine){
-                    $formated_medicines[$i] =[
-                        "prescription_title"=>$key,
-                        "medicines"=>new DoctorPrescriptionMedicineResource($medicine)
-                    ];
-                    $i++;
-                }
+                $drugs  = $this->repository->myMedicineList();
+                // $formated_drugs=[];
+                // $i=0;
+                // foreach($drugs as $key=>$medicine){
+                //     $formated_drugs[$i] =[
+                //         "drug_name"=>$key,
+                //         "drugs"=>new DoctorDrugResource($medicine)
+                //     ];
+                //     $i++;
+                // }
+                $collection = DoctorDrugResource::collection($drugs);
                 return $this->api->success()
-                                 ->message("medicines fetched succefully")
-                                 ->payload($formated_medicines)
+                                 ->message("drugs fetched succefully")
+                                 ->payload([
+                                    'data' => $collection->items(),
+                                    'total' => $drugs->total(),
+                                    'last_page' => $drugs->lastPage(),
+                                    'first_page_url' => $drugs->url(1),
+                                    'from' => $drugs->firstItem(),
+                                    'last_page_url' => $drugs->url($drugs->lastPage()),
+                                    'next_page_url' => $drugs->nextPageUrl(),
+                                    'prev_page_url' => $drugs->previousPageUrl(),
+                                    'current_page' => $drugs->currentPage(),
+                                    'per_page' => $drugs->perPage(),
+                                    'to' => $drugs->lastItem(),
+                                    'path' => $drugs->path(),
+                                ])
                                  ->send();
             }
             catch(Exception $ex){
-                return handleTwoCommunErrors($ex,"no medicines found");
+                return handleTwoCommunErrors($ex,"no drugs found");
             }
         }
          /**
@@ -189,5 +205,30 @@ class PrescriptionController extends Controller
                 ->send();
         }
     }
+     /**
+       * @OA\Delete(
+        * path="/api/v1/doctors/drugs/{id}",
+        * operationId="drug_delete",
+        * tags={"doctors"},
+        * security={ {"sanctum": {} }},
+        * summary="delete a doctor saved drug ",
+        * description="delete a doctor saved drug   ",
+        *      @OA\Parameter(name="drug_id",in="path",description="drug id to delete"),
+        *      @OA\Response( response=200, description="drug deleted succefully", @OA\JsonContent() ),
+        *      @OA\Response( response=404, description="no drug found ", @OA\JsonContent() ),
+        *    )
+        */
+        public function destroy($id)
+        {
+            try {
 
+                $this->repository->destroy($id);
+
+                return $this->api->success()
+                    ->message("drug deleted succefully")
+                    ->send();
+            } catch (Exception $ex) {
+                return handleTwoCommunErrors($ex, 'no drug found with this id');
+            }
+        }
 }

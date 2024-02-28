@@ -23,7 +23,9 @@ class Consultation extends Model
         'notes',
         'status',
         'finished_at',
-        'paymentintent_id'
+        'paymentintent_id',
+        'prescription_valid_until' //the only attribute in the prescription so we remove the prescription entity and include it here
+
     ];
 
     protected $casts=[
@@ -61,7 +63,7 @@ class Consultation extends Model
         return $this->belongsTo(Patient::class)->withTrashed();
     }
     public function scopeInCompleted(){
-        return $this->whereNull('finished_at');
+        return $this->where('status','incompleted');
     }
     public function scopeCompleted(){
         return $this->whereNotNull('finished_at');
@@ -82,6 +84,10 @@ class Consultation extends Model
         return $this->hasOne(Rating::class);
     }
 
+    public function drugs():HasMany
+    {
+        return $this->hasMany(Drug::class);
+    }
 
 
 }

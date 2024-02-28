@@ -10,8 +10,8 @@ if (!function_exists('generate_otp')) {
     function generate_otp($phone_number,$model,$auth=null)
     {
         $model_record=null;
-        if($auth) 
-        {           
+        if($auth)
+        {
            $model_record =$auth;
         }
         else{
@@ -27,11 +27,11 @@ if (!function_exists('generate_otp')) {
         if($model_record && isset($model_record->otp_verification_code) && $model_record->otp_expire_at && $now->isBefore($model_record->otp_expire_at)){
             return $model_record->otp_verification_code;
         }
-        
+
         $model_record->otp_verification_code =  rand(12345, 99999);
         $model_record->otp_expire_at =  $now->addMinutes(10);
         $model_record->save();
-        
+
         return $model_record->otp_verification_code;
 
     }
@@ -41,16 +41,16 @@ if(!function_exists('send_sms')){
     function sendSMS($receiverNumber,$message,$content,$model)
     {
         $message = $message.' '.$content;
-    
+
         try {
-  
+
             // $account_sid = getenv("TWILIO_SID");
             // $auth_token = getenv("TWILIO_TOKEN");
             // $twilio_number = getenv("TWILIO_PHONE_NUMBER");
-  
+
             // $client = new Client($account_sid, $auth_token);
             // $client->messages->create($receiverNumber, [
-            //     'from' => $twilio_number, 
+            //     'from' => $twilio_number,
             //     'body' => $message
             // ]);
             // $response = Http::withHeaders([
@@ -63,18 +63,18 @@ if(!function_exists('send_sms')){
             //     "apiKey"=>env('MSGAT_API_KEY'),
             //     "userSender"=>"NEOMED APP",
             //     "msg"=>$message
-            
+
             // ]);
             $is_new = false;
             $model_record=null;
-            if( $auth = request()->user()) 
+            if( $auth = request()->user())
             {
                 $model_record =$auth;
             }
             else{
             if($model == 'Doctor'){
                 $model_record = Doctor::whereDeletedAt(null)->where('phone_number', $receiverNumber)->firstOrfail();
-                if(!$model_record->id_number || !$model_record->job_title || !$model_record->insurance_number)
+                if(!$model_record->id_number || !$model_record->job_title)
                 {
                     $is_new = true;
                 }
@@ -87,24 +87,24 @@ if(!function_exists('send_sms')){
                 }
             }
             }
-            
+
             $res = Msegat::numbers([ltrim($receiverNumber,'+')])
             ->message($message)
             ->sendWithDefaultSender();
             // ->sendOTP($content);
-            
+
             $resp =[
                 "success"=>true,
                 'message'=>"The OTP has been sent successfully",
-               
+
             ];
-            if(!request()->user()) 
+            if(!request()->user())
             {
                  $resp['new_registered']= $is_new;
                  $resp['id']= $model_record->id;
             }
             return response()->json($resp,200);
-    
+
         } catch (\Exception $e) {
             return response()->json([
                 "success"=>false,

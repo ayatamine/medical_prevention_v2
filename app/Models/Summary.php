@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Summary extends Model
 {
     use HasFactory;
-    
+
     protected $fillable=[
         'description',
         'sick_leave',
@@ -24,14 +24,14 @@ class Summary extends Model
         'prescriptions',
         'consultation_id',
         'medicines',
-        'other_medicines'
+        'other_medicines',
     ];
-   
+
     //----------------relationships---------------------------
     public function medicines():BelongsToMany
     {
         return $this->belongsToMany(
-            Medicine::class,
+            Drug::class,
             'summary_prescription',
             'summary_id',
             'prescription_id'

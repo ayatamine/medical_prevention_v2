@@ -3090,6 +3090,87 @@
                 ]
             }
         },
+        "/api/v1/consultations/{id}/add-prescription": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "addPrescription to a consultation ",
+                "description": "the doctor finish a patient consultation",
+                "operationId": "addPrescription",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "drugs_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
+                                    },
+                                    "drugs_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The consultation prescription added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "There is no consultation related to this doctor with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/{id}/add-to-favorites": {
             "post": {
                 "tags": [
@@ -3395,81 +3476,7 @@
                 ]
             }
         },
-        "/api/v1/family-histories": {
-            "get": {
-                "tags": [
-                    "patientApp"
-                ],
-                "description": "Get list of existing family histories",
-                "operationId": "family_history_index",
-                "responses": {
-                    "200": {
-                        "description": "data fetched successfuly",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/medical-instructions": {
-            "get": {
-                "tags": [
-                    "patientApp"
-                ],
-                "description": "Get list of existing medical instructions",
-                "operationId": "medical_instructions",
-                "responses": {
-                    "200": {
-                        "description": "Medical instructions fetched successfuly",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/pages/{title}": {
-            "get": {
-                "tags": [
-                    "pages"
-                ],
-                "summary": "get page details by title ",
-                "description": "get page details by title  ",
-                "operationId": "getPageByTitle",
-                "parameters": [
-                    {
-                        "name": "title",
-                        "in": "path",
-                        "description": "the page title",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "page fetched succefully",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "no page found with the given title",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/doctors/medicines/store": {
+        "/api/v1/doctors/drugs/store": {
             "post": {
                 "tags": [
                     "doctors"
@@ -3484,7 +3491,7 @@
                                 "properties": {
                                     "prescription_title": {
                                         "type": "string",
-                                        "example": "Prescription title"
+                                        "example": "Drug title"
                                     },
                                     "drug_name": {
                                         "type": "string",
@@ -3536,7 +3543,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "the medicine created succefully",
+                        "description": "the drug created succefully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -3575,14 +3582,14 @@
                 ]
             }
         },
-        "/api/v1/doctors/medicines/list": {
+        "/api/v1/doctors/drugs/list": {
             "get": {
                 "tags": [
                     "doctors"
                 ],
                 "summary": "get doctor medecines list ",
                 "description": "get doctor me list  ",
-                "operationId": "medicinesList",
+                "operationId": "drugList",
                 "parameters": [
                     {
                         "name": "search",
@@ -3592,7 +3599,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "medicines fetched succefully",
+                        "description": "drugs fetched succefully",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -3684,6 +3691,120 @@
                 "responses": {
                     "200": {
                         "description": "common lab tests fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/drugs/{id}": {
+            "delete": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "delete a doctor saved drug ",
+                "description": "delete a doctor saved drug   ",
+                "operationId": "drug_delete",
+                "parameters": [
+                    {
+                        "name": "drug_id",
+                        "in": "path",
+                        "description": "drug id to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "drug deleted succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no drug found ",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/family-histories": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of existing family histories",
+                "operationId": "family_history_index",
+                "responses": {
+                    "200": {
+                        "description": "data fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/medical-instructions": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get list of existing medical instructions",
+                "operationId": "medical_instructions",
+                "responses": {
+                    "200": {
+                        "description": "Medical instructions fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/pages/{title}": {
+            "get": {
+                "tags": [
+                    "pages"
+                ],
+                "summary": "get page details by title ",
+                "description": "get page details by title  ",
+                "operationId": "getPageByTitle",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "path",
+                        "description": "the page title",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "page fetched succefully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "no page found with the given title",
                         "content": {
                             "application/json": {
                                 "schema": {}

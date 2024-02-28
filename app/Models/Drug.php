@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Prescription extends Model
+class Drug extends Model
 {
     use HasFactory;
     protected $fillable=[
@@ -19,8 +19,8 @@ class Prescription extends Model
         'shape',
         'prn',
         'instructions',
-        'doctor_id',
-        'prescription_title'
+        'doctor_id', //if it is not null means that doctor save  this drug to his drug list
+        'consultation_id',
     ];
     protected $hidden=['created_at','updated_at'];
 }

@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Doctor;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->mediumText('instructions')->nullable();
             $table->timestamp('valid_until')->nullable();
             $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')->references('id')->on('doctors')->cascadeOnDelete();
+            $table->foreignIdFor(Doctor::class)->constrained()->nullable()->cascadeOnDelete();
             $table->timestamps();
         });
     }

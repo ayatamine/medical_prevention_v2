@@ -14,6 +14,7 @@ use App\Models\BallanceHistory;
 use App\Events\ChatMessageEvent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PrescriptionRequest;
 use App\Http\Requests\ReviewRequest;
 use App\Http\Requests\SummaryRequest;
 use App\Http\Resources\SummaryResource;
@@ -761,6 +762,42 @@ class ConsultationController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='in_progres'");
+            // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
+        }
+    }
+     /**
+     * @OA\Post(
+     * path="/api/v1/consultations/{id}/add-prescription",
+     * operationId="addPrescription",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="addPrescription to a consultation ",
+     * description="the doctor finish a patient consultation",
+     * @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property( property="drugs_ids",type="array",@OA\Items(type="integer"), example={1}),
+     *                 @OA\Property( property="drugs_data",type="array",@OA\Items(type="integer"), example={1}),
+     *             )),
+     *    ),
+     *      @OA\Response(response=200,description="The consultation prescription added successfully",@OA\JsonContent()),
+     *      @OA\Response(response=400,description="There is no consultation related to this doctor with the given id",@OA\JsonContent()),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent())
+     *     )
+     */
+    public function addPrescription(PrescriptionRequest $request,$id)
+    {
+        try {
+            $this->repository->addPrescription($request->validated(),$id);
+
+            return $this->api->success()
+                ->message("The consultation prescription added successfully")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='incompleted'");
             // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
         }
     }

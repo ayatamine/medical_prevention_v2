@@ -5,18 +5,18 @@ namespace App\Repositories;
 use App\Models\LabTest;
 use Exception;
 use App\Models\Medicine;
-use App\Models\Prescription;
+use App\Models\Drug;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
-class PrescriptionRepository extends AbstractRepository
+class DrugRepository extends AbstractRepository
 {
     /**
      * Specify Model class name
      *
      * @return string
      */
-    protected $model = Prescription::class;
+    protected $model = Drug::class;
     /**
      * Valid orderable columns.
      *
@@ -28,22 +28,21 @@ class PrescriptionRepository extends AbstractRepository
 
 
     /**
-     * create new prescription
-     *  
+     * create new Drug
+     *
      */
     public function store($request){
-        $prescription = new Prescription($request);
-        $prescription = request()->user()->prescriptions()->save($prescription);
-        return $prescription;
+        $Drug = new Drug($request);
+        $Drug = request()->user()->drugs()->save($Drug);
+        return $Drug;
     }
     public function myMedicineList(){
-        $medicines = Prescription::where('doctor_id',request()->user()->id)
-                    
+        $medicines = Drug::where('doctor_id',request()->user()->id)
                      ->when(request()->has('search'),function($query){
                          $query->where('drug_name','like','%'.request()->query()['search'].'%');
-                     })
-                     ->get()->groupBy('prescription_title')
-                     ->makeHidden('prescription_title');
+                     })->paginate(10);
+                    //  ->get()->groupBy('drug_name');
+                    //  ->makeHidden('Drug_title');
         return $medicines;
     }
     public function searchMedicineList(){
@@ -66,5 +65,11 @@ class PrescriptionRepository extends AbstractRepository
                     ->get();
 
     }
+    public function destroy($id)
+    {
+        Drug::findOrFail($id)->delete();
+        return true;
+    }
+
 
 }

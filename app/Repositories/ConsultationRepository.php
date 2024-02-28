@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use PDF;
 use Exception;
+use App\Models\Drug;
 use App\Models\Doctor;
 use App\Models\Rating;
 use App\Models\Patient;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\DoctorReviewAdded;
 use App\Http\Resources\PatientScaleResource;
 use App\Notifications\ConsultationStatusUpdated;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 class ConsultationRepository extends AbstractRepository
@@ -261,6 +263,32 @@ class ConsultationRepository extends AbstractRepository
             'success'=>false,
             'message'=>'The consultation is not completed yet'
            ]);
+        }
+        return true;
+    }
+    /**
+     * create a prescription for a given consultation
+     */
+    public function addPrescription($data,$id)
+    {
+        $consultation = Consultation::incompleted()->findOrFail($id);
+        $consultation->prescription_valid_until = $data['valid_until'];
+        $consultation->save();
+
+        if(isset($data['drugs_ids']) && count($data['drugs_ids']))
+        {
+            foreach ($data['drugs_ids'] as $key => $id) {
+                $drug = Drug::findOrFail($id);
+                $consultation->drugs()->save($drug);
+            }
+
+        }
+        if(isset($data['drugs_data']))
+        {
+            foreach ($data['drugs_data'] as $drug) {
+                $DrugE = new Drug($drug);
+                $consultation->drugs()->save($DrugE);
+            }
         }
         return true;
     }
