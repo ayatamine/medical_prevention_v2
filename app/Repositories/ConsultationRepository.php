@@ -123,12 +123,9 @@ class ConsultationRepository extends AbstractRepository
                 $summary = Summary::create([
                     'description' => $request['description'],
                     'sick_leave' => $request['sick_leave'],
-                    'other_lab_tests' => $request['other_lab_tests'] ? json_encode($request['other_lab_tests']) :null,
+                    'other_lab_tests' => $request['other_lab_tests'] ?? null,
                     'notes' => $request['notes'] ?? null,
-                    // 'prescription' =>$request['prescription'] ? json_encode($request['prescription']) :null,
                     'consultation_id' => $consultation_id,
-                    'medicines'=>json_encode($request['medicines']),
-                    'other_medicines'=>array_key_exists('other_medicines',$request) ? json_encode($request['other_medicines']) : null,
                 ]);
                 if(array_key_exists('lab_tests',$request))
                 {
@@ -137,27 +134,7 @@ class ConsultationRepository extends AbstractRepository
                      $summary->labTests()->sync($request['lab_tests']);
                     }
                 }
-                // if(array_key_exists('medicines',$request))
-                // {
-                //     if(is_array($request['medicines']))
-                //     {
-                //      $summary->medicines()->sync($request['medicines']);
-                //     }
-                // }
-                if(array_key_exists('sub_specialities',$request))
-                {
-                    if(is_array($request['sub_specialities']))
-                    {
-                     $summary->subSpecialities()->sync($request['sub_specialities']);
-                    }
-                }
-                if(array_key_exists('symptomes',$request))
-                {
-                    if(is_array($request['symptomes']))
-                    {
-                     $summary->symptomes()->sync($request['symptomes']);
-                    }
-                }
+
                 //mark as completed
                 $consultation->update(['status' => 'completed','finished_at'=>now()]);
                 //notify patient
@@ -175,12 +152,12 @@ class ConsultationRepository extends AbstractRepository
     /** view a summary */
     public function viewSummary($consultation_id)
     {
-        return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name,thumbnail','patient:id,full_name','summary','review')->findOrFail($consultation_id);
+        return Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name,thumbnail','patient:id,full_name','summary','review','drugs')->findOrFail($consultation_id);
     }
     /** print a summary */
     public function printSummary($consultation_id)
     {
-        $consult = Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name,birth_date,thumbnail','summary','review')->findOrFail($consultation_id);
+        $consult = Consultation::whereIn('status',['incompleted','completed'])->with('doctor:id,full_name','patient:id,full_name,birth_date,thumbnail','summary','review','drugs')->findOrFail($consultation_id);
         // $summmary_pdf = new Dompdf();
         // $summmary_pdf->loadHtml('hello world');
         $settings = Setting::firstOrFail();
@@ -188,13 +165,13 @@ class ConsultationRepository extends AbstractRepository
         // dd($settings->app_logo);
         $pdf = PDF::loadView('print_consultation_pdf', ['consult'=>$consult,'settings'=>$settings])->set_option('isRemoteEnabled', true);
         $pdfContent = $pdf->output();
-        $filePath = "/consultations/pdf/consultation_#$consult->id.pdf";
+        $filePath = "consultations/pdf/consultation_#$consult->id.pdf";
         // file_put_contents($filePath, $pdfContent);
 
         Storage::disk('public')->put($filePath,$pdfContent);
 
         // file_put_contents($filePath, $pdfContent);
-        return url('storage',$filePath);
+        return url('storage/'.$filePath);
         // $pdf->render();
 // return $pdf->stream('sdfsdf.pdf');
         // return  $pdf->download("consultation_#$summary->id.pdf");

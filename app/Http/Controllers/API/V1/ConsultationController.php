@@ -249,14 +249,12 @@ class ConsultationController extends Controller
      *         @OA\MediaType(
      *            mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
-     *                  @OA\Property( property="sub_specialities",type="array",@OA\Items(type="integer"), example={1}),
      *                 @OA\Property( property="description",type="text",example="description here"),
-     *                 @OA\Property( property="medicines",type="array",@OA\Items(type="object")),
      *                 @OA\Property( property="lab_tests",type="array",@OA\Items(type="integer"), example={1,2}),
      *                 @OA\Property( property="other_lab_tests",type="string",example="new test"),
      *                 @OA\Property( property="sick_leave",type="boolean",enum={0, 1}),
      *                 @OA\Property( property="notes",type="text"),
-     *                 @OA\Property( property="other_medicines",type="text"),
+     *                 @OA\Property( property="policy",type="boolean",enum={0, 1}),
      *             )),
      *    ),
      *      @OA\Response(response=200,description="The summary added successfully",@OA\JsonContent()),
@@ -266,9 +264,7 @@ class ConsultationController extends Controller
      *  * @group Consultation
      * @urlParam id integer required The ID of the consultation.
     * @bodyParam description string
-    * @bodyParam description string
     * @bodyParam sick_leave boolean .
-    * @bodyParam medicines integer[] group of medicals puts in prescripion as array
     * @bodyParam lab_tests integer[] the id's of lab tests
      */
     public function addSummary(SummaryRequest $request, $id)
@@ -287,7 +283,7 @@ class ConsultationController extends Controller
         } catch (Exception $ex) {
             if ($ex->getCode() =='403') {
                 return $this->api->failed()
-                            ->message("The Consultation Status must be completed")
+                            ->message("The Consultation Status must be incompleted")
                             ->send();
 
             }

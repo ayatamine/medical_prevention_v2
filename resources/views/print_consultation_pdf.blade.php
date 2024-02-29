@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>Medical Prescription</title>
     <style>
         body {
@@ -69,13 +69,13 @@
             border-radius: 4px;
         }
     </style>
-    <style> 
+    <style>
         * { font-family: DejaVu Sans, sans-serif; }
        </style>
 </head>
 
 <body>
-    
+
     <!-- Agency Logo -->
     <div style="text-align:right">
         {{-- <img height="400px;width:550px;float:right;" src="{{$settings->app_logo}}" alt="{{$settings->app_name}}"> --}}
@@ -93,7 +93,7 @@
             <p><strong style="font-size: 16px">Prescription Date:</strong> {{$consult->created_at}}</p>
         </div>
         @php
-            
+
             function convertAr($html){
                 $Arabic = new ArPHP\I18N\Arabic();
 
@@ -129,10 +129,10 @@
     </div>
     <h2 style="background-color: gainsboro;padding:15px 8px;margin-bottom:12px">Symptomes:</h2>
     @forelse ($consult->summary->symptomes as $key=>$symptomes)
-    <p><strong style="font-size: 16px">-Name:</strong> {{$symptomes->name}}</p> 
+    <p><strong style="font-size: 16px">-Name:</strong> {{$symptomes->name}}</p>
     @empty
     <div>
-        
+
         <p>No Symptome found</p>
     </div>
     @endforelse
@@ -142,9 +142,9 @@
 
     </div>
 
-    @forelse (json_decode($consult->summary->medicines) as $key=>$med)
+    @forelse (json_decode($consult->drugs) as $key=>$med)
     {{-- <h2 style="background-color: gainsboro;padding:15px 8px;margin-bottom:12px">{{$key}}: {{$med->drug_name}}</h2> --}}
-    <p style="clear:both;"><strong style="font-size: 16px">-Drug Name:</strong> {{$med->drug_name}}</p> 
+    <p style="clear:both;"><strong style="font-size: 16px">-Drug Name:</strong> {{$med->drug_name}}</p>
     <div style="padding: 0 5px;">
         <div style="float: left; width: 50%">
             <p><strong style="font-size: 16px">Dose/Unit:</strong> {{$med->dose}} / {{$med->unit}}</p>
@@ -165,14 +165,14 @@
     <hr style="clear: both">
     @empty
     <div>
-        
+
         <p>No Medicine found</p>
 
 
     </div>
     @endforelse
     <br>
-   
+
     <br><br><br>
     <div style="text-align:right;margin-top:40px;clear:both;">
         {{-- <img height="400px;width:550px;float:right;" src="{{$settings->app_logo}}" alt="{{$settings->app_name}}"> --}}
