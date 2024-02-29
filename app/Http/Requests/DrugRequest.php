@@ -22,7 +22,6 @@ class DrugRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'prescription_title'=>'string|required|max:250',
             'drug_name'=>'string|required|max:250',
             'route'=>'string|required|max:100',
             'dose'=>'integer|required',
@@ -33,7 +32,6 @@ class DrugRequest extends FormRequest
             // 'shape'=>'sometimes|nullable|string|required|max:150',
             'prn'=>'sometimes|nullable|boolean',
             'instructions'=>'sometimes|nullable|string|required',
-            // 'doctor_id'=>'integer|required|exists:doctors,id'
         ];
     }
 }

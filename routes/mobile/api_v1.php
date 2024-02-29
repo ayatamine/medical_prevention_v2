@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth.doctor']], function () {
         Route::post('/{id}/finish', 'finishConsult');
         Route::post('/{id}/add-summary', 'addSummary');
         Route::post('/{id}/add-prescription', 'addPrescription');
+        Route::get('/{id}/prescription-details', 'prescriptionDetails');
     });
     //profile controller
     Route::controller(\App\Http\Controllers\API\V1\DoctorProfileController::class)->prefix('doctors')->group(function () {

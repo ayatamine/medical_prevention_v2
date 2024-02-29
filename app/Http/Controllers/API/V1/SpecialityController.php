@@ -24,7 +24,7 @@ class SpecialityController extends Controller
             parent::__construct($apiResponse);
             $this->repository = $repository;
         }
-    
+
        /**
        * @OA\Get(
         * path="/api/v1/specialities",
@@ -51,7 +51,7 @@ class SpecialityController extends Controller
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
        /**
        * @OA\Get(
@@ -80,13 +80,13 @@ class SpecialityController extends Controller
                     return $this->api->failed()->code(404)
                                 ->message("no speciality found with the given id")
                                 ->send();
-        
+
                 }
                 return $this->api->failed()->code(500)
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
                /**
        * @OA\Get(
@@ -118,13 +118,13 @@ class SpecialityController extends Controller
                     return $this->api->failed()->code(404)
                                 ->message("no speciality found with the given id")
                                 ->send();
-        
+
                 }
                 return $this->api->failed()->code(500)
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
          /**
        * @OA\Get(
@@ -152,7 +152,7 @@ class SpecialityController extends Controller
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
           /**
        * @OA\Get(
@@ -181,13 +181,13 @@ class SpecialityController extends Controller
                     return $this->api->failed()->code(404)
                                 ->message("no sub speciality found with the given id")
                                 ->send();
-        
+
                 }
                 return $this->api->failed()->code(500)
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
                /**
        * @OA\Get(
@@ -208,7 +208,7 @@ class SpecialityController extends Controller
             try {
                  $doctors = $this->repository->SubSpecialityDoctors($speciality_id);
                  if(array_key_exists('limit', request()->query())) return SimpleDoctorResource::collection($doctors->paginate(request()->query()['limit']));
-                 
+
                   return $this->api->success()
                         ->message('sub speciality doctors details fetched successfully')
                         ->payload(SimpleDoctorResource::collection($doctors->get()))
@@ -219,12 +219,12 @@ class SpecialityController extends Controller
                     return $this->api->failed()->code(404)
                                 ->message("no speciality found with the given id")
                                 ->send();
-        
+
                 }
                 return $this->api->failed()->code(500)
                                     ->message($ex->getMessage())
                                     ->send();
             }
-            
+
         }
 }

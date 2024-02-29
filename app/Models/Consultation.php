@@ -84,10 +84,11 @@ class Consultation extends Model
         return $this->hasOne(Rating::class);
     }
 
-    public function drugs():HasMany
+    public function drugs()
     {
-        return $this->hasMany(Drug::class);
+        return $this->belongsToMany(Drug::class, 'consultation_drug', 'consultation_id','drug_id' );
     }
+
 
 
 }

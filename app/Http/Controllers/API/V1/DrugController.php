@@ -65,7 +65,6 @@ class DrugController extends Controller
         *         @OA\MediaType(
         *            mediaType="application/x-www-form-urlencoded",
         *             @OA\Schema(
-        *                 @OA\Property( property="prescription_title",type="string",example="Drug title"),
         *                 @OA\Property( property="drug_name",type="string",example="Medicine name"),
         *                 @OA\Property( property="route",type="string",example=""),
         *                 @OA\Property( property="dose",type="integer",example="1"),

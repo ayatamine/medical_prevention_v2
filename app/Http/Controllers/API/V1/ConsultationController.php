@@ -27,6 +27,7 @@ use App\Http\Resources\PatientMedicalResource;
 use App\Http\Resources\ConsultationWithoutChatResource;
 use App\Http\Resources\DoctorConsultationRequestResource;
 use App\Http\Resources\DoctorConsultationResourceCollaction;
+use App\Http\Resources\DrugResource;
 
 class ConsultationController extends Controller
 {
@@ -798,7 +799,68 @@ class ConsultationController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "Please verify that the consultation_id is correct or the consultation status =='incompleted'");
-            // handleTwoCommunErrors($ex,"There is no consultation related to this doctor with the given id");
+        }
+    }
+        /**
+     * @OA\Get(
+     *      path="/api/v1/consultations/{id}/prescription-details",
+     *      operationId="getConsultation_drugs",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="get prescription drugs related to the consultation",
+     *      @OA\Parameter(  name="id", in="path", description="consultation id ", required=true),
+     *      @OA\Response(
+     *          response=200,
+     *          description="prescription details fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="unauthenticated",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No consultation found with the given id",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     * @group Consultation
+     * @urlParam consultation_id integer required The ID of the consultation.
+     */
+    public function prescriptionDetails($id)
+    {
+        try {
+            $consultation = $this->repository->getPrescriptionDetails($id);
+            $drugs_ids = [];
+            $drugs_data = [];
+            foreach ($consultation->drugs as $drug) {
+
+                if($drug->doctor_id)
+                {
+                    array_push($drugs_ids,$drug->id);
+                }
+                else
+                {
+                    array_push($drugs_data,new DrugResource($drug));
+                }
+            };
+            return $this->api->success()
+                ->payload([
+                    'patient_name'=>$consultation->patient->full_name,
+                    'valid_until'=>$consultation->prescription_valid_util ? date('d-m-Y',strtotime($consultation->prescription_valid_util)) : null,
+                    'drugs_ids' =>$drugs_ids,
+                    'drugs_data' =>$drugs_data,
+                ])
+                ->message("The prescription details fetched successfully")
+                ->send();
+        } catch (Exception $ex) {
+            return handleTwoCommunErrors($ex, "No consultation found with the given id");
         }
     }
 }

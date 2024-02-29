@@ -3171,6 +3171,62 @@
                 ]
             }
         },
+        "/api/v1/consultations/{id}/prescription-details": {
+            "get": {
+                "tags": [
+                    "consultation"
+                ],
+                "description": "get prescription drugs related to the consultation",
+                "operationId": "getConsultation_drugs",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "consultation id ",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "prescription details fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No consultation found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/doctors/{id}/add-to-favorites": {
             "post": {
                 "tags": [
@@ -3489,10 +3545,6 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "prescription_title": {
-                                        "type": "string",
-                                        "example": "Drug title"
-                                    },
                                     "drug_name": {
                                         "type": "string",
                                         "example": "Medicine name"

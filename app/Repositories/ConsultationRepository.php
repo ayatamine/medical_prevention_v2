@@ -277,20 +277,21 @@ class ConsultationRepository extends AbstractRepository
 
         if(isset($data['drugs_ids']) && count($data['drugs_ids']))
         {
-            foreach ($data['drugs_ids'] as $key => $id) {
-                $drug = Drug::findOrFail($id);
-                $consultation->drugs()->save($drug);
-            }
+            $consultation->drugs()->sync($data['drugs_ids']);
 
         }
         if(isset($data['drugs_data']))
         {
             foreach ($data['drugs_data'] as $drug) {
-                $DrugE = new Drug($drug);
+                $DrugE = Drug::create($drug);
                 $consultation->drugs()->save($DrugE);
             }
         }
         return true;
+    }
+    public function getPrescriptionDetails($consultation_id)
+    {
+        return Consultation::with('drugs')->with('patient:id,full_name')->findOrFail($consultation_id);
     }
 
 }

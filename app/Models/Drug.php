@@ -23,4 +23,5 @@ class Drug extends Model
         'consultation_id',
     ];
     protected $hidden=['created_at','updated_at'];
+
 }

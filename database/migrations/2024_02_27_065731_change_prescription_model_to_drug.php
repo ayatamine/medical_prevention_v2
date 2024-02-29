@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('drugs', function (Blueprint $table) {
             $table->dropColumn('prescription_title');
             $table->dropColumn('valid_until');
-            $table->foreignIdFor(Consultation::class)->nullable()->cascadeOnDelete();
+            // $table->foreignIdFor(Consultation::class)->nullable()->cascadeOnDelete();
         });
 
     }
@@ -30,7 +30,7 @@ return new class extends Migration
         Schema::table('drugs', function (Blueprint $table) {
             $table->string('prescription_title')->nullable();
             $table->timestamp('valid_until')->nullable();
-            $table->dropForeignIdFor(Consultation::class);
+            // $table->dropForeignIdFor(Consultation::class);
         });
         Schema::rename('drugs','prescriptions');
     }

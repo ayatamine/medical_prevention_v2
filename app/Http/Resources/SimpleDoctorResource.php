@@ -20,10 +20,10 @@ class SimpleDoctorResource extends JsonResource
             "full_name" => $this->full_name,
             "online_status" => true,
             "reviews_count" => $this->reviews_count,
-            "rating_value" => $this->reviews_count >0  ? $sum / $this->reviews_count : intval($sum) ,
+            "rating_value" => $this->reviews_count >0  ? $sum / $this->reviews_count : floatval($sum) ,
             "location" => $this->location ,
             "thumbnail" => $this->thumbnail ,
         ];
     }
-    
+
 }
