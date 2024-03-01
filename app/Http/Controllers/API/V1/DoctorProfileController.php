@@ -59,7 +59,7 @@ class DoctorProfileController extends Controller
     * security={ {"sanctum": {} }},
     * summary="switch online status on / off for the doctor ",
     * description="switch online status on / off for the doctor  ",
-    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true, 
+    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true,
     *     @OA\Schema(
     *       type="string",
     *       enum={ 0,1},
@@ -90,7 +90,7 @@ class DoctorProfileController extends Controller
     * security={ {"sanctum": {} }},
     * summary="update last online status on / off for the doctor ",
     * description="update last online status on / off for the doctor  ",
-    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true, 
+    *      @OA\Parameter(  name="status", in="path", description="online status : 0,1", required=true,
     *     @OA\Schema(
     *       type="string",
     *       enum={ 0,1},

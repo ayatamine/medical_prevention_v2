@@ -2467,24 +2467,9 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "properties": {
-                                    "sub_specialities": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        },
-                                        "example": [
-                                            1
-                                        ]
-                                    },
                                     "description": {
                                         "type": "text",
                                         "example": "description here"
-                                    },
-                                    "medicines": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "object"
-                                        }
                                     },
                                     "lab_tests": {
                                         "type": "array",
@@ -2510,8 +2495,12 @@
                                     "notes": {
                                         "type": "text"
                                     },
-                                    "other_medicines": {
-                                        "type": "text"
+                                    "policy": {
+                                        "type": "boolean",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ]
                                     }
                                 },
                                 "type": "object"

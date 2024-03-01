@@ -20,7 +20,7 @@ class DoctorResource extends JsonResource
         //    $speciality = Speciality::whereHas('sub_specialities',function($query){
         //         $query->whereIn('id',array($this->sub_specialities[0]->id));
         //    })->first();
-        // }      
+        // }
         $countryCode = (substr( $this->phone_number, 0, 3) !='+20')? substr( $this->phone_number, 0, 4) :substr( $this->phone_number, 0, 3);
         $phone_number = (substr( $this->phone_number, 0, 3) !='+20')? substr( $this->phone_number, 4) :substr( $this->phone_number, 3) ;
         return [
@@ -34,9 +34,9 @@ class DoctorResource extends JsonResource
             "job_title" => $this->job_title,
             "thumbnail" => $this->thumbnail ,
             "classification_number" => $this->classification_number,
-            "insurance_number" => $this->insurance_number,
+            // "insurance_number" => $this->insurance_number,
             "medical_licence_file" => $this->medical_licence_file,
-            "certification_file" => $this->certification_file,
+            // "certification_file" => $this->certification_file,
             "cv_file" => $this->cv_file,
             "notification_status" => $this->notification_status,
             "online_status" => $this->online_status,
@@ -56,7 +56,7 @@ class DoctorResource extends JsonResource
                     'name'=>$sub->name,
                     'name_ar'=>$sub->name_ar
                 ];
-            }),   
+            }),
         ];
     }
 }
