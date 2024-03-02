@@ -39,7 +39,9 @@ class DoctorController extends Controller
      *       description="sort doctors",
      *       example="0", in="query", name="sort",
      *      ),
-     *      @OA\Parameter(  name="limit", in="query", description="limit records"),
+     *      @OA\Parameter(  name="limit", in="query", description="limit records", ),
+     *      @OA\Parameter(  @OA\Schema( type="array",@OA\Items(type="integer"), example={1,2}), name="symptomes", in="query", description="selected symptomes"),
+     *      @OA\Parameter(  @OA\Schema( type="array",@OA\Items(type="integer"), example={1,2}), name="chronic_diseases", in="query", description="selected chronic diseases"),
      *      @OA\Response(
      *          response=200,
      *          description="Doctors fetched successfuly",
@@ -59,7 +61,6 @@ class DoctorController extends Controller
             //     ->send();
         } catch (Exception $ex) {
             return $this->api->failed()
-                ->code($ex->getCode())
                 ->message($ex->getMessage())
                 ->send();
         }
@@ -84,7 +85,7 @@ class DoctorController extends Controller
     {
         try {
             $do=$this->repository->addToFavorites($id);
-            
+
             return $this->api->success()
                 ->message("Doctor added to favorites successfully")
                 ->payload($do)
@@ -115,7 +116,7 @@ class DoctorController extends Controller
     {
         try {
             $do=$this->repository->removeFromFavorites($id);
-            
+
             return $this->api->success()
                 ->message("Doctor removed from favorites successfully")
                 ->payload($do)
@@ -172,7 +173,7 @@ class DoctorController extends Controller
     {
         try {
             $doctor = $this->repository->show($id);
-         
+
             return $this->api->success()
                 ->message("Doctor details fetched successfuly")
                 ->payload(new DoctorProfileResource($doctor))

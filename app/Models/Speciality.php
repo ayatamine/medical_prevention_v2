@@ -58,13 +58,13 @@ class Speciality extends Model
             'symptome_id'
         );
     }
-    public function chronic_disease()
+    public function chronic_diseases()
     {
         return $this->belongsToMany(
-            Symptome::class,
+            ChronicDiseases::class,
             'speciality_chronic_disease',
             'speciality_id',
-            'chronic_disease_id'
+            'chronic_diseases_id'
         );
     }
 }

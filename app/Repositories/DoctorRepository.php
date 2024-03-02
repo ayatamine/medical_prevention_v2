@@ -338,6 +338,8 @@ class DoctorRepository extends AbstractRepository
     {
 
         $search = request()->query('search'); // Get the search keyword
+        $symptomes = request()->query('symptomes'); // Get the search keyword
+        $chronic_diseases = request()->query('chronic_diseases'); // Get the search keyword
         // $bestRated = request()->query('best_rated'); // Get the best-rated filter
         // $latest = request()->query('latest'); // Get the lower price filter
         // $oldest = request()->query('oldest'); // Get the lower price filter
@@ -360,6 +362,16 @@ class DoctorRepository extends AbstractRepository
                     $query->where('full_name', 'like', '%' . $search . '%')
                         ->orWhere('job_title', 'like', '%' . $search . '%');
                 });
+            })
+            ->when($symptomes, function ($query, $symptomes) {
+                    $query->orWhereHas('speciality.symptomes', function ($query) use ($symptomes) {
+                        $query->whereIn('symptome_id', $symptomes);
+                    });
+            })
+            ->when($chronic_diseases, function ($query, $chronic_diseases) {
+                    $query->orWhereHas('speciality.chronic_diseases', function ($query) use ($chronic_diseases) {
+                        $query->whereIn('chronic_diseases_id', $chronic_diseases);
+                    });
             })
             ->when($sort == "is_online", function ($query, $search) {
                 $query->online();

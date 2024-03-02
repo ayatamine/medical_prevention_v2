@@ -830,6 +830,21 @@
                         "name": "limit",
                         "in": "query",
                         "description": "limit records"
+                    },
+                    {
+                        "name": "symptomes",
+                        "in": "query",
+                        "description": "selected symptomes",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "example": [
+                                1,
+                                2
+                            ]
+                        }
                     }
                 ],
                 "responses": {

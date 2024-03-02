@@ -39,7 +39,7 @@ class ChronicDiseases extends Model
         return $this->belongsToMany(
              Speciality::class,
             'speciality_chronic_disease',
-            'chronic_disease_id',
+            'chronic_diseases_id',
             'speciality_id',
         );
     }
