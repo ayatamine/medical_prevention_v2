@@ -77,7 +77,9 @@ class SpecialityResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // RelationManagers\SubSpecialitiesRelationManager::class,
+            RelationManagers\SymptomesRelationManager::class,
+            RelationManagers\ChronicDiseasesRelationManager::class,
+
         ];
     }
 }

@@ -18,7 +18,7 @@ class ChronicDiseaseCategoryResource extends Resource
     protected static ?string $model = ChronicDiseaseCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Chronic Diseases';
+    protected static ?string $navigationGroup = 'Doctors';
     public static function form(Form $form): Form
     {
         return $form
@@ -50,11 +50,11 @@ class ChronicDiseaseCategoryResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ManageChronicDiseaseCategories::route('/'),
         ];
-    }    
+    }
 }

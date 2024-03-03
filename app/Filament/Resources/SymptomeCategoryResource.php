@@ -18,7 +18,7 @@ class SymptomeCategoryResource extends Resource
     protected static ?string $model = SymptomeCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Symptomes';
+    protected static ?string $navigationGroup = 'Doctors';
     public static function form(Form $form): Form
     {
         return $form
@@ -50,11 +50,11 @@ class SymptomeCategoryResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ManageSymptomeCategories::route('/'),
         ];
-    }    
+    }
 }

@@ -1,33 +1,32 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\SpecialityResource\RelationManagers;
 
-use App\Filament\Resources\ChronicDiseasesResource\Pages;
-use App\Filament\Resources\ChronicDiseasesResource\RelationManagers;
-use App\Models\ChronicDiseases;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use App\Models\ChronicDiseases;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
-class ChronicDiseasesResource extends Resource
+class ChronicDiseasesRelationManager extends RelationManager
 {
-    protected static ?string $model = ChronicDiseases::class;
+    protected static string $relationship = 'chronic_diseases';
 
-    protected static ?string $navigationIcon = 'icons.chronic';
-    protected static ?string $navigationGroup = 'Doctors';
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->label(trans('name'))
-                    ->unique(table: ChronicDiseases::class,ignoreRecord:true)
-                    ->maxLength(150),
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('name_ar')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('name_ar')
                     ->unique(table: ChronicDiseases::class,ignoreRecord:true)
                     ->maxLength(150),
@@ -39,7 +38,7 @@ class ChronicDiseasesResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->sortable(),
+                Tables\Columns\TextColumn::make('id')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('name_ar')->sortable()->searchable(),
                 Tables\Columns\ImageColumn::make('icon'),
@@ -47,19 +46,15 @@ class ChronicDiseasesResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ManageChronicDiseases::route('/'),
-        ];
     }
 }

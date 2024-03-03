@@ -20,7 +20,7 @@ class AdvertisementResource extends Resource
     protected static ?string $navigationIcon = 'icons.advertisement';
 
     public static function form(Form $form): Form
-    {  
+    {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
@@ -32,8 +32,7 @@ class AdvertisementResource extends Resource
                     ->required()
                     ->unique(table: Advertisement::class,ignoreRecord: true)
                     ->maxLength(150),
-                Forms\Components\FileUpload::make('image')
-                    ->required(),
+                Forms\Components\FileUpload::make('image'),
                 Forms\Components\Textarea::make('text')
                     ->required()
                     ->columnSpan('full')
@@ -75,14 +74,14 @@ class AdvertisementResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -90,5 +89,5 @@ class AdvertisementResource extends Resource
             'create' => Pages\CreateAdvertisement::route('/create'),
             'edit' => Pages\EditAdvertisement::route('/{record}/edit'),
         ];
-    }    
+    }
 }

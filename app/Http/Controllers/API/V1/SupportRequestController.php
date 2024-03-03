@@ -46,7 +46,7 @@ class SupportRequestController extends Controller
 
             $request->validate([
                 'user_type' => 'required|string|in:doctor,patient',
-                'subject_id' => 'required|integer|in:support_subject_types',
+                'subject_id' => 'required|integer|exists:support_subject_types,id',
                 'description' => 'required|string',
             ]);
 
@@ -54,7 +54,7 @@ class SupportRequestController extends Controller
             $supportRequest = new SupportRequest();
             $supportRequest->user_id = request()->user()->id;
             $supportRequest->user_type = $request->user_type;
-            $supportRequest->subject_id = $request->subject_id;
+            $supportRequest->support_subject_type_id = $request->subject_id;
             $supportRequest->description = $request->description;
             $supportRequest->save();
 

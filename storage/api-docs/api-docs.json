@@ -845,6 +845,21 @@
                                 2
                             ]
                         }
+                    },
+                    {
+                        "name": "chronic_diseases",
+                        "in": "query",
+                        "description": "selected chronic diseases",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "example": [
+                                1,
+                                2
+                            ]
+                        }
                     }
                 ],
                 "responses": {

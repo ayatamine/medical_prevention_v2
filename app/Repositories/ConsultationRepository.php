@@ -165,7 +165,7 @@ class ConsultationRepository extends AbstractRepository
         // dd($settings->app_logo);
         $pdf = PDF::loadView('print_consultation_pdf', ['consult'=>$consult,'settings'=>$settings])->set_option('isRemoteEnabled', true);
         $pdfContent = $pdf->output();
-        $filePath = "consultations/pdf/consultation_#$consult->id.pdf";
+        $filePath = "consultations/pdf/consultation_$consult->id.pdf";
         // file_put_contents($filePath, $pdfContent);
 
         Storage::disk('public')->put($filePath,$pdfContent);
