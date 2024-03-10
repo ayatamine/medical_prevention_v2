@@ -136,4 +136,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('consultations/{id}/print-summary', [\App\Http\Controllers\API\V1\ConsultationController::class,'printSummary']);
 
     Route::post('support/contact', [\App\Http\Controllers\API\V1\SupportRequestController::class,'saveRequest']);
+
+    Route::get('/agora-chat',[\App\Http\Controllers\API\V1\AgoraVideoController::class,'index']);
+    Route::post('/consultations/{id}/token', [\App\Http\Controllers\API\V1\AgoraVideoController::class,'token']);
+    Route::post('/consultations/{id}/call-user', [\App\Http\Controllers\API\V1\AgoraVideoController::class,'callUser']);
 });

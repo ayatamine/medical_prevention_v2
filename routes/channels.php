@@ -21,3 +21,7 @@ Broadcast::channel('consultation.{consultation_id}', function ($user,$consultati
     return true;
 },[ 'middleware' => 'auth:sanctum']);
 
+
+Broadcast::channel('agora-online-channel', function ($user) {
+    return ['id' => $user->id, 'name' => $user->full_name];
+});

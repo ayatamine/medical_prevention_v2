@@ -47,7 +47,8 @@
             "Database\\Seeders\\": "database/seeders/",
             "App\\Repositories\\": "Repositories/",
             "App\\Traits\\": "Traits/",
-            "App\\Helpers\\": "Helpers/"
+            "App\\Helpers\\": "Helpers/",
+            "App\\Classes\\": "Classes/"
         },
         "files": [
             "app/Helpers/Authentication.php",

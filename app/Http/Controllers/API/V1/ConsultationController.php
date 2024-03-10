@@ -93,6 +93,11 @@ class ConsultationController extends Controller
                         $consultations = request()->user()->canceledConsultations()->paginate(10);
 
                         break;
+                    case 'in_progress':
+
+                        $consultations = request()->user()->inProgressConsultations()->paginate(10);
+
+                        break;
 
                     default:
                         $consultations = request()->user()->consultations()->paginate(10);
