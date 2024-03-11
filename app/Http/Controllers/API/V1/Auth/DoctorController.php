@@ -369,7 +369,7 @@ class DoctorController extends Controller
                 ->payload([
                     'token' => $default_doctor->createToken('mobile', ['role:doctor', 'doctor:update'])->plainTextToken,
                     'doctor_id' => $default_doctor->id,
-                    'new_registered'=>true
+                    'new_registered'=>false
                 ])
                 ->send();
             }

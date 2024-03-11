@@ -149,6 +149,7 @@ class PatientController extends Controller
             //validate the otp
             $patient->otp_verification_code =  null;
             $patient->otp_expire_at =  now();
+            $patient->is_phone_verified =  true;
             $patient->save();
             $is_new = false;
             if (!$patient->birth_date || !$patient->height || !$patient->weight) {
@@ -164,6 +165,82 @@ class PatientController extends Controller
                 ->send();
         } catch (Exception $ex) {
 
+            return handleTwoCommunErrors($ex, "No patient Found with the given phone number");
+        }
+    }
+            /**
+     * @OA\Post(
+     * path="/api/v1/patients/otp/auth/verify",
+     * operationId="verifyOtpOfPatientAuth",
+     * tags={"patients"},
+     * security={ {"sanctum": {} }},
+     * summary="verify patient otp code if match to login",
+     * description="verify patient otp code if match to login using the phone_number and the otp",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property(property="phone_number",type="string",example="+213664419425"),
+     *                 @OA\Property(property="otp",type="string",example="55555")
+     *             ) ),
+     *    ),
+     *      @OA\Response( response=200,description="The verification passed successfully",@OA\JsonContent()),
+     *      @OA\Response( response=422,description="Your OTP Or Phone Number is not correct",@OA\JsonContent()),
+     *      @OA\Response( response=419,description="Your OTP has been expired",@OA\JsonContent()),
+     *      @OA\Response(response=500,description="internal server error",@OA\JsonContent())
+     *     )
+     */
+    public function verifyOtpAuth(Request $request)
+    {
+        /* Validation */
+        $request->validate([
+            'phone_number' => 'required|regex:/^(\+\d{1,2}\d{10})$/',
+            'otp' => 'required'
+        ]);
+
+        try {
+            if($request->phone_number ==env('DEFAULT_PHONE_NUMBER')){
+                $default_patient = Patient::wherePhoneNumber($request->phone_number)->first()->id;
+                return $this->api->success()
+                ->message('The verification passed successfully')
+                ->payload([
+                    'token' => $default_patient->createToken('mobile', ['role:patient', 'patient:update'])->plainTextToken,
+                    'patient_id' => $default_patient->id,
+                    'new_registered'=>false
+                ])
+                ->send();
+            }
+            $patient =request()->user();
+            if($patient && $patient->otp_verification_code != $request->otp){
+                abort(422,"Your OTP is not correct, Please Verify");
+            }
+
+            $now = now();
+            if ($patient && $now->isAfter($patient->otp_expire_at)) {
+                return $this->api->failed()->code(419)
+                    ->message('Your OTP has been expired')
+                    ->send();
+            }
+
+
+
+
+            //validate the otp
+            $patient->otp_verification_code =  null;
+            $patient->otp_expire_at =  now();
+            $patient->is_phone_verified =  true;
+            //authenticated  login
+            if(request()->user()) $patient->phone_number =$request->phone_number;
+            $patient->save();
+
+            if (request()->user()) {
+                return $this->api->success()
+                    ->message('The verification passed successfully')
+                    ->send();
+            }
+
+        } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No patient Found with the given phone number");
         }
     }

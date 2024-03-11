@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::table('doctors', function (Blueprint $table) {
             $table->boolean('is_phone_verified')->after('otp_expire_at')->default(false);
         });
+        Schema::table('patients', function (Blueprint $table) {
+            $table->boolean('is_phone_verified')->after('otp_expire_at')->default(false);
+        });
     }
 
     /**
@@ -22,6 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('doctors', function (Blueprint $table) {
+           $table->dropColumn('is_phone_verified');
+        });
+        Schema::table('patients', function (Blueprint $table) {
            $table->dropColumn('is_phone_verified');
         });
     }

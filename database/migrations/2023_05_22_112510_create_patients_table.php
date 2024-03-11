@@ -31,7 +31,7 @@ return new class extends Migration
             ->nullable()->references('id')->on('chronic_diseases')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('family_history_id')
             ->nullable()->references('id')->on('family_histories')->onUpdate('cascade')->onDelete('cascade');
-            $table->boolean('has_physical_activity')->default(false);     
+            $table->boolean('has_physical_activity')->default(false);
             $table->boolean('has_cancer_screening')->default(false);
             $table->boolean('has_depression_screening')->default(false);
             $table->mediumText('other_problems')->nullable();

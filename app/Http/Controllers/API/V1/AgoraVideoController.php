@@ -48,8 +48,8 @@ class AgoraVideoController extends Controller
             $appCertificate = env('AGORA_APP_CERTIFICATE');
             // $channelName = $request->channelName;
             $channelName = "consultation_".$id;
-            $user = request()->user()->full_name;
-            $role = RtcTokenBuilder::RoleAttendee;
+            $user = request()->user()->id;
+            $role = RtcTokenBuilder::RolePublisher;
             $expireTimeInSeconds = 3600;
             $currentTimestamp = now()->getTimestamp();
             $privilegeExpiredTs = $currentTimestamp + $expireTimeInSeconds;
@@ -58,7 +58,9 @@ class AgoraVideoController extends Controller
 
             return $this->api->success()
                 ->message('The call token generated successfully')
-                ->payload($token)
+                ->payload([
+                    "token"=>$token
+                ])
                 ->send();
 
         } catch (Exception $ex) {

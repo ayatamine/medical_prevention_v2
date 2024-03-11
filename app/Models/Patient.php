@@ -31,6 +31,7 @@ class Patient extends Model
         'thumbnail',
         'phone_number',
         'otp_verification_code',
+        'is_phone_verified',
         'gender',
         'address',
         'other_problems',

@@ -18,7 +18,7 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/sub_specialities', [\App\Http\Controllers\API\V1\SpecialityController::class, 'subIndex']);
     Route::get('/sub_specialities/{id}', [\App\Http\Controllers\API\V1\SpecialityController::class, 'getSubSpecialityDetails']);
     Route::get('/sub_specialities/{id}/doctors', [\App\Http\Controllers\API\V1\SpecialityController::class, 'SubDoctors'])->name('sub_speciality_doctors');
-
+    Route::get('/app-settings', [\App\Http\Controllers\API\V1\SettingController::class, 'index']);
     Route::get('support/subject-types', [\App\Http\Controllers\API\V1\SupportRequestController::class,'subjectTypes']);
 
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
@@ -38,6 +38,7 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::post('otp/verify', 'loginWithOtp');
         Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
             Route::post('otp/auth/send', 'sendToAuth');
+            Route::post('otp/auth/verify', 'verifyOtpAuth');
             Route::get('/profile/my', 'show');
             Route::post('complete-medical-record', 'storePatientData');
             Route::put('/update-phone-number', 'updatePhone');

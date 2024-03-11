@@ -1301,6 +1301,77 @@
                 }
             }
         },
+        "/api/v1/patients/otp/auth/verify": {
+            "post": {
+                "tags": [
+                    "patients"
+                ],
+                "summary": "verify patient otp code if match to login",
+                "description": "verify patient otp code if match to login using the phone_number and the otp",
+                "operationId": "verifyOtpOfPatientAuth",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "phone_number": {
+                                        "type": "string",
+                                        "example": "+213664419425"
+                                    },
+                                    "otp": {
+                                        "type": "string",
+                                        "example": "55555"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The verification passed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Your OTP Or Phone Number is not correct",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "Your OTP has been expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/complete-medical-record": {
             "post": {
                 "tags": [
@@ -3979,6 +4050,30 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/v1/app-settings": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "get app settings",
+                "operationId": "get_app_settings",
+                "responses": {
+                    "200": {
+                        "description": "the settings fetched successfully , wait for response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/specialities": {
