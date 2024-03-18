@@ -9,6 +9,7 @@ use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DoctorAvailabilityRequest;
 use App\Http\Resources\DoctorResource;
 use App\Repositories\DoctorRepository;
 use App\Http\Requests\StoreDoctorRequest;
@@ -767,5 +768,61 @@ class DoctorController extends Controller
      */
     public function withdrawBallance()
     {
+    }
+    /**
+     * @OA\Post(
+     * path="/api/v1/doctors/update-calendar",
+     * operationId="update-doctor-calendar",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="update-doctor-calendar",
+     * description="update-doctor-calendar",
+     *      @OA\Response( response=200, description="the calendar updated successfullly", @OA\JsonContent() ),
+     *      @OA\Response( response=401, description="unauthenticared", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function updateCalendar(DoctorAvailabilityRequest $request)
+    {
+
+        try {
+
+            $availabilities =$this->repository->updateCalendar($request->validated());
+            return $this->api->success()
+                ->payload($availabilities)
+                ->message('the calendar updated successfullly')
+                ->send();
+        } catch (Exception $ex) {
+
+            handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');
+        }
+    }
+    /**
+     * @OA\Get(
+     * path="/api/v1/doctors/profile/my-calendar",
+     * operationId="get-doctor-calendar",
+     * tags={"doctors"},
+     * security={ {"sanctum": {} }},
+     * summary="get-doctor-calendar",
+     * description="get-doctor-calendar",
+     *      @OA\Response( response=200, description="the calendar fetched successfullly", @OA\JsonContent() ),
+     *      @OA\Response( response=401, description="unauthenticared", @OA\JsonContent() ),
+     *      @OA\Response( response=500, description="internal server error", @OA\JsonContent() ),
+     *    )
+     */
+    public function myCalendar()
+    {
+
+        try {
+
+            $calander =$this->repository->doctorCalander();
+            return $this->api->success()
+                ->payload($calander)
+                ->message('the calendar fetched successfullly')
+                ->send();
+        } catch (Exception $ex) {
+
+            handleTwoCommunErrors($ex, 'no doctor found ,please verify your login');
+        }
     }
 }

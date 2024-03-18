@@ -1189,6 +1189,47 @@
                 ]
             }
         },
+        "/api/v1/doctors/update-calendar": {
+            "post": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "update-doctor-calendar",
+                "description": "update-doctor-calendar",
+                "operationId": "update-doctor-calendar",
+                "responses": {
+                    "200": {
+                        "description": "the calendar updated successfullly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticared",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [

@@ -618,7 +618,8 @@ class PatientController extends Controller
     public function myNotifications()
     {
         try {
-            $notifications = request()->user()->notifications()->paginate();
+            $notifications = request()->user()->unreadnotifications()->paginate();
+
 
             return $this->api->success()
                 ->message('notification fetched successfully')

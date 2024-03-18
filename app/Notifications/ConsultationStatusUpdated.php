@@ -29,7 +29,7 @@ class ConsultationStatusUpdated extends Notification implements ShouldBroadcast
     public function via(object $notifiable): array
     {
         if($this->data['patient']->notification_status)   return ['broadcast','mail','database'];
-        // return ['mail'];
+        return ['broadcast','database'];
     }
 
     /**

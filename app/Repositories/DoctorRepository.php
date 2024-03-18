@@ -6,10 +6,11 @@ use Exception;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Rating;
-use App\Notifications\NewDoctorRegisteration;
+use App\Models\DoctorAvailability;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewDoctorRegisteration;
 use Torann\LaravelRepository\Repositories\AbstractRepository;
 
 
@@ -500,5 +501,58 @@ class DoctorRepository extends AbstractRepository
             ->get();
         }
         return $doctors;
+    }
+    /**
+     * update doctor availability
+     */
+    public function updateCalendar($request)
+    {
+        // Delete any remaining availabilities that are not included in the update (optional)
+        $existingAvailability = DoctorAvailability::where('doctor_id', request()->user()->id)->get();
+        foreach ($existingAvailability as $availability) {
+            $availability->delete();
+        }
+        foreach ($request['availabilities'] as $availability) {
+
+            $startTime = $availability['start_time'];
+            $endTime = $availability['end_time'];
+            $isPm = (bool) $availability['is_pm'];
+
+
+
+                // Create new record
+                DoctorAvailability::create([
+                    'doctor_id' => request()->user()->id,
+                    'day_of_week' => $availability['day_of_week'],
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'is_pm' => $isPm,
+                ]);
+
+
+        }
+
+
+        $calander =  DoctorAvailability::where('doctor_id', request()->user()->id)->oldest('day_of_week')->get()->groupBy('day_of_week')->makeHidden(['doctor_id','created_at','updated_at']);
+        $ids  = array_keys($calander->toArray());
+        for ($i=1; $i <= 7; $i++) {
+            if(!in_array($i,$ids))
+            {
+                $calander[$i] = 'vacation';
+            }
+        }
+        return $calander->sortKeys();
+    }
+    public function doctorCalander()
+    {
+        $calander =  DoctorAvailability::where('doctor_id', request()->user()->id)->oldest('day_of_week')->get()->groupBy('day_of_week')->makeHidden(['doctor_id','created_at','updated_at']);
+        $ids  = array_keys($calander->toArray());
+        for ($i=1; $i <= 7; $i++) {
+            if(!in_array($i,$ids))
+            {
+                $calander[$i] = 'vacation';
+            }
+        }
+        return $calander->sortKeys();
     }
 }

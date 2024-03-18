@@ -93,6 +93,8 @@ Route::group(['as' => 'api_v1.'], function () {
             Route::delete('/','deleteAccount');
             Route::post('/update-thumbnail', 'updateThumbnail');
             Route::post('/withdraw-ballance', 'withdrawBallance');
+            Route::post('/update-calendar', 'updateCalendar');
+            Route::get('/profile/my-calendar', 'myCalendar');
 
 
 
