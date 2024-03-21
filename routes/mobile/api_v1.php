@@ -21,7 +21,10 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/app-settings', [\App\Http\Controllers\API\V1\SettingController::class, 'index']);
     Route::get('support/subject-types', [\App\Http\Controllers\API\V1\SupportRequestController::class,'subjectTypes']);
 
+
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
+    Route::get('doctors/{id}/calendar', [ \App\Http\Controllers\API\V1\DoctorController::class,'doctorCalendar']);
+
     Route::post('/symptomes/doctors', [\App\Http\Controllers\API\V1\DoctorController::class, 'doctorsBySymptomes'])->name('symptomes_doctors');
     Route::group(['middleware' => ['auth:sanctum','auth.patient']], function () {
         Route::post('/doctors/{id}/add-to-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'addToFavorites']);

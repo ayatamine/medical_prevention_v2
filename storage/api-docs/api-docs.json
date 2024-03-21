@@ -1230,6 +1230,47 @@
                 ]
             }
         },
+        "/api/v1/doctors/profile/my-calendar": {
+            "get": {
+                "tags": [
+                    "doctors"
+                ],
+                "summary": "get-doctor-calendar",
+                "description": "get-doctor-calendar",
+                "operationId": "get-doctor-calendar",
+                "responses": {
+                    "200": {
+                        "description": "the calendar fetched successfullly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthenticared",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/patients/otp/send": {
             "post": {
                 "tags": [
@@ -3535,6 +3576,48 @@
                 "responses": {
                     "200": {
                         "description": "Doctor details fetched successfuly",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No doctor found with the given id",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/doctors/{id}/calendar": {
+            "get": {
+                "tags": [
+                    "patientApp"
+                ],
+                "description": "Get doctor calender",
+                "operationId": "doctor_calendar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "doctor id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doctor calender fetched successfuly",
                         "content": {
                             "application/json": {
                                 "schema": {}

@@ -44,7 +44,10 @@ class PatientRepository extends AbstractRepository
             //         unset($request[$attr]);
             //     }
             // }
-            $request['thumbnail'] =  "https://ui-avatars.com/api/?name=".$request["full_name"]."&background=0D8ABC&color=fff";
+            if(request()->user()->thumbnail =='user.png')
+            {
+             $request['thumbnail'] =  "https://ui-avatars.com/api/?name=".$request["full_name"]."&background=0D8ABC&color=fff";
+            }
 
             $patient = request()->user()->update($request->except(['phone_number','allergies','chronic_diseases','family_histories']));
 

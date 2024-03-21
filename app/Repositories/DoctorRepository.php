@@ -543,9 +543,9 @@ class DoctorRepository extends AbstractRepository
         }
         return $calander->sortKeys();
     }
-    public function doctorCalander()
+    public function doctorCalander($id=null)
     {
-        $calander =  DoctorAvailability::where('doctor_id', request()->user()->id)->oldest('day_of_week')->get()->groupBy('day_of_week')->makeHidden(['doctor_id','created_at','updated_at']);
+        $calander =  DoctorAvailability::where('doctor_id',$id !=null ? $id : request()->user()->id)->oldest('day_of_week')->get()->groupBy('day_of_week')->makeHidden(['doctor_id','created_at','updated_at']);
         $ids  = array_keys($calander->toArray());
         for ($i=1; $i <= 7; $i++) {
             if(!in_array($i,$ids))

@@ -23,6 +23,8 @@ class SimpleMedicalRecordResource extends JsonResource
             'gender'=> $this->gender,
             'height'=> $this->height,
             'weight'=> $this->weight,
+            'little_interest_doing_things'=> (bool)$this->little_interest_doing_things,
+            'feeling_down_or_depressed'=>(bool) $this->feeling_down_or_depressed,
             'allergies'=>$this->allergies->map(function($item){
                 return [
                    'id'=>$item->id,

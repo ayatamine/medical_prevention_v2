@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DoctorCalendarResource;
 use App\Http\Resources\DoctorProfileResource;
 use App\Repositories\DoctorRepository;
 use App\Http\Resources\SimpleDoctorResource;
@@ -177,6 +178,45 @@ class DoctorController extends Controller
             return $this->api->success()
                 ->message("Doctor details fetched successfuly")
                 ->payload(new DoctorProfileResource($doctor))
+                ->send();
+        } catch (Exception $ex) {
+            return $this->api->failed()
+                ->message($ex->getMessage())
+                ->send();
+        }
+    }
+    /**
+     * @OA\Get(
+     *      path="/api/v1/doctors/{id}/calendar",
+     *      operationId="doctor_calendar",
+     *      tags={"patientApp"},
+     *      description="Get doctor calender",
+     *      @OA\Parameter(  name="id", in="path", description="doctor id"),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Doctor calender fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="No doctor found with the given id",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="internal server error",
+     *          @OA\JsonContent()
+     *       ),
+     *     )
+     */
+    public function doctorCalendar($id)
+    {
+        try {
+            $calendar = $this->repository->doctorCalander($id);
+
+            return $this->api->success()
+                ->message("Doctor calendar fetched successfuly")
+                ->payload($calendar)
                 ->send();
         } catch (Exception $ex) {
             return $this->api->failed()
