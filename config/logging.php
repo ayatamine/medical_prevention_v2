@@ -126,6 +126,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'ClickPay' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/clickpay.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

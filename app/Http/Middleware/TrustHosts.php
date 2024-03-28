@@ -15,6 +15,10 @@ class TrustHosts extends Middleware
     {
         return [
             $this->allSubdomainsOfApplicationUrl(),
+            '*.clickpay.com.sa',
+            'secure.clickpay.com.sa',
+            'clickpay.com.sa',
+
         ];
     }
 }

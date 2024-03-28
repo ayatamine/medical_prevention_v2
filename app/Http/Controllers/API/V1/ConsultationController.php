@@ -14,20 +14,21 @@ use App\Models\BallanceHistory;
 use App\Events\ChatMessageEvent;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PrescriptionRequest;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Resources\DrugResource;
 use App\Http\Requests\SummaryRequest;
 use App\Http\Resources\SummaryResource;
 
+use App\Http\Requests\PrescriptionRequest;
 use App\Http\Resources\ConsultationResouce;
 use App\Http\Resources\ConsultationResource;
 use App\Repositories\ConsultationRepository;
 use App\Http\Resources\MedicalRecordResource;
 use App\Http\Resources\PatientMedicalResource;
+use Clickpaysa\Laravel_package\Facades\paypage;
 use App\Http\Resources\ConsultationWithoutChatResource;
 use App\Http\Resources\DoctorConsultationRequestResource;
 use App\Http\Resources\DoctorConsultationResourceCollaction;
-use App\Http\Resources\DrugResource;
 
 class ConsultationController extends Controller
 {
@@ -862,6 +863,60 @@ class ConsultationController extends Controller
                 ->send();
         } catch (Exception $ex) {
             return handleTwoCommunErrors($ex, "No consultation found with the given id");
+        }
+    }
+        /**
+     * @OA\Post(
+     *      path="/api/v1/consultations/payment/initialize",
+     *      operationId="initialize_consultation_payment",
+     *      tags={"consultation"},
+     *      security={ {"sanctum": {} }},
+     *      description="pay for consultation with doctor",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(),
+     *         @OA\MediaType(
+     *            mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 @OA\Property( property="doctor_id",type="integer"),
+     *                 @OA\Property( property="email",type="string"),
+     *             )),
+     *    ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="fetched successfuly",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response( response=500,description="internal server error", @OA\JsonContent()),
+     *      @OA\Response( response=401,description="unauthenticated", @OA\JsonContent())
+     *     )
+     */
+    public function initializePayment(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'doctor_id' => 'integer|required|exists:doctors,id',
+                'email'=>'sometimes|nullable|email'
+            ]);
+            $result=   paypage::sendPaymentCode('all')
+            ->sendTransaction('sale')
+             ->sendCart(10,1000,'test')
+            ->sendCustomerDetails('Name', 'email@email.com', '0501111111', 'test', 'Riyadh', 'Riyadh', 'SA', '1234','10.0.0.10')
+            // ->sendShippingDetails('Name', 'email@email.com', '0501111111', 'test', 'Riyadh', 'Riyadh', 'SA', '1234','10.0.0.10')
+            ->sendURLs(route('api_v1.clickpay_return_url'), route('clickpay.callback'))
+            ->sendLanguage('en')
+            ->create_pay_page();
+
+return $result;
+
+
+            return $this->api->success()
+                ->message("payment details created successfully with secret details")
+                ->payload($result)
+                ->send();
+        }  catch (Exception $ex) {
+            return $this->api->failed()
+                ->message($ex->getMessage())
+                ->send();
         }
     }
 }

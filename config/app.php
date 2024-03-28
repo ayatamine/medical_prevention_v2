@@ -171,6 +171,7 @@ return [
         L5Swagger\L5SwaggerServiceProvider::class,
         \Torann\LaravelRepository\RepositoryServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Clickpaysa\Laravel_package\PaypageServiceProvider::class,
 
     ])->toArray(),
 

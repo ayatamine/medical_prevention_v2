@@ -21,6 +21,12 @@ Route::group(['as' => 'api_v1.'], function () {
     Route::get('/app-settings', [\App\Http\Controllers\API\V1\SettingController::class, 'index']);
     Route::get('support/subject-types', [\App\Http\Controllers\API\V1\SupportRequestController::class,'subjectTypes']);
 
+    Route::get('/consultations/payment/return_url',function(Request $request){
+        dd($request);
+    })->name('clickpay_return_url');
+    Route::get('/consultations/payment/callback',function(Request $request){
+        dd($request);
+    })->name('clickpay_callback_url');
 
     Route::apiResource('doctors', \App\Http\Controllers\API\V1\DoctorController::class);
     Route::get('doctors/{id}/calendar', [ \App\Http\Controllers\API\V1\DoctorController::class,'doctorCalendar']);
@@ -31,6 +37,10 @@ Route::group(['as' => 'api_v1.'], function () {
         Route::delete('/doctors/{id}/remove-from-favorites', [\App\Http\Controllers\API\V1\DoctorController::class, 'removeFromFavorites']);
         Route::post('/consultations/payment/create', [\App\Http\Controllers\API\V1\ConsultationController::class, 'pay']);
         Route::post('/consultations/payment/verify', [\App\Http\Controllers\API\V1\ConsultationController::class, 'paymentVerify']);
+        //new version using clickpay
+        Route::post('/consultations/payment/initialize', [\App\Http\Controllers\API\V1\ConsultationController::class, 'initializePayment']);
+
+
         Route::post('/consultations/{id}/reviews', [\App\Http\Controllers\API\V1\ConsultationController::class, 'addReview']);
         Route::get('/consultations/{id}', [\App\Http\Controllers\API\V1\ConsultationController::class, 'show']);
     });

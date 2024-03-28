@@ -3,11 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class OnlineDoctorNotification extends Notification implements ShouldQueue
+class OnlineDoctorNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
@@ -27,7 +29,7 @@ class OnlineDoctorNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -52,5 +54,9 @@ class OnlineDoctorNotification extends Notification implements ShouldQueue
             'title' => $this->data['notification_title'],
             'message' => $this->data['notification_content'],
         ];
+    }
+    public function toBroadcast($notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage($this->data);
     }
 }

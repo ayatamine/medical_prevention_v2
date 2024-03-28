@@ -508,30 +508,21 @@ class DoctorRepository extends AbstractRepository
     public function updateCalendar($request)
     {
         // Delete any remaining availabilities that are not included in the update (optional)
-        $existingAvailability = DoctorAvailability::where('doctor_id', request()->user()->id)->get();
-        foreach ($existingAvailability as $availability) {
-            $availability->delete();
-        }
-        foreach ($request['availabilities'] as $availability) {
-
-            $startTime = $availability['start_time'];
-            $endTime = $availability['end_time'];
-            $isPm = (bool) $availability['is_pm'];
+        // $existingAvailability = DoctorAvailability::where('doctor_id', request()->user()->id)->get();
 
 
+          $startTime = $request['start_time'];
+           $endTime = $request['end_time'];
+           $isPm = (bool) $request['is_pm'];
 
-                // Create new record
-                DoctorAvailability::create([
-                    'doctor_id' => request()->user()->id,
-                    'day_of_week' => $availability['day_of_week'],
-                    'start_time' => $startTime,
-                    'end_time' => $endTime,
-                    'is_pm' => $isPm,
-                ]);
-
-
-        }
-
+           DoctorAvailability::updateOrCreate([  'doctor_id' => request()->user()->id, 'day_of_week' => $request['day_of_week'], 'start_time' => $startTime, 'end_time' => $endTime, 'is_pm' => $isPm],
+           [
+                'doctor_id' => request()->user()->id,
+                'day_of_week' => $request['day_of_week'],
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'is_pm' => $isPm,
+           ]);
 
         $calander =  DoctorAvailability::where('doctor_id', request()->user()->id)->oldest('day_of_week')->get()->groupBy('day_of_week')->makeHidden(['doctor_id','created_at','updated_at']);
         $ids  = array_keys($calander->toArray());

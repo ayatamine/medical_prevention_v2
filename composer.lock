@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bf34d0da7bfb39993bb8574ff04b3ba",
+    "content-hash": "da490fa57c8c97e300498d9053de4159",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -406,6 +406,47 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "clickpaysa/laravel_package",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/clickpaysa/laravel-package.git",
+                "reference": "e51b89e958909090c1684ef566757fb70b5dd4c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/clickpaysa/laravel-package/zipball/e51b89e958909090c1684ef566757fb70b5dd4c8",
+                "reference": "e51b89e958909090c1684ef566757fb70b5dd4c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0"
+            },
+            "type": "composer-package",
+            "autoload": {
+                "psr-4": {
+                    "Clickpaysa\\Laravel_package\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Official laravel package to implement ClickPay integration with laravel apps",
+            "homepage": "https://clickpay.com.sa",
+            "keywords": [
+                "ClickPay",
+                "E-comerce",
+                "laravel",
+                "payments"
+            ],
+            "support": {
+                "issues": "https://github.com/clickpaysa/laravel-package/issues",
+                "source": "https://github.com/clickpaysa/laravel-package/tree/1.4.0"
+            },
+            "time": "2023-08-21T11:26:31+00:00"
         },
         {
             "name": "cms-multi/filament-clear-cache",

@@ -8,6 +8,7 @@
         "php": "^8.1",
         "ar-php/ar-php": "^1.0",
         "barryvdh/laravel-dompdf": "^2.0",
+        "clickpaysa/laravel_package": "^1.4",
         "cms-multi/filament-clear-cache": "^1.0",
         "darkaonline/l5-swagger": "^8.5",
         "filament/filament": "^2.17",
@@ -53,7 +54,8 @@
         "files": [
             "app/Helpers/Authentication.php",
             "app/Helpers/ApiResponse.php",
-            "app/Helpers/ErrorHandler.php"
+            "app/Helpers/ErrorHandler.php",
+            "app/Helpers/ClickPayHandler.php"
         ]
     },
     "autoload-dev": {

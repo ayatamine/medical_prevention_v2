@@ -22,11 +22,13 @@ class DoctorAvailabilityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'availabilities' => 'required|array',
-            'availabilities.*.day_of_week' => 'required|integer|between:1,7', // 1 (Sunday) - 7 (Saturday)
-            'availabilities.*.start_time' => 'required|date_format:H:i',
-            'availabilities.*.end_time' => 'required|date_format:H:i|after:availabilities.*.start_time',
-            'availabilities.*.is_pm' => 'sometimes|nullable|boolean',
+
+            // 'availabilities' => 'required|array',
+           'day_of_week' => 'required|integer|between:1,7', // 1 (Sunday) - 7 (Saturday)
+            'start_time' => 'required|date_format:H:i',
+           'end_time' => 'required|date_format:H:i|after:start_time',
+           'is_pm' => 'sometimes|nullable|boolean',
+
         ];
     }
 }
